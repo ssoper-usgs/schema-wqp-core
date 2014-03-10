@@ -7,5 +7,5 @@ create view wqp_nemi_nwis_crosswalk as select * from wqp_nemi_nwis_crosswalk@nem
 --rollback drop view wqp_nemi_nwis_crosswalk;
  
 --changeset drsteini:1SchemaViewsAB
-create view wqp_nemi_epa_crosswalk as select * from wqp_epa_nwis_crosswalk@nemi.er.usgs.gov;
+create view wqp_nemi_epa_crosswalk as select * from wqp_nemi_epa_crosswalk@nemi.er.usgs.gov;
 --rollback drop view wqp_nemi_epa_crosswalk;
