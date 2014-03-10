@@ -13,5 +13,7 @@
     <include file="changeLog1DatabaseLinks.sql" relativeToChangelogFile="true"/>
     <include file="changeLog1Synonyms.sql" relativeToChangelogFile="true"/>
     <include file="changeLog1Tables.sql" relativeToChangelogFile="true"/>
+    <include file="changeLog1Views.sql" relativeToChangelogFile="true"/>
+    <include file="changeLog1Grants.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
