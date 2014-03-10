@@ -7,7 +7,7 @@
 
 	<preConditions>
 		<dbms type="oracle" />
-		<runningAs username="WQP_USER" />
+		<runningAs username="WQP_CORE" />
     </preConditions>
 
     <include file="changeLog1DatabaseLinks.sql" relativeToChangelogFile="true"/>
