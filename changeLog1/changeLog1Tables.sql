@@ -15,7 +15,7 @@ create table nwis_method_codes
 
 --changeset drsteini:1SchemaTablesAB
 create table web_service_log
-(request_timestamp              timestamp(3)        constraint web_service_log_timestamp_nn not null    default systimestamp
+(request_timestamp              timestamp(3)        default systimestamp constraint web_service_log_timestamp_nn not null
 ,origin                         varchar2(100 char)  constraint web_service_log_origin_nn not null
 ,call_type                      varchar2(100 char)  constraint web_service_log_call_type_nn not null
 ,endpoint                       varchar2(100 char)  constraint web_service_log_endpoint_nn not null
