@@ -19,8 +19,8 @@ grant execute on typ_vctbl to nwis_ws_user;
 --rollback revoke execute on typ_vctbl from nwis_ws_user;
 
 --changeset drsteini:1SchemaGrantsAE
-grant execute on typ_vctbl to stewards_user;
---rollback revoke execute on typ_vctbl from stewards_user;
+grant execute on typ_vctbl to ars_stewards_user;
+--rollback revoke execute on typ_vctbl from ars_stewards_user;
 
 --changeset drsteini:1SchemaGrantsAF
 grant execute on typ_vctbl to storetuser;
@@ -31,8 +31,8 @@ grant execute on pkg_dynamic_list to nwis_ws_user;
 --rollback revoke execute on pkg_dynamic_list from nwis_ws_user;
 
 --changeset drsteini:1SchemaGrantsAH
-grant execute on pkg_dynamic_list to stewards_user;
---rollback revoke execute on pkg_dynamic_list from stewards_user;
+grant execute on pkg_dynamic_list to ars_stewards_user;
+--rollback revoke execute on pkg_dynamic_list from ars_stewards_user;
 
 --changeset drsteini:1SchemaGrantsAI
 grant execute on pkg_dynamic_list to storetuser;
