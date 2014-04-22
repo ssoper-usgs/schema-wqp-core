@@ -13,3 +13,27 @@ grant select on nwis_method_codes to wqp_user;
 --changeset drsteini:1SchemaGrantsAC
 grant select, insert on web_service_log to wqp_user;
 --rollback revoke select, insert on web_service_log from wqp_user;
+
+--changeset drsteini:1SchemaGrantsAD
+grant execute on typ_vctbl to nwis_ws_user;
+--rollback revoke execute on typ_vctbl from nwis_ws_user;
+
+--changeset drsteini:1SchemaGrantsAE
+grant execute on typ_vctbl to stewards_user;
+--rollback revoke execute on typ_vctbl from stewards_user;
+
+--changeset drsteini:1SchemaGrantsAF
+grant execute on typ_vctbl to storetuser;
+--rollback revoke execute on typ_vctbl from storetuser;
+
+--changeset drsteini:1SchemaGrantsAG
+grant execute on pkg_dynamic_list to nwis_ws_user;
+--rollback revoke execute on pkg_dynamic_list from nwis_ws_user;
+
+--changeset drsteini:1SchemaGrantsAH
+grant execute on pkg_dynamic_list to stewards_user;
+--rollback revoke execute on pkg_dynamic_list from stewards_user;
+
+--changeset drsteini:1SchemaGrantsAI
+grant execute on pkg_dynamic_list to storetuser;
+--rollback revoke execute on pkg_dynamic_list from storetuser;
