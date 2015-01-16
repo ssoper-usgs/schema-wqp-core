@@ -3,7 +3,7 @@
 --This is for the wqp_core schema
 
 --changeset drsteini:1TablesAA
-create table wqp_results
+create table wqp_results_d
 (
 wqp_id number,
 station_id number,
@@ -30,10 +30,10 @@ geography mdsys.sdo_geometry,
 data_blob blob,
 primary key (wqp_id)
 );
---rollback drop table wqp_results cascade constraints purge;
+--rollback drop table wqp_results_d cascade constraints purge;
 
 --changeset drsteini:1TablesAB
-create table stations
+create table stations_d
 (
 station_id number,
 site_id varchar2(4000 char),
@@ -53,4 +53,4 @@ geography mdsys.sdo_geometry,
 data_blob blob,
 primary key (station_id)
 );
---rollback drop table stations cascade constraints purge;
+--rollback drop table stations_d cascade constraints purge;
