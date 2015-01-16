@@ -111,7 +111,7 @@ primary key (id)
 --rollback drop table state_codes cascade constraints purge;
 
 --changeset drsteini:1TablesAM
-create table wqp_results
+create table wqp_results_n
 (
 wqp_id number,
 station_id number,
@@ -141,7 +141,7 @@ primary key (wqp_id)
 --rollback drop table wqp_results cascade constraints purge;
 
 --changeset drsteini:1TablesAN
-create table stations
+create table stations_n
 (
 station_id number,
 site_id varchar2(4000 char),
