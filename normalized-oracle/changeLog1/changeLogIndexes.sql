@@ -151,5 +151,5 @@ values ('STATIONS_N', 'GEOGRAPHY',
 --rollback delete from user_sdo_geom_metadata where table_name = 'STATIONS_N';
 
 --changeset drsteini:1IndexesBK
-create index stations_geography_n on stations_n(geography_n) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
+create index stations_geography_n on stations_n(geography) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
 --rollback drop index stations_geography_n;
