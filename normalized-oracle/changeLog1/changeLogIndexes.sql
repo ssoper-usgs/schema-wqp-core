@@ -39,8 +39,8 @@ create index results_sample_media_n on wqp_results_n(sample_media_id);
 --rollback drop index results_sample_media_n;
 
 --changeset drsteini:1IndexesAJ
-create index results_organization on wqp_results_n(organization_id);
---rollback drop index results_organization;
+create index results_organization_n on wqp_results_n(organization_id);
+--rollback drop index results_organization_n;
 
 --changeset drsteini:1IndexesAK
 create index results_site_type_n on wqp_results_n(site_type_id);
@@ -151,5 +151,5 @@ values ('STATIONS_N', 'GEOGRAPHY',
 --rollback delete from user_sdo_geom_metadata where table_name = 'STATIONS_N';
 
 --changeset drsteini:1IndexesBK
-create index stations_geography_n on stations(geography_n) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
+create index stations_geography_n on stations_n(geography_n) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
 --rollback drop index stations_geography_n;
