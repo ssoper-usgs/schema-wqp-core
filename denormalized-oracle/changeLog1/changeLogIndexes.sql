@@ -119,7 +119,7 @@ create index stations_huc10_d on stations_d(huc10);
 --rollback drop index stations_huc10_d;
 
 --changeset drsteini:1IndexesBD
-create index stations_huc12_d on stations(huc12);
+create index stations_huc12_d on stations_d(huc12);
 --rollback drop index stations_huc12_d;
 
 --changeset drsteini:1IndexesBE

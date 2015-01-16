@@ -39,7 +39,7 @@ create index results_sample_media_n on wqp_results_n(sample_media_id);
 --rollback drop index results_sample_media_n;
 
 --changeset drsteini:1IndexesAJ
-create index results_organization on wqp_results(organization_id);
+create index results_organization on wqp_results_n(organization_id);
 --rollback drop index results_organization;
 
 --changeset drsteini:1IndexesAK
