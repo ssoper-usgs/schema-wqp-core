@@ -51,8 +51,8 @@ alter table wqp_results_n add constraint results_state_fk foreign key (state_cod
 --rollback alter table wqp_results_n drop constraint results_state_fk;
 
 --changeset drsteini:1RIAM
-alter table wqp_results add constraint results_county_fk foreign key (county_code_id) references county_codes (id);
---rollback alter table wqp_results drop constraint results_county_fk;
+alter table wqp_results_n add constraint results_county_fk foreign key (county_code_id) references county_codes (id);
+--rollback alter table wqp_results_n drop constraint results_county_fk;
 
 --changeset drsteini:1RIAN
 alter table stations_n add constraint stations_data_source_fk foreign key (data_source_id) references data_sources (id);
