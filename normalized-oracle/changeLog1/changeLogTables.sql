@@ -138,7 +138,7 @@ geography mdsys.sdo_geometry,
 data_blob blob,
 primary key (wqp_id)
 );
---rollback drop table wqp_results cascade constraints purge;
+--rollback drop table wqp_results_n cascade constraints purge;
 
 --changeset drsteini:1TablesAN
 create table stations_n
@@ -161,4 +161,4 @@ geography mdsys.sdo_geometry,
 data_blob blob,
 primary key (station_id)
 );
---rollback drop table stations cascade constraints purge;
+--rollback drop table stations_n cascade constraints purge;
