@@ -11,8 +11,9 @@
         <runningAs username="WQP_CORE" />
     </preConditions>
 
-    <include file="changeLogTables.sql" relativeToChangelogFile="true"/>
-    <include file="changeLogIndexes.sql" relativeToChangelogFile="true"/>
-    <include file="changeLogRI.sql" relativeToChangelogFile="true"/>
+    <include file="common/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="stewards/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="nwis/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="storet/changeLog.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

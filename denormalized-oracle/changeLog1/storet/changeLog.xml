@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"
+	logicalFilePath="root/changeLog.xml">
+
+	<preConditions>
+		<dbms type="oracle" />
+		<runningAs username="WQP_CORE" />
+	</preConditions>
+
+	<include file="tables.sql" relativeToChangelogFile="true" />
+	<include file="indexes.sql" relativeToChangelogFile="true" />
+	<include file="changeLogRI.sql" relativeToChangelogFile="true"/>
+	<include file="synonyms.sql" relativeToChangelogFile="true" />
+
+</databaseChangeLog>
