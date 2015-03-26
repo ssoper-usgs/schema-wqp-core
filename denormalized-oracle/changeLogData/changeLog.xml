@@ -10,29 +10,29 @@
           <runningAs username="WQP_CORE" />
     </preConditions>
 
-    <changeSet author="drsteini" id="loadArsCharNameToType" runOnChange="true">
-        <delete tableName="ars_char_name_to_type"/>
-        <loadData encoding="UTF-8"
-                  file="denormalized-oracle/changeLogData/ars_char_name_to_type.csv"
-                  tableName="ars_char_name_to_type">
-        </loadData>
-        <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
-    </changeSet>
-
-    <changeSet author="drsteini" id="loadArsSiteTypeToPrimary" runOnChange="true">
-        <delete tableName="ars_site_type_to_primary"/>
-        <loadData encoding="UTF-8"
-                  file="denormalized-oracle/changeLogData/ars_site_type_to_primary.csv"
-                  tableName="ars_site_type_to_primary">
-        </loadData>
-        <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
-    </changeSet>
-
     <changeSet author="drsteini" id="loadDataSource" runOnChange="true">
         <delete tableName="data_source"/>
         <loadData encoding="UTF-8"
                   file="denormalized-oracle/changeLogData/data_source.csv"
                   tableName="data_source">
+        </loadData>
+        <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="loadWqxHrdatToSrid" runOnChange="true">
+        <delete tableName="wqx_hrdat_to_srid"/>
+        <loadData encoding="UTF-8"
+                  file="denormalized-oracle/changeLogData/wqx_hrdat_to_srid.csv"
+                  tableName="wqx_hrdat_to_srid">
+        </loadData>
+        <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="loadWqxSiteTypeConversion" runOnChange="true">
+        <delete tableName="wqx_site_type_conversion"/>
+        <loadData encoding="UTF-8"
+                  file="denormalized-oracle/changeLogData/wqx_site_type_conversion.csv"
+                  tableName="wqx_site_type_conversion">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
     </changeSet>
