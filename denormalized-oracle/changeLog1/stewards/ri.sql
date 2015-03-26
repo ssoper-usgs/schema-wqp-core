@@ -33,11 +33,11 @@ alter table pc_result_ct_sum_swap_stewards add constraint pcrcts_station_fk_stew
    foreign key (data_source_id, station_id)
      references station_sum_swap_stewards (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_sum_swap_stewards drop constraint pcrcts_station_fk_stewards;
+--rollback alter table pc_result_ct_sum_swap_stewards drop constraint pcrcts_station_fk_stewards;
 
 --changeset drsteini:1StewardsRIAF
 alter table pc_result_nr_sum_swap_stewards add constraint pcrnrs_station_fk_stewards
    foreign key (data_source_id, station_id)
      references station_sum_swap_stewards (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_sum_swap_stewards drop constraint pcrnrs_station_fk_stewards;
+--rollback alter table pc_result_nr_sum_swap_stewards drop constraint pcrnrs_station_fk_stewards;

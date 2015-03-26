@@ -309,7 +309,7 @@ partition by list (characteristic_type)
      partition pcrcts_storet_tox values ('Toxicity'),
      partition pcrcts_storet_def values (default)
 );
---rollback drop table pc_result_ct_sum cascade constraints purge;
+--rollback drop table pc_result_ct_sum_swap_storet cascade constraints purge;
 
 
 --changeset drsteini:1StoretTablesAF

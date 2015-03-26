@@ -166,7 +166,7 @@ values ('STATION_SUM', 'GEOM',
 
 --changeset drsteini:1CommonIndexesBM
 create index station_sum_geom on station_sum(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"') local;
---rollback drop index station_sum_geography;
+--rollback drop index station_sum_geom;
 
 --changeset drsteini:1CommonIndexesBN
 create bitmap index station_sum_huc10 on station_sum(huc_10) local parallel 4 nologging;

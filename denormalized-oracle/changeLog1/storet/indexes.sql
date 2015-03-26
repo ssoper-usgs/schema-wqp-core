@@ -73,7 +73,7 @@ create bitmap index pcr_storet_activity on pc_result_swap_storet(activity) local
 
 --changeset drsteini:1StoretIndexesAQ
 create bitmap index pcr_storet_analytical on pc_result_swap_storet(analytical_method) local parallel 4 nologging;
---rollback drop index pcr_storet_analyticalod;
+--rollback drop index pcr_storet_analytical;
 
 --changeset drsteini:1StoretIndexesAR
 create bitmap index pcr_storet_char_name on pc_result_swap_storet(characteristic_name) local parallel 4 nologging;
@@ -194,7 +194,7 @@ create bitmap index ss_storet_organization on station_sum_swap_storet(organizati
 
 --changeset drsteini:1StoretIndexesBT
 create bitmap index ss_storet_site on station_sum_swap_storet(site_id) parallel 4 nologging;
---rollback drop index ss_storet_s_site;
+--rollback drop index ss_storet_site;
 
 --changeset drsteini:1StoretIndexesBU
 create bitmap index ss_storet_site_type on station_sum_swap_storet(site_type) parallel 4 nologging;
@@ -206,7 +206,7 @@ create bitmap index ss_storet_state on station_sum_swap_storet(state_code) paral
 
 --changeset drsteini:1StoretIndexesBW
 create bitmap index ss_storet_station on station_sum_swap_storet(station_id) parallel 4 nologging;
---rollback drop index ss_storet_s_station;
+--rollback drop index ss_storet_station;
 
 
 
