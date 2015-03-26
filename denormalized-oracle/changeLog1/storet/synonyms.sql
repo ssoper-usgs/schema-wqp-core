@@ -123,8 +123,9 @@ create or replace synonym  for @nwis_ws_stg_dbstage;
 --rollback drop synonym ;
 
 --changeset drsteini:1NwisSynonyms
-create or replace synonym  for @nwis_ws_stg_dbstage;
---rollback drop synonym ;
+create or replace synonym fa_station_no_source for station_no_source_00000;
+--rollback drop synonym fa_station_no_source;
 
+create or replace synonym fa_result_no_source for result_no_source_00000;
 
 create synonym public_srsnames for public_srsnames_00000;

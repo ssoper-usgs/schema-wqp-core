@@ -28,6 +28,8 @@ create or replace package etl_helper as
 	procedure create_result_nr_sum_indexes(p_table_suffix in user_tables.table_name%type);
 	
 	procedure add_ri(p_table_suffix in user_tables.table_name%type);
+	
+	procedure update_last_etl(p_data_source_id in last_etl.data_source_id%type);
 
 end etl_helper;
 --rollback drop package etl_helper;
@@ -79,8 +81,8 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
-        	(data_source_id, data_source, station_id, site_id, organization, site_type, huc_12, governmental_unit_code,
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+        	(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code,
              geom, pc_result_count, biological_result_count)
         select station.data_source_id,
                station.data_source,
@@ -88,7 +90,7 @@ create or replace package body etl_helper as
                station.site_id,
                station.organization,
                station.site_type,
-               station.huc_12,
+               station.huc,
                station.governmental_unit_code,
                station.geom,
                nvl(pc_result.pc_result_count,0),
@@ -97,7 +99,8 @@ create or replace package body etl_helper as
                left join (select station_id, count(*) pc_result_count
                             from pc_result_swap_' || p_table_suffix || '
                                group by station_id) pc_result
-                 on station.station_id = pc_result.station_id';
+                 on station.station_id = pc_result.station_id
+            order by organization';
         commit;
 
                     
@@ -109,9 +112,9 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
 		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
-             characteristic_name, characteristic_type, sample_media, organization, site_type, huc_12,
+             characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
              governmental_unit_code, pc_result_count)
         select /*+ full(a) parallel(a, 4) full(b) parallel(b, 4) use_hash(a) use_hash(b) */
                a.data_source_id,
@@ -126,7 +129,7 @@ create or replace package body etl_helper as
                b.sample_media,
                a.organization,
                a.site_type,
-               a.huc_12,
+               a.huc,
                a.governmental_unit_code,
                b.result_count
           from station_sum_swap_' || p_table_suffix || ' a
@@ -138,7 +141,8 @@ create or replace package body etl_helper as
                                         event_date, analytical_method
                          ) b
                  on a.station_id = b.station_id and
-                    a.data_source_id = b.data_source_id';
+                    a.data_source_id = b.data_source_id
+             order by a.station_id';
         commit;
 
         table_name := dbms_assert.sql_object_name(upper('pc_result_ct_sum_swap_' || p_table_suffix));
@@ -149,9 +153,9 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization,
-             huc_12, sample_media, characteristic_type, characteristic_name, analytical_method,
+             huc, sample_media, characteristic_type, characteristic_name, analytical_method,
              p_code, pc_result_count)
         select /*+ full(b) parallel(b, 4) */
                data_source_id,
@@ -161,7 +165,7 @@ create or replace package body etl_helper as
                governmental_unit_code,
                site_type,
                organization,
-               huc_12,
+               huc,
                sample_media,
                characteristic_type,
                characteristic_name,
@@ -176,12 +180,13 @@ create or replace package body etl_helper as
                       governmental_unit_code,
                       site_type,
                       organization,
-                      huc_12,
+                      huc,
                       sample_media,
                       characteristic_type,
                       characteristic_name,
                       analytical_method,
-                      p_code';
+                      p_code
+             order by characteristic_name';
         commit;
 
 
@@ -193,7 +198,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, pc_result_count)
         select data_source_id, data_source, station_id, event_date, analytical_method, p_code,
@@ -201,7 +206,8 @@ create or replace package body etl_helper as
                sum(pc_result_count) pc_result_count
           from pc_result_sum_swap_' || p_table_suffix || '
              group by data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-                      characteristic_name, characteristic_type, sample_media';
+                      characteristic_name, characteristic_type, sample_media
+             order by characteristic_name';
         commit;
 
     end create_summaries;
@@ -215,7 +221,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
         select distinct data_source_id,
                         characteristic_name code_value
@@ -230,7 +236,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
         select distinct data_source_id,
                         characteristic_type code_value
@@ -245,7 +251,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value, description)
         select distinct s.data_source_id,
                         s.country_code code_value,
@@ -263,7 +269,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || q'!
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || q'!
           	(data_source_id, code_value, description)
         select distinct s.data_source_id,
                         s.county_code code_value,
@@ -288,7 +294,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value, description)
         select distinct s.data_source_id,
                         s.organization code_value,
@@ -304,7 +310,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
         select distinct data_source_id,
                         sample_media code_value
@@ -319,7 +325,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || '
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
         select distinct s.data_source_id,
                         s.site_type code_value
@@ -334,7 +340,7 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || q'!
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || q'!
           	(data_source_id, code_value, description_with_country, description_with_out_country)
         select distinct s.data_source_id,
                         s.state_code code_value,
@@ -359,25 +365,22 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append nologging parallel */ into ' || table_name || q'!
-			(data_source_id, fips_state_and_county, site_type, huc, min_date, max_date, samples_past_12_months, samples_past_60_months,
-             samples_all_time, results_past_12_months, results_past_60_months, results_all_time)
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || q'!
+			   (data_source_id, fips_state_code, fips_county_code, fips_state_and_county, huc8, min_date, max_date,
+                samples_past_12_months, samples_past_60_months, samples_all_time)
         select data_source_id,
-               regexp_substr(state_code, '[^:]+', 1, 2) || regexp_substr(county_code, '[^:]+', 1, 3) fips_state_and_county,
-               site_type,
-               huc_12,
+               regexp_substr(state_code, '[^:]+', 1, 2) state_fips_code,
+               regexp_substr(county_code, '[^:]+', 1, 3) county_fips_code,
+               regexp_substr(state_code, '[^:]+', 1, 2)||regexp_substr(county_code, '[^:]+', 1, 3) fips_state_and_county,
+               huc_8,
                min(case when event_date between to_date('01-JAN-1875', 'DD-MON-YYYY') and to_date('19-FEB-2015', 'DD-MON-YYYY') then event_date else null end) min_date,
                max(case when event_date between to_date('01-JAN-1875', 'DD-MON-YYYY') and to_date('19-FEB-2015', 'DD-MON-YYYY') then event_date else null end) max_date,
                count(distinct case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 12 then activity else null end) samples_past_12_months,
                count(distinct case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 60 then activity else null end) samples_past_60_months,
-               count(distinct activity) samples_all_time,
-               sum(case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 12 then 1 else 0 end) results_past_12_months,
-               sum(case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 60 then 1 else 0 end) results_past_60_months,
-               count(*) results_all_time
+               count(distinct activity) samples_all_time
           from pc_result_swap_!' || p_table_suffix || q'!
-         where state_code between 'US:01' and 'US:56' and
-              length(state_code) = 5
-            group by data_source_id, regexp_substr(state_code, '[^:]+', 1, 2)||regexp_substr(county_code, '[^:]+', 1, 3), site_type, huc_12!';
+         where state_code between 'US:01' and 'US:56'
+            group by data_source_id, regexp_substr(state_code, '[^:]+', 1, 2), regexp_substr(county_code, '[^:]+', 1, 3), huc_8!';
             
 		commit;
 
@@ -853,6 +856,14 @@ create or replace package body etl_helper as
         execute immediate stmt;
         
 	end add_ri;
+
+	procedure update_last_etl(p_data_source_id in last_etl.data_source_id%type) is
+	begin
+		update last_etl
+		   set data_source_id = p_data_source_id,
+		       completed_utc = systimestamp at time zone 'UTC';
+		commit;
+	end update_last_etl;
 
 end etl_helper;
 --rollback drop package body etl_helper;
