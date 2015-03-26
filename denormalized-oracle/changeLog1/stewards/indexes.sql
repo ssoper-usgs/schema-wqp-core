@@ -73,7 +73,7 @@ create bitmap index pcr_stewards_activity on pc_result_swap_stewards(activity) l
 
 --changeset drsteini:1StewardsIndexesAQ
 create bitmap index pcr_stewards_analytical on pc_result_swap_stewards(analytical_method) local parallel 4 nologging;
---rollback drop index pcr_stewards_analyticalod;
+--rollback drop index pcr_stewards_analytical;
 
 --changeset drsteini:1StewardsIndexesAR
 create bitmap index pcr_stewards_char_name on pc_result_swap_stewards(characteristic_name) local parallel 4 nologging;
@@ -193,7 +193,7 @@ create bitmap index ss_stewards_organization on station_sum_swap_stewards(organi
 
 --changeset drsteini:1StewardsIndexesBT
 create bitmap index ss_stewards_site on station_sum_swap_stewards(site_id) parallel 4 nologging;
---rollback drop index ss_stewards_s_site;
+--rollback drop index ss_stewards_site;
 
 --changeset drsteini:1StewardsIndexesBU
 create bitmap index ss_stewards_site_type on station_sum_swap_stewards(site_type) parallel 4 nologging;
@@ -205,7 +205,7 @@ create bitmap index ss_stewards_state on station_sum_swap_stewards(state_code) p
 
 --changeset drsteini:1StewardsIndexesBW
 create bitmap index ss_stewards_station on station_sum_swap_stewards(station_id) parallel 4 nologging;
---rollback drop index ss_stewards_s_station;
+--rollback drop index ss_stewards_station;
 
 
 

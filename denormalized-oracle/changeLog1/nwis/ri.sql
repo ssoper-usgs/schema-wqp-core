@@ -33,11 +33,11 @@ alter table pc_result_ct_sum_swap_nwis add constraint pcrcts_station_fk_nwis
    foreign key (data_source_id, station_id)
      references station_sum_swap_nwis (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_sum_swap_nwis drop constraint pcrcts_station_fk_nwis;
+--rollback alter table pc_result_ct_sum_swap_nwis drop constraint pcrcts_station_fk_nwis;
 
 --changeset drsteini:1NwisRIAF
 alter table pc_result_nr_sum_swap_nwis add constraint pcrnrs_station_fk_nwis
    foreign key (data_source_id, station_id)
      references station_sum_swap_nwis (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_sum_swap_nwis drop constraint pcrnrs_station_fk_nwis;
+--rollback alter table pc_result_nr_sum_swap_nwis drop constraint pcrnrs_station_fk_nwis;

@@ -33,11 +33,11 @@ alter table pc_result_ct_sum_swap_storet add constraint pcrcts_station_fk_storet
    foreign key (data_source_id, station_id)
      references station_sum_swap_storet (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_sum_swap_storet drop constraint pcrcts_station_fk_storet;
+--rollback alter table pc_result_ct_sum_swap_storet drop constraint pcrcts_station_fk_storet;
 
 --changeset drsteini:1StoretRIAF
 alter table pc_result_nr_sum_swap_storet add constraint pcrnrs_station_fk_storet
    foreign key (data_source_id, station_id)
      references station_sum_swap_storet (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_sum_swap_storet drop constraint pcrnrs_station_fk_storet;
+--rollback alter table pc_result_nr_sum_swap_storet drop constraint pcrnrs_station_fk_storet;

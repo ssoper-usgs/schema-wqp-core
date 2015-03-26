@@ -73,7 +73,7 @@ create bitmap index pcr_nwis_activity on pc_result_swap_nwis(activity) local par
 
 --changeset drsteini:1NwisIndexesAQ
 create bitmap index pcr_nwis_analytical on pc_result_swap_nwis(analytical_method) local parallel 4 nologging;
---rollback drop index pcr_nwis_analyticalod;
+--rollback drop index pcr_nwis_analytical;
 
 --changeset drsteini:1NwisIndexesAR
 create bitmap index pcr_nwis_char_name on pc_result_swap_nwis(characteristic_name) local parallel 4 nologging;
@@ -194,7 +194,7 @@ create bitmap index ss_nwis_organization on station_sum_swap_nwis(organization) 
 
 --changeset drsteini:1NwisIndexesBT
 create bitmap index ss_nwis_site on station_sum_swap_nwis(site_id) parallel 4 nologging;
---rollback drop index ss_nwis_s_site;
+--rollback drop index ss_nwis_site;
 
 --changeset drsteini:1NwisIndexesBU
 create bitmap index ss_nwis_site_type on station_sum_swap_nwis(site_type) parallel 4 nologging;
@@ -206,7 +206,7 @@ create bitmap index ss_nwis_state on station_sum_swap_nwis(state_code) parallel 
 
 --changeset drsteini:1NwisIndexesBW
 create bitmap index ss_nwis_station on station_sum_swap_nwis(station_id) parallel 4 nologging;
---rollback drop index ss_nwis_s_station;
+--rollback drop index ss_nwis_station;
 
 
 
