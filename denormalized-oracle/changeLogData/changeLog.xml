@@ -7,7 +7,7 @@
 
     <preConditions>
           <dbms type="oracle" />
-          <runningAs username="PUBS" />
+          <runningAs username="WQP_CORE" />
     </preConditions>
 
     <changeSet author="drsteini" id="loadArsCharNameToType" runOnChange="true">
