@@ -33,11 +33,11 @@ alter table pc_result_ct_sum add constraint pc_result_ct_sum_station_fk
    foreign key (data_source_id, station_id)
      references station_sum (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_ct_sum drop constraint pc_result_sum_station_fk;
+--rollback alter table pc_result_ct_sum drop constraint pc_result_ct_sum_station_fk;
 
 --changeset drsteini:1CommonRIAF
 alter table pc_result_nr_sum add constraint pc_result_nr_sum_station_fk
    foreign key (data_source_id, station_id)
      references station_sum (data_source_id, station_id)
        rely enable novalidate;
---rollback alter table pc_result_nr_sum drop constraint pc_result_sum_station_fk;
+--rollback alter table pc_result_nr_sum drop constraint pc_result_nr_sum_station_fk;
