@@ -13,7 +13,7 @@
 
     <include file="tables.sql" relativeToChangelogFile="true"/>
     <include file="indexes.sql" relativeToChangelogFile="true"/>
-    <include file="changeLogRI.sql" relativeToChangelogFile="true"/>
+    <include file="ri.sql" relativeToChangelogFile="true"/>
     <include file="synonyms.sql" relativeToChangelogFile="true"/>
     <include file="etlHelper.sql" relativeToChangelogFile="true"/>
 
