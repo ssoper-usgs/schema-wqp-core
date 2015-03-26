@@ -456,7 +456,7 @@ create table qwportal_summary_swap_nwis
 --rollback drop table qwportal_summary_swap_nwis cascade constraints purge;
 
 
---changeset drsteini:1NwisTablesAC
+--changeset drsteini:1NwisTablesAQ
 create table public_srsnames_00000
 (parm_cd                  		char(5)         not null
 ,description              		varchar2(170)
