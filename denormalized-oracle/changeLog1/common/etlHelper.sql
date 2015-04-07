@@ -255,10 +255,10 @@ create or replace package body etl_helper as
           	(data_source_id, code_value, description)
         select distinct s.data_source_id,
                         s.country_code code_value,
-                        nwis_ws_stg_stage_country.country_nm description
+                        country.country_nm description
           from station_sum_swap_' || p_table_suffix || ' s
-               join nwis_ws_stg_stage_country
-                 on s.country_code = trim(nwis_ws_stg_stage_country.country_cd)
+               join nwis_ws_star.country
+                 on s.country_code = trim(country.country_cd)
          where s.country_code is not null';
         commit;
 
@@ -274,16 +274,16 @@ create or replace package body etl_helper as
         select distinct s.data_source_id,
                         s.county_code code_value,
                         s.country_code || ', ' ||
-                            nwis_ws_stg_stage_state.state_nm || ', ' ||
-                            nwis_ws_stg_stage_county.county_nm description
+                            state.state_nm || ', ' ||
+                            county.county_nm description
           from station_sum_swap_!' || p_table_suffix || q'! s
-               left join nwis_ws_stg_stage_state
-                 on s.country_code = trim(nwis_ws_stg_stage_state.country_cd) and
-                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(nwis_ws_stg_stage_state.state_cd)
-               left join nwis_ws_stg_stage_county
-                 on s.country_code = trim(nwis_ws_stg_stage_county.country_cd) and
-                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(nwis_ws_stg_stage_county.state_cd) and
-                    regexp_substr(s.county_code, '[^:]+', 1, 3) = trim(nwis_ws_stg_stage_county.county_cd)
+               left join nwis_ws_star.state
+                 on s.country_code = trim(state.country_cd) and
+                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(state.state_cd)
+               left join nwis_ws_star.county
+                 on s.country_code = trim(county.country_cd) and
+                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(county.state_cd) and
+                    regexp_substr(s.county_code, '[^:]+', 1, 3) = trim(county.county_cd)
          where s.county_code is not null!';
         commit;
         
@@ -345,12 +345,12 @@ create or replace package body etl_helper as
         select distinct s.data_source_id,
                         s.state_code code_value,
                         s.country_code || ', ' ||
-                        nwis_ws_stg_stage_state.state_nm description_with_country,
-                        nwis_ws_stg_stage_state.state_nm description_with_out_country
+                        state.state_nm description_with_country,
+                        state.state_nm description_with_out_country
           from station_sum_swap_!' || p_table_suffix || q'! s
-               left join nwis_ws_stg_stage_state
-                 on s.country_code = trim(nwis_ws_stg_stage_state.country_cd) and
-                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(nwis_ws_stg_stage_state.state_cd)
+               left join nwis_ws_star.state
+                 on s.country_code = trim(state.country_cd) and
+                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(state.state_cd)
          where s.state_code is not null!';
         commit;
 
