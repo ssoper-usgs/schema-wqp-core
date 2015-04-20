@@ -473,7 +473,7 @@ create table public_srsnames_00000
 );
 --rollback drop table public_srsnames_00000 cascade constraints purge;
 
---changeset drsteini:1NwisTablesAQ context:ci
+--changeset drsteini:1NwisTablesAR context:ci
 create table public_srsnames_test
 (parm_cd                  		char(5)         not null
 ,description              		varchar2(170)
