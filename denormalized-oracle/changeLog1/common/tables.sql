@@ -568,6 +568,7 @@ create table data_source
 
 
 --changeset drsteini:1CommonTablesAR
+--Note that this table should be loaded from the copy on dbdw.
 create table huc8_conus_hi_ak_pr_dis 
 (cat_num						varchar2(8 char)
 ,first_cat_						varchar2(60 char)
@@ -577,6 +578,7 @@ create table huc8_conus_hi_ak_pr_dis
 
 
 --changeset drsteini:1CommonTablesAS
+--Note that this table should be loaded from the copy on dbdw.
 create table us_counties_dis_20121015 
 (fips							varchar2(5 char)
 ,area							float(63)
@@ -600,3 +602,69 @@ create table wqx_site_type_conversion
    primary key (mltyp_uid)
 );
 --rollback drop table wqx_site_type_conversion cascade constraints purge;
+
+
+--changeset drsteini:1CommonTablesAU
+--Note that this table should be loaded from the copy on dbdw.
+create table county_geom_lookup
+(statefp						varchar2(2 byte)
+,countyfp						varchar2(3 byte)
+,countyns						varchar2(8 byte)
+,geoid							varchar2(5 byte)
+,name							varchar2(100 byte)
+,namelsad						varchar2(100 byte)
+,lsad							varchar2(2 byte)
+,classfp						varchar2(2 byte)
+,mtfcc							varchar2(5 byte)
+,csafp							varchar2(3 byte)
+,cbsafp							varchar2(5 byte)
+,metdivfp						varchar2(5 byte)
+,funcstat						varchar2(1 byte)
+,aland							number(14,0)
+,awater							number(14,0)
+,intptlat						varchar2(11 byte)
+,intptlon						varchar2(12 byte)
+,countyid						number(9,0)
+,geom							sdo_geometry
+) parallel 4 compress pctfree 0 nologging;
+--rollback drop table county_geom_lookup cascade constraints purge;
+
+
+--changeset drsteini:1CommonTablesAV
+--Note that this table should be loaded from the copy on dbdw.
+create table huc8_geom_lookup
+(shape_area						number(19,11)
+,sourcefeat						varchar2(40 byte)
+,areasqkm						number(19,11)
+,metasource						varchar2(40 byte)
+,sourceorig						varchar2(130 byte)
+,huc8							varchar2(8 byte)
+,loaddate						date
+,tnmid							varchar2(40 byte)
+,areaacres						number(19,11)
+,gnis_id						number(9,0)
+,name							varchar2(120 byte)
+,sourcedata						varchar2(100 byte)
+,states							varchar2(50 byte)
+,shape_leng						number(19,11)
+,huc8id							number(9,0)
+,geom							sdo_geometry
+) parallel 4 compress pctfree 0 nologging;
+--rollback drop table huc8_geom_lookup cascade constraints purge;
+
+--changeset drsteini:1SchemaTablesAW
+create table web_service_log
+(web_service_log_id				number				generated as identity
+,request_timestamp_utc          timestamp(3)        default sys_extract_utc(systimestamp) constraint web_service_log_timestamp_nn not null
+,head_sent_utc					timestamp(3)
+,first_row_sent_utc				timestamp(3)
+,request_completed_utc			timestamp(3)
+,origin                         varchar2(100 char)  constraint web_service_log_origin_nn not null
+,call_type                      varchar2(100 char)  constraint web_service_log_call_type_nn not null
+,endpoint                       varchar2(100 char)  constraint web_service_log_endpoint_nn not null
+,query_string                   varchar2(1000 char) constraint web_service_log_query_str_nn not null
+,total_rows_expected            number
+,data_store_counts              varchar2(1000 char)
+,http_status_code				varchar2(3 char)
+);
+--rollback drop table web_service_log cascade constraints purge;

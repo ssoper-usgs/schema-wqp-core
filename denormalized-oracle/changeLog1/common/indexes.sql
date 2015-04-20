@@ -396,3 +396,26 @@ create bitmap index pc_result_nr_sum_sample_media on pc_result_nr_sum(sample_med
 --changeset drsteini:1CommonIndexesDQ
 create bitmap index pc_result_nr_sum_station on pc_result_nr_sum(station_id) local parallel 4 nologging;
 --rollback drop index pc_result_nr_sum_station;
+
+
+
+
+--changeset drsteini:1CommonIndexesDR
+insert into user_sdo_geom_metadata
+values ('COUNTY_GEOM_LOOKUP', 'GEOM',
+        mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.231086, 179.859681, 0.005), mdsys.sdo_dim_element('Y', -14.601813, 71.441059, 0.005)), 4269);
+--rollback delete from user_sdo_geom_metadata where table_name = 'COUNTY_GEOM_LOOKUP';
+
+--changeset drsteini:1CommonIndexesDS
+create index county_geom_lookup_geom on county_geom_lookup(geom) indextype is mdsys.spatial_index parameters ('sdo_indx_dims=2 , layer_gtype=MULTIPOLYGON');
+--rollback drop index county_geom_lookup_geom;
+
+--changeset drsteini:1CommonIndexesDT
+insert into user_sdo_geom_metadata
+values ('HUC8_GEOM_LOOKUP', 'GEOM',
+        mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.229655487448, 179.856674735386, 0.005), mdsys.sdo_dim_element('Y', -14.424695094277, 71.439572590153, 0.005)), 4269);
+--rollback delete from user_sdo_geom_metadata where table_name = 'HUC8_GEOM_LOOKUP';
+
+--changeset drsteini:1CommonIndexesDU
+create index huc8_geom_lookup_geom on huc8_geom_lookup(geom) indextype is mdsys.spatial_index parameters ('sdo_indx_dims=2 , layer_gtype=MULTIPOLYGON');
+--rollback drop index huc8_geom_lookup_geom;
