@@ -862,6 +862,10 @@ create or replace package body etl_helper as
 		update last_etl
 		   set data_source_id = p_data_source_id,
 		       completed_utc = systimestamp at time zone 'UTC';
+		if sql%rowcount = 0 then
+		  insert into last_etl
+		  values (p_data_source_id, systimestamp at time zone 'UTC');
+		end if;
 		commit;
 	end update_last_etl;
 
