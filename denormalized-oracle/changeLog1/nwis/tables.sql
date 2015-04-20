@@ -472,3 +472,20 @@ create table public_srsnames_00000
 ,max_last_rev_dt          		date
 );
 --rollback drop table public_srsnames_00000 cascade constraints purge;
+
+--changeset drsteini:1NwisTablesAQ context:ci
+create table public_srsnames_test
+(parm_cd                  		char(5)         not null
+,description              		varchar2(170)
+,characteristicname       		varchar2(1200)  not null
+,measureunitcode          		varchar2(10)
+,resultsamplefraction     		varchar2(24)
+,resulttemperaturebasis   		varchar2(12)
+,resultstatisticalbasis   		varchar2(25)
+,resulttimebasis          		varchar2(12)
+,resultweightbasis        		varchar2(15)
+,resultparticlesizebasis  		varchar2(64)
+,last_rev_dt              		date
+,max_last_rev_dt          		date
+);
+--rollback drop table public_srsnames_test cascade constraints purge;
