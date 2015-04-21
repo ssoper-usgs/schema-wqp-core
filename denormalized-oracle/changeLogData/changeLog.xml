@@ -37,4 +37,6 @@
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
     </changeSet>
 
+    <include file="geospatial_from_dbdw.sql" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>
