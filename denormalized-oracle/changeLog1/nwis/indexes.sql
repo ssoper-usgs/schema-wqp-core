@@ -389,27 +389,3 @@ create bitmap index pcrnrs_nwis_sample_media on pc_result_nr_sum_swap_nwis(sampl
 create bitmap index pcrnrs_nwis_station on pc_result_nr_sum_swap_nwis(station_id) local parallel 4 nologging;
 --rollback drop index pcrnrs_nwis_station;
 
-
-
---changeset drsteini:1NwisIndexesDO
-insert into user_sdo_geom_metadata
-values ('HUC8_CONUS_HI_AK_PR_DIS', 'GEOM',
-        mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.133392333984, 179.788208007813, 0.005), mdsys.sdo_dim_element('Y', 17.674692153931, 71.398048400879, 0.005)), 4269);
---rollback delete from user_sdo_geom_metadata where table_name = 'HUC8_CONUS_HI_AK_PR_DIS';
-
---changeset drsteini:1NwisIndexesDP
-create index hc8_cns_h_k_pr_ds_geom_spix on huc8_conus_hi_ak_pr_dis(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2');
---rollback drop index hc8_cns_h_k_pr_ds_geom_spix;
-
-
-
-
---changeset drsteini:1NwisIndexesDQ
-insert into user_sdo_geom_metadata
-values ('US_COUNTIES_DIS_20121015', 'GEOM',
-        mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.14734, 179.77848, 0.005), mdsys.sdo_dim_element('Y', 17.674395666, 71.389210465, 0.005)), 4269);
---rollback delete from user_sdo_geom_metadata where table_name = 'US_COUNTIES_DIS_20121015';
-
---changeset drsteini:1NwisIndexesDR
-create index s_cnts_ds_20121015_geom_spix on us_counties_dis_20121015(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2');
---rollback drop index s_cnts_ds_20121015_geom_spix;
