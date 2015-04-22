@@ -489,3 +489,11 @@ create table public_srsnames_test
 ,max_last_rev_dt          		date
 );
 --rollback drop table public_srsnames_test cascade constraints purge;
+
+--changeset drsteini:1NwisTablesAS
+create table project_swap_nwis
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table project_swap_nwis cascade constraints purge;

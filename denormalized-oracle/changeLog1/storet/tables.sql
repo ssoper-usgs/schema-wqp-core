@@ -586,3 +586,12 @@ create table wqp_nemi_epa_crosswalk
 ,nemi_url						varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging;
 --rollback drop table wqp_nemi_epa_crosswalk cascade constraints purge;
+
+
+--changeset drsteini:1StoretTablesAU
+create table project_swap_storet
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table project_swap_storet cascade constraints purge;

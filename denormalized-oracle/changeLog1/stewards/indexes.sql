@@ -387,3 +387,20 @@ create bitmap index pcrnrs_stewards_sample_media on pc_result_nr_sum_swap_stewar
 --changeset drsteini:1StewardsIndexesDN
 create bitmap index pcrnrs_stewards_station on pc_result_nr_sum_swap_stewards(station_id) local parallel 4 nologging;
 --rollback drop index pcrnrs_stewards_station;
+
+
+--changeset drsteini:1StewardsIndexesDO
+create bitmap index pcr_stewards_project on pc_result_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index pcr_stewards_project;
+
+--changeset drsteini:1StewardsIndexesDP
+create bitmap index pcrs_stewards_project on pc_result_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index pcrs_stewards_project;
+
+--changeset drsteini:1StewardsIndexesDQ
+create bitmap index pcrcts_stewards_project on pc_result_ct_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index pcrcts_stewards_project;
+
+--changeset drsteini:1StewardsIndexesDR
+create bitmap index pcrnrs_stewards_project on pc_result_nr_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index pcrnrs_stewards_project;

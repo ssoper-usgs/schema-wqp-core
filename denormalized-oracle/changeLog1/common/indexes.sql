@@ -421,23 +421,41 @@ create index huc8_geom_lookup_geom on huc8_geom_lookup(geom) indextype is mdsys.
 --rollback drop index huc8_geom_lookup_geom;
 
 
---changeset drsteini:1NwisIndexesDV
+--changeset drsteini:1CommonIndexesDV
 insert into user_sdo_geom_metadata
 values ('HUC8_CONUS_HI_AK_PR_DIS', 'GEOM',
         mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.133392333984, 179.788208007813, 0.005), mdsys.sdo_dim_element('Y', 17.674692153931, 71.398048400879, 0.005)), 4269);
 --rollback delete from user_sdo_geom_metadata where table_name = 'HUC8_CONUS_HI_AK_PR_DIS';
 
---changeset drsteini:1NwisIndexesDW
+--changeset drsteini:1CommonIndexesDW
 create index hc8_cns_h_k_pr_ds_geom_spix on huc8_conus_hi_ak_pr_dis(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2');
 --rollback drop index hc8_cns_h_k_pr_ds_geom_spix;
 
 
---changeset drsteini:1NwisIndexesDX
+--changeset drsteini:1CommonIndexesDX
 insert into user_sdo_geom_metadata
 values ('US_COUNTIES_DIS_20121015', 'GEOM',
         mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.14734, 179.77848, 0.005), mdsys.sdo_dim_element('Y', 17.674395666, 71.389210465, 0.005)), 4269);
 --rollback delete from user_sdo_geom_metadata where table_name = 'US_COUNTIES_DIS_20121015';
 
---changeset drsteini:1NwisIndexesDY
+--changeset drsteini:1CommonIndexesDY
 create index s_cnts_ds_20121015_geom_spix on us_counties_dis_20121015(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2');
 --rollback drop index s_cnts_ds_20121015_geom_spix;
+
+
+
+--changeset drsteini:1CommonIndexesDZ
+create bitmap index pc_result_project on pc_result(project_id) local parallel 4 nologging;
+--rollback drop index pc_result_project;
+
+--changeset drsteini:1CommonIndexesEA
+create bitmap index pc_result_sum_project on pc_result_sum(project_id) local parallel 4 nologging;
+--rollback drop index pc_result_sum_project;
+
+--changeset drsteini:1CommonIndexesEB
+create bitmap index pc_result_ct_sum_project on pc_result_ct_sum(project_id) local parallel 4 nologging;
+--rollback drop index pc_result_ct_sum_project;
+
+--changeset drsteini:1CommonIndexesEC
+create bitmap index pc_result_nr_sum_project on pc_result_nr_sum(project_id) local parallel 4 nologging;
+--rollback drop index pc_result_nr_sum_project;

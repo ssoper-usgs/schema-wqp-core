@@ -115,7 +115,7 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
 		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
-             governmental_unit_code, pc_result_count)
+             governmental_unit_code, project_id, pc_result_count)
         select /*+ full(a) parallel(a, 4) full(b) parallel(b, 4) use_hash(a) use_hash(b) */
                a.data_source_id,
                a.data_source,
@@ -131,10 +131,11 @@ create or replace package body etl_helper as
                a.site_type,
                a.huc,
                a.governmental_unit_code,
+               b.project_id,
                b.result_count
           from station_sum_swap_' || p_table_suffix || ' a
                left join (select data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
-                                 event_date, analytical_method,
+                                 event_date, analytical_method, project_id,
                                  nvl(count(*), 0) result_count
                             from pc_result_swap_' || p_table_suffix || '
                                group by data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
@@ -156,7 +157,7 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization,
              huc, sample_media, characteristic_type, characteristic_name, analytical_method,
-             p_code, pc_result_count)
+             p_code, project_id, pc_result_count)
         select /*+ full(b) parallel(b, 4) */
                data_source_id,
                data_source,
@@ -171,6 +172,7 @@ create or replace package body etl_helper as
                characteristic_name,
                analytical_method,
                p_code,
+               project_id,
                sum(pc_result_count) pc_result_count
           from pc_result_sum_swap_' || p_table_suffix || '
              group by data_source_id,
@@ -185,7 +187,8 @@ create or replace package body etl_helper as
                       characteristic_type,
                       characteristic_name,
                       analytical_method,
-                      p_code
+                      p_code,
+                      project_id
              order by characteristic_name';
         commit;
 
@@ -200,13 +203,13 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-             characteristic_name, characteristic_type, sample_media, pc_result_count)
+             characteristic_name, characteristic_type, sample_media, project_id, pc_result_count)
         select data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-               characteristic_name, characteristic_type, sample_media,
+               characteristic_name, characteristic_type, sample_media, project_id,
                sum(pc_result_count) pc_result_count
           from pc_result_sum_swap_' || p_table_suffix || '
              group by data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-                      characteristic_name, characteristic_type, sample_media
+                      characteristic_name, characteristic_type, sample_media, project_id
              order by characteristic_name';
         commit;
 
@@ -214,10 +217,11 @@ create or replace package body etl_helper as
     
     procedure create_code_tables(p_table_suffix in user_tables.table_name%type) is
         table_name		user_tables.table_name%type;
+        sql_stmnt		varchar2(4000 char);
     begin
 
         table_name := dbms_assert.sql_object_name(upper('char_name_swap_' || p_table_suffix));
-
+        
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
@@ -251,15 +255,29 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
-          	(data_source_id, code_value, description)
-        select distinct s.data_source_id,
-                        s.country_code code_value,
-                        country.country_nm description
-          from station_sum_swap_' || p_table_suffix || ' s
-               join nwis_ws_star.country
-                 on s.country_code = trim(country.country_cd)
-         where s.country_code is not null';
+        
+        if upper(p_table_suffix) = 'NWIS' or
+           upper(p_table_suffix) = 'STEWARDS' then
+          sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || ' (data_source_id, code_value, description)
+                        select distinct s.data_source_id,
+                                        s.country_code code_value,
+                                        country.country_nm description
+                                   from station_sum_swap_' || p_table_suffix || ' s
+                                        join nwis_ws_star.country
+                                          on s.country_code = country.country_cd 
+                                  where s.country_code is not null';
+        else
+          sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || ' (data_source_id, code_value, description)
+                        select distinct s.data_source_id,
+                                        s.country_code code_value,
+                                        upper(country.cntry_name) description
+                                   from station_sum_swap_' || p_table_suffix || ' s
+                                        join wqx.country
+                                          on s.country_code = country.cntry_cd 
+                                  where s.country_code is not null';
+        end if;
+
+        execute immediate sql_stmnt;
         commit;
 
                   
@@ -269,22 +287,39 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || q'!
-          	(data_source_id, code_value, description)
-        select distinct s.data_source_id,
-                        s.county_code code_value,
-                        s.country_code || ', ' ||
-                            state.state_nm || ', ' ||
-                            county.county_nm description
-          from station_sum_swap_!' || p_table_suffix || q'! s
-               left join nwis_ws_star.state
-                 on s.country_code = trim(state.country_cd) and
-                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(state.state_cd)
-               left join nwis_ws_star.county
-                 on s.country_code = trim(county.country_cd) and
-                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(county.state_cd) and
-                    regexp_substr(s.county_code, '[^:]+', 1, 3) = trim(county.county_cd)
-         where s.county_code is not null!';
+        if upper(p_table_suffix) = 'NWIS' or
+           upper(p_table_suffix) = 'STEWARDS' then
+          sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description)
+                        select distinct s.data_source_id,
+                                        s.county_code code_value,
+                                        s.country_code || ', ' || state.state_nm || ', ' || county.cnty_nm description
+                          from station_sum_swap_!' || p_table_suffix || q'! s
+                               left join nwis_ws_star.state
+                                 on s.country_code = state.country_cd and
+                                    regexp_substr(s.state_code, '[^:]+', 1, 2) = state.state_cd
+                               left join nwis_ws_star.county
+                                 on s.country_code = county.country_cd and
+                                    regexp_substr(s.state_code, '[^:]+', 1, 2) = county.state_cd and
+                                    regexp_substr(s.county_code, '[^:]+', 1, 3) = county.county_cd
+                         where s.county_code is not null!';
+        else
+          sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description)
+                        select distinct s.data_source_id,
+                                        s.county_code code_value,
+                                        s.country_code || ', ' || state.st_name || ', ' || county.cnty_name description
+                          from station_sum_swap_!' || p_table_suffix || q'! s
+                               join wqx.country
+                                 on s.country_code = country.cntry_cd 
+                               left join wqx.state
+                                 on country.cntry_uid = state.cntry_uid and
+                                    regexp_substr(s.state_code, '[^:]+', 1, 2) = state.st_fips_cd
+                               left join wqx.county
+                                 on state.st_uid = county.st_uid and
+                                    regexp_substr(s.county_code, '[^:]+', 1, 3) = county.cnty_fips_cd
+                         where s.county_code is not null!';
+        end if;
+
+        execute immediate sql_stmnt;
         commit;
         
         
@@ -305,6 +340,21 @@ create or replace package body etl_helper as
           
            
 
+        table_name := dbms_assert.sql_object_name(upper('project_swap_' || p_table_suffix));
+
+        dbms_output.put_line('populating:' || table_name);
+        execute immediate 'truncate table ' || table_name;
+
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+          	(data_source_id, code_value)
+        select distinct data_source_id,
+                        project_id code_value
+          from pc_result_swap_' || p_table_suffix || '
+         where project_id is not null';
+        commit;
+        
+
+        
         table_name := dbms_assert.sql_object_name(upper('sample_media_swap_' || p_table_suffix));
 
         dbms_output.put_line('populating:' || table_name);
@@ -340,18 +390,34 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || q'!
-          	(data_source_id, code_value, description_with_country, description_with_out_country)
-        select distinct s.data_source_id,
-                        s.state_code code_value,
-                        s.country_code || ', ' ||
-                        state.state_nm description_with_country,
-                        state.state_nm description_with_out_country
-          from station_sum_swap_!' || p_table_suffix || q'! s
-               left join nwis_ws_star.state
-                 on s.country_code = trim(state.country_cd) and
-                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(state.state_cd)
-         where s.state_code is not null!';
+        if upper(p_table_suffix) = 'NWIS' or
+           upper(p_table_suffix) = 'STEWARDS' then
+          sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description_with_country, description_with_out_country)
+                        select distinct s.data_source_id,
+                                        s.state_code code_value,
+                                        s.country_code || ', ' || state.state_nm description_with_country,
+                                        state.state_nm description_with_out_country
+                          from station_sum_swap_!' || p_table_suffix || q'! s
+                               left join nwis_ws_star.state
+                                 on s.country_code = trim(state.country_cd) and
+                                    regexp_substr(s.state_code, '[^:]+', 1, 2) = trim(state.state_cd)
+                         where s.state_code is not null!';
+        else
+          sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description_with_country, description_with_out_country)
+                        select distinct s.data_source_id,
+                                        state.st_cd code_value,
+                                        s.country_code || ', ' || state.st_name description_with_country,
+                                        state.st_name description_with_out_country
+                          from station_sum_swap_!' || p_table_suffix || q'! s
+                               join wqx.country
+                                 on s.country_code = country.cntry_cd 
+                               left join wqx.state
+                                 on country.cntry_uid = state.cntry_uid and
+                                    regexp_substr(s.state_code, '[^:]+', 1, 2) = state.st_fips_cd
+                         where s.state_code is not null!';
+        end if;
+
+        execute immediate sql_stmnt;
         commit;
 
     end create_code_tables;
@@ -523,6 +589,10 @@ create or replace package body etl_helper as
         stmt := 'create bitmap index pcr_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
+        
+        stmt := 'create bitmap index pcr_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
 
         stmt := 'create bitmap index pcr_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
         dbms_output.put_line(stmt);
@@ -676,6 +746,10 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
+        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
         stmt := 'create bitmap index pcrs_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
@@ -758,6 +832,10 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
+        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
         stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
@@ -801,6 +879,10 @@ create or replace package body etl_helper as
         execute immediate stmt;
 
         stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 

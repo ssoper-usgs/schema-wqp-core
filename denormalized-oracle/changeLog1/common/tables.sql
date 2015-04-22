@@ -235,6 +235,7 @@ create table pc_result_sum
 ,site_type						varchar2(4000 char)
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
+,project_id                     varchar2(4000 char)
 ,pc_result_count				number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
@@ -302,6 +303,7 @@ create table pc_result_ct_sum
 ,site_type						varchar2(4000 char)
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
+,project_id                     varchar2(4000 char)
 ,pc_result_count				number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
@@ -355,6 +357,7 @@ create table pc_result_nr_sum
 ,characteristic_name			varchar2(4000 char)
 ,characteristic_type			varchar2(4000 char)
 ,sample_media					varchar2(4000 char)
+,project_id                     varchar2(4000 char)
 ,pc_result_count				number
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
@@ -668,3 +671,19 @@ create table web_service_log
 ,http_status_code				varchar2(3 char)
 );
 --rollback drop table web_service_log cascade constraints purge;
+
+
+--changeset drsteini:1CommonTablesAX
+create table project
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache
+partition by range (data_source_id)
+(partition project_stewards values less than (2)
+,partition project_nwis values less than (3)
+,partition project_storet values less than (4)
+,partition project_garbage values less than (maxvalue)
+);
+--rollback drop table project cascade constraints purge;
+

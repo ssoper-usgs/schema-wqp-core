@@ -388,3 +388,20 @@ create bitmap index pcrnrs_storet_sample_media on pc_result_nr_sum_swap_storet(s
 --changeset drsteini:1StoretIndexesDN
 create bitmap index pcrnrs_storet_station on pc_result_nr_sum_swap_storet(station_id) local parallel 4 nologging;
 --rollback drop index pcrnrs_storet_station;
+
+
+--changeset drsteini:1StoretIndexesDO
+create bitmap index pcr_storet_project on pc_result_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index pcr_storet_project;
+
+--changeset drsteini:1StoretIndexesDP
+create bitmap index pcrs_storet_project on pc_result_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index pcrs_storet_project;
+
+--changeset drsteini:1StoretIndexesDQ
+create bitmap index pcrcts_storet_project on pc_result_ct_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index pcrcts_storet_project;
+
+--changeset drsteini:1StoretIndexesDR
+create bitmap index pcrnrs_storet_project on pc_result_nr_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index pcrnrs_storet_project;
