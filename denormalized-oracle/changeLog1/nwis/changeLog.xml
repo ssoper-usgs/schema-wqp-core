@@ -14,6 +14,6 @@
     <include file="tables.sql" relativeToChangelogFile="true"/>
     <include file="indexes.sql" relativeToChangelogFile="true"/>
     <include file="ri.sql" relativeToChangelogFile="true"/>
-<!--     <include file="synonyms.sql" relativeToChangelogFile="true"/> -->
+    <include file="synonyms.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
