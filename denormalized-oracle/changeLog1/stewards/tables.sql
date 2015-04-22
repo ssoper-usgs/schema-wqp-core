@@ -433,3 +433,11 @@ create table state_swap_stewards
 ,country_code                   generated always as (regexp_substr(code_value, '[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table state_swap_stewards cascade constraints purge;
+
+--changeset drsteini:1StewardsTablesAO
+create table project_swap_stewards
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table project_swap_stewards cascade constraints purge;

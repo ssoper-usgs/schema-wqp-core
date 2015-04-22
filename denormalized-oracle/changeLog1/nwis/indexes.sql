@@ -389,3 +389,20 @@ create bitmap index pcrnrs_nwis_sample_media on pc_result_nr_sum_swap_nwis(sampl
 create bitmap index pcrnrs_nwis_station on pc_result_nr_sum_swap_nwis(station_id) local parallel 4 nologging;
 --rollback drop index pcrnrs_nwis_station;
 
+
+
+--changeset drsteini:1NwisIndexesDO
+create bitmap index pcr_nwis_project on pc_result_swap_nwis(project_id) local parallel 4 nologging;
+--rollback drop index pcr_nwis_project;
+
+--changeset drsteini:1NwisIndexesDP
+create bitmap index pcrs_nwis_project on pc_result_sum_swap_nwis(project_id) local parallel 4 nologging;
+--rollback drop index pcrs_nwis_project;
+
+--changeset drsteini:1NwisIndexesDQ
+create bitmap index pcrcts_nwis_project on pc_result_ct_sum_swap_nwis(project_id) local parallel 4 nologging;
+--rollback drop index pcrcts_nwis_project;
+
+--changeset drsteini:1NwisIndexesDR
+create bitmap index pcrnrs_nwis_project on pc_result_nr_sum_swap_nwis(project_id) local parallel 4 nologging;
+--rollback drop index pcrnrs_nwis_project;
