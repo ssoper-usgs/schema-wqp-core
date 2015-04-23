@@ -270,8 +270,10 @@ create or replace package body etl_helper as
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || ' (data_source_id, code_value, description)
                         select distinct s.data_source_id,
                                         s.country_code code_value,
-                                        upper(country.cntry_name) description
+                                        nvl(nwis_country.country_nm, upper(country.cntry_name)) description
                                    from station_sum_swap_' || p_table_suffix || ' s
+                                        left join nwis_ws_star.country nwis_country
+                                          on s.country_code = nwis_country.country_cd 
                                         join wqx.country
                                           on s.country_code = country.cntry_cd 
                                   where s.country_code is not null';
