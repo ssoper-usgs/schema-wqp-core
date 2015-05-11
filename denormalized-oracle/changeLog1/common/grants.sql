@@ -46,10 +46,6 @@ grant select on pc_result_nr_sum to wqp_user;
 grant select on pc_result_sum to wqp_user;
 --rollback revoke select on pc_result_sum from wqp_user;
  
---changeset drsteini:1GrantsAM
-grant select on public_srsnames to wqp_user;
---rollback revoke select on public_srsnames from wqp_user;
- 
 --changeset drsteini:1GrantsAN
 grant select on qwportal_summary to wqp_user;
 --rollback revoke select on qwportal_summary from wqp_user;
