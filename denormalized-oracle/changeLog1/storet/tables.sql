@@ -934,7 +934,7 @@ partition by range (event_date)
 
 
 
---changeset drsteini:1StoretTablesAW
+--changeset drsteini:1StoretTablesAY
 create table bio_result_sum_swap_storet
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
@@ -996,7 +996,7 @@ partition by range (event_date)
 --rollback drop table bio_result_sum_swap_storet cascade constraints purge;
 
 
---changeset drsteini:1StoretTablesAX
+--changeset drsteini:1StoretTablesAZ
 create table bio_result_ct_sum_swap_storet
 (data_source_id					number
 ,data_source					varchar2(8 char)
@@ -1047,7 +1047,7 @@ partition by list (characteristic_type)
 --rollback drop table bio_result_ct_sum_swap_storet cascade constraints purge;
 
 
---changeset drsteini:1StoretTablesAY
+--changeset drsteini:1StoretTablesBA
 create table bio_result_nr_sum_swap_storet
 (data_source_id					number
 ,data_source					varchar2(8 char)
