@@ -94,12 +94,16 @@ create or replace package body etl_helper as
                station.governmental_unit_code,
                station.geom,
                nvl(pc_result.pc_result_count,0),
-               0
+               nvl(bio_result.bio_result_count,0)
           from station_swap_' || p_table_suffix || ' station
                left join (select station_id, count(*) pc_result_count
                             from pc_result_swap_' || p_table_suffix || '
                                group by station_id) pc_result
                  on station.station_id = pc_result.station_id
+               left join (select station_id, count(*) bio_result_count
+                            from bio_result_swap_' || p_table_suffix || '
+                               group by station_id) bio_result
+                 on station.station_id = bio_result.station_id
             order by organization';
         commit;
 
@@ -132,15 +136,15 @@ create or replace package body etl_helper as
                a.huc,
                a.governmental_unit_code,
                b.project_id,
-               b.result_count
+               b.pc_result_count
           from station_sum_swap_' || p_table_suffix || ' a
                left join (select data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
                                  event_date, analytical_method, project_id,
-                                 nvl(count(*), 0) result_count
+                                 nvl(count(*), 0) pc_result_count
                             from pc_result_swap_' || p_table_suffix || '
                                group by data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
-                                        event_date, analytical_method
-                         ) b
+                                        event_date, analytical_method, project_id
+                          ) b
                  on a.station_id = b.station_id and
                     a.data_source_id = b.data_source_id
              order by a.station_id';
@@ -213,6 +217,118 @@ create or replace package body etl_helper as
              order by characteristic_name';
         commit;
 
+
+                    
+        table_name := dbms_assert.sql_object_name(upper('bio_result_sum_swap_' || p_table_suffix));
+
+        dbms_output.put_line('dropping indexes on:' || table_name);
+        etl_helper.drop_indexes(table_name);
+        
+        dbms_output.put_line('populating:' || table_name);
+        execute immediate 'truncate table ' || table_name;
+
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
+             characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
+             governmental_unit_code, project_id, bio_result_count)
+        select /*+ full(a) parallel(a, 4) full(b) parallel(b, 4) use_hash(a) use_hash(b) */
+               a.data_source_id,
+               a.data_source,
+               a.station_id,
+               a.site_id,
+               b.event_date,
+               b.analytical_method,
+               b.p_code,
+               b.characteristic_name,
+               b.characteristic_type,
+               b.sample_media,
+               a.organization,
+               a.site_type,
+               a.huc,
+               a.governmental_unit_code,
+               b.project_id,
+               b.bio_result_count
+          from station_sum_swap_' || p_table_suffix || ' a
+               join (select data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
+                            event_date, analytical_method, project_id,
+                            nvl(count(*), 0)  bio_result_count
+                       from bio_result_swap_' || p_table_suffix || '
+                          group by data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
+                                   event_date, analytical_method, project_id
+                                                  
+                    ) b
+                 on a.station_id = b.station_id and
+                    a.data_source_id = b.data_source_id
+             order by a.station_id';
+        commit;
+
+        table_name := dbms_assert.sql_object_name(upper('bio_result_ct_sum_swap_' || p_table_suffix));
+
+        dbms_output.put_line('dropping indexes on:' || table_name);
+        etl_helper.drop_indexes(table_name);
+        
+        dbms_output.put_line('populating:' || table_name);
+        execute immediate 'truncate table ' || table_name;
+
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+          	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization,
+             huc, sample_media, characteristic_type, characteristic_name, analytical_method,
+             p_code, project_id, bio_result_count)
+        select /*+ full(b) parallel(b, 4) */
+               data_source_id,
+               data_source,
+               station_id,
+               site_id,
+               governmental_unit_code,
+               site_type,
+               organization,
+               huc,
+               sample_media,
+               characteristic_type,
+               characteristic_name,
+               analytical_method,
+               p_code,
+               project_id,
+               sum(bio_result_count) bio_result_count
+          from bio_result_sum_swap_' || p_table_suffix || '
+             group by data_source_id,
+                      data_source,
+                      site_id,
+                      station_id,
+                      governmental_unit_code,
+                      site_type,
+                      organization,
+                      huc,
+                      sample_media,
+                      characteristic_type,
+                      characteristic_name,
+                      analytical_method,
+                      p_code,
+                      project_id
+             order by characteristic_name';
+        commit;
+
+
+        table_name := dbms_assert.sql_object_name(upper('bio_result_nr_sum_swap_' || p_table_suffix));
+
+        dbms_output.put_line('dropping indexes on:' || table_name);
+        etl_helper.drop_indexes(table_name);
+        
+        dbms_output.put_line('populating:' || table_name);
+        execute immediate 'truncate table ' || table_name;
+
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+          	(data_source_id, data_source, station_id, event_date, analytical_method, p_code,
+             characteristic_name, characteristic_type, sample_media, project_id, bio_result_count)
+        select data_source_id, data_source, station_id, event_date, analytical_method, p_code,
+               characteristic_name, characteristic_type, sample_media, project_id,
+               sum(bio_result_count) bio_result_count
+          from bio_result_sum_swap_' || p_table_suffix || '
+             group by data_source_id, data_source, station_id, event_date, analytical_method, p_code,
+                      characteristic_name, characteristic_type, sample_media, project_id
+             order by characteristic_name';
+        commit;
+
     end create_summaries;
     
     procedure create_code_tables(p_table_suffix in user_tables.table_name%type) is
@@ -230,6 +346,11 @@ create or replace package body etl_helper as
         select distinct data_source_id,
                         characteristic_name code_value
           from pc_result_swap_' || p_table_suffix || '
+         where characteristic_name is not null
+        union
+        select distinct data_source_id,
+                        characteristic_name code_value
+          from bio_result_swap_' || p_table_suffix || '
          where characteristic_name is not null';
         commit;
         
@@ -245,6 +366,11 @@ create or replace package body etl_helper as
         select distinct data_source_id,
                         characteristic_type code_value
           from pc_result_swap_' || p_table_suffix || '
+         where characteristic_type is not null
+        union
+        select distinct data_source_id,
+                        characteristic_type code_value
+          from bio_result_swap_' || p_table_suffix || '
          where characteristic_type is not null';
         commit;
 
@@ -294,7 +420,7 @@ create or replace package body etl_helper as
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description)
                         select distinct s.data_source_id,
                                         s.county_code code_value,
-                                        s.country_code || ', ' || state.state_nm || ', ' || county.cnty_nm description
+                                        s.country_code || ', ' || state.state_nm || ', ' || county.county_nm description
                           from station_sum_swap_!' || p_table_suffix || q'! s
                                left join nwis_ws_star.state
                                  on s.country_code = state.country_cd and
@@ -352,6 +478,11 @@ create or replace package body etl_helper as
         select distinct data_source_id,
                         project_id code_value
           from pc_result_swap_' || p_table_suffix || '
+         where project_id is not null
+        union
+        select distinct data_source_id,
+                        project_id code_value
+          from bio_result_swap_' || p_table_suffix || '
          where project_id is not null';
         commit;
         
@@ -367,6 +498,11 @@ create or replace package body etl_helper as
         select distinct data_source_id,
                         sample_media code_value
           from pc_result_swap_' || p_table_suffix || '
+         where sample_media is not null
+        union
+        select distinct data_source_id,
+                        sample_media code_value
+          from bio_result_swap_' || p_table_suffix || '
          where sample_media is not null';
         commit;
       
