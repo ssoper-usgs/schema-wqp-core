@@ -688,7 +688,7 @@ partition by range (data_source_id)
 --rollback drop table project cascade constraints purge;
 
 --changeset drsteini:1CommonTablesAY
-create table bio_result_swap_storet
+create table bio_result
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
