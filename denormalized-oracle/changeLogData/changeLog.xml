@@ -37,6 +37,15 @@
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
     </changeSet>
 
+    <changeSet author="drsteini" id="loadEtlThreshold" runOnChange="true">
+        <delete tableName="etl_threshold"/>
+        <loadData encoding="UTF-8"
+                  file="denormalized-oracle/changeLogData/etl_threshold.csv"
+                  tableName="etl_threshold">
+        </loadData>
+        <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
+    </changeSet>
+
     <include file="geospatial_from_dbdw.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -687,6 +687,7 @@ partition by range (data_source_id)
 );
 --rollback drop table project cascade constraints purge;
 
+
 --changeset drsteini:1CommonTablesAY
 create table bio_result
 (data_source_id					number
@@ -918,4 +919,14 @@ partition by range (data_source_id)
 ,partition bio_result_garbage values less than (maxvalue)
 );
 --rollback drop table bio_result cascade constraints purge;
+
+
+--changeset drsteini:1CommonTablesAZ
+create table etl_threshold
+(data_source_id					number
+,table_name						varchar2(30 char)
+,min_rows						number
+,max_diff						number
+);
+--rollback drop table etl_threshold cascade constraints purge;
 
