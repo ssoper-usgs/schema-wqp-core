@@ -77,3 +77,7 @@ grant select on station_sum to wqp_user;
 --changeset drsteini:1GrantsAT
 grant execute on log_helper to wqp_user;
 --rollback revoke execute on log_helper from wqp_user;
+ 
+--changeset drsteini:1GrantsAU
+grant select on project to wqp_user;
+--rollback revoke select on project from wqp_user;
