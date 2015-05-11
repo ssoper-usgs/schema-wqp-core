@@ -29,6 +29,12 @@ create or replace package etl_helper as
 	
 	procedure add_ri(p_table_suffix in user_tables.table_name%type);
 	
+	procedure analyze_tables(p_table_suffix in user_tables.table_name%type);
+	
+	procedure validate(p_table_suffix in user_tables.table_name%type);
+	
+	procedure install(p_table_suffix in user_tables.table_name%type);
+	
 	procedure update_last_etl(p_data_source_id in last_etl.data_source_id%type);
 
 end etl_helper;
@@ -1076,6 +1082,236 @@ create or replace package body etl_helper as
         execute immediate stmt;
         
 	end add_ri;
+
+	procedure analyze_tables(p_table_suffix in user_tables.table_name%type);
+        suffix user_tables.table_name%type;
+    begin
+
+	    suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
+		
+	    if (suffix = 'STORET') then
+		    dbms_output.put_line('analyze bio_result...');
+		    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'BIO_RESULT_SWAP_' || suffix);
+		end if;
+	    
+	    dbms_output.put_line('analyze characteristic_name...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_NAME_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze characteristic_type...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_TYPE_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze country...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'COUNTRY_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze county...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'COUNTY_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze organization...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ORGANIZATION_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze pc_result...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze project...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PROJECT_SWAP_' || suffix);
+	    
+	    if (suffix = 'STORET' or suffix = 'NWIS') then
+		    dbms_output.put_line('analyze qwportal_summary...');
+		    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'QWPORTAL_SUMMARY_SWAP_' || suffix);
+		end if;
+
+	    dbms_output.put_line('analyze result_ct_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_CT_SUM_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze result_nr_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_NR_SUM_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze result_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_SUM_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze sample_media...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SAMPLE_MEDIA_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze site_type...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SITE_TYPE_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze state...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATE_SWAP_' || suffix);
+		
+	    dbms_output.put_line('analyze station...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SWAP_' || suffix);
+	
+	    dbms_output.put_line('analyze station_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SUM_SWAP_' || suffix);
+	    
+	end analyze_tables;
+
+	procedure validate(p_data_source_id in data_source.data_source_id%type);
+        suffix 		user_tables.table_name%type;
+        min_rows	etl_threshold.min_rows%type;
+        max_diff	etl_threshold.max_diff%type;
+        suffix		data_source.text%type;
+ 		old_rows    int;
+        new_rows    int;
+        pass_fail   varchar2(15);
+        end_job     boolean := false;
+    begin
+
+		dbms_output.put_line('validating...');
+	
+	    select dbms_assert.simple_sql_name(upper(text))
+	      into suffix
+	      from data_source
+	     where data_source_id = p_data_source_id;
+		
+		dbms_output.put_line('... pc_result');
+		select min_rows, max_diff
+		  into min_rows, max_diff
+		 from etl_threshold
+		where data_source_id = p_data_source_id and
+		      table_name = 'PC_RESULT';
+		execute immediate 'select count(*) from pc_result partition (pc_result_' || suffix || ')' into old_rows;
+		execute immediate 'select count(*) from pc_result_swap_' || suffix into new_rows;
+		if new_rows > min_rows and new_rows > old_rows - max_diff then
+	    	pass_fail := 'PASS';
+	    else
+	        pass_fail := 'FAIL';
+	    	end_job := true;
+	        $IF $$empty_db $THEN
+	            pass_fail := 'PASS empty_db';
+	            end_job := false;
+	        $END
+	    end if;
+	    dbms_output.put_line(pass_fail || ': table comparison for pc_result: was ' || trim(to_char(old_rows, '999,999,999')) || ', now ' || trim(to_char(new_rows, '999,999,999')));
+	
+	    dbms_output.put_line('... station');
+		select min_rows, max_diff
+		  into min_rows, max_diff
+		 from etl_threshold
+		where data_source_id = p_data_source_id and
+		      table_name = 'STATION';
+		execute immediate 'select count(*) from station partition (station_' || suffix || ')' into old_rows;
+		execute immediate 'select count(*) from station_swap_' || suffix into new_rows;
+	    if new_rows > min_rows and new_rows > old_rows - max_diff then
+	        pass_fail := 'PASS';
+	    else
+	        pass_fail := 'FAIL';
+	    	end_job := true;
+	        $IF $$empty_db $THEN
+	            pass_fail := 'PASS empty_db';
+	            end_job := false;
+	        $END
+	    end if;
+	    dbms_output.put_line(pass_fail || ': table comparison for station: was ' || trim(to_char(old_rows, '999,999,999')) || ', now ' || trim(to_char(new_rows, '999,999,999')));
+	
+	    if (suffix = 'STORET' or suffix = 'NWIS') then
+		    dbms_output.put_line('... qw_portal_summary');
+			select min_rows, max_diff
+			  into min_rows, max_diff
+			 from etl_threshold
+			where data_source_id = p_data_source_id and
+			      table_name = 'QWPORTAL_SUMMARY';
+			execute immediate 'select count(*) from qwportal_summary partition (summary_' || suffix || ')' into old_rows;
+			execute immediate 'select count(*) from qwportal_summary_swap_' || suffix into new_rows;
+		    if new_rows > min_rows and new_rows > old_rows - max_diff then
+		        pass_fail := 'PASS';
+		    else
+		        pass_fail := 'FAIL';
+		    	end_job := true;
+		        $IF $$empty_db $THEN
+		            pass_fail := 'PASS empty_db';
+		            end_job := false;
+		        $END
+		    end if;
+		    dbms_output.put_line(pass_fail || ': table comparison for qwportal_summary: was ' || trim(to_char(old_rows, '999,999,999')) || ', now ' || trim(to_char(new_rows, '999,999,999')));
+
+		end if;
+
+		if end_job then
+	    	raise_application_error(-20666, 'Failed to pass one or more validation checks.');
+	  	end if;
+
+	end validate;
+
+	procedure install(p_table_suffix in user_tables.table_name%type);
+        suffix user_tables.table_name%type;
+    begin
+
+	    suffix := dbms_assert.simple_sql_name(p_table_suffix);
+		
+	    if (suffix = 'STORET') then
+		    dbms_output.put_line('bio_result');
+		    execute immediate 'alter table bio_result exchange partition bio_result_' || suffix ||
+		                      ' with table bio_result_swap_' || suffix || ' including indexes';
+		end if;
+	    
+		dbms_output.put_line('station');
+	    execute immediate 'alter table station exchange partition station_' || suffix ||
+	                      ' with table station_swap_' || suffix || ' including indexes';
+	    
+	    dbms_output.put_line('pc_result');
+	   	execute immediate 'alter table pc_result exchange partition pc_result_' || suffix ||
+	                      ' with table pc_result_swap_' || suffix || ' including indexes';
+	    
+	   	dbms_output.put_line('station_sum');
+		execute immediate 'alter table station_sum exchange partition station_sum_' || suffix ||
+	                      ' with table station_sum_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('pc_result_sum');
+		execute immediate 'alter table pc_result_sum exchange partition pc_result_sum_' || suffix ||
+	                      ' with table pc_result_sum_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('pc_result_ct_sum');
+		execute immediate 'alter table pc_result_ct_sum exchange partition pcrcts_' || suffix ||
+	                      ' with table pc_result_ct_sum_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('pc_result_nr_sum');
+		execute immediate 'alter table pc_result_nr_sum exchange partition pc_res_nr_sum_' || suffix ||
+	                      ' with table pc_result_nr_sum_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('characteristic_name');
+		execute immediate 'alter table char_name exchange partition char_name_' || suffix ||
+	                      ' with table char_name_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('characteristic_type');
+		execute immediate 'alter table char_type exchange partition char_type_' || suffix ||
+	                      ' with table char_type_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('country');
+		execute immediate 'alter table country exchange partition country_' || suffix ||
+	                      ' with table country_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('county');
+		execute immediate 'alter table county exchange partition county_' || suffix ||
+	                      ' with table county_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('organization');
+		execute immediate 'alter table organization exchange partition organization_' || suffix ||
+	                      ' with table organization_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('project');
+		execute immediate 'alter table project exchange partition project_' || suffix ||
+	                      ' with table project_swap_' || suffix || ' including indexes';
+	
+		dbms_output.put_line('sample_media');
+		execute immediate 'alter table sample_media exchange partition sample_media_' || suffix ||
+	                      ' with table sample_media_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('site_type');
+		execute immediate 'alter table site_type exchange partition site_type_' || suffix ||
+	                      ' with table site_type_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('state');
+		execute immediate 'alter table state exchange partition state_' || suffix ||
+	                      ' with table state_swap_' || suffix || ' including indexes';
+	
+	    if (suffix = 'STORET' or suffix = 'NWIS') then
+			dbms_output.put_line('qwportal_summary');
+			execute immediate 'alter table qwportal_summary exchange partition summary_' || suffix ||
+	                          ' with table qwportal_summary_swap_' || suffix || ' including indexes';
+		end if;
+
+	end install;
 
 	procedure update_last_etl(p_data_source_id in last_etl.data_source_id%type) is
 	begin
