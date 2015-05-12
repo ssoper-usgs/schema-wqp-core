@@ -31,7 +31,7 @@ create or replace package etl_helper as
 	
 	procedure analyze_tables(p_table_suffix in user_tables.table_name%type);
 	
-	procedure validate(p_table_suffix in user_tables.table_name%type);
+	procedure validate(p_data_source_id in data_source.data_source_id%type);
 	
 	procedure install(p_table_suffix in user_tables.table_name%type);
 	
