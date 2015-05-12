@@ -1083,7 +1083,7 @@ create or replace package body etl_helper as
         
 	end add_ri;
 
-	procedure analyze_tables(p_table_suffix in user_tables.table_name%type);
+	procedure analyze_tables(p_table_suffix in user_tables.table_name%type) is
         suffix user_tables.table_name%type;
     begin
 
@@ -1146,7 +1146,7 @@ create or replace package body etl_helper as
 	    
 	end analyze_tables;
 
-	procedure validate(p_data_source_id in data_source.data_source_id%type);
+	procedure validate(p_data_source_id in data_source.data_source_id%type) is
         suffix 		user_tables.table_name%type;
         min_rows	etl_threshold.min_rows%type;
         max_diff	etl_threshold.max_diff%type;
@@ -1233,7 +1233,7 @@ create or replace package body etl_helper as
 
 	end validate;
 
-	procedure install(p_table_suffix in user_tables.table_name%type);
+	procedure install(p_table_suffix in user_tables.table_name%type) is
         suffix user_tables.table_name%type;
     begin
 
