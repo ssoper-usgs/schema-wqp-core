@@ -1112,6 +1112,15 @@ create or replace package body etl_helper as
 	    dbms_output.put_line('analyze pc_result...');
 	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_SWAP_' || suffix);
 	    
+	    dbms_output.put_line('analyze pc_result_ct_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_CT_SUM_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze pc_result_nr_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_NR_SUM_SWAP_' || suffix);
+	    
+	    dbms_output.put_line('analyze pc_result_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_SUM_SWAP_' || suffix);
+	    
 	    dbms_output.put_line('analyze project...');
 	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PROJECT_SWAP_' || suffix);
 	    
@@ -1120,15 +1129,6 @@ create or replace package body etl_helper as
 		    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'QWPORTAL_SUMMARY_SWAP_' || suffix);
 		end if;
 
-	    dbms_output.put_line('analyze result_ct_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_CT_SUM_SWAP_' || suffix);
-	    
-	    dbms_output.put_line('analyze result_nr_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_NR_SUM_SWAP_' || suffix);
-	    
-	    dbms_output.put_line('analyze result_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_SUM_SWAP_' || suffix);
-	    
 	    dbms_output.put_line('analyze sample_media...');
 	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SAMPLE_MEDIA_SWAP_' || suffix);
 	    
