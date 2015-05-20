@@ -185,8 +185,7 @@ create table station_sum_swap_nwis
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
 ,geom							mdsys.sdo_geometry
-,pc_result_count				number
-,biological_result_count		number
+,result_count					number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
 ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
@@ -218,7 +217,7 @@ create table pc_result_sum_swap_nwis
 ,huc                            varchar2(12 char)
 ,governmental_unit_code         varchar2(9 char)
 ,project_id                     varchar2(4000 char)
-,pc_result_count                number
+,result_count                	number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
 ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
@@ -279,7 +278,7 @@ create table pc_result_ct_sum_swap_nwis
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
 ,project_id                     varchar2(4000 char)
-,pc_result_count				number
+,result_count					number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
 ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
@@ -326,7 +325,7 @@ create table pc_result_nr_sum_swap_nwis
 ,characteristic_type			varchar2(4000 char)
 ,sample_media					varchar2(4000 char)
 ,project_id                     varchar2(4000 char)
-,pc_result_count				number
+,result_count				number
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
     (partition pc_res_nr_sum_nwis_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
