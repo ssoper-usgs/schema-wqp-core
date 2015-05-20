@@ -411,7 +411,7 @@ create or replace package body etl_helper as
         else
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description_with_country, description_with_out_country)
                         select distinct s.data_source_id,
-                                        state.st_cd code_value,
+                                        s.state_code code_value,
                                         s.country_code || ', ' || state.st_name description_with_country,
                                         state.st_name description_with_out_country
                           from station_sum_swap_!' || p_table_suffix || q'! s
