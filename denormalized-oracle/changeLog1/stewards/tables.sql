@@ -3,7 +3,7 @@
 --This is for the wqp_core schema
 
 --changeset drsteini:1StewardsTablesAA
-create table station_swap_stewards
+create table station_stewards
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -54,11 +54,11 @@ create table station_swap_stewards
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ,county_fips_code               generated always as (regexp_substr(governmental_unit_code, '[^:]+', 1, 3))
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table station_swap_stewards cascade constraints purge;
+--rollback drop table station_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAB
-create table pc_result_swap_stewards
+create table pc_result_stewards
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -171,11 +171,11 @@ partition by range (event_date)
  partition pc_result_stewards_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
  partition pc_result_stewards_y_maxx values less than (maxvalue) tablespace result2
 );
---rollback drop table pc_result_swap_stewards cascade constraints purge;
+--rollback drop table pc_result_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAC
-create table station_sum_swap_stewards
+create table station_sum_stewards
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -185,8 +185,7 @@ create table station_sum_swap_stewards
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
 ,geom							mdsys.sdo_geometry
-,pc_result_count				number
-,biological_result_count		number
+,result_count					number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
 ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
@@ -198,11 +197,11 @@ create table station_sum_swap_stewards
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 )
 parallel 4 compress pctfree 0 nologging cache;
---rollback drop table station_sum_swap_stewards cascade constraints purge;
+--rollback drop table station_sum_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAD
-create table pc_result_sum_swap_stewards
+create table pc_result_sum_stewards
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -218,7 +217,7 @@ create table pc_result_sum_swap_stewards
 ,huc                         	varchar2(12 char)
 ,governmental_unit_code         varchar2(9 char)
 ,project_id                     varchar2(4000 char)
-,pc_result_count                number
+,result_count                	number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
 ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
@@ -260,11 +259,11 @@ partition by range (event_date)
      partition pc_result_sum_stewards_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
      partition pc_result_sum_stewards_y_maxx values less than (maxvalue)
     );
---rollback drop table pc_result_sum_swap_stewards cascade constraints purge;
+--rollback drop table pc_result_sum_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAE
-create table pc_result_ct_sum_swap_stewards
+create table pc_result_ct_sum_stewards
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -279,7 +278,7 @@ create table pc_result_ct_sum_swap_stewards
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
 ,project_id                     varchar2(4000 char)
-,pc_result_count				number
+,result_count					number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
 ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
@@ -311,11 +310,11 @@ partition by list (characteristic_type)
      partition pcrcts_stewards_tox values ('Toxicity'),
      partition pcrcts_stewards_def values (default)
 );
---rollback drop table pc_result_ct_sum_swap_stewards cascade constraints purge;
+--rollback drop table pc_result_ct_sum_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAF
-create table pc_result_nr_sum_swap_stewards
+create table pc_result_nr_sum_stewards
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -326,7 +325,7 @@ create table pc_result_nr_sum_swap_stewards
 ,characteristic_type			varchar2(4000 char)
 ,sample_media					varchar2(4000 char)
 ,project_id                     varchar2(4000 char)
-,pc_result_count				number
+,result_count					number
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
     (partition pc_res_nr_sum_stewards_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
@@ -359,88 +358,88 @@ partition by range (event_date)
      partition pc_res_nr_sum_stewards_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
      partition pc_res_nr_sum_stewards_y_maxx values less than (maxvalue)
     );
---rollback drop table pc_result_nr_sum_swap_stewards cascade constraints purge;
+--rollback drop table pc_result_nr_sum_stewards cascade constraints purge;
 
     
 --changeset drsteini:1StewardsTablesAG
-create table char_name_swap_stewards
+create table char_name_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table char_name_swap_stewards cascade constraints purge;
+--rollback drop table char_name_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAH
-create table char_type_swap_stewards
+create table char_type_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table char_type_swap_stewards cascade constraints purge;
+--rollback drop table char_type_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAI
-create table country_swap_stewards
+create table country_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table country_swap_stewards cascade constraints purge;
+--rollback drop table country_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAJ
-create table county_swap_stewards
+create table county_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ,country_code                   generated always as (regexp_substr(code_value, '[^:]+'))
 ,state_code                     generated always as (regexp_substr(code_value, '[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table county_swap_stewards cascade constraints purge;
+--rollback drop table county_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAK
-create table sample_media_swap_stewards
+create table sample_media_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table sample_media_swap_stewards cascade constraints purge;
+--rollback drop table sample_media_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAL
-create table organization_swap_stewards
+create table organization_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table organization_swap_stewards cascade constraints purge;
+--rollback drop table organization_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAM
-create table site_type_swap_stewards
+create table site_type_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table site_type_swap_stewards cascade constraints purge;
+--rollback drop table site_type_stewards cascade constraints purge;
 
 
 --changeset drsteini:1StewardsTablesAN
-create table state_swap_stewards
+create table state_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description_with_country		varchar2(57 char)
 ,description_with_out_country	varchar2(53 char)
 ,country_code                   generated always as (regexp_substr(code_value, '[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table state_swap_stewards cascade constraints purge;
+--rollback drop table state_stewards cascade constraints purge;
 
 --changeset drsteini:1StewardsTablesAO
-create table project_swap_stewards
+create table project_stewards
 (data_source_id					number
 ,code_value						varchar2(500 char)
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table project_swap_stewards cascade constraints purge;
+--rollback drop table project_stewards cascade constraints purge;
