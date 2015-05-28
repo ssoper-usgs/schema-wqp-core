@@ -104,7 +104,7 @@ create or replace package body etl_helper as
                left join (select station_id, count(*) result_count
                             from pc_result_swap_' || p_table_suffix || '
                                group by station_id) result
-                 on station.station_id = pc_result.station_id
+                 on station.station_id = result.station_id
             order by organization';
         commit;
 
