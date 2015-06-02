@@ -654,7 +654,7 @@ create table huc8_geom_lookup
 ) parallel 4 compress pctfree 0 nologging;
 --rollback drop table huc8_geom_lookup cascade constraints purge;
 
---changeset drsteini:1SchemaTablesAW
+--changeset drsteini:1CommonTablesAW
 create table web_service_log
 (web_service_log_id				number				generated as identity
 ,request_timestamp_utc          timestamp(3)        default sys_extract_utc(systimestamp) constraint web_service_log_timestamp_nn not null

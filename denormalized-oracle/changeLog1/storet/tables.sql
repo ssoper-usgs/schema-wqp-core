@@ -860,7 +860,7 @@ create table analytical_method
 ) parallel 4 compress pctfree 0 nologging cache
 --rollback drop table analytical_method cascade constraints purge;
 
---changeset drsteini:1StoretTablesBB
+--changeset drsteini:1StoretTablesBC
 create table detection_quant_limit
 (res_uid						number
 ,rdqlmt_measure					varchar2(4000 char)
