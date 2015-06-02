@@ -664,7 +664,7 @@ create table web_service_log
 ,origin                         varchar2(100 char)  constraint web_service_log_origin_nn not null
 ,call_type                      varchar2(100 char)  constraint web_service_log_call_type_nn not null
 ,endpoint                       varchar2(100 char)  constraint web_service_log_endpoint_nn not null
-,query_string                   varchar2(1000 char) constraint web_service_log_query_str_nn not null
+,query_string                   varchar2(4000 char) constraint web_service_log_query_str_nn not null
 ,total_rows_expected            number
 ,data_store_counts              varchar2(1000 char)
 ,http_status_code				varchar2(3 char)
@@ -688,7 +688,7 @@ partition by range (data_source_id)
 
 
 --changeset drsteini:1CommonTablesAY
-create table bio_result
+create table result
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -912,12 +912,12 @@ partition by range (data_source_id)
      subpartition y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
      subpartition y_maxx values less than (maxvalue) tablespace result2
     )
-(partition bio_result_stewards values less than (2)
-,partition bio_result_nwis values less than (3)
-,partition bio_result_storet values less than (4)
-,partition bio_result_garbage values less than (maxvalue)
+(partition result_stewards values less than (2)
+,partition result_nwis values less than (3)
+,partition result_storet values less than (4)
+,partition result_garbage values less than (maxvalue)
 );
---rollback drop table bio_result cascade constraints purge;
+--rollback drop table result cascade constraints purge;
 
 
 --changeset drsteini:1CommonTablesAZ
