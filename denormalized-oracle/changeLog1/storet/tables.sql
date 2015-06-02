@@ -475,7 +475,7 @@ create table wqx_station_local
 ,constraint wqx_station_local_pk
    primary key (station_source,station_id)
 ,constraint wqx_station_local_uk
-   unique (site_id)
+   unique (station_source,site_id)
 ) parallel 4 compress nologging cache;
 --rollback drop table wqx_station_local cascade constraints purge;
 
@@ -617,7 +617,7 @@ create table station_no_source
 
 
 --changeset drsteini:1StoretTablesAX
-create table bio_result_swap_storet
+create table result_swap_storet
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -809,34 +809,62 @@ create table bio_result_swap_storet
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
-(partition bio_result_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')) tablespace result1,
- partition bio_result_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')) tablespace result2,
- partition bio_result_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')) tablespace result3,
- partition bio_result_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
- partition bio_result_storet_y_maxx values less than (maxvalue) tablespace result2
+(partition result_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_maxx values less than (maxvalue) tablespace result2
 );
---rollback drop table bio_result_swap_storet cascade constraints purge;
+--rollback drop table result_swap_storet cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBA
+create table activity_project
+(act_uid						number
+,project_id_list				varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache
+--rollback drop table activity_project cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBB
+create table analytical_method
+(anlmth_uid						number
+,anlmth_id						varchar2(4000 char)
+,amctx_cd						varchar2(4000 char)
+,anlmth_name					varchar2(4000 char)
+,anlmth_url						varchar2(4000 char)
+,anlmth_qual_type				varchar2(4000 char)
+,nemi_url						varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache
+--rollback drop table analytical_method cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBB
+create table detection_quant_limit
+(res_uid						number
+,rdqlmt_measure					varchar2(4000 char)
+,msunt_cd						varchar2(4000 char)
+,dqltyp_name					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache
+--rollback drop table detection_quant_limit cascade constraints purge;
