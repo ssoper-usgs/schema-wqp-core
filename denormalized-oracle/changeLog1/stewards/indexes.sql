@@ -68,84 +68,84 @@ create bitmap index s_stewards_station on station_swap_stewards(station_id) para
 
 
 --changeset drsteini:1StewardsIndexesAP
-create bitmap index pcr_stewards_activity on pc_result_swap_stewards(activity) local parallel 4 nologging;
---rollback drop index pcr_stewards_activity;
+create bitmap index r_stewards_activity on result_swap_stewards(activity) local parallel 4 nologging;
+--rollback drop index r_stewards_activity;
 
 --changeset drsteini:1StewardsIndexesAQ
-create bitmap index pcr_stewards_analytical on pc_result_swap_stewards(analytical_method) local parallel 4 nologging;
---rollback drop index pcr_stewards_analytical;
+create bitmap index r_stewards_analytical on result_swap_stewards(analytical_method) local parallel 4 nologging;
+--rollback drop index r_stewards_analytical;
 
 --changeset drsteini:1StewardsIndexesAR
-create bitmap index pcr_stewards_char_name on pc_result_swap_stewards(characteristic_name) local parallel 4 nologging;
---rollback drop index pcr_stewards_char_name;
+create bitmap index r_stewards_char_name on result_swap_stewards(characteristic_name) local parallel 4 nologging;
+--rollback drop index r_stewards_char_name;
 
 --changeset drsteini:1StewardsIndexesAS
-create bitmap index pcr_stewards_char_type on pc_result_swap_stewards(characteristic_type) local parallel 4 nologging;
---rollback drop index pcr_stewards_char_type;
+create bitmap index r_stewards_char_type on result_swap_stewards(characteristic_type) local parallel 4 nologging;
+--rollback drop index r_stewards_char_type;
 
 --changeset drsteini:1StewardsIndexesAT
-create bitmap index pcr_stewards_country on pc_result_swap_stewards(country_code) local parallel 4 nologging;
---rollback drop index pcr_stewards_country;
+create bitmap index r_stewards_country on result_swap_stewards(country_code) local parallel 4 nologging;
+--rollback drop index r_stewards_country;
 
 --changeset drsteini:1StewardsIndexesAU
-create bitmap index pcr_stewards_county on pc_result_swap_stewards(county_code) local parallel 4 nologging;
---rollback drop index pcr_stewards_county;
+create bitmap index r_stewards_county on result_swap_stewards(county_code) local parallel 4 nologging;
+--rollback drop index r_stewards_county;
 
 --changeset drsteini:1StewardsIndexesAV
-create bitmap index pcr_stewards_event_date on pc_result_swap_stewards(event_date) local parallel 4 nologging;
---rollback drop index pcr_stewards_event_date;
+create bitmap index r_stewards_event_date on result_swap_stewards(event_date) local parallel 4 nologging;
+--rollback drop index r_stewards_event_date;
 
 --changeset drsteini:1StewardsIndexesAW
-create bitmap index pcr_stewards_huc10 on pc_result_swap_stewards(huc_10) local parallel 4 nologging;
---rollback drop index pcr_stewards_huc10;
+create bitmap index r_stewards_huc10 on result_swap_stewards(huc_10) local parallel 4 nologging;
+--rollback drop index r_stewards_huc10;
 
 --changeset drsteini:1StewardsIndexesAX
-create bitmap index pcr_stewards_huc12 on pc_result_swap_stewards(huc_12) local parallel 4 nologging;
---rollback drop index pcr_stewards_huc12;
+create bitmap index r_stewards_huc12 on result_swap_stewards(huc_12) local parallel 4 nologging;
+--rollback drop index r_stewards_huc12;
 
 --changeset drsteini:1StewardsIndexesAY
-create bitmap index pcr_stewards_huc2 on pc_result_swap_stewards(huc_2) local parallel 4 nologging;
---rollback drop index pcr_stewards_huc2;
+create bitmap index r_stewards_huc2 on result_swap_stewards(huc_2) local parallel 4 nologging;
+--rollback drop index r_stewards_huc2;
 
 --changeset drsteini:1StewardsIndexesAZ
-create bitmap index pcr_stewards_huc4 on pc_result_swap_stewards(huc_4) local parallel 4 nologging;
---rollback drop index pcr_stewards_huc4;
+create bitmap index r_stewards_huc4 on result_swap_stewards(huc_4) local parallel 4 nologging;
+--rollback drop index r_stewards_huc4;
 
 --changeset drsteini:1StewardsIndexesBA
-create bitmap index pcr_stewards_huc6 on pc_result_swap_stewards(huc_6) local parallel 4 nologging;
---rollback drop index pcr_stewards_huc6;
+create bitmap index r_stewards_huc6 on result_swap_stewards(huc_6) local parallel 4 nologging;
+--rollback drop index r_stewards_huc6;
 
 --changeset drsteini:1StewardsIndexesBB
-create bitmap index pcr_stewards_huc8 on pc_result_swap_stewards(huc_8) local parallel 4 nologging;
---rollback drop index pcr_stewards_huc8;
+create bitmap index r_stewards_huc8 on result_swap_stewards(huc_8) local parallel 4 nologging;
+--rollback drop index r_stewards_huc8;
 
 --changeset drsteini:1StewardsIndexesBC
-create bitmap index pcr_stewards_organization on pc_result_swap_stewards(organization) local parallel 4 nologging;
---rollback drop index pcr_stewards_organization;
+create bitmap index r_stewards_organization on result_swap_stewards(organization) local parallel 4 nologging;
+--rollback drop index r_stewards_organization;
 
 --changeset drsteini:1StewardsIndexesBD
-create bitmap index pcr_stewards_p_code on pc_result_swap_stewards(p_code) local parallel 4 nologging;
---rollback drop index pcr_stewards_p_code;
+create bitmap index r_stewards_p_code on result_swap_stewards(p_code) local parallel 4 nologging;
+--rollback drop index r_stewards_p_code;
 
 --changeset drsteini:1StewardsIndexesBE
-create bitmap index pcr_stewards_sample_media on pc_result_swap_stewards(sample_media) local parallel 4 nologging;
---rollback drop index pcr_stewards_sample_media;
+create bitmap index r_stewards_sample_media on result_swap_stewards(sample_media) local parallel 4 nologging;
+--rollback drop index r_stewards_sample_media;
 
 --changeset drsteini:1StewardsIndexesBF
-create bitmap index pcr_stewards_site on pc_result_swap_stewards(site_id) local parallel 4 nologging;
---rollback drop index pcr_stewards_site;
+create bitmap index r_stewards_site on result_swap_stewards(site_id) local parallel 4 nologging;
+--rollback drop index r_stewards_site;
 
 --changeset drsteini:1StewardsIndexesBG
-create bitmap index pcr_stewards_site_type on pc_result_swap_stewards(site_type) local parallel 4 nologging;
---rollback drop index pcr_stewards_site_type;
+create bitmap index r_stewards_site_type on result_swap_stewards(site_type) local parallel 4 nologging;
+--rollback drop index r_stewards_site_type;
 
 --changeset drsteini:1StewardsIndexesBH
-create bitmap index pcr_stewards_state on pc_result_swap_stewards(state_code) local parallel 4 nologging;
---rollback drop index pcr_stewards_state;
+create bitmap index r_stewards_state on result_swap_stewards(state_code) local parallel 4 nologging;
+--rollback drop index r_stewards_state;
 
 --changeset drsteini:1StewardsIndexesBI
-create bitmap index pcr_stewards_station on pc_result_swap_stewards(station_id) local parallel 4 nologging;
---rollback drop index pcr_stewards_station;
+create bitmap index r_stewards_station on result_swap_stewards(station_id) local parallel 4 nologging;
+--rollback drop index r_stewards_station;
 
 
 
@@ -211,196 +211,196 @@ create bitmap index ss_stewards_station on station_sum_swap_stewards(station_id)
 
 
 --changeset drsteini:1StewardsIndexesBX
-create bitmap index pcrs_stewards_analytical on pc_result_sum_swap_stewards(analytical_method) local parallel 4 nologging;
---rollback drop index pcrs_stewards_analytical;
+create bitmap index rs_stewards_analytical on result_sum_swap_stewards(analytical_method) local parallel 4 nologging;
+--rollback drop index rs_stewards_analytical;
 
 --changeset drsteini:1StewardsIndexesBY
-create bitmap index pcrs_stewards_char_name on pc_result_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
---rollback drop index pcrs_stewards_char_name;
+create bitmap index rs_stewards_char_name on result_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
+--rollback drop index rs_stewards_char_name;
 
 --changeset drsteini:1StewardsIndexesBZ
-create bitmap index pcrs_stewards_char_type on pc_result_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
---rollback drop index pcrs_stewards_char_type;
+create bitmap index rs_stewards_char_type on result_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
+--rollback drop index rs_stewards_char_type;
 
 --changeset drsteini:1StewardsIndexesCA
-create bitmap index pcrs_stewards_country on pc_result_sum_swap_stewards(country_code) local parallel 4 nologging;
---rollback drop index pcrs_stewards_country;
+create bitmap index rs_stewards_country on result_sum_swap_stewards(country_code) local parallel 4 nologging;
+--rollback drop index rs_stewards_country;
 
 --changeset drsteini:1StewardsIndexesCB
-create bitmap index pcrs_stewards_county on pc_result_sum_swap_stewards(county_code) local parallel 4 nologging;
---rollback drop index pcrs_stewards_county;
+create bitmap index rs_stewards_county on result_sum_swap_stewards(county_code) local parallel 4 nologging;
+--rollback drop index rs_stewards_county;
 
 --changeset drsteini:1StewardsIndexesCC
-create bitmap index pcrs_stewards_event_date on pc_result_sum_swap_stewards(event_date) local parallel 4 nologging;
---rollback drop index pcrs_stewards_event_date;
+create bitmap index rs_stewards_event_date on result_sum_swap_stewards(event_date) local parallel 4 nologging;
+--rollback drop index rs_stewards_event_date;
 
 --changeset drsteini:1StewardsIndexesCD
-create bitmap index pcrs_stewards_huc10 on pc_result_sum_swap_stewards(huc_10) local parallel 4 nologging;
---rollback drop index pcrs_stewards_huc10;
+create bitmap index rs_stewards_huc10 on result_sum_swap_stewards(huc_10) local parallel 4 nologging;
+--rollback drop index rs_stewards_huc10;
 
 --changeset drsteini:1StewardsIndexesCE
-create bitmap index pcrs_stewards_huc12 on pc_result_sum_swap_stewards(huc_12) local parallel 4 nologging;
---rollback drop index pcrs_stewards_huc12;
+create bitmap index rs_stewards_huc12 on result_sum_swap_stewards(huc_12) local parallel 4 nologging;
+--rollback drop index rs_stewards_huc12;
 
 --changeset drsteini:1StewardsIndexesCF
-create bitmap index pcrs_stewards_huc2 on pc_result_sum_swap_stewards(huc_2) local parallel 4 nologging;
---rollback drop index pcrs_stewards_huc2;
+create bitmap index rs_stewards_huc2 on result_sum_swap_stewards(huc_2) local parallel 4 nologging;
+--rollback drop index rs_stewards_huc2;
 
 --changeset drsteini:1StewardsIndexesCG
-create bitmap index pcrs_stewards_huc4 on pc_result_sum_swap_stewards(huc_4) local parallel 4 nologging;
---rollback drop index pcrs_stewards_huc4;
+create bitmap index rs_stewards_huc4 on result_sum_swap_stewards(huc_4) local parallel 4 nologging;
+--rollback drop index rs_stewards_huc4;
 
 --changeset drsteini:1StewardsIndexesCH
-create bitmap index pcrs_stewards_huc6 on pc_result_sum_swap_stewards(huc_6) local parallel 4 nologging;
---rollback drop index pcrs_stewards_huc6;
+create bitmap index rs_stewards_huc6 on result_sum_swap_stewards(huc_6) local parallel 4 nologging;
+--rollback drop index rs_stewards_huc6;
 
 --changeset drsteini:1StewardsIndexesCI
-create bitmap index pcrs_stewards_huc8 on pc_result_sum_swap_stewards(huc_8) local parallel 4 nologging;
---rollback drop index pcrs_stewards_huc8;
+create bitmap index rs_stewards_huc8 on result_sum_swap_stewards(huc_8) local parallel 4 nologging;
+--rollback drop index rs_stewards_huc8;
 
 --changeset drsteini:1StewardsIndexesCJ
-create bitmap index pcrs_stewards_organization on pc_result_sum_swap_stewards(organization) local parallel 4 nologging;
---rollback drop index pcrs_stewards_organization;
+create bitmap index rs_stewards_organization on result_sum_swap_stewards(organization) local parallel 4 nologging;
+--rollback drop index rs_stewards_organization;
 
 --changeset drsteini:1StewardsIndexesCK
-create bitmap index pcrs_stewards_p_code on pc_result_sum_swap_stewards(p_code) local parallel 4 nologging;
---rollback drop index pcrs_stewards_p_code;
+create bitmap index rs_stewards_p_code on result_sum_swap_stewards(p_code) local parallel 4 nologging;
+--rollback drop index rs_stewards_p_code;
 
 --changeset drsteini:1StewardsIndexesCL
-create bitmap index pcrs_stewards_sample_media on pc_result_sum_swap_stewards(sample_media) local parallel 4 nologging;
---rollback drop index pcrs_stewards_sample_media;
+create bitmap index rs_stewards_sample_media on result_sum_swap_stewards(sample_media) local parallel 4 nologging;
+--rollback drop index rs_stewards_sample_media;
 
 --changeset drsteini:1StewardsIndexesCM
-create bitmap index pcrs_stewards_site on pc_result_sum_swap_stewards(site_id) local parallel 4 nologging;
---rollback drop index pcrs_stewards_site;
+create bitmap index rs_stewards_site on result_sum_swap_stewards(site_id) local parallel 4 nologging;
+--rollback drop index rs_stewards_site;
 
 --changeset drsteini:1StewardsIndexesCN
-create bitmap index pcrs_stewards_site_type on pc_result_sum_swap_stewards(site_type) local parallel 4 nologging;
---rollback drop index pcrs_stewards_site_type;
+create bitmap index rs_stewards_site_type on result_sum_swap_stewards(site_type) local parallel 4 nologging;
+--rollback drop index rs_stewards_site_type;
 
 --changeset drsteini:1StewardsIndexesCO
-create bitmap index pcrs_stewards_state on pc_result_sum_swap_stewards(state_code) local parallel 4 nologging;
---rollback drop index pcrs_stewards_state;
+create bitmap index rs_stewards_state on result_sum_swap_stewards(state_code) local parallel 4 nologging;
+--rollback drop index rs_stewards_state;
 
 --changeset drsteini:1StewardsIndexesCP
-create bitmap index pcrs_stewards_station on pc_result_sum_swap_stewards(station_id) local parallel 4 nologging;
---rollback drop index pcrs_stewards_station;
+create bitmap index rs_stewards_station on result_sum_swap_stewards(station_id) local parallel 4 nologging;
+--rollback drop index rs_stewards_station;
 
 
 
 
 --changeset drsteini:1StewardsIndexesCQ
-create bitmap index pcrcts_stewards_analytical on pc_result_ct_sum_swap_stewards(analytical_method) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_analytical;
+create bitmap index rcts_stewards_analytical on result_ct_sum_swap_stewards(analytical_method) local parallel 4 nologging;
+--rollback drop index rcts_stewards_analytical;
 
 --changeset drsteini:1StewardsIndexesCR
-create bitmap index pcrcts_stewards_char_name on pc_result_ct_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_char_name;
+create bitmap index rcts_stewards_char_name on result_ct_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
+--rollback drop index rcts_stewards_char_name;
 
 --changeset drsteini:1StewardsIndexesCS
-create bitmap index pcrcts_stewards_char_type on pc_result_ct_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_char_type;
+create bitmap index rcts_stewards_char_type on result_ct_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
+--rollback drop index rcts_stewards_char_type;
 
 --changeset drsteini:1StewardsIndexesCT
-create bitmap index pcrcts_stewards_country on pc_result_ct_sum_swap_stewards(country_code) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_country;
+create bitmap index rcts_stewards_country on result_ct_sum_swap_stewards(country_code) local parallel 4 nologging;
+--rollback drop index rcts_stewards_country;
 
 --changeset drsteini:1StewardsIndexesCU
-create bitmap index pcrcts_stewards_county on pc_result_ct_sum_swap_stewards(county_code) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_county;
+create bitmap index rcts_stewards_county on result_ct_sum_swap_stewards(county_code) local parallel 4 nologging;
+--rollback drop index rcts_stewards_county;
 
 --changeset drsteini:1StewardsIndexesCV
-create bitmap index pcrcts_stewards_huc10 on pc_result_ct_sum_swap_stewards(huc_10) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_huc10;
+create bitmap index rcts_stewards_huc10 on result_ct_sum_swap_stewards(huc_10) local parallel 4 nologging;
+--rollback drop index rcts_stewards_huc10;
 
 --changeset drsteini:1StewardsIndexesCW
-create bitmap index pcrcts_stewards_huc12 on pc_result_ct_sum_swap_stewards(huc_12) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_huc12;
+create bitmap index rcts_stewards_huc12 on result_ct_sum_swap_stewards(huc_12) local parallel 4 nologging;
+--rollback drop index rcts_stewards_huc12;
 
 --changeset drsteini:1StewardsIndexesCX
-create bitmap index pcrcts_stewards_huc2 on pc_result_ct_sum_swap_stewards(huc_2) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_huc2;
+create bitmap index rcts_stewards_huc2 on result_ct_sum_swap_stewards(huc_2) local parallel 4 nologging;
+--rollback drop index rcts_stewards_huc2;
 
 --changeset drsteini:1StewardsIndexesCY
-create bitmap index pcrcts_stewards_huc4 on pc_result_ct_sum_swap_stewards(huc_4) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_huc4;
+create bitmap index rcts_stewards_huc4 on result_ct_sum_swap_stewards(huc_4) local parallel 4 nologging;
+--rollback drop index rcts_stewards_huc4;
 
 --changeset drsteini:1StewardsIndexesCZ
-create bitmap index pcrcts_stewards_huc6 on pc_result_ct_sum_swap_stewards(huc_6) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_huc6;
+create bitmap index rcts_stewards_huc6 on result_ct_sum_swap_stewards(huc_6) local parallel 4 nologging;
+--rollback drop index rcts_stewards_huc6;
 
 --changeset drsteini:1StewardsIndexesDA
-create bitmap index pcrcts_stewards_huc8 on pc_result_ct_sum_swap_stewards(huc_8) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_huc8;
+create bitmap index rcts_stewards_huc8 on result_ct_sum_swap_stewards(huc_8) local parallel 4 nologging;
+--rollback drop index rcts_stewards_huc8;
 
 --changeset drsteini:1StewardsIndexesDB
-create bitmap index pcrcts_stewards_organization on pc_result_ct_sum_swap_stewards(organization) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_organization;
+create bitmap index rcts_stewards_organization on result_ct_sum_swap_stewards(organization) local parallel 4 nologging;
+--rollback drop index rcts_stewards_organization;
 
 --changeset drsteini:1StewardsIndexesDC
-create bitmap index pcrcts_stewards_p_code on pc_result_ct_sum_swap_stewards(p_code) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_p_code;
+create bitmap index rcts_stewards_p_code on result_ct_sum_swap_stewards(p_code) local parallel 4 nologging;
+--rollback drop index rcts_stewards_p_code;
 
 --changeset drsteini:1StewardsIndexesDD
-create bitmap index pcrcts_stewards_sample_media on pc_result_ct_sum_swap_stewards(sample_media) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_sample_media;
+create bitmap index rcts_stewards_sample_media on result_ct_sum_swap_stewards(sample_media) local parallel 4 nologging;
+--rollback drop index rcts_stewards_sample_media;
 
 --changeset drsteini:1StewardsIndexesDE
-create bitmap index pcrcts_stewards_site on pc_result_ct_sum_swap_stewards(site_id) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_site;
+create bitmap index rcts_stewards_site on result_ct_sum_swap_stewards(site_id) local parallel 4 nologging;
+--rollback drop index rcts_stewards_site;
 
 --changeset drsteini:1StewardsIndexesDF
-create bitmap index pcrcts_stewards_site_type on pc_result_ct_sum_swap_stewards(site_type) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_site_type;
+create bitmap index rcts_stewards_site_type on result_ct_sum_swap_stewards(site_type) local parallel 4 nologging;
+--rollback drop index rcts_stewards_site_type;
 
 --changeset drsteini:1StewardsIndexesDG
-create bitmap index pcrcts_stewards_state on pc_result_ct_sum_swap_stewards(state_code) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_state;
+create bitmap index rcts_stewards_state on result_ct_sum_swap_stewards(state_code) local parallel 4 nologging;
+--rollback drop index rcts_stewards_state;
 
 --changeset drsteini:1StewardsIndexesDH
-create bitmap index pcrcts_stewards_station on pc_result_ct_sum_swap_stewards(station_id) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_station;
+create bitmap index rcts_stewards_station on result_ct_sum_swap_stewards(station_id) local parallel 4 nologging;
+--rollback drop index rcts_stewards_station;
 
 
 
 
 --changeset drsteini:1StewardsIndexesDI
-create bitmap index pcrnrs_stewards_analytical on pc_result_nr_sum_swap_stewards(analytical_method) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_analytical;
+create bitmap index rnrs_stewards_analytical on result_nr_sum_swap_stewards(analytical_method) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_analytical;
 
 --changeset drsteini:1StewardsIndexesDJ
-create bitmap index pcrnrs_stewards_char_name on pc_result_nr_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_char_name;
+create bitmap index rnrs_stewards_char_name on result_nr_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_char_name;
 
 --changeset drsteini:1StewardsIndexesDK
-create bitmap index pcrnrs_stewards_char_type on pc_result_nr_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_char_type;
+create bitmap index rnrs_stewards_char_type on result_nr_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_char_type;
 
 --changeset drsteini:1StewardsIndexesDL
-create bitmap index pcrnrs_stewards_p_code on pc_result_nr_sum_swap_stewards(p_code) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_p_code;
+create bitmap index rnrs_stewards_p_code on result_nr_sum_swap_stewards(p_code) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_p_code;
 
 --changeset drsteini:1StewardsIndexesDM
-create bitmap index pcrnrs_stewards_sample_media on pc_result_nr_sum_swap_stewards(sample_media) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_sample_media;
+create bitmap index rnrs_stewards_sample_media on result_nr_sum_swap_stewards(sample_media) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_sample_media;
 
 --changeset drsteini:1StewardsIndexesDN
-create bitmap index pcrnrs_stewards_station on pc_result_nr_sum_swap_stewards(station_id) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_station;
+create bitmap index rnrs_stewards_station on result_nr_sum_swap_stewards(station_id) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_station;
 
 
 --changeset drsteini:1StewardsIndexesDO
-create bitmap index pcr_stewards_project on pc_result_swap_stewards(project_id) local parallel 4 nologging;
---rollback drop index pcr_stewards_project;
+create bitmap index r_stewards_project on result_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index r_stewards_project;
 
 --changeset drsteini:1StewardsIndexesDP
-create bitmap index pcrs_stewards_project on pc_result_sum_swap_stewards(project_id) local parallel 4 nologging;
---rollback drop index pcrs_stewards_project;
+create bitmap index rs_stewards_project on result_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index rs_stewards_project;
 
 --changeset drsteini:1StewardsIndexesDQ
-create bitmap index pcrcts_stewards_project on pc_result_ct_sum_swap_stewards(project_id) local parallel 4 nologging;
---rollback drop index pcrcts_stewards_project;
+create bitmap index rcts_stewards_project on result_ct_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index rcts_stewards_project;
 
 --changeset drsteini:1StewardsIndexesDR
-create bitmap index pcrnrs_stewards_project on pc_result_nr_sum_swap_stewards(project_id) local parallel 4 nologging;
---rollback drop index pcrnrs_stewards_project;
+create bitmap index rnrs_stewards_project on result_nr_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_project;

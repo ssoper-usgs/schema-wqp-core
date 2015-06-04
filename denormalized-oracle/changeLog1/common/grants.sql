@@ -31,20 +31,20 @@ grant select on organization to wqp_user;
 --rollback revoke select on organization from wqp_user;
  
 --changeset drsteini:1GrantsAI
-grant select on pc_result to wqp_user;
---rollback revoke select on pc_result from wqp_user;
+grant select on result to wqp_user;
+--rollback revoke select on result from wqp_user;
  
 --changeset drsteini:1GrantsAJ
-grant select on pc_result_ct_sum to wqp_user;
---rollback revoke select on pc_result_ct_sum from wqp_user;
+grant select on result_ct_sum to wqp_user;
+--rollback revoke select on result_ct_sum from wqp_user;
  
 --changeset drsteini:1GrantsAK
-grant select on pc_result_nr_sum to wqp_user;
---rollback revoke select on pc_result_nr_sum from wqp_user;
+grant select on result_nr_sum to wqp_user;
+--rollback revoke select on result_nr_sum from wqp_user;
  
 --changeset drsteini:1GrantsAL
-grant select on pc_result_sum to wqp_user;
---rollback revoke select on pc_result_sum from wqp_user;
+grant select on result_sum to wqp_user;
+--rollback revoke select on result_sum from wqp_user;
  
 --changeset drsteini:1GrantsAN
 grant select on qwportal_summary to wqp_user;

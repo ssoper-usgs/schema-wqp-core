@@ -58,7 +58,7 @@ create table station_swap_storet
 
 
 --changeset drsteini:1StoretTablesAB
-create table pc_result_swap_storet
+create table result_swap_storet
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -141,37 +141,37 @@ create table pc_result_swap_storet
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
-(partition pc_result_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')) tablespace result1,
- partition pc_result_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')) tablespace result2,
- partition pc_result_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')) tablespace result3,
- partition pc_result_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
- partition pc_result_storet_y_maxx values less than (maxvalue) tablespace result2
+(partition result_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')) tablespace result1,
+ partition result_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')) tablespace result2,
+ partition result_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')) tablespace result3,
+ partition result_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
+ partition result_storet_y_maxx values less than (maxvalue) tablespace result2
 );
---rollback drop table pc_result_swap_storet cascade constraints purge;
+--rollback drop table result_swap_storet cascade constraints purge;
 
 
 --changeset drsteini:1StoretTablesAC
@@ -201,7 +201,7 @@ parallel 4 compress pctfree 0 nologging cache;
 
 
 --changeset drsteini:1StoretTablesAD
-create table pc_result_sum_swap_storet
+create table result_sum_swap_storet
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -229,41 +229,41 @@ create table pc_result_sum_swap_storet
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
-    (partition pc_result_sum_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
-     partition pc_result_sum_storet_y_maxx values less than (maxvalue)
+    (partition result_sum_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
+     partition result_sum_storet_y_maxx values less than (maxvalue)
     );
---rollback drop table pc_result_sum_swap_storet cascade constraints purge;
+--rollback drop table result_sum_swap_storet cascade constraints purge;
 
 
 --changeset drsteini:1StoretTablesAE
-create table pc_result_ct_sum_swap_storet
+create table result_ct_sum_swap_storet
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -290,31 +290,31 @@ create table pc_result_ct_sum_swap_storet
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by list (characteristic_type)
-    (partition pcrcts_storet_biol values ('Biological'),
-     partition pcrcts_storet_info values ('Information'),
-     partition pcrcts_storet_inorg1 values ('Inorganics, Major, Metals'),
-     partition pcrcts_storet_inorg2 values ('Inorganics, Major, Non-metals'),
-     partition pcrcts_storet_inorg3 values ('Inorganics, Minor, Metals'),
-     partition pcrcts_storet_inorg4 values ('Inorganics, Minor, Non-metals'),
-     partition pcrcts_storet_micro values ('Microbiological'),
-     partition pcrcts_storet_na values ('Not Assigned'),
-     partition pcrcts_storet_nut values ('Nutrient'),
-     partition pcrcts_storet_org1 values ('Organics, Other'),
-     partition pcrcts_storet_org2 values ('Organics, PCBs'),
-     partition pcrcts_storet_org3 values ('Organics, Pesticide'),
-     partition pcrcts_storet_phys values ('Physical'),
-     partition pcrcts_storet_pop values ('Population/Community'),
-     partition pcrcts_storet_radio values ('Radiochemical'),
-     partition pcrcts_storet_sed values ('Sediment'),
-     partition pcrcts_storet_iso values ('Stable Isotopes'),
-     partition pcrcts_storet_tox values ('Toxicity'),
-     partition pcrcts_storet_def values (default)
+    (partition rcts_storet_biol values ('Biological'),
+     partition rcts_storet_info values ('Information'),
+     partition rcts_storet_inorg1 values ('Inorganics, Major, Metals'),
+     partition rcts_storet_inorg2 values ('Inorganics, Major, Non-metals'),
+     partition rcts_storet_inorg3 values ('Inorganics, Minor, Metals'),
+     partition rcts_storet_inorg4 values ('Inorganics, Minor, Non-metals'),
+     partition rcts_storet_micro values ('Microbiological'),
+     partition rcts_storet_na values ('Not Assigned'),
+     partition rcts_storet_nut values ('Nutrient'),
+     partition rcts_storet_org1 values ('Organics, Other'),
+     partition rcts_storet_org2 values ('Organics, PCBs'),
+     partition rcts_storet_org3 values ('Organics, Pesticide'),
+     partition rcts_storet_phys values ('Physical'),
+     partition rcts_storet_pop values ('Population/Community'),
+     partition rcts_storet_radio values ('Radiochemical'),
+     partition rcts_storet_sed values ('Sediment'),
+     partition rcts_storet_iso values ('Stable Isotopes'),
+     partition rcts_storet_tox values ('Toxicity'),
+     partition rcts_storet_def values (default)
 );
---rollback drop table pc_result_ct_sum_swap_storet cascade constraints purge;
+--rollback drop table result_ct_sum_swap_storet cascade constraints purge;
 
 
 --changeset drsteini:1StoretTablesAF
-create table pc_result_nr_sum_swap_storet
+create table result_nr_sum_swap_storet
 (data_source_id					number
 ,data_source					varchar2(8 char)
 ,station_id 					number
@@ -328,37 +328,37 @@ create table pc_result_nr_sum_swap_storet
 ,result_count					number
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
-    (partition pc_res_nr_sum_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
-     partition pc_res_nr_sum_storet_y_maxx values less than (maxvalue)
+    (partition res_nr_sum_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
+     partition res_nr_sum_storet_y_maxx values less than (maxvalue)
     );
---rollback drop table pc_result_nr_sum_swap_storet cascade constraints purge;
+--rollback drop table result_nr_sum_swap_storet cascade constraints purge;
 
     
 --changeset drsteini:1StoretTablesAG
@@ -512,7 +512,7 @@ create table project_swap_storet
 
 
 --changeset drsteini:1StoretTablesAV
-create table pc_result_no_source
+create table result_no_source
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -585,7 +585,7 @@ create table pc_result_no_source
 ,detection_limit_desc           varchar2(4000 char)
 ,analysis_prep_date_tx          varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging;
---rollback drop table pc_result_no_source cascade constraints purge;
+--rollback drop table result_no_source cascade constraints purge;
 
 
 --changeset drsteini:1StoretTablesAW

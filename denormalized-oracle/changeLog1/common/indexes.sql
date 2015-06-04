@@ -72,84 +72,84 @@ create bitmap index station_station on station(station_id) local parallel 4 nolo
 
 
 --changeset drsteini:1CommonIndexesAQ
-create bitmap index pc_result_activity on pc_result(activity) local parallel 4 nologging;
---rollback drop index pc_result_activity;
+create bitmap index result_activity on result(activity) local parallel 4 nologging;
+--rollback drop index result_activity;
 
 --changeset drsteini:1CommonIndexesAR
-create bitmap index pc_result_analytical on pc_result(analytical_method) local parallel 4 nologging;
---rollback drop index pc_result_analytical;
+create bitmap index result_analytical on result(analytical_method) local parallel 4 nologging;
+--rollback drop index result_analytical;
 
 --changeset drsteini:1CommonIndexesAS
-create bitmap index pc_result_char_name on pc_result(characteristic_name) local parallel 4 nologging;
---rollback drop index pc_result_char_name;
+create bitmap index result_char_name on result(characteristic_name) local parallel 4 nologging;
+--rollback drop index result_char_name;
 
 --changeset drsteini:1CommonIndexesAT
-create bitmap index pc_result_char_type on pc_result(characteristic_type) local parallel 4 nologging;
---rollback drop index pc_result_char_type;
+create bitmap index result_char_type on result(characteristic_type) local parallel 4 nologging;
+--rollback drop index result_char_type;
 
 --changeset drsteini:1CommonIndexesAU
-create bitmap index pc_result_country on pc_result(country_code) local parallel 4 nologging;
---rollback drop index pc_result_country;
+create bitmap index result_country on result(country_code) local parallel 4 nologging;
+--rollback drop index result_country;
 
 --changeset drsteini:1CommonIndexesAV
-create bitmap index pc_result_county on pc_result(county_code) local parallel 4 nologging;
---rollback drop index pc_result_county;
+create bitmap index result_county on result(county_code) local parallel 4 nologging;
+--rollback drop index result_county;
 
 --changeset drsteini:1CommonIndexesAW
-create bitmap index pc_result_event_date on pc_result(event_date) local parallel 4 nologging;
---rollback drop index pc_result_event_date;
+create bitmap index result_event_date on result(event_date) local parallel 4 nologging;
+--rollback drop index result_event_date;
 
 --changeset drsteini:1CommonIndexesAX
-create bitmap index pc_result_huc10 on pc_result(huc_10) local parallel 4 nologging;
---rollback drop index pc_result_huc10;
+create bitmap index result_huc10 on result(huc_10) local parallel 4 nologging;
+--rollback drop index result_huc10;
 
 --changeset drsteini:1CommonIndexesAY
-create bitmap index pc_result_huc12 on pc_result(huc_12) local parallel 4 nologging;
---rollback drop index pc_result_huc12;
+create bitmap index result_huc12 on result(huc_12) local parallel 4 nologging;
+--rollback drop index result_huc12;
 
 --changeset drsteini:1CommonIndexesAZ
-create bitmap index pc_result_huc2 on pc_result(huc_2) local parallel 4 nologging;
---rollback drop index pc_result_huc2;
+create bitmap index result_huc2 on result(huc_2) local parallel 4 nologging;
+--rollback drop index result_huc2;
 
 --changeset drsteini:1CommonIndexesBA
-create bitmap index pc_result_huc4 on pc_result(huc_4) local parallel 4 nologging;
---rollback drop index pc_result_huc4;
+create bitmap index result_huc4 on result(huc_4) local parallel 4 nologging;
+--rollback drop index result_huc4;
 
 --changeset drsteini:1CommonIndexesBB
-create bitmap index pc_result_huc6 on pc_result(huc_6) local parallel 4 nologging;
---rollback drop index pc_result_huc6;
+create bitmap index result_huc6 on result(huc_6) local parallel 4 nologging;
+--rollback drop index result_huc6;
 
 --changeset drsteini:1CommonIndexesBC
-create bitmap index pc_result_huc8 on pc_result(huc_8) local parallel 4 nologging;
---rollback drop index pc_result_huc8;
+create bitmap index result_huc8 on result(huc_8) local parallel 4 nologging;
+--rollback drop index result_huc8;
 
 --changeset drsteini:1CommonIndexesBD
-create bitmap index pc_result_organization on pc_result(organization) local parallel 4 nologging;
---rollback drop index pc_result_organization;
+create bitmap index result_organization on result(organization) local parallel 4 nologging;
+--rollback drop index result_organization;
 
 --changeset drsteini:1CommonIndexesBE
-create bitmap index pc_result_p_code on pc_result(p_code) local parallel 4 nologging;
---rollback drop index pc_result_p_code;
+create bitmap index result_p_code on result(p_code) local parallel 4 nologging;
+--rollback drop index result_p_code;
 
 --changeset drsteini:1CommonIndexesBF
-create bitmap index pc_result_sample_media on pc_result(sample_media) local parallel 4 nologging;
---rollback drop index pc_result_sample_media;
+create bitmap index result_sample_media on result(sample_media) local parallel 4 nologging;
+--rollback drop index result_sample_media;
 
 --changeset drsteini:1CommonIndexesBG
-create bitmap index pc_result_site on pc_result(site_id) local parallel 4 nologging;
---rollback drop index pc_result_site;
+create bitmap index result_site on result(site_id) local parallel 4 nologging;
+--rollback drop index result_site;
 
 --changeset drsteini:1CommonIndexesBH
-create bitmap index pc_result_site_type on pc_result(site_type) local parallel 4 nologging;
---rollback drop index pc_result_site_type;
+create bitmap index result_site_type on result(site_type) local parallel 4 nologging;
+--rollback drop index result_site_type;
 
 --changeset drsteini:1CommonIndexesBI
-create bitmap index pc_result_state on pc_result(state_code) local parallel 4 nologging;
---rollback drop index pc_result_state;
+create bitmap index result_state on result(state_code) local parallel 4 nologging;
+--rollback drop index result_state;
 
 --changeset drsteini:1CommonIndexesBJ
-create bitmap index pc_result_station on pc_result(station_id) local parallel 4 nologging;
---rollback drop index pc_result_station;
+create bitmap index result_station on result(station_id) local parallel 4 nologging;
+--rollback drop index result_station;
 
 
 
@@ -220,182 +220,182 @@ create bitmap index station_sum_station on station_sum(station_id) local paralle
 
 
 --changeset drsteini:1CommonIndexesBZ
-create bitmap index pc_result_sum_analytical on pc_result_sum(analytical_method) local parallel 4 nologging;
---rollback drop index pc_result_sum_analytical;
+create bitmap index result_sum_analytical on result_sum(analytical_method) local parallel 4 nologging;
+--rollback drop index result_sum_analytical;
 
 --changeset drsteini:1CommonIndexesCA
-create bitmap index pc_result_sum_char_name on pc_result_sum(characteristic_name) local parallel 4 nologging;
---rollback drop index pc_result_sum_char_name;
+create bitmap index result_sum_char_name on result_sum(characteristic_name) local parallel 4 nologging;
+--rollback drop index result_sum_char_name;
 
 --changeset drsteini:1CommonIndexesCB
-create bitmap index pc_result_sum_char_type on pc_result_sum(characteristic_type) local parallel 4 nologging;
---rollback drop index pc_result_sum_char_type;
+create bitmap index result_sum_char_type on result_sum(characteristic_type) local parallel 4 nologging;
+--rollback drop index result_sum_char_type;
 
 --changeset drsteini:1CommonIndexesCD
-create bitmap index pc_result_sum_country on pc_result_sum(country_code) local parallel 4 nologging;
---rollback drop index pc_result_sum_country;
+create bitmap index result_sum_country on result_sum(country_code) local parallel 4 nologging;
+--rollback drop index result_sum_country;
 
 --changeset drsteini:1CommonIndexesCE
-create bitmap index pc_result_sum_county on pc_result_sum(county_code) local parallel 4 nologging;
---rollback drop index pc_result_sum_county;
+create bitmap index result_sum_county on result_sum(county_code) local parallel 4 nologging;
+--rollback drop index result_sum_county;
 
 --changeset drsteini:1CommonIndexesCF
-create bitmap index pc_result_sum_event_date on pc_result_sum(event_date) local parallel 4 nologging;
---rollback drop index pc_result_sum_event_date;
+create bitmap index result_sum_event_date on result_sum(event_date) local parallel 4 nologging;
+--rollback drop index result_sum_event_date;
 
 --changeset drsteini:1CommonIndexesCG
-create bitmap index pc_result_sum_huc10 on pc_result_sum(huc_10) local parallel 4 nologging;
---rollback drop index pc_result_sum_huc10;
+create bitmap index result_sum_huc10 on result_sum(huc_10) local parallel 4 nologging;
+--rollback drop index result_sum_huc10;
 
 --changeset drsteini:1CommonIndexesCH
-create bitmap index pc_result_sum_huc12 on pc_result_sum(huc_12) local parallel 4 nologging;
---rollback drop index pc_result_sum_huc12;
+create bitmap index result_sum_huc12 on result_sum(huc_12) local parallel 4 nologging;
+--rollback drop index result_sum_huc12;
 
 --changeset drsteini:1CommonIndexesCI
-create bitmap index pc_result_sum_huc2 on pc_result_sum(huc_2) local parallel 4 nologging;
---rollback drop index pc_result_sum_huc2;
+create bitmap index result_sum_huc2 on result_sum(huc_2) local parallel 4 nologging;
+--rollback drop index result_sum_huc2;
 
 --changeset drsteini:1CommonIndexesCJ
-create bitmap index pc_result_sum_huc4 on pc_result_sum(huc_4) local parallel 4 nologging;
---rollback drop index pc_result_sum_huc4;
+create bitmap index result_sum_huc4 on result_sum(huc_4) local parallel 4 nologging;
+--rollback drop index result_sum_huc4;
 
 --changeset drsteini:1CommonIndexesCK
-create bitmap index pc_result_sum_huc6 on pc_result_sum(huc_6) local parallel 4 nologging;
---rollback drop index pc_result_sum_huc6;
+create bitmap index result_sum_huc6 on result_sum(huc_6) local parallel 4 nologging;
+--rollback drop index result_sum_huc6;
 
 --changeset drsteini:1CommonIndexesCL
-create bitmap index pc_result_sum_huc8 on pc_result_sum(huc_8) local parallel 4 nologging;
---rollback drop index pc_result_sum_huc8;
+create bitmap index result_sum_huc8 on result_sum(huc_8) local parallel 4 nologging;
+--rollback drop index result_sum_huc8;
 
 --changeset drsteini:1CommonIndexesCM
-create bitmap index pc_result_sum_organization on pc_result_sum(organization) local parallel 4 nologging;
---rollback drop index pc_result_sum_organization;
+create bitmap index result_sum_organization on result_sum(organization) local parallel 4 nologging;
+--rollback drop index result_sum_organization;
 
 --changeset drsteini:1CommonIndexesCN
-create bitmap index pc_result_sum_p_code on pc_result_sum(p_code) local parallel 4 nologging;
---rollback drop index pc_result_sum_p_code;
+create bitmap index result_sum_p_code on result_sum(p_code) local parallel 4 nologging;
+--rollback drop index result_sum_p_code;
 
 --changeset drsteini:1CommonIndexesCO
-create bitmap index pc_result_sum_sample_media on pc_result_sum(sample_media) local parallel 4 nologging;
---rollback drop index pc_result_sum_sample_media;
+create bitmap index result_sum_sample_media on result_sum(sample_media) local parallel 4 nologging;
+--rollback drop index result_sum_sample_media;
 
 --changeset drsteini:1CommonIndexesCP
-create bitmap index pc_result_sum_site on pc_result_sum(site_id) local parallel 4 nologging;
---rollback drop index pc_result_sum_site;
+create bitmap index result_sum_site on result_sum(site_id) local parallel 4 nologging;
+--rollback drop index result_sum_site;
 
 --changeset drsteini:1CommonIndexesCQ
-create bitmap index pc_result_sum_site_type on pc_result_sum(site_type) local parallel 4 nologging;
---rollback drop index pc_result_sum_site_type;
+create bitmap index result_sum_site_type on result_sum(site_type) local parallel 4 nologging;
+--rollback drop index result_sum_site_type;
 
 --changeset drsteini:1CommonIndexesCR
-create bitmap index pc_result_sum_state on pc_result_sum(state_code) local parallel 4 nologging;
---rollback drop index pc_result_sum_state;
+create bitmap index result_sum_state on result_sum(state_code) local parallel 4 nologging;
+--rollback drop index result_sum_state;
 
 --changeset drsteini:1CommonIndexesCS
-create bitmap index pc_result_sum_station on pc_result_sum(station_id) local parallel 4 nologging;
---rollback drop index pc_result_sum_station;
+create bitmap index result_sum_station on result_sum(station_id) local parallel 4 nologging;
+--rollback drop index result_sum_station;
 
 
 
 
 --changeset drsteini:1CommonIndexesCT
-create bitmap index pc_result_ct_sum_analytical on pc_result_ct_sum(analytical_method) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_analytical;
+create bitmap index result_ct_sum_analytical on result_ct_sum(analytical_method) local parallel 4 nologging;
+--rollback drop index result_ct_sum_analytical;
 
 --changeset drsteini:1CommonIndexesCU
-create bitmap index pc_result_ct_sum_char_name on pc_result_ct_sum(characteristic_name) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_char_name;
+create bitmap index result_ct_sum_char_name on result_ct_sum(characteristic_name) local parallel 4 nologging;
+--rollback drop index result_ct_sum_char_name;
 
 --changeset drsteini:1CommonIndexesCV
-create bitmap index pc_result_ct_sum_char_type on pc_result_ct_sum(characteristic_type) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_char_type;
+create bitmap index result_ct_sum_char_type on result_ct_sum(characteristic_type) local parallel 4 nologging;
+--rollback drop index result_ct_sum_char_type;
 
 --changeset drsteini:1CommonIndexesCW
-create bitmap index pc_result_ct_sum_country on pc_result_ct_sum(country_code) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_country;
+create bitmap index result_ct_sum_country on result_ct_sum(country_code) local parallel 4 nologging;
+--rollback drop index result_ct_sum_country;
 
 --changeset drsteini:1CommonIndexesCX
-create bitmap index pc_result_ct_sum_county on pc_result_ct_sum(county_code) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_county;
+create bitmap index result_ct_sum_county on result_ct_sum(county_code) local parallel 4 nologging;
+--rollback drop index result_ct_sum_county;
 
 --changeset drsteini:1CommonIndexesCY
-create bitmap index pc_result_ct_sum_huc10 on pc_result_ct_sum(huc_10) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_huc10;
+create bitmap index result_ct_sum_huc10 on result_ct_sum(huc_10) local parallel 4 nologging;
+--rollback drop index result_ct_sum_huc10;
 
 --changeset drsteini:1CommonIndexesCZ
-create bitmap index pc_result_ct_sum_huc12 on pc_result_ct_sum(huc_12) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_huc12;
+create bitmap index result_ct_sum_huc12 on result_ct_sum(huc_12) local parallel 4 nologging;
+--rollback drop index result_ct_sum_huc12;
 
 --changeset drsteini:1CommonIndexesDA
-create bitmap index pc_result_ct_sum_huc2 on pc_result_ct_sum(huc_2) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_huc2;
+create bitmap index result_ct_sum_huc2 on result_ct_sum(huc_2) local parallel 4 nologging;
+--rollback drop index result_ct_sum_huc2;
 
 --changeset drsteini:1CommonIndexesDB
-create bitmap index pc_result_ct_sum_huc4 on pc_result_ct_sum(huc_4) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_huc4;
+create bitmap index result_ct_sum_huc4 on result_ct_sum(huc_4) local parallel 4 nologging;
+--rollback drop index result_ct_sum_huc4;
 
 --changeset drsteini:1CommonIndexesDC
-create bitmap index pc_result_ct_sum_huc6 on pc_result_ct_sum(huc_6) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_huc6;
+create bitmap index result_ct_sum_huc6 on result_ct_sum(huc_6) local parallel 4 nologging;
+--rollback drop index result_ct_sum_huc6;
 
 --changeset drsteini:1CommonIndexesDD
-create bitmap index pc_result_ct_sum_huc8 on pc_result_ct_sum(huc_8) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_huc8;
+create bitmap index result_ct_sum_huc8 on result_ct_sum(huc_8) local parallel 4 nologging;
+--rollback drop index result_ct_sum_huc8;
 
 --changeset drsteini:1CommonIndexesDE
-create bitmap index pc_result_ct_sum_organization on pc_result_ct_sum(organization) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_organization;
+create bitmap index result_ct_sum_organization on result_ct_sum(organization) local parallel 4 nologging;
+--rollback drop index result_ct_sum_organization;
 
 --changeset drsteini:1CommonIndexesDF
-create bitmap index pc_result_ct_sum_p_code on pc_result_ct_sum(p_code) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_p_code;
+create bitmap index result_ct_sum_p_code on result_ct_sum(p_code) local parallel 4 nologging;
+--rollback drop index result_ct_sum_p_code;
 
 --changeset drsteini:1CommonIndexesDG
-create bitmap index pc_result_ct_sum_sample_media on pc_result_ct_sum(sample_media) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_sample_media;
+create bitmap index result_ct_sum_sample_media on result_ct_sum(sample_media) local parallel 4 nologging;
+--rollback drop index result_ct_sum_sample_media;
 
 --changeset drsteini:1CommonIndexesDH
-create bitmap index pc_result_ct_sum_site on pc_result_ct_sum(site_id) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_site;
+create bitmap index result_ct_sum_site on result_ct_sum(site_id) local parallel 4 nologging;
+--rollback drop index result_ct_sum_site;
 
 --changeset drsteini:1CommonIndexesDI
-create bitmap index pc_result_ct_sum_site_type on pc_result_ct_sum(site_type) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_site_type;
+create bitmap index result_ct_sum_site_type on result_ct_sum(site_type) local parallel 4 nologging;
+--rollback drop index result_ct_sum_site_type;
 
 --changeset drsteini:1CommonIndexesDJ
-create bitmap index pc_result_ct_sum_state on pc_result_ct_sum(state_code) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_state;
+create bitmap index result_ct_sum_state on result_ct_sum(state_code) local parallel 4 nologging;
+--rollback drop index result_ct_sum_state;
 
 --changeset drsteini:1CommonIndexesDK
-create bitmap index pc_result_ct_sum_station on pc_result_ct_sum(station_id) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_station;
+create bitmap index result_ct_sum_station on result_ct_sum(station_id) local parallel 4 nologging;
+--rollback drop index result_ct_sum_station;
 
 
 
 
 --changeset drsteini:1CommonIndexesDL
-create bitmap index pc_result_nr_sum_analytical on pc_result_nr_sum(analytical_method) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_analytical;
+create bitmap index result_nr_sum_analytical on result_nr_sum(analytical_method) local parallel 4 nologging;
+--rollback drop index result_nr_sum_analytical;
 
 --changeset drsteini:1CommonIndexesDM
-create bitmap index pc_result_nr_sum_char_name on pc_result_nr_sum(characteristic_name) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_char_name;
+create bitmap index result_nr_sum_char_name on result_nr_sum(characteristic_name) local parallel 4 nologging;
+--rollback drop index result_nr_sum_char_name;
 
 --changeset drsteini:1CommonIndexesDN
-create bitmap index pc_result_nr_sum_char_type on pc_result_nr_sum(characteristic_type) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_char_type;
+create bitmap index result_nr_sum_char_type on result_nr_sum(characteristic_type) local parallel 4 nologging;
+--rollback drop index result_nr_sum_char_type;
 
 --changeset drsteini:1CommonIndexesDO
-create bitmap index pc_result_nr_sum_p_code on pc_result_nr_sum(p_code) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_p_code;
+create bitmap index result_nr_sum_p_code on result_nr_sum(p_code) local parallel 4 nologging;
+--rollback drop index result_nr_sum_p_code;
 
 --changeset drsteini:1CommonIndexesDP
-create bitmap index pc_result_nr_sum_sample_media on pc_result_nr_sum(sample_media) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_sample_media;
+create bitmap index result_nr_sum_sample_media on result_nr_sum(sample_media) local parallel 4 nologging;
+--rollback drop index result_nr_sum_sample_media;
 
 --changeset drsteini:1CommonIndexesDQ
-create bitmap index pc_result_nr_sum_station on pc_result_nr_sum(station_id) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_station;
+create bitmap index result_nr_sum_station on result_nr_sum(station_id) local parallel 4 nologging;
+--rollback drop index result_nr_sum_station;
 
 
 
@@ -445,17 +445,17 @@ create index s_cnts_ds_20121015_geom_spix on us_counties_dis_20121015(geom) inde
 
 
 --changeset drsteini:1CommonIndexesDZ
-create bitmap index pc_result_project on pc_result(project_id) local parallel 4 nologging;
---rollback drop index pc_result_project;
+create bitmap index result_project on result(project_id) local parallel 4 nologging;
+--rollback drop index result_project;
 
 --changeset drsteini:1CommonIndexesEA
-create bitmap index pc_result_sum_project on pc_result_sum(project_id) local parallel 4 nologging;
---rollback drop index pc_result_sum_project;
+create bitmap index result_sum_project on result_sum(project_id) local parallel 4 nologging;
+--rollback drop index result_sum_project;
 
 --changeset drsteini:1CommonIndexesEB
-create bitmap index pc_result_ct_sum_project on pc_result_ct_sum(project_id) local parallel 4 nologging;
---rollback drop index pc_result_ct_sum_project;
+create bitmap index result_ct_sum_project on result_ct_sum(project_id) local parallel 4 nologging;
+--rollback drop index result_ct_sum_project;
 
 --changeset drsteini:1CommonIndexesEC
-create bitmap index pc_result_nr_sum_project on pc_result_nr_sum(project_id) local parallel 4 nologging;
---rollback drop index pc_result_nr_sum_project;
+create bitmap index result_nr_sum_project on result_nr_sum(project_id) local parallel 4 nologging;
+--rollback drop index result_nr_sum_project;

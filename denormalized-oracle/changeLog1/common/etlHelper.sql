@@ -102,14 +102,14 @@ create or replace package body etl_helper as
                nvl(result.result_count,0) result_count
           from station_swap_' || p_table_suffix || ' station
                left join (select station_id, count(*) result_count
-                            from pc_result_swap_' || p_table_suffix || '
+                            from result_swap_' || p_table_suffix || '
                                group by station_id) result
                  on station.station_id = result.station_id
             order by organization';
         commit;
 
                     
-        table_name := dbms_assert.sql_object_name(upper('pc_result_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_sum_swap_' || p_table_suffix));
 
         dbms_output.put_line('dropping indexes on:' || table_name);
         etl_helper.drop_indexes(table_name);
@@ -142,7 +142,7 @@ create or replace package body etl_helper as
                left join (select data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
                                  event_date, analytical_method, project_id,
                                  count(*) result_count
-                            from pc_result_swap_' || p_table_suffix || '
+                            from result_swap_' || p_table_suffix || '
                                group by data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
                                         event_date, analytical_method, project_id
                           ) result
@@ -151,7 +151,7 @@ create or replace package body etl_helper as
              order by station.station_id';
         commit;
 
-        table_name := dbms_assert.sql_object_name(upper('pc_result_ct_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_ct_sum_swap_' || p_table_suffix));
 
         dbms_output.put_line('dropping indexes on:' || table_name);
         etl_helper.drop_indexes(table_name);
@@ -178,7 +178,7 @@ create or replace package body etl_helper as
                p_code,
                project_id,
                sum(result_count) result_count
-          from pc_result_sum_swap_' || p_table_suffix || '
+          from result_sum_swap_' || p_table_suffix || '
              group by data_source_id,
                       data_source,
                       site_id,
@@ -197,7 +197,7 @@ create or replace package body etl_helper as
         commit;
 
 
-        table_name := dbms_assert.sql_object_name(upper('pc_result_nr_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_nr_sum_swap_' || p_table_suffix));
 
         dbms_output.put_line('dropping indexes on:' || table_name);
         etl_helper.drop_indexes(table_name);
@@ -211,7 +211,7 @@ create or replace package body etl_helper as
         select data_source_id, data_source, station_id, event_date, analytical_method, p_code,
                characteristic_name, characteristic_type, sample_media, project_id,
                sum(result_count) result_count
-          from pc_result_sum_swap_' || p_table_suffix || '
+          from result_sum_swap_' || p_table_suffix || '
              group by data_source_id, data_source, station_id, event_date, analytical_method, p_code,
                       characteristic_name, characteristic_type, sample_media, project_id
              order by characteristic_name';
@@ -233,7 +233,7 @@ create or replace package body etl_helper as
           	(data_source_id, code_value)
         select distinct data_source_id,
                         characteristic_name code_value
-          from pc_result_swap_' || p_table_suffix || '
+          from result_swap_' || p_table_suffix || '
          where characteristic_name is not null';
         commit;
         
@@ -248,7 +248,7 @@ create or replace package body etl_helper as
           	(data_source_id, code_value)
         select distinct data_source_id,
                         characteristic_type code_value
-          from pc_result_swap_' || p_table_suffix || '
+          from result_swap_' || p_table_suffix || '
          where characteristic_type is not null';
         commit;
 
@@ -355,7 +355,7 @@ create or replace package body etl_helper as
           	(data_source_id, code_value)
         select distinct data_source_id,
                         project_id code_value
-          from pc_result_swap_' || p_table_suffix || '
+          from result_swap_' || p_table_suffix || '
          where project_id is not null';
         commit;
         
@@ -370,7 +370,7 @@ create or replace package body etl_helper as
           	(data_source_id, code_value)
         select distinct data_source_id,
                         sample_media code_value
-          from pc_result_swap_' || p_table_suffix || '
+          from result_swap_' || p_table_suffix || '
          where sample_media is not null';
         commit;
       
@@ -450,7 +450,7 @@ create or replace package body etl_helper as
                count(distinct case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 12 then activity else null end) samples_past_12_months,
                count(distinct case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 60 then activity else null end) samples_past_60_months,
                count(distinct activity) samples_all_time
-          from pc_result_swap_!' || p_table_suffix || q'!
+          from result_swap_!' || p_table_suffix || q'!
          where state_code between 'US:01' and 'US:56'
             group by data_source_id, regexp_substr(state_code, '[^:]+', 1, 2), regexp_substr(county_code, '[^:]+', 1, 3), huc_8!';
             
@@ -534,7 +534,7 @@ create or replace package body etl_helper as
    	begin
 	
         dbms_output.put_line('creating result indexes...');
-        table_name := dbms_assert.sql_object_name(upper('pc_result_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_swap_' || p_table_suffix));
         
         stmt := 'create bitmap index pcr_' || p_table_suffix || '_activity on ' || table_name || '(activity) local parallel 4 nologging';
         dbms_output.put_line(stmt);
@@ -694,7 +694,7 @@ create or replace package body etl_helper as
    	begin
 
 	   	dbms_output.put_line('creating result_sum indexes...');
-        table_name := dbms_assert.sql_object_name(upper('pc_result_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_sum_swap_' || p_table_suffix));
 
         stmt := 'create bitmap index pcrs_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
         dbms_output.put_line(stmt);
@@ -784,7 +784,7 @@ create or replace package body etl_helper as
    	begin
 	
         dbms_output.put_line('creating result_ct_sum indexes...');
-        table_name := dbms_assert.sql_object_name(upper('pc_result_ct_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_ct_sum_swap_' || p_table_suffix));
 
         stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
         dbms_output.put_line(stmt);
@@ -869,7 +869,7 @@ create or replace package body etl_helper as
         table_name		user_tables.table_name%type;
    	begin
 	
-        table_name := dbms_assert.sql_object_name(upper('pc_result_nr_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_nr_sum_swap_' || p_table_suffix));
         dbms_output.put_line('creating result_nr_sum indexes...');
 
         stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
@@ -919,25 +919,25 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;   
 
-		stmt := 'alter table pc_result_swap_' || suffix || ' add constraint pcr_station_fk_' || suffix ||
+		stmt := 'alter table result_swap_' || suffix || ' add constraint r_station_fk_' || suffix ||
                 ' foreign key (data_source_id, station_id) references station_swap_' || suffix ||
                 ' (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
        
-		stmt := 'alter table pc_result_sum_swap_' || suffix || ' add constraint pcrs_station_fk' || suffix ||
+		stmt := 'alter table result_sum_swap_' || suffix || ' add constraint rs_station_fk' || suffix ||
                 ' foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
                 ' (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
        
-		stmt := 'alter table pc_result_ct_sum_swap_' || suffix || ' add constraint pcrcts_station_fk' || suffix ||
+		stmt := 'alter table result_ct_sum_swap_' || suffix || ' add constraint rcts_station_fk' || suffix ||
                 ' foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
                 ' (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
        
-		stmt := 'alter table pc_result_nr_sum_swap_' || suffix || ' add constraint pcrnrs_station_fk' || suffix ||
+		stmt := 'alter table result_nr_sum_swap_' || suffix || ' add constraint rnrs_station_fk' || suffix ||
                 ' foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
                 ' (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
@@ -952,54 +952,54 @@ create or replace package body etl_helper as
 	    suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 		
 	    dbms_output.put_line('analyze characteristic_name...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_NAME_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_NAME_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze characteristic_type...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_TYPE_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_TYPE_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze country...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'COUNTRY_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'COUNTRY_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze county...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'COUNTY_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'COUNTY_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze organization...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ORGANIZATION_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ORGANIZATION_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
-	    dbms_output.put_line('analyze pc_result...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_SWAP_' || suffix);
+	    dbms_output.put_line('analyze result...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
-	    dbms_output.put_line('analyze pc_result_ct_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_CT_SUM_SWAP_' || suffix);
+	    dbms_output.put_line('analyze result_ct_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_CT_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
-	    dbms_output.put_line('analyze pc_result_nr_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_NR_SUM_SWAP_' || suffix);
+	    dbms_output.put_line('analyze result_nr_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_NR_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
-	    dbms_output.put_line('analyze pc_result_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PC_RESULT_SUM_SWAP_' || suffix);
+	    dbms_output.put_line('analyze result_sum...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze project...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PROJECT_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'PROJECT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    if (suffix = 'STORET' or suffix = 'NWIS') then
 		    dbms_output.put_line('analyze qwportal_summary...');
-		    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'QWPORTAL_SUMMARY_SWAP_' || suffix);
+		    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'QWPORTAL_SUMMARY_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 		end if;
 
 	    dbms_output.put_line('analyze sample_media...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SAMPLE_MEDIA_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SAMPLE_MEDIA_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze site_type...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SITE_TYPE_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'SITE_TYPE_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	    dbms_output.put_line('analyze state...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATE_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATE_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 		
 	    dbms_output.put_line('analyze station...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	
 	    dbms_output.put_line('analyze station_sum...');
-	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SUM_SWAP_' || suffix);
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
 	end analyze_tables;
 
@@ -1020,14 +1020,14 @@ create or replace package body etl_helper as
 	      from data_source
 	     where data_source_id = p_data_source_id;
 		
-		dbms_output.put_line('... pc_result');
+		dbms_output.put_line('... result');
 		select min_rows, max_diff
 		  into min_rows, max_diff
 		 from etl_threshold
 		where data_source_id = p_data_source_id and
-		      table_name = 'PC_RESULT';
-		execute immediate 'select count(*) from pc_result partition (pc_result_' || suffix || ')' into old_rows;
-		execute immediate 'select count(*) from pc_result_swap_' || suffix into new_rows;
+		      table_name = 'RESULT';
+		execute immediate 'select count(*) from result partition (result_' || suffix || ')' into old_rows;
+		execute immediate 'select count(*) from result_swap_' || suffix into new_rows;
 		if new_rows > min_rows and new_rows > old_rows - max_diff then
 	    	pass_fail := 'PASS';
 	    else
@@ -1038,7 +1038,7 @@ create or replace package body etl_helper as
 	            end_job := false;
 	        $END
 	    end if;
-	    dbms_output.put_line(pass_fail || ': table comparison for pc_result: was ' || trim(to_char(old_rows, '999,999,999')) || ', now ' || trim(to_char(new_rows, '999,999,999')));
+	    dbms_output.put_line(pass_fail || ': table comparison for result: was ' || trim(to_char(old_rows, '999,999,999')) || ', now ' || trim(to_char(new_rows, '999,999,999')));
 	
 	    dbms_output.put_line('... station');
 		select min_rows, max_diff
@@ -1099,25 +1099,25 @@ create or replace package body etl_helper as
 	    execute immediate 'alter table station exchange partition station_' || suffix ||
 	                      ' with table station_swap_' || suffix || ' including indexes';
 	    
-	    dbms_output.put_line('pc_result');
-	   	execute immediate 'alter table pc_result exchange partition pc_result_' || suffix ||
-	                      ' with table pc_result_swap_' || suffix || ' including indexes';
+	    dbms_output.put_line('result');
+	   	execute immediate 'alter table result exchange partition result_' || suffix ||
+	                      ' with table result_swap_' || suffix || ' including indexes';
 	    
 	   	dbms_output.put_line('station_sum');
 		execute immediate 'alter table station_sum exchange partition station_sum_' || suffix ||
 	                      ' with table station_sum_swap_' || suffix || ' including indexes';
 	    
-		dbms_output.put_line('pc_result_sum');
-		execute immediate 'alter table pc_result_sum exchange partition pc_result_sum_' || suffix ||
-	                      ' with table pc_result_sum_swap_' || suffix || ' including indexes';
+		dbms_output.put_line('result_sum');
+		execute immediate 'alter table result_sum exchange partition result_sum_' || suffix ||
+	                      ' with table result_sum_swap_' || suffix || ' including indexes';
 	    
-		dbms_output.put_line('pc_result_ct_sum');
-		execute immediate 'alter table pc_result_ct_sum exchange partition pcrcts_' || suffix ||
-	                      ' with table pc_result_ct_sum_swap_' || suffix || ' including indexes';
+		dbms_output.put_line('result_ct_sum');
+		execute immediate 'alter table result_ct_sum exchange partition pcrcts_' || suffix ||
+	                      ' with table result_ct_sum_swap_' || suffix || ' including indexes';
 	    
-		dbms_output.put_line('pc_result_nr_sum');
-		execute immediate 'alter table pc_result_nr_sum exchange partition pc_res_nr_sum_' || suffix ||
-	                      ' with table pc_result_nr_sum_swap_' || suffix || ' including indexes';
+		dbms_output.put_line('result_nr_sum');
+		execute immediate 'alter table result_nr_sum exchange partition res_nr_sum_' || suffix ||
+	                      ' with table result_nr_sum_swap_' || suffix || ' including indexes';
 	    
 		dbms_output.put_line('characteristic_name');
 		execute immediate 'alter table char_name exchange partition char_name_' || suffix ||
