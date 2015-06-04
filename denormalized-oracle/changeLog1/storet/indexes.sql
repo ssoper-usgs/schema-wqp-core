@@ -68,84 +68,84 @@ create bitmap index s_storet_station on station_swap_storet(station_id) parallel
 
 
 --changeset drsteini:1StoretIndexesAP
-create bitmap index pcr_storet_activity on pc_result_swap_storet(activity) local parallel 4 nologging;
---rollback drop index pcr_storet_activity;
+create bitmap index r_storet_activity on result_swap_storet(activity) local parallel 4 nologging;
+--rollback drop index r_storet_activity;
 
 --changeset drsteini:1StoretIndexesAQ
-create bitmap index pcr_storet_analytical on pc_result_swap_storet(analytical_method) local parallel 4 nologging;
---rollback drop index pcr_storet_analytical;
+create bitmap index r_storet_analytical on result_swap_storet(analytical_method) local parallel 4 nologging;
+--rollback drop index r_storet_analytical;
 
 --changeset drsteini:1StoretIndexesAR
-create bitmap index pcr_storet_char_name on pc_result_swap_storet(characteristic_name) local parallel 4 nologging;
---rollback drop index pcr_storet_char_name;
+create bitmap index r_storet_char_name on result_swap_storet(characteristic_name) local parallel 4 nologging;
+--rollback drop index r_storet_char_name;
 
 --changeset drsteini:1StoretIndexesAS
-create bitmap index pcr_storet_char_type on pc_result_swap_storet(characteristic_type) local parallel 4 nologging;
---rollback drop index pcr_storet_char_type;
+create bitmap index r_storet_char_type on result_swap_storet(characteristic_type) local parallel 4 nologging;
+--rollback drop index r_storet_char_type;
 
 --changeset drsteini:1StoretIndexesAT
-create bitmap index pcr_storet_country on pc_result_swap_storet(country_code) local parallel 4 nologging;
---rollback drop index pcr_storet_country;
+create bitmap index r_storet_country on result_swap_storet(country_code) local parallel 4 nologging;
+--rollback drop index r_storet_country;
 
 --changeset drsteini:1StoretIndexesAU
-create bitmap index pcr_storet_county on pc_result_swap_storet(county_code) local parallel 4 nologging;
---rollback drop index pcr_storet_county;
+create bitmap index r_storet_county on result_swap_storet(county_code) local parallel 4 nologging;
+--rollback drop index r_storet_county;
 
 --changeset drsteini:1StoretIndexesAV
-create bitmap index pcr_storet_event_date on pc_result_swap_storet(event_date) local parallel 4 nologging;
---rollback drop index pcr_storet_event_date;
+create bitmap index r_storet_event_date on result_swap_storet(event_date) local parallel 4 nologging;
+--rollback drop index r_storet_event_date;
 
 --changeset drsteini:1StoretIndexesAW
-create bitmap index pcr_storet_huc10 on pc_result_swap_storet(huc_10) local parallel 4 nologging;
---rollback drop index pcr_storet_huc10;
+create bitmap index r_storet_huc10 on result_swap_storet(huc_10) local parallel 4 nologging;
+--rollback drop index r_storet_huc10;
 
 --changeset drsteini:1StoretIndexesAX
-create bitmap index pcr_storet_huc12 on pc_result_swap_storet(huc_12) local parallel 4 nologging;
---rollback drop index pcr_storet_huc12;
+create bitmap index r_storet_huc12 on result_swap_storet(huc_12) local parallel 4 nologging;
+--rollback drop index r_storet_huc12;
 
 --changeset drsteini:1StoretIndexesAY
-create bitmap index pcr_storet_huc2 on pc_result_swap_storet(huc_2) local parallel 4 nologging;
---rollback drop index pcr_storet_huc2;
+create bitmap index r_storet_huc2 on result_swap_storet(huc_2) local parallel 4 nologging;
+--rollback drop index r_storet_huc2;
 
 --changeset drsteini:1StoretIndexesAZ
-create bitmap index pcr_storet_huc4 on pc_result_swap_storet(huc_4) local parallel 4 nologging;
---rollback drop index pcr_storet_huc4;
+create bitmap index r_storet_huc4 on result_swap_storet(huc_4) local parallel 4 nologging;
+--rollback drop index r_storet_huc4;
 
 --changeset drsteini:1StoretIndexesBA
-create bitmap index pcr_storet_huc6 on pc_result_swap_storet(huc_6) local parallel 4 nologging;
---rollback drop index pcr_storet_huc6;
+create bitmap index r_storet_huc6 on result_swap_storet(huc_6) local parallel 4 nologging;
+--rollback drop index r_storet_huc6;
 
 --changeset drsteini:1StoretIndexesBB
-create bitmap index pcr_storet_huc8 on pc_result_swap_storet(huc_8) local parallel 4 nologging;
---rollback drop index pcr_storet_huc8;
+create bitmap index r_storet_huc8 on result_swap_storet(huc_8) local parallel 4 nologging;
+--rollback drop index r_storet_huc8;
 
 --changeset drsteini:1StoretIndexesBC
-create bitmap index pcr_storet_organization on pc_result_swap_storet(organization) local parallel 4 nologging;
---rollback drop index pcr_storet_organization;
+create bitmap index r_storet_organization on result_swap_storet(organization) local parallel 4 nologging;
+--rollback drop index r_storet_organization;
 
 --changeset drsteini:1StoretIndexesBD
-create bitmap index pcr_storet_p_code on pc_result_swap_storet(p_code) local parallel 4 nologging;
---rollback drop index pcr_storet_p_code;
+create bitmap index r_storet_p_code on result_swap_storet(p_code) local parallel 4 nologging;
+--rollback drop index r_storet_p_code;
 
 --changeset drsteini:1StoretIndexesBE
-create bitmap index pcr_storet_sample_media on pc_result_swap_storet(sample_media) local parallel 4 nologging;
---rollback drop index pcr_storet_sample_media;
+create bitmap index r_storet_sample_media on result_swap_storet(sample_media) local parallel 4 nologging;
+--rollback drop index r_storet_sample_media;
 
 --changeset drsteini:1StoretIndexesBF
-create bitmap index pcr_storet_site on pc_result_swap_storet(site_id) local parallel 4 nologging;
---rollback drop index pcr_storet_site;
+create bitmap index r_storet_site on result_swap_storet(site_id) local parallel 4 nologging;
+--rollback drop index r_storet_site;
 
 --changeset drsteini:1StoretIndexesBG
-create bitmap index pcr_storet_site_type on pc_result_swap_storet(site_type) local parallel 4 nologging;
---rollback drop index pcr_storet_site_type;
+create bitmap index r_storet_site_type on result_swap_storet(site_type) local parallel 4 nologging;
+--rollback drop index r_storet_site_type;
 
 --changeset drsteini:1StoretIndexesBH
-create bitmap index pcr_storet_state on pc_result_swap_storet(state_code) local parallel 4 nologging;
---rollback drop index pcr_storet_state;
+create bitmap index r_storet_state on result_swap_storet(state_code) local parallel 4 nologging;
+--rollback drop index r_storet_state;
 
 --changeset drsteini:1StoretIndexesBI
-create bitmap index pcr_storet_station on pc_result_swap_storet(station_id) local parallel 4 nologging;
---rollback drop index pcr_storet_station;
+create bitmap index r_storet_station on result_swap_storet(station_id) local parallel 4 nologging;
+--rollback drop index r_storet_station;
 
 
 
@@ -212,196 +212,196 @@ create bitmap index ss_storet_station on station_sum_swap_storet(station_id) par
 
 
 --changeset drsteini:1StoretIndexesBX
-create bitmap index pcrs_storet_analytical on pc_result_sum_swap_storet(analytical_method) local parallel 4 nologging;
---rollback drop index pcrs_storet_analytical;
+create bitmap index rs_storet_analytical on result_sum_swap_storet(analytical_method) local parallel 4 nologging;
+--rollback drop index rs_storet_analytical;
 
 --changeset drsteini:1StoretIndexesBY
-create bitmap index pcrs_storet_char_name on pc_result_sum_swap_storet(characteristic_name) local parallel 4 nologging;
---rollback drop index pcrs_storet_char_name;
+create bitmap index rs_storet_char_name on result_sum_swap_storet(characteristic_name) local parallel 4 nologging;
+--rollback drop index rs_storet_char_name;
 
 --changeset drsteini:1StoretIndexesBZ
-create bitmap index pcrs_storet_char_type on pc_result_sum_swap_storet(characteristic_type) local parallel 4 nologging;
---rollback drop index pcrs_storet_char_type;
+create bitmap index rs_storet_char_type on result_sum_swap_storet(characteristic_type) local parallel 4 nologging;
+--rollback drop index rs_storet_char_type;
 
 --changeset drsteini:1StoretIndexesCA
-create bitmap index pcrs_storet_country on pc_result_sum_swap_storet(country_code) local parallel 4 nologging;
---rollback drop index pcrs_storet_country;
+create bitmap index rs_storet_country on result_sum_swap_storet(country_code) local parallel 4 nologging;
+--rollback drop index rs_storet_country;
 
 --changeset drsteini:1StoretIndexesCB
-create bitmap index pcrs_storet_county on pc_result_sum_swap_storet(county_code) local parallel 4 nologging;
---rollback drop index pcrs_storet_county;
+create bitmap index rs_storet_county on result_sum_swap_storet(county_code) local parallel 4 nologging;
+--rollback drop index rs_storet_county;
 
 --changeset drsteini:1StoretIndexesCC
-create bitmap index pcrs_storet_event_date on pc_result_sum_swap_storet(event_date) local parallel 4 nologging;
---rollback drop index pcrs_storet_event_date;
+create bitmap index rs_storet_event_date on result_sum_swap_storet(event_date) local parallel 4 nologging;
+--rollback drop index rs_storet_event_date;
 
 --changeset drsteini:1StoretIndexesCD
-create bitmap index pcrs_storet_huc10 on pc_result_sum_swap_storet(huc_10) local parallel 4 nologging;
---rollback drop index pcrs_storet_huc10;
+create bitmap index rs_storet_huc10 on result_sum_swap_storet(huc_10) local parallel 4 nologging;
+--rollback drop index rs_storet_huc10;
 
 --changeset drsteini:1StoretIndexesCE
-create bitmap index pcrs_storet_huc12 on pc_result_sum_swap_storet(huc_12) local parallel 4 nologging;
---rollback drop index pcrs_storet_huc12;
+create bitmap index rs_storet_huc12 on result_sum_swap_storet(huc_12) local parallel 4 nologging;
+--rollback drop index rs_storet_huc12;
 
 --changeset drsteini:1StoretIndexesCF
-create bitmap index pcrs_storet_huc2 on pc_result_sum_swap_storet(huc_2) local parallel 4 nologging;
---rollback drop index pcrs_storet_huc2;
+create bitmap index rs_storet_huc2 on result_sum_swap_storet(huc_2) local parallel 4 nologging;
+--rollback drop index rs_storet_huc2;
 
 --changeset drsteini:1StoretIndexesCG
-create bitmap index pcrs_storet_huc4 on pc_result_sum_swap_storet(huc_4) local parallel 4 nologging;
---rollback drop index pcrs_storet_huc4;
+create bitmap index rs_storet_huc4 on result_sum_swap_storet(huc_4) local parallel 4 nologging;
+--rollback drop index rs_storet_huc4;
 
 --changeset drsteini:1StoretIndexesCH
-create bitmap index pcrs_storet_huc6 on pc_result_sum_swap_storet(huc_6) local parallel 4 nologging;
---rollback drop index pcrs_storet_huc6;
+create bitmap index rs_storet_huc6 on result_sum_swap_storet(huc_6) local parallel 4 nologging;
+--rollback drop index rs_storet_huc6;
 
 --changeset drsteini:1StoretIndexesCI
-create bitmap index pcrs_storet_huc8 on pc_result_sum_swap_storet(huc_8) local parallel 4 nologging;
---rollback drop index pcrs_storet_huc8;
+create bitmap index rs_storet_huc8 on result_sum_swap_storet(huc_8) local parallel 4 nologging;
+--rollback drop index rs_storet_huc8;
 
 --changeset drsteini:1StoretIndexesCJ
-create bitmap index pcrs_storet_organization on pc_result_sum_swap_storet(organization) local parallel 4 nologging;
---rollback drop index pcrs_storet_organization;
+create bitmap index rs_storet_organization on result_sum_swap_storet(organization) local parallel 4 nologging;
+--rollback drop index rs_storet_organization;
 
 --changeset drsteini:1StoretIndexesCK
-create bitmap index pcrs_storet_p_code on pc_result_sum_swap_storet(p_code) local parallel 4 nologging;
---rollback drop index pcrs_storet_p_code;
+create bitmap index rs_storet_p_code on result_sum_swap_storet(p_code) local parallel 4 nologging;
+--rollback drop index rs_storet_p_code;
 
 --changeset drsteini:1StoretIndexesCL
-create bitmap index pcrs_storet_sample_media on pc_result_sum_swap_storet(sample_media) local parallel 4 nologging;
---rollback drop index pcrs_storet_sample_media;
+create bitmap index rs_storet_sample_media on result_sum_swap_storet(sample_media) local parallel 4 nologging;
+--rollback drop index rs_storet_sample_media;
 
 --changeset drsteini:1StoretIndexesCM
-create bitmap index pcrs_storet_site on pc_result_sum_swap_storet(site_id) local parallel 4 nologging;
---rollback drop index pcrs_storet_site;
+create bitmap index rs_storet_site on result_sum_swap_storet(site_id) local parallel 4 nologging;
+--rollback drop index rs_storet_site;
 
 --changeset drsteini:1StoretIndexesCN
-create bitmap index pcrs_storet_site_type on pc_result_sum_swap_storet(site_type) local parallel 4 nologging;
---rollback drop index pcrs_storet_site_type;
+create bitmap index rs_storet_site_type on result_sum_swap_storet(site_type) local parallel 4 nologging;
+--rollback drop index rs_storet_site_type;
 
 --changeset drsteini:1StoretIndexesCO
-create bitmap index pcrs_storet_state on pc_result_sum_swap_storet(state_code) local parallel 4 nologging;
---rollback drop index pcrs_storet_state;
+create bitmap index rs_storet_state on result_sum_swap_storet(state_code) local parallel 4 nologging;
+--rollback drop index rs_storet_state;
 
 --changeset drsteini:1StoretIndexesCP
-create bitmap index pcrs_storet_station on pc_result_sum_swap_storet(station_id) local parallel 4 nologging;
---rollback drop index pcrs_storet_station;
+create bitmap index rs_storet_station on result_sum_swap_storet(station_id) local parallel 4 nologging;
+--rollback drop index rs_storet_station;
 
 
 
 
 --changeset drsteini:1StoretIndexesCQ
-create bitmap index pcrcts_storet_analytical on pc_result_ct_sum_swap_storet(analytical_method) local parallel 4 nologging;
---rollback drop index pcrcts_storet_analytical;
+create bitmap index rcts_storet_analytical on result_ct_sum_swap_storet(analytical_method) local parallel 4 nologging;
+--rollback drop index rcts_storet_analytical;
 
 --changeset drsteini:1StoretIndexesCR
-create bitmap index pcrcts_storet_char_name on pc_result_ct_sum_swap_storet(characteristic_name) local parallel 4 nologging;
---rollback drop index pcrcts_storet_char_name;
+create bitmap index rcts_storet_char_name on result_ct_sum_swap_storet(characteristic_name) local parallel 4 nologging;
+--rollback drop index rcts_storet_char_name;
 
 --changeset drsteini:1StoretIndexesCS
-create bitmap index pcrcts_storet_char_type on pc_result_ct_sum_swap_storet(characteristic_type) local parallel 4 nologging;
---rollback drop index pcrcts_storet_char_type;
+create bitmap index rcts_storet_char_type on result_ct_sum_swap_storet(characteristic_type) local parallel 4 nologging;
+--rollback drop index rcts_storet_char_type;
 
 --changeset drsteini:1StoretIndexesCT
-create bitmap index pcrcts_storet_country on pc_result_ct_sum_swap_storet(country_code) local parallel 4 nologging;
---rollback drop index pcrcts_storet_country;
+create bitmap index rcts_storet_country on result_ct_sum_swap_storet(country_code) local parallel 4 nologging;
+--rollback drop index rcts_storet_country;
 
 --changeset drsteini:1StoretIndexesCU
-create bitmap index pcrcts_storet_county on pc_result_ct_sum_swap_storet(county_code) local parallel 4 nologging;
---rollback drop index pcrcts_storet_county;
+create bitmap index rcts_storet_county on result_ct_sum_swap_storet(county_code) local parallel 4 nologging;
+--rollback drop index rcts_storet_county;
 
 --changeset drsteini:1StoretIndexesCV
-create bitmap index pcrcts_storet_huc10 on pc_result_ct_sum_swap_storet(huc_10) local parallel 4 nologging;
---rollback drop index pcrcts_storet_huc10;
+create bitmap index rcts_storet_huc10 on result_ct_sum_swap_storet(huc_10) local parallel 4 nologging;
+--rollback drop index rcts_storet_huc10;
 
 --changeset drsteini:1StoretIndexesCW
-create bitmap index pcrcts_storet_huc12 on pc_result_ct_sum_swap_storet(huc_12) local parallel 4 nologging;
---rollback drop index pcrcts_storet_huc12;
+create bitmap index rcts_storet_huc12 on result_ct_sum_swap_storet(huc_12) local parallel 4 nologging;
+--rollback drop index rcts_storet_huc12;
 
 --changeset drsteini:1StoretIndexesCX
-create bitmap index pcrcts_storet_huc2 on pc_result_ct_sum_swap_storet(huc_2) local parallel 4 nologging;
---rollback drop index pcrcts_storet_huc2;
+create bitmap index rcts_storet_huc2 on result_ct_sum_swap_storet(huc_2) local parallel 4 nologging;
+--rollback drop index rcts_storet_huc2;
 
 --changeset drsteini:1StoretIndexesCY
-create bitmap index pcrcts_storet_huc4 on pc_result_ct_sum_swap_storet(huc_4) local parallel 4 nologging;
---rollback drop index pcrcts_storet_huc4;
+create bitmap index rcts_storet_huc4 on result_ct_sum_swap_storet(huc_4) local parallel 4 nologging;
+--rollback drop index rcts_storet_huc4;
 
 --changeset drsteini:1StoretIndexesCZ
-create bitmap index pcrcts_storet_huc6 on pc_result_ct_sum_swap_storet(huc_6) local parallel 4 nologging;
---rollback drop index pcrcts_storet_huc6;
+create bitmap index rcts_storet_huc6 on result_ct_sum_swap_storet(huc_6) local parallel 4 nologging;
+--rollback drop index rcts_storet_huc6;
 
 --changeset drsteini:1StoretIndexesDA
-create bitmap index pcrcts_storet_huc8 on pc_result_ct_sum_swap_storet(huc_8) local parallel 4 nologging;
---rollback drop index pcrcts_storet_huc8;
+create bitmap index rcts_storet_huc8 on result_ct_sum_swap_storet(huc_8) local parallel 4 nologging;
+--rollback drop index rcts_storet_huc8;
 
 --changeset drsteini:1StoretIndexesDB
-create bitmap index pcrcts_storet_organization on pc_result_ct_sum_swap_storet(organization) local parallel 4 nologging;
---rollback drop index pcrcts_storet_organization;
+create bitmap index rcts_storet_organization on result_ct_sum_swap_storet(organization) local parallel 4 nologging;
+--rollback drop index rcts_storet_organization;
 
 --changeset drsteini:1StoretIndexesDC
-create bitmap index pcrcts_storet_p_code on pc_result_ct_sum_swap_storet(p_code) local parallel 4 nologging;
---rollback drop index pcrcts_storet_p_code;
+create bitmap index rcts_storet_p_code on result_ct_sum_swap_storet(p_code) local parallel 4 nologging;
+--rollback drop index rcts_storet_p_code;
 
 --changeset drsteini:1StoretIndexesDD
-create bitmap index pcrcts_storet_sample_media on pc_result_ct_sum_swap_storet(sample_media) local parallel 4 nologging;
---rollback drop index pcrcts_storet_sample_media;
+create bitmap index rcts_storet_sample_media on result_ct_sum_swap_storet(sample_media) local parallel 4 nologging;
+--rollback drop index rcts_storet_sample_media;
 
 --changeset drsteini:1StoretIndexesDE
-create bitmap index pcrcts_storet_site on pc_result_ct_sum_swap_storet(site_id) local parallel 4 nologging;
---rollback drop index pcrcts_storet_site;
+create bitmap index rcts_storet_site on result_ct_sum_swap_storet(site_id) local parallel 4 nologging;
+--rollback drop index rcts_storet_site;
 
 --changeset drsteini:1StoretIndexesDF
-create bitmap index pcrcts_storet_site_type on pc_result_ct_sum_swap_storet(site_type) local parallel 4 nologging;
---rollback drop index pcrcts_storet_site_type;
+create bitmap index rcts_storet_site_type on result_ct_sum_swap_storet(site_type) local parallel 4 nologging;
+--rollback drop index rcts_storet_site_type;
 
 --changeset drsteini:1StoretIndexesDG
-create bitmap index pcrcts_storet_state on pc_result_ct_sum_swap_storet(state_code) local parallel 4 nologging;
---rollback drop index pcrcts_storet_state;
+create bitmap index rcts_storet_state on result_ct_sum_swap_storet(state_code) local parallel 4 nologging;
+--rollback drop index rcts_storet_state;
 
 --changeset drsteini:1StoretIndexesDH
-create bitmap index pcrcts_storet_station on pc_result_ct_sum_swap_storet(station_id) local parallel 4 nologging;
---rollback drop index pcrcts_storet_station;
+create bitmap index rcts_storet_station on result_ct_sum_swap_storet(station_id) local parallel 4 nologging;
+--rollback drop index rcts_storet_station;
 
 
 
 
 --changeset drsteini:1StoretIndexesDI
-create bitmap index pcrnrs_storet_analytical on pc_result_nr_sum_swap_storet(analytical_method) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_analytical;
+create bitmap index rnrs_storet_analytical on result_nr_sum_swap_storet(analytical_method) local parallel 4 nologging;
+--rollback drop index rnrs_storet_analytical;
 
 --changeset drsteini:1StoretIndexesDJ
-create bitmap index pcrnrs_storet_char_name on pc_result_nr_sum_swap_storet(characteristic_name) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_char_name;
+create bitmap index rnrs_storet_char_name on result_nr_sum_swap_storet(characteristic_name) local parallel 4 nologging;
+--rollback drop index rnrs_storet_char_name;
 
 --changeset drsteini:1StoretIndexesDK
-create bitmap index pcrnrs_storet_char_type on pc_result_nr_sum_swap_storet(characteristic_type) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_char_type;
+create bitmap index rnrs_storet_char_type on result_nr_sum_swap_storet(characteristic_type) local parallel 4 nologging;
+--rollback drop index rnrs_storet_char_type;
 
 --changeset drsteini:1StoretIndexesDL
-create bitmap index pcrnrs_storet_p_code on pc_result_nr_sum_swap_storet(p_code) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_p_code;
+create bitmap index rnrs_storet_p_code on result_nr_sum_swap_storet(p_code) local parallel 4 nologging;
+--rollback drop index rnrs_storet_p_code;
 
 --changeset drsteini:1StoretIndexesDM
-create bitmap index pcrnrs_storet_sample_media on pc_result_nr_sum_swap_storet(sample_media) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_sample_media;
+create bitmap index rnrs_storet_sample_media on result_nr_sum_swap_storet(sample_media) local parallel 4 nologging;
+--rollback drop index rnrs_storet_sample_media;
 
 --changeset drsteini:1StoretIndexesDN
-create bitmap index pcrnrs_storet_station on pc_result_nr_sum_swap_storet(station_id) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_station;
+create bitmap index rnrs_storet_station on result_nr_sum_swap_storet(station_id) local parallel 4 nologging;
+--rollback drop index rnrs_storet_station;
 
 
 --changeset drsteini:1StoretIndexesDO
-create bitmap index pcr_storet_project on pc_result_swap_storet(project_id) local parallel 4 nologging;
---rollback drop index pcr_storet_project;
+create bitmap index r_storet_project on result_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index r_storet_project;
 
 --changeset drsteini:1StoretIndexesDP
-create bitmap index pcrs_storet_project on pc_result_sum_swap_storet(project_id) local parallel 4 nologging;
---rollback drop index pcrs_storet_project;
+create bitmap index rs_storet_project on result_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index rs_storet_project;
 
 --changeset drsteini:1StoretIndexesDQ
-create bitmap index pcrcts_storet_project on pc_result_ct_sum_swap_storet(project_id) local parallel 4 nologging;
---rollback drop index pcrcts_storet_project;
+create bitmap index rcts_storet_project on result_ct_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index rcts_storet_project;
 
 --changeset drsteini:1StoretIndexesDR
-create bitmap index pcrnrs_storet_project on pc_result_nr_sum_swap_storet(project_id) local parallel 4 nologging;
---rollback drop index pcrnrs_storet_project;
+create bitmap index rnrs_storet_project on result_nr_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index rnrs_storet_project;
