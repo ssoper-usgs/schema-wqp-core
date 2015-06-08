@@ -725,14 +725,14 @@ create table station_no_source
 --rollback drop table station_no_source cascade constraints purge;
 
 --changeset drsteini:1StoretTablesBA
-create table activity_project
+create table wqx_activity_project
 (act_uid						number
 ,project_id_list				varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
---rollback drop table activity_project cascade constraints purge;
+--rollback drop table wqx_activity_project cascade constraints purge;
 
 --changeset drsteini:1StoretTablesBB
-create table analytical_method
+create table wqx_analytical_method
 (anlmth_uid						number
 ,anlmth_id						varchar2(4000 char)
 ,amctx_cd						varchar2(4000 char)
@@ -741,13 +741,13 @@ create table analytical_method
 ,anlmth_qual_type				varchar2(4000 char)
 ,nemi_url						varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
---rollback drop table analytical_method cascade constraints purge;
+--rollback drop table wqx_analytical_method cascade constraints purge;
 
 --changeset drsteini:1StoretTablesBC
-create table detection_quant_limit
+create table wqx_detection_quant_limit
 (res_uid						number
 ,rdqlmt_measure					varchar2(4000 char)
 ,msunt_cd						varchar2(4000 char)
 ,dqltyp_name					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
---rollback drop table detection_quant_limit cascade constraints purge;
+--rollback drop table wqx_detection_quant_limit cascade constraints purge;
