@@ -90,7 +90,8 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
         	(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code,
              geom, result_count)
-        select station.data_source_id,
+        select /*+ parallel(4) */ 
+               station.data_source_id,
                station.data_source,
                station.station_id,
                station.site_id,
@@ -163,7 +164,8 @@ create or replace package body etl_helper as
           	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization,
              huc, sample_media, characteristic_type, characteristic_name, analytical_method,
              p_code, project_id, result_count)
-        select data_source_id,
+        select /*+ parallel(4) */ 
+               data_source_id,
                data_source,
                station_id,
                site_id,
@@ -208,7 +210,8 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, project_id, result_count)
-        select data_source_id, data_source, station_id, event_date, analytical_method, p_code,
+        select /*+ parallel(4) */ 
+               data_source_id, data_source, station_id, event_date, analytical_method, p_code,
                characteristic_name, characteristic_type, sample_media, project_id,
                sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
@@ -231,7 +234,8 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
-        select distinct data_source_id,
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
                         characteristic_name code_value
           from result_swap_' || p_table_suffix || '
          where characteristic_name is not null';
@@ -246,7 +250,8 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
-        select distinct data_source_id,
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
                         characteristic_type code_value
           from result_swap_' || p_table_suffix || '
          where characteristic_type is not null';
@@ -263,7 +268,8 @@ create or replace package body etl_helper as
         if upper(p_table_suffix) = 'NWIS' or
            upper(p_table_suffix) = 'STEWARDS' then
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || ' (data_source_id, code_value, description)
-                        select distinct s.data_source_id,
+                        select /*+ parallel(4) */ 
+                               distinct s.data_source_id,
                                         s.country_code code_value,
                                         country.country_nm description
                                    from station_sum_swap_' || p_table_suffix || ' s
@@ -272,7 +278,8 @@ create or replace package body etl_helper as
                                   where s.country_code is not null';
         else
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || ' (data_source_id, code_value, description)
-                        select distinct s.data_source_id,
+                        select /*+ parallel(4) */ 
+                               distinct s.data_source_id,
                                         s.country_code code_value,
                                         nvl(nwis_country.country_nm, upper(country.cntry_name)) description
                                    from station_sum_swap_' || p_table_suffix || ' s
@@ -296,7 +303,8 @@ create or replace package body etl_helper as
         if upper(p_table_suffix) = 'NWIS' or
            upper(p_table_suffix) = 'STEWARDS' then
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description)
-                        select distinct s.data_source_id,
+                        select /*+ parallel(4) */ 
+                               distinct s.data_source_id,
                                         s.county_code code_value,
                                         s.country_code || ', ' || state.state_nm || ', ' || county.county_nm description
                           from station_sum_swap_!' || p_table_suffix || q'! s
@@ -310,7 +318,8 @@ create or replace package body etl_helper as
                          where s.county_code is not null!';
         else
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description)
-                        select distinct s.data_source_id,
+                        select /*+ parallel(4) */ 
+                               distinct s.data_source_id,
                                         s.county_code code_value,
                                         s.country_code || ', ' || state.st_name || ', ' || county.cnty_name description
                           from station_sum_swap_!' || p_table_suffix || q'! s
@@ -337,7 +346,8 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value, description)
-        select distinct s.data_source_id,
+        select /*+ parallel(4) */ 
+               distinct s.data_source_id,
                         s.organization code_value,
                         s.organization_name description
           from station_swap_' || p_table_suffix || ' s
@@ -353,7 +363,8 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
-        select distinct data_source_id,
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
                         project_id code_value
           from result_swap_' || p_table_suffix || '
          where project_id is not null';
@@ -368,7 +379,8 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
-        select distinct data_source_id,
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
                         sample_media code_value
           from result_swap_' || p_table_suffix || '
          where sample_media is not null';
@@ -383,7 +395,8 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, code_value)
-        select distinct s.data_source_id,
+        select /*+ parallel(4) */ 
+               distinct s.data_source_id,
                         s.site_type code_value
           from station_sum_swap_' || p_table_suffix || ' s
          where s.site_type is not null';
@@ -399,7 +412,8 @@ create or replace package body etl_helper as
         if upper(p_table_suffix) = 'NWIS' or
            upper(p_table_suffix) = 'STEWARDS' then
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description_with_country, description_with_out_country)
-                        select distinct s.data_source_id,
+                        select /*+ parallel(4) */ 
+                               distinct s.data_source_id,
                                         s.state_code code_value,
                                         s.country_code || ', ' || state.state_nm description_with_country,
                                         state.state_nm description_with_out_country
@@ -410,7 +424,8 @@ create or replace package body etl_helper as
                          where s.state_code is not null!';
         else
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description_with_country, description_with_out_country)
-                        select distinct s.data_source_id,
+                        select /*+ parallel(4) */ 
+                               distinct s.data_source_id,
                                         s.state_code code_value,
                                         s.country_code || ', ' || state.st_name description_with_country,
                                         state.st_name description_with_out_country
@@ -440,7 +455,7 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || q'!
 			   (data_source_id, fips_state_code, fips_county_code, fips_state_and_county, huc8, min_date, max_date,
                 samples_past_12_months, samples_past_60_months, samples_all_time)
-        select data_source_id,
+        select /*+ parallel(4) */ data_source_id,
                regexp_substr(state_code, '[^:]+', 1, 2) state_fips_code,
                regexp_substr(county_code, '[^:]+', 1, 3) county_fips_code,
                regexp_substr(state_code, '[^:]+', 1, 2)||regexp_substr(county_code, '[^:]+', 1, 3) fips_state_and_county,
@@ -1112,7 +1127,7 @@ create or replace package body etl_helper as
 	                      ' with table result_sum_swap_' || suffix || ' including indexes';
 	    
 		dbms_output.put_line('result_ct_sum');
-		execute immediate 'alter table result_ct_sum exchange partition pcrcts_' || suffix ||
+		execute immediate 'alter table result_ct_sum exchange partition rcts_' || suffix ||
 	                      ' with table result_ct_sum_swap_' || suffix || ' including indexes';
 	    
 		dbms_output.put_line('result_nr_sum');
