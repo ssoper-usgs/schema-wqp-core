@@ -406,3 +406,20 @@ create bitmap index rcts_nwis_project on result_ct_sum_swap_nwis(project_id) loc
 --changeset drsteini:1NwisIndexesDR
 create bitmap index rnrs_nwis_project on result_nr_sum_swap_nwis(project_id) local parallel 4 nologging;
 --rollback drop index rnrs_nwis_project;
+
+
+--changeset drsteini:1NwisIndexesDS
+create bitmap index r_nwis_assemblage on result_swap_nwis(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index r_nwis_assemblage;
+
+--changeset drsteini:1NwisIndexesDT
+create bitmap index rs_nwis_assemblage on result_sum_swap_nwis(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rs_nwis_assemblage;
+
+--changeset drsteini:1NwisIndexesDU
+create bitmap index rcts_nwis_assemblage on result_ct_sum_swap_nwis(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rcts_nwis_assemblage;
+
+--changeset drsteini:1NwisIndexesDV
+create bitmap index rnrs_nwis_assemblage on result_nr_sum_swap_nwis(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rnrs_nwis_assemblage;

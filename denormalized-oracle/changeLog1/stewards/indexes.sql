@@ -404,3 +404,20 @@ create bitmap index rcts_stewards_project on result_ct_sum_swap_stewards(project
 --changeset drsteini:1StewardsIndexesDR
 create bitmap index rnrs_stewards_project on result_nr_sum_swap_stewards(project_id) local parallel 4 nologging;
 --rollback drop index rnrs_stewards_project;
+
+
+--changeset drsteini:1StewardsIndexesDS
+create bitmap index r_stewards_assemblage on result_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index r_stewards_assemblage;
+
+--changeset drsteini:1StewardsIndexesDT
+create bitmap index rs_stewards_assemblage on result_sum_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rs_stewards_assemblage;
+
+--changeset drsteini:1StewardsIndexesDU
+create bitmap index rcts_stewards_assemblage on result_ct_sum_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rcts_stewards_assemblage;
+
+--changeset drsteini:1StewardsIndexesDV
+create bitmap index rnrs_stewards_assemblage on result_nr_sum_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_assemblage;

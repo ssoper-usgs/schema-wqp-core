@@ -326,6 +326,7 @@ create table result_sum_swap_stewards
 ,huc                         	varchar2(12 char)
 ,governmental_unit_code         varchar2(9 char)
 ,project_id                     varchar2(4000 char)
+,assemblage_sampled_name		varchar2(4000 char)
 ,result_count                	number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
@@ -387,6 +388,7 @@ create table result_ct_sum_swap_stewards
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
 ,project_id                     varchar2(4000 char)
+,assemblage_sampled_name		varchar2(4000 char)
 ,result_count					number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
@@ -434,6 +436,7 @@ create table result_nr_sum_swap_stewards
 ,characteristic_type			varchar2(4000 char)
 ,sample_media					varchar2(4000 char)
 ,project_id                     varchar2(4000 char)
+,assemblage_sampled_name		varchar2(4000 char)
 ,result_count					number
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
@@ -552,3 +555,11 @@ create table project_swap_stewards
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table project_swap_stewards cascade constraints purge;
+
+--changeset drsteini:1StewardsTablesAP
+create table assemblage_swap_stewards
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table assemblage_swap_stewards cascade constraints purge;

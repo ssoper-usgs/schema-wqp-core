@@ -459,3 +459,20 @@ create bitmap index result_ct_sum_project on result_ct_sum(project_id) local par
 --changeset drsteini:1CommonIndexesEC
 create bitmap index result_nr_sum_project on result_nr_sum(project_id) local parallel 4 nologging;
 --rollback drop index result_nr_sum_project;
+
+
+--changeset drsteini:1CommonIndexesED
+create bitmap index result_assemblage on result(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index result_assemblage;
+
+--changeset drsteini:1CommonIndexesEF
+create bitmap index result_sum_assemblage on result_sum(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index result_sum_assemblage;
+
+--changeset drsteini:1CommonIndexesEG
+create bitmap index result_ct_sum_project on result_ct_sum(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index result_ct_sum_assemblage;
+
+--changeset drsteini:1CommonIndexesEh
+create bitmap index result_nr_sum_project on result_nr_sum(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index result_nr_sum_assemblage;

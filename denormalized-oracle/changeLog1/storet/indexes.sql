@@ -405,3 +405,20 @@ create bitmap index rcts_storet_project on result_ct_sum_swap_storet(project_id)
 --changeset drsteini:1StoretIndexesDR
 create bitmap index rnrs_storet_project on result_nr_sum_swap_storet(project_id) local parallel 4 nologging;
 --rollback drop index rnrs_storet_project;
+
+
+--changeset drsteini:1StoretIndexesDS
+create bitmap index r_storet_assemblage on result_swap_storet(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index r_storet_assemblage;
+
+--changeset drsteini:1StoretIndexesDT
+create bitmap index rs_storet_assemblage on result_sum_swap_storet(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rs_storet_assemblage;
+
+--changeset drsteini:1StoretIndexesDU
+create bitmap index rcts_storet_assemblage on result_ct_sum_swap_storet(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rcts_storet_assemblage;
+
+--changeset drsteini:1StoretIndexesDV
+create bitmap index rnrs_storet_assemblage on result_nr_sum_swap_storet(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index rnrs_storet_assemblage;

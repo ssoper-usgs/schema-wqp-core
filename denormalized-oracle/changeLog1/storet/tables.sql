@@ -326,6 +326,7 @@ create table result_sum_swap_storet
 ,huc                         	varchar2(12 char)
 ,governmental_unit_code         varchar2(9 char)
 ,project_id                     varchar2(4000 char)
+,assemblage_sampled_name		varchar2(4000 char)
 ,result_count                	number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
@@ -387,6 +388,7 @@ create table result_ct_sum_swap_storet
 ,huc							varchar2(12 char)
 ,governmental_unit_code			varchar2(9 char)
 ,project_id                     varchar2(4000 char)
+,assemblage_sampled_name		varchar2(4000 char)
 ,result_count					number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
 ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
@@ -434,6 +436,7 @@ create table result_nr_sum_swap_storet
 ,characteristic_type			varchar2(4000 char)
 ,sample_media					varchar2(4000 char)
 ,project_id                     varchar2(4000 char)
+,assemblage_sampled_name		varchar2(4000 char)
 ,result_count					number
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
@@ -607,7 +610,7 @@ create table wqp_nemi_epa_crosswalk
 ,method_source					varchar2(20 char)
 ,method_type					varchar2(100 char)
 ,nemi_url						varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging;
+) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table wqp_nemi_epa_crosswalk cascade constraints purge;
 
 
@@ -693,7 +696,7 @@ create table result_no_source
 ,detection_limit_unit           varchar2(4000 char)
 ,detection_limit_desc           varchar2(4000 char)
 ,analysis_prep_date_tx          varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging;
+) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table result_no_source cascade constraints purge;
 
 
@@ -721,14 +724,14 @@ create table station_no_source
 ,elevation_unit          		varchar2(4000 char)
 ,elevation_method        		varchar2(4000 char)
 ,vdatum_id_code          		varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging;
+) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table station_no_source cascade constraints purge;
 
 --changeset drsteini:1StoretTablesBA
 create table wqx_activity_project
 (act_uid						number
 ,project_id_list				varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging cache
+) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table wqx_activity_project cascade constraints purge;
 
 --changeset drsteini:1StoretTablesBB
@@ -740,7 +743,7 @@ create table wqx_analytical_method
 ,anlmth_url						varchar2(4000 char)
 ,anlmth_qual_type				varchar2(4000 char)
 ,nemi_url						varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging cache
+) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table wqx_analytical_method cascade constraints purge;
 
 --changeset drsteini:1StoretTablesBC
@@ -749,5 +752,91 @@ create table wqx_detection_quant_limit
 ,rdqlmt_measure					varchar2(4000 char)
 ,msunt_cd						varchar2(4000 char)
 ,dqltyp_name					varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging cache
+) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table wqx_detection_quant_limit cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBD
+create table assemblage_swap_storet
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table assemblage_swap_storet cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBE
+create table wqx_activity
+(act_uid                        number
+,station_id                     number
+,site_id                        varchar2(4000 char)
+,event_date                     date
+,activity                       varchar2(4000 char)
+,sample_media                   varchar2(4000 char)
+,organization                   varchar2(4000 char)
+,site_type                      varchar2(4000 char)
+,huc                            varchar2(4000 char)
+,governmental_unit_code         varchar2(4000 char)
+,organization_name              varchar2(4000 char)
+,activity_type_code             varchar2(4000 char)
+,activity_media_subdiv_name     varchar2(4000 char)
+,activity_start_time            varchar2(4000 char)
+,act_start_time_zone            varchar2(4000 char)
+,activity_stop_date             varchar2(4000 char)
+,activity_stop_time             varchar2(4000 char)
+,act_stop_time_zone             varchar2(4000 char)
+,activity_relative_depth_name   varchar2(4000 char)
+,activity_depth                 varchar2(4000 char)
+,activity_depth_unit            varchar2(4000 char)
+,activity_depth_ref_point       varchar2(4000 char)
+,activity_upper_depth           varchar2(4000 char)
+,activity_upper_depth_unit      varchar2(4000 char)
+,activity_lower_depth           varchar2(4000 char)
+,activity_lower_depth_unit      varchar2(4000 char)
+,project_id                     varchar2(4000 char)
+,activity_conducting_org        varchar2(4000 char)
+,activity_comment               varchar2(4000 char)
+,activity_latitude              number
+,activity_longitude             number
+,activity_source_map_scale      number
+,act_horizontal_accuracy        varchar2(4000 char)
+,act_horizontal_accuracy_unit   varchar2(4000 char)
+,act_horizontal_collect_method  varchar2(4000 char)
+,act_horizontal_datum_name      varchar2(4000 char)
+,assemblage_sampled_name        varchar2(4000 char)
+,act_collection_duration        varchar2(4000 char)
+,act_collection_duration_unit   varchar2(4000 char)
+,act_sam_compnt_name            varchar2(4000 char)
+,act_sam_compnt_place_in_series number
+,act_reach_length               varchar2(4000 char)
+,act_reach_length_unit          varchar2(4000 char)
+,act_reach_width                varchar2(4000 char)
+,act_reach_width_unit           varchar2(4000 char)
+,act_pass_count                 number
+,net_type_name                  varchar2(4000 char)
+,act_net_surface_area           varchar2(4000 char)
+,act_net_surface_area_unit      varchar2(4000 char)
+,act_net_mesh_size              varchar2(4000 char)
+,act_net_mesh_size_unit         varchar2(4000 char)
+,act_boat_speed                 varchar2(4000 char)
+,act_boat_speed_unit            varchar2(4000 char)
+,act_current_speed              varchar2(4000 char)
+,act_current_speed_unit         varchar2(4000 char)
+,toxicity_test_type_name        varchar2(4000 char)
+,sample_collect_method_id       varchar2(4000 char)
+,sample_collect_method_ctx      varchar2(4000 char)
+,sample_collect_method_name     varchar2(4000 char)
+,act_sam_collect_meth_qual_type varchar2(4000 char)
+,act_sam_collect_meth_desc      varchar2(4000 char)
+,sample_collect_equip_name      varchar2(4000 char)
+,act_sam_collect_equip_comments varchar2(4000 char)
+,act_sam_prep_meth_id           varchar2(4000 char)
+,act_sam_prep_meth_context      varchar2(4000 char)
+,act_sam_prep_meth_name         varchar2(4000 char)
+,act_sam_prep_meth_qual_type    varchar2(4000 char)
+,act_sam_prep_meth_desc         varchar2(4000 char)
+,sample_container_type          varchar2(4000 char)
+,sample_container_color         varchar2(4000 char)
+,act_sam_chemical_preservative  varchar2(4000 char)
+,thermal_preservative_name      varchar2(4000 char)
+,act_sam_transport_storage_desc varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table wqx_activity cascade constraints purge;
