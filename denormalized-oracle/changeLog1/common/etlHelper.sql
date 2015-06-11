@@ -121,7 +121,7 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
 		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
-             governmental_unit_code, project_id, result_count)
+             governmental_unit_code, project_id, assemblage_sampled_name, result_count)
         select /*+ full(station) parallel(station, 4) full(result) parallel(b, result) use_hash(station) use_hash(result) */
                station.data_source_id,
                station.data_source,
@@ -138,14 +138,15 @@ create or replace package body etl_helper as
                station.huc,
                station.governmental_unit_code,
                result.project_id,
+               result.assemblage_sampled_name,
                nvl(result.result_count, 0) result_count
           from station_sum_swap_' || p_table_suffix || ' station
                left join (select data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
-                                 event_date, analytical_method, project_id,
+                                 event_date, analytical_method, project_id, assemblage_sampled_name,
                                  count(*) result_count
                             from result_swap_' || p_table_suffix || '
                                group by data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
-                                        event_date, analytical_method, project_id
+                                        event_date, analytical_method, project_id, assemblage_sampled_name
                           ) result
                  on station.station_id = result.station_id and
                     station.data_source_id = result.data_source_id
@@ -163,7 +164,7 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization,
              huc, sample_media, characteristic_type, characteristic_name, analytical_method,
-             p_code, project_id, result_count)
+             p_code, project_id, assemblage_sampled_name, result_count)
         select /*+ parallel(4) */ 
                data_source_id,
                data_source,
@@ -179,6 +180,7 @@ create or replace package body etl_helper as
                analytical_method,
                p_code,
                project_id,
+               assemblage_sampled_name,
                sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
              group by data_source_id,
@@ -194,7 +196,8 @@ create or replace package body etl_helper as
                       characteristic_name,
                       analytical_method,
                       p_code,
-                      project_id
+                      project_id,
+                      assemblage_sampled_name
              order by characteristic_name';
         commit;
 
@@ -209,14 +212,14 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-             characteristic_name, characteristic_type, sample_media, project_id, result_count)
+             characteristic_name, characteristic_type, sample_media, project_id, assemblage_sampled_name, result_count)
         select /*+ parallel(4) */ 
                data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-               characteristic_name, characteristic_type, sample_media, project_id,
+               characteristic_name, characteristic_type, sample_media, project_id, assemblage_sampled_name,
                sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
              group by data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-                      characteristic_name, characteristic_type, sample_media, project_id
+                      characteristic_name, characteristic_type, sample_media, project_id, assemblage_sampled_name
              order by characteristic_name';
         commit;
 
@@ -227,6 +230,21 @@ create or replace package body etl_helper as
         sql_stmnt		varchar2(4000 char);
     begin
 
+	    table_name := dbms_assert.sql_object_name(upper('assemblage_swap_' || p_table_suffix));
+        
+        dbms_output.put_line('populating:' || table_name);
+        execute immediate 'truncate table ' || table_name;
+
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+          	(data_source_id, code_value)
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
+                        assemblage_sampled_name code_value
+          from result_swap_' || p_table_suffix || '
+         where assemblage_sampled_name is not null';
+        commit;
+        
+	    
         table_name := dbms_assert.sql_object_name(upper('char_name_swap_' || p_table_suffix));
         
         dbms_output.put_line('populating:' || table_name);
@@ -551,87 +569,91 @@ create or replace package body etl_helper as
         dbms_output.put_line('creating result indexes...');
         table_name := dbms_assert.sql_object_name(upper('result_swap_' || p_table_suffix));
         
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_activity on ' || table_name || '(activity) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_activity on ' || table_name || '(activity) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_assemblage on ' || table_name || '(assemblage_sampled_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_country on ' || table_name || '(country_code) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_county on ' || table_name || '(county_code) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_country on ' || table_name || '(country_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_event_date on ' || table_name || '(event_date) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_county on ' || table_name || '(county_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_huc10 on ' || table_name || '(huc_10) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_event_date on ' || table_name || '(event_date) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_huc12 on ' || table_name || '(huc_12) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_huc10 on ' || table_name || '(huc_10) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_huc2 on ' || table_name || '(huc_2) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_huc12 on ' || table_name || '(huc_12) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_huc4 on ' || table_name || '(huc_4) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_huc2 on ' || table_name || '(huc_2) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_huc4 on ' || table_name || '(huc_4) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_huc8 on ' || table_name || '(huc_8) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_huc8 on ' || table_name || '(huc_8) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create bitmap index r_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
         
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_site on ' || table_name || '(site_id) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_site on ' || table_name || '(site_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_site_type on ' || table_name || '(site_type) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_site_type on ' || table_name || '(site_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_state on ' || table_name || '(state_code) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_state on ' || table_name || '(state_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcr_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
+        stmt := 'create bitmap index r_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
         
@@ -711,83 +733,87 @@ create or replace package body etl_helper as
 	   	dbms_output.put_line('creating result_sum indexes...');
         table_name := dbms_assert.sql_object_name(upper('result_sum_swap_' || p_table_suffix));
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_assemblage on ' || table_name || '(assemblage_sampled_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_country on ' || table_name || '(country_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_county on ' || table_name || '(county_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_country on ' || table_name || '(country_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_event_date on ' || table_name || '(event_date) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_county on ' || table_name || '(county_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_huc10 on ' || table_name || '(huc_10) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_event_date on ' || table_name || '(event_date) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_huc12 on ' || table_name || '(huc_12) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_huc10 on ' || table_name || '(huc_10) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_huc2 on ' || table_name || '(huc_2) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_huc12 on ' || table_name || '(huc_12) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_huc4 on ' || table_name || '(huc_4) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_huc2 on ' || table_name || '(huc_2) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_huc4 on ' || table_name || '(huc_4) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_huc8 on ' || table_name || '(huc_8) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_huc8 on ' || table_name || '(huc_8) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_site on ' || table_name || '(site_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_site_type on ' || table_name || '(site_type) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_site on ' || table_name || '(site_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_state on ' || table_name || '(state_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_site_type on ' || table_name || '(site_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrs_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_state on ' || table_name || '(state_code) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 	
@@ -801,79 +827,83 @@ create or replace package body etl_helper as
         dbms_output.put_line('creating result_ct_sum indexes...');
         table_name := dbms_assert.sql_object_name(upper('result_ct_sum_swap_' || p_table_suffix));
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_assemblage on ' || table_name || '(assemblage_sampled_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_country on ' || table_name || '(country_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_county on ' || table_name || '(county_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_country on ' || table_name || '(country_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_huc10 on ' || table_name || '(huc_10) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_county on ' || table_name || '(county_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_huc12 on ' || table_name || '(huc_12) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_huc10 on ' || table_name || '(huc_10) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_huc2 on ' || table_name || '(huc_2) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_huc12 on ' || table_name || '(huc_12) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_huc4 on ' || table_name || '(huc_4) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_huc2 on ' || table_name || '(huc_2) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_huc4 on ' || table_name || '(huc_4) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_huc8 on ' || table_name || '(huc_8) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_huc8 on ' || table_name || '(huc_8) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_site on ' || table_name || '(site_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_site_type on ' || table_name || '(site_type) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_site on ' || table_name || '(site_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_state on ' || table_name || '(state_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_site_type on ' || table_name || '(site_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrcts_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_state on ' || table_name || '(state_code) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -887,31 +917,35 @@ create or replace package body etl_helper as
         table_name := dbms_assert.sql_object_name(upper('result_nr_sum_swap_' || p_table_suffix));
         dbms_output.put_line('creating result_nr_sum indexes...');
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_analytical on ' || table_name || '(analytical_method) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_assemblage on ' || table_name || '(assemblage_sampled_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_char_name on ' || table_name || '(characteristic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_char_type on ' || table_name || '(characteristic_type) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_p_code on ' || table_name || '(p_code) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_project on ' || table_name || '(project_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pcrnrs_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_sample_media on ' || table_name || '(sample_media) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
         
@@ -966,6 +1000,9 @@ create or replace package body etl_helper as
 
 	    suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 		
+	    dbms_output.put_line('analyze assemblage...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ASSEMBLAGE_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+	    
 	    dbms_output.put_line('analyze characteristic_name...');
 	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'CHAR_NAME_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 	    
@@ -1133,6 +1170,10 @@ create or replace package body etl_helper as
 		dbms_output.put_line('result_nr_sum');
 		execute immediate 'alter table result_nr_sum exchange partition res_nr_sum_' || suffix ||
 	                      ' with table result_nr_sum_swap_' || suffix || ' including indexes';
+	    
+		dbms_output.put_line('assemblage');
+		execute immediate 'alter table assemblage exchange partition assemblage_' || suffix ||
+	                      ' with table assemblage_swap_' || suffix || ' including indexes';
 	    
 		dbms_output.put_line('characteristic_name');
 		execute immediate 'alter table char_name exchange partition char_name_' || suffix ||
