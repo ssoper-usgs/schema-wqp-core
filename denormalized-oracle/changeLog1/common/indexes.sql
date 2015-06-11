@@ -474,5 +474,5 @@ create bitmap index result_ct_sum_assemblage on result_ct_sum(assemblage_sampled
 --rollback drop index result_ct_sum_assemblage;
 
 --changeset drsteini:1CommonIndexesEh
-create bitmap index result_nr_sum_project on result_nr_sum(assemblage_sampled_name) local parallel 4 nologging;
+create bitmap index result_nr_sum_assemblage on result_nr_sum(assemblage_sampled_name) local parallel 4 nologging;
 --rollback drop index result_nr_sum_assemblage;
