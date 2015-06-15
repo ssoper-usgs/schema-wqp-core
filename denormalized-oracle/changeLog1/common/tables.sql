@@ -806,10 +806,10 @@ create table assemblage
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
-(partition project_stewards values less than (2)
-,partition project_nwis values less than (3)
-,partition project_storet values less than (4)
-,partition project_garbage values less than (maxvalue)
+(partition assemblage_stewards values less than (2)
+,partition assemblage_nwis values less than (3)
+,partition assemblage_storet values less than (4)
+,partition assemblage_garbage values less than (maxvalue)
 );
 --rollback drop table assemblage cascade constraints purge;
 
