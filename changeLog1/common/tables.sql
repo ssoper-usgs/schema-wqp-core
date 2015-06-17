@@ -887,4 +887,4 @@ alter table station split partition station_garbage into (partition station_biod
 
 --changeset drsteini:1CommonTablesBP
 alter table station_sum split partition station_sum_garbage into (partition station_sum_biodata values less than (5), partition station_sum_garbage);
---rollback alter table assemblage merge partitions station_sum_biodata, station_sum_garbage into partition station_sum_garbage;
+--rollback alter table station_sum merge partitions station_sum_biodata, station_sum_garbage into partition station_sum_garbage;
