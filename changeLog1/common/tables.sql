@@ -866,7 +866,7 @@ alter table result_nr_sum split partition res_nr_sum_garbage into (partition res
 --rollback alter table res_nr_sum merge partitions res_nr_sum_biodata, res_nr_sum_garbage into partition res_nr_sum_garbage;
 
 --changeset drsteini:1CommonTablesBK
-alter table result_sum split partition result_sum into (partition result_sum_biodata values less than (5), partition result_sum_garbage);
+alter table result_sum split partition result_sum_garbage into (partition result_sum_biodata values less than (5), partition result_sum_garbage);
 --rollback alter table result_sum merge partitions result_sum_biodata, result_sum_garbage into partition result_sum_garbage;
 
 --changeset drsteini:1CommonTablesBL
