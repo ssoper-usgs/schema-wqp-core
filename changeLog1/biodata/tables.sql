@@ -566,3 +566,82 @@ create table assemblage_swap_biodata
 ) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table assemblage_swap_biodata cascade constraints purge;
 
+
+--changeset drsteini:1BiodataTablesAU
+create table biodata_activity
+(dw_effort_id                   number
+,station_id                     number
+,site_id                        varchar2(4000 char)
+,event_date                     date
+,analytical_method				varchar2(4000 char)
+,activity                       varchar2(4000 char)
+,sample_media                   varchar2(4000 char)
+,organization                   varchar2(4000 char)
+,site_type                      varchar2(4000 char)
+,huc                            varchar2(4000 char)
+,governmental_unit_code         varchar2(4000 char)
+,organization_name              varchar2(4000 char)
+,activity_type_code             varchar2(4000 char)
+,activity_media_subdiv_name     varchar2(4000 char)
+,activity_start_time            varchar2(4000 char)
+,act_start_time_zone            varchar2(4000 char)
+,activity_stop_date             varchar2(4000 char)
+,activity_stop_time             varchar2(4000 char)
+,act_stop_time_zone             varchar2(4000 char)
+,activity_relative_depth_name   varchar2(4000 char)
+,activity_depth                 varchar2(4000 char)
+,activity_depth_unit            varchar2(4000 char)
+,activity_depth_ref_point       varchar2(4000 char)
+,activity_upper_depth           varchar2(4000 char)
+,activity_upper_depth_unit      varchar2(4000 char)
+,activity_lower_depth           varchar2(4000 char)
+,activity_lower_depth_unit      varchar2(4000 char)
+,project_id                     varchar2(4000 char)
+,activity_conducting_org        varchar2(4000 char)
+,activity_comment               varchar2(4000 char)
+,activity_latitude              number
+,activity_longitude             number
+,activity_source_map_scale      number
+,act_horizontal_accuracy        varchar2(4000 char)
+,act_horizontal_accuracy_unit   varchar2(4000 char)
+,act_horizontal_collect_method  varchar2(4000 char)
+,act_horizontal_datum_name      varchar2(4000 char)
+,assemblage_sampled_name        varchar2(4000 char)
+,act_collection_duration        varchar2(4000 char)
+,act_collection_duration_unit   varchar2(4000 char)
+,act_sam_compnt_name            varchar2(4000 char)
+,act_sam_compnt_place_in_series number
+,act_reach_length               varchar2(4000 char)
+,act_reach_length_unit          varchar2(4000 char)
+,act_reach_width                varchar2(4000 char)
+,act_reach_width_unit           varchar2(4000 char)
+,act_pass_count                 number
+,net_type_name                  varchar2(4000 char)
+,act_net_surface_area           varchar2(4000 char)
+,act_net_surface_area_unit      varchar2(4000 char)
+,act_net_mesh_size              varchar2(4000 char)
+,act_net_mesh_size_unit         varchar2(4000 char)
+,act_boat_speed                 varchar2(4000 char)
+,act_boat_speed_unit            varchar2(4000 char)
+,act_current_speed              varchar2(4000 char)
+,act_current_speed_unit         varchar2(4000 char)
+,toxicity_test_type_name        varchar2(4000 char)
+,sample_collect_method_id       varchar2(4000 char)
+,sample_collect_method_ctx      varchar2(4000 char)
+,sample_collect_method_name     varchar2(4000 char)
+,act_sam_collect_meth_qual_type varchar2(4000 char)
+,act_sam_collect_meth_desc      varchar2(4000 char)
+,sample_collect_equip_name      varchar2(4000 char)
+,act_sam_collect_equip_comments varchar2(4000 char)
+,act_sam_prep_meth_id           varchar2(4000 char)
+,act_sam_prep_meth_context      varchar2(4000 char)
+,act_sam_prep_meth_name         varchar2(4000 char)
+,act_sam_prep_meth_qual_type    varchar2(4000 char)
+,act_sam_prep_meth_desc         varchar2(4000 char)
+,sample_container_type          varchar2(4000 char)
+,sample_container_color         varchar2(4000 char)
+,act_sam_chemical_preservative  varchar2(4000 char)
+,thermal_preservative_name      varchar2(4000 char)
+,act_sam_transport_storage_desc varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table biodata_activity cascade constraints purge;
