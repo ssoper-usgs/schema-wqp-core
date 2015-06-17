@@ -122,35 +122,27 @@ create or replace package body etl_helper as
 		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
              governmental_unit_code, project_id, assemblage_sampled_name, result_count)
-        select /*+ full(station) parallel(station, 4) full(result) parallel(b, result) use_hash(station) use_hash(result) */
-               station.data_source_id,
-               station.data_source,
-               station.station_id,
-               station.site_id,
-               result.event_date,
-               result.analytical_method,
-               result.p_code,
-               result.characteristic_name,
-               result.characteristic_type,
-               result.sample_media,
-               station.organization,
-               station.site_type,
-               station.huc,
-               station.governmental_unit_code,
-               result.project_id,
-               result.assemblage_sampled_name,
-               nvl(result.result_count, 0) result_count
-          from station_sum_swap_' || p_table_suffix || ' station
-               left join (select data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
-                                 event_date, analytical_method, project_id, assemblage_sampled_name,
-                                 count(*) result_count
-                            from result_swap_' || p_table_suffix || '
-                               group by data_source_id, station_id, sample_media, characteristic_type, characteristic_name, p_code,
-                                        event_date, analytical_method, project_id, assemblage_sampled_name
-                          ) result
-                 on station.station_id = result.station_id and
-                    station.data_source_id = result.data_source_id
-             order by station.station_id';
+        select data_source_id,
+               data_source,
+               station_id,
+               site_id,
+               event_date,
+               analytical_method,
+               p_code,
+               characteristic_name,
+               characteristic_type,
+               sample_media,
+               organization,
+               site_type,
+               huc,
+               governmental_unit_code,
+               project_id,
+               assemblage_sampled_name,
+               count(*) result_count
+          from result_swap_' || p_table_suffix || '
+            group by data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code, characteristic_name,
+                     characteristic_type, sample_media, organization, site_type, huc, governmental_unit_code, project_id, assemblage_sampled_name
+             order by station_id';
         commit;
 
         table_name := dbms_assert.sql_object_name(upper('result_ct_sum_swap_' || p_table_suffix));
