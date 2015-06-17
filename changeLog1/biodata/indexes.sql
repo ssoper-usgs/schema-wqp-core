@@ -14,7 +14,7 @@ create bitmap index s_biodata_county on station_swap_biodata(county_code) parall
 insert into user_sdo_geom_metadata
 values ('STATION_SWAP_BIODATA', 'GEOM',
         mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -180, 180, 0.005), mdsys.sdo_dim_element('Y', -90, 90, 0.005)), 4269);
---rollback delete from user_sdo_geom_metadata where table_name = 'STATION_SWAP_NWIS';
+--rollback delete from user_sdo_geom_metadata where table_name = 'STATION_SWAP_BIODATA';
 
 --changeset drsteini:1BiodataIndexesAD
 create index s_biodata_geom on station_swap_biodata(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
@@ -158,7 +158,7 @@ create bitmap index ss_biodata_county on station_sum_swap_biodata(county_code) p
 insert into user_sdo_geom_metadata
 values ('STATION_SUM_SWAP_BIODATA', 'GEOM',
         mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -180, 180, 0.005), mdsys.sdo_dim_element('Y', -90, 90, 0.005)), 4269);
---rollback delete from user_sdo_geom_metadata where table_name = 'STATION_SUM_SWAP_NWIS';
+--rollback delete from user_sdo_geom_metadata where table_name = 'STATION_SUM_SWAP_BIODATA';
 
 --changeset drsteini:1BiodataIndexesBL
 create index ss_biodata_geom on station_sum_swap_biodata(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
