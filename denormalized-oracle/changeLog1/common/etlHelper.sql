@@ -283,7 +283,8 @@ create or replace package body etl_helper as
         execute immediate 'truncate table ' || table_name;
 
         
-        if upper(p_table_suffix) = 'NWIS' or
+        if upper(p_table_suffix) = 'BIODATA' or
+           upper(p_table_suffix) = 'NWIS' or
            upper(p_table_suffix) = 'STEWARDS' then
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || ' (data_source_id, code_value, description)
                         select /*+ parallel(4) */ 
@@ -318,7 +319,8 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        if upper(p_table_suffix) = 'NWIS' or
+        if upper(p_table_suffix) = 'BIODATA' or
+           upper(p_table_suffix) = 'NWIS' or
            upper(p_table_suffix) = 'STEWARDS' then
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description)
                         select /*+ parallel(4) */ 
@@ -427,7 +429,8 @@ create or replace package body etl_helper as
         dbms_output.put_line('populating:' || table_name);
         execute immediate 'truncate table ' || table_name;
 
-        if upper(p_table_suffix) = 'NWIS' or
+        if upper(p_table_suffix) = 'BIODATA' or
+           upper(p_table_suffix) = 'NWIS' or
            upper(p_table_suffix) = 'STEWARDS' then
           sql_stmnt := 'insert /*+ append parallel(4) */ into ' || table_name || q'! (data_source_id, code_value, description_with_country, description_with_out_country)
                         select /*+ parallel(4) */ 

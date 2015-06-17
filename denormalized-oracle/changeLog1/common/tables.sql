@@ -822,3 +822,69 @@ create table etl_threshold
 ,max_diff						number
 );
 --rollback drop table etl_threshold cascade constraints purge;
+
+
+
+--changeset drsteini:1CommonTablesBA
+alter table assemblage split partition assemblage_garbage into (partition assemblage_biodata values less than (5), partition assemblage_garbage);
+--rollback alter table assemblage merge partitions assemblage_biodata, assemblage_garbage into partition assemblage_garbage;
+
+--changeset drsteini:1CommonTablesBB
+alter table char_name split partition char_name_garbage into (partition char_name_biodata values less than (5), partition char_name_garbage);
+--rollback alter table char_name merge partitions char_name_biodata, char_name_garbage into partition char_name_garbage;
+
+--changeset drsteini:1CommonTablesBC
+alter table char_type split partition char_type_garbage into (partition char_type_biodata values less than (5), partition char_type_garbage);
+--rollback alter table char_type merge partitions char_type_biodata, char_type_garbage into partition char_type_garbage;
+
+--changeset drsteini:1CommonTablesBD
+alter table country split partition country_garbage into (partition country_biodata values less than (5), partition country_garbage);
+--rollback alter table country merge partitions country_biodata, country_garbage into partition country_garbage;
+
+--changeset drsteini:1CommonTablesBE
+alter table county split partition county_garbage into (partition county_biodata values less than (5), partition county_garbage);
+--rollback alter table county merge partitions county_biodata, county_garbage into partition county_garbage;
+
+--changeset drsteini:1CommonTablesBF
+alter table organization split partition organization_garbage into (partition organization_biodata values less than (5), partition organization_garbage);
+--rollback alter table organization merge partitions organization_biodata, organization_garbage into partition organization_garbage;
+
+--changeset drsteini:1CommonTablesBG
+alter table project split partition project_garbage into (partition project_biodata values less than (5), partition project_garbage);
+--rollback alter table project merge partitions project_biodata, project_garbage into partition project_garbage;
+
+--changeset drsteini:1CommonTablesBH
+alter table result split partition result_garbage into (partition result_biodata values less than (5), partition result_garbage);
+--rollback alter table result merge partitions result_biodata, result_garbage into partition result_garbage;
+
+--changeset drsteini:1CommonTablesBI
+alter table result_ct_sum split partition result_ct_sum_garbage into (partition result_ct_sum_biodata values less than (5), partition result_ct_sum_garbage);
+--rollback alter table result_ct_sum merge partitions result_ct_sum_biodata, result_ct_sum_garbage into partition result_ct_sum_garbage;
+
+--changeset drsteini:1CommonTablesBJ
+alter table result_nr_sum split partition result_nr_sum_garbage into (partition result_nr_sum_biodata values less than (5), partition result_nr_sum_garbage);
+--rollback alter table result_nr_sum merge partitions result_nr_sum_biodata, result_nr_sum_garbage into partition result_nr_sum_garbage;
+
+--changeset drsteini:1CommonTablesBK
+alter table result_sum split partition result_sum into (partition result_sum_biodata values less than (5), partition result_sum_garbage);
+--rollback alter table result_sum merge partitions result_sum_biodata, result_sum_garbage into partition result_sum_garbage;
+
+--changeset drsteini:1CommonTablesBL
+alter table sample_media split partition sample_media_garbage into (partition sample_media_biodata values less than (5), partition sample_media_garbage);
+--rollback alter table sample_media merge partitions sample_media_biodata, sample_media_garbage into partition sample_media_garbage;
+
+--changeset drsteini:1CommonTablesBM
+alter table site_type split partition site_type_garbage into (partition site_type_biodata values less than (5), partition site_type_garbage);
+--rollback alter table site_type merge partitions site_type_biodata, site_type_garbage into partition site_type_garbage;
+
+--changeset drsteini:1CommonTablesBN
+alter table state split partition state_garbage into (partition state_biodata values less than (5), partition state_garbage);
+--rollback alter table state merge partitions state_biodata, state_garbage into partition state_garbage;
+
+--changeset drsteini:1CommonTablesBO
+alter table station split partition station_garbage into (partition station_biodata values less than (5), partition station_garbage);
+--rollback alter table station merge partitions station_biodata, station_garbage into partition station_garbage;
+
+--changeset drsteini:1CommonTablesBP
+alter table station_sum split partition station_sum_garbage into (partition station_sum_biodata values less than (5), partition station_sum_garbage);
+--rollback alter table assemblage merge partitions station_sum_biodata, station_sum_garbage into partition station_sum_garbage;
