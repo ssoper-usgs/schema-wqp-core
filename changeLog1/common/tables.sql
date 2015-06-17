@@ -858,8 +858,8 @@ alter table result split partition result_garbage into (partition result_biodata
 --rollback alter table result merge partitions result_biodata, result_garbage into partition result_garbage;
 
 --changeset drsteini:1CommonTablesBI
-alter table result_ct_sum split partition result_ct_sum_garbage into (partition result_ct_sum_biodata values less than (5), partition result_ct_sum_garbage);
---rollback alter table result_ct_sum merge partitions result_ct_sum_biodata, result_ct_sum_garbage into partition result_ct_sum_garbage;
+alter table result_ct_sum split partition rcts_garbage into (partition rcts_biodata values less than (5), partition rcts_garbage);
+--rollback alter table result_ct_sum merge partitions rcts_biodata, rcts_garbage into partition rcts_garbage;
 
 --changeset drsteini:1CommonTablesBJ
 alter table result_nr_sum split partition result_nr_sum_garbage into (partition result_nr_sum_biodata values less than (5), partition result_nr_sum_garbage);
