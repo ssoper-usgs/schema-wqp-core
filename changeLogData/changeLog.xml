@@ -13,7 +13,7 @@
     <changeSet author="drsteini" id="loadDataSource" runOnChange="true">
         <delete tableName="data_source"/>
         <loadData encoding="UTF-8"
-                  file="denormalized-oracle/changeLogData/data_source.csv"
+                  file="changeLogData/data_source.csv"
                   tableName="data_source">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -22,7 +22,7 @@
     <changeSet author="drsteini" id="loadWqxHrdatToSrid" runOnChange="true">
         <delete tableName="wqx_hrdat_to_srid"/>
         <loadData encoding="UTF-8"
-                  file="denormalized-oracle/changeLogData/wqx_hrdat_to_srid.csv"
+                  file="changeLogData/wqx_hrdat_to_srid.csv"
                   tableName="wqx_hrdat_to_srid">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -31,7 +31,7 @@
     <changeSet author="drsteini" id="loadWqxSiteTypeConversion" runOnChange="true">
         <delete tableName="wqx_site_type_conversion"/>
         <loadData encoding="UTF-8"
-                  file="denormalized-oracle/changeLogData/wqx_site_type_conversion.csv"
+                  file="changeLogData/wqx_site_type_conversion.csv"
                   tableName="wqx_site_type_conversion">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -40,7 +40,7 @@
     <changeSet author="drsteini" id="loadEtlThreshold" runOnChange="true">
         <delete tableName="etl_threshold"/>
         <loadData encoding="UTF-8"
-                  file="denormalized-oracle/changeLogData/etl_threshold.csv"
+                  file="changeLogData/etl_threshold.csv"
                   tableName="etl_threshold">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
