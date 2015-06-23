@@ -1206,7 +1206,7 @@ create or replace package body etl_helper as
 		execute immediate 'alter table state exchange partition state_' || suffix ||
 	                      ' with table state_swap_' || suffix || ' including indexes';
 	
-	    if (suffix = 'STORET' or suffix = 'NWIS') then
+	    if (suffix = 'storet' or suffix = 'nwis') then
 			dbms_output.put_line('qwportal_summary');
 			execute immediate 'alter table qwportal_summary exchange partition summary_' || suffix ||
 	                          ' with table qwportal_summary_swap_' || suffix || ' including indexes';
