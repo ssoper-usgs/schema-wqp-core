@@ -77,3 +77,7 @@ grant execute on log_helper to wqp_user;
 --changeset drsteini:1GrantsAU
 grant select on project to wqp_user;
 --rollback revoke select on project from wqp_user;
+ 
+--changeset drsteini:1GrantsAV
+grant select on assemblage to wqp_user;
+--rollback revoke select on assemblage from wqp_user;
