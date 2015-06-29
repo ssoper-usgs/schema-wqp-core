@@ -779,7 +779,7 @@ create table web_service_log
 ,query_string                   varchar2(4000 char) constraint web_service_log_query_str_nn not null
 ,total_rows_expected            number
 ,data_store_counts              varchar2(1000 char)
-,http_status_code				varchar2(3 char)
+,http_status_code				varchar2(100 char)
 );
 --rollback drop table web_service_log cascade constraints purge;
 
