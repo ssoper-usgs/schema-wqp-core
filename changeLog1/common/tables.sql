@@ -888,3 +888,36 @@ alter table station split partition station_garbage into (partition station_biod
 --changeset drsteini:1CommonTablesBP
 alter table station_sum split partition station_sum_garbage into (partition station_sum_biodata values less than (5), partition station_sum_garbage);
 --rollback alter table station_sum merge partitions station_sum_biodata, station_sum_garbage into partition station_sum_garbage;
+
+--changeset drsteini:1CommonTablesBQ
+create table taxa_name
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache
+partition by range (data_source_id)
+(partition taxa_name_stewards values less than (2)
+,partition taxa_name_nwis values less than (3)
+,partition taxa_name_storet values less than (4)
+,partition taxa_name_biodata values less than (5)
+,partition taxa_name_garbage values less than (maxvalue)
+);
+--rollback drop table taxa_name cascade constraints purge;
+
+--changeset drsteini:1CommonTablesBR
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM' and column_name = 'TAXONOMIC_NAME'
+alter table result_sum add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1CommonTablesBS
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM' and column_name = 'TAXONOMIC_NAME'
+alter table result_ct_sum add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1CommonTablesBT
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM' and column_name = 'TAXONOMIC_NAME'
+alter table result_nr_sum add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;

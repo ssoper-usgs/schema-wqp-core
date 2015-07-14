@@ -423,3 +423,19 @@ create bitmap index rcts_biodata_assemblage on result_ct_sum_swap_biodata(assemb
 --changeset drsteini:1BiodataIndexesDV
 create bitmap index rnrs_biodata_assemblage on result_nr_sum_swap_biodata(assemblage_sampled_name) local parallel 4 nologging;
 --rollback drop index rnrs_biodata_assemblage;
+
+--changeset drsteini:1BiodataIndexesDW
+create bitmap index r_biodata_taxa_name on result_swap_biodata(sample_tissue_taxonomic_name) local parallel 4 nologging;
+--rollback drop index r_biodata_taxa_name;
+
+--changeset drsteini:1BiodataIndexesDX
+create bitmap index rs_biodata_taxa_name on result_sum_swap_biodata(taxonomic_name) local parallel 4 nologging;
+--rollback drop index rs_biodata_taxa_name;
+
+--changeset drsteini:1BiodataIndexesDY
+create bitmap index rcts_biodata_taxa_name on result_ct_sum_swap_biodata(taxonomic_name) local parallel 4 nologging;
+--rollback drop index rcts_biodata_taxa_name;
+
+--changeset drsteini:1BiodataIndexesDZ
+create bitmap index rnrs_biodata_taxa_name on result_nr_sum_swap_biodata(taxonomic_name) local parallel 4 nologging;
+--rollback drop index rnrs_biodata_taxa_name;

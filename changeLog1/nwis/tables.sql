@@ -619,3 +619,29 @@ create table assemblage_swap_nwis
 ,description					varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table assemblage_swap_nwis cascade constraints purge;
+
+--changeset drsteini:1NwisTablesAU
+create table taxa_name_swap_nwis
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table taxa_name_swap_nwis cascade constraints purge;
+
+--changeset drsteini:1NwisTablesAV
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_NWIS' and column_name = 'TAXONOMIC_NAME'
+alter table result_sum_swap_nwis add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1NwisTablesAW
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM_SWAP_NWIS' and column_name = 'TAXONOMIC_NAME'
+alter table result_ct_sum_swap_nwis add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1NwisTablesAX
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_NWIS' and column_name = 'TAXONOMIC_NAME'
+alter table result_nr_sum_swap_nwis add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
