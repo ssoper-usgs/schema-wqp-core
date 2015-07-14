@@ -903,9 +903,9 @@ partition by range (data_source_id)
 );
 --rollback drop table taxa_name cascade constraints purge;
 
---changeset drsteini:1CommonTablesBR
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM' and column_name = 'TAXONOMIC_NAME'
+--changeset drsteini:1CommonTablesBR
 alter table result_sum add (taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
 
