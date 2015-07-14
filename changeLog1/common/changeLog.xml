@@ -14,7 +14,7 @@
     <include file="tables.sql" relativeToChangelogFile="true"/>
     <include file="indexes.sql" relativeToChangelogFile="true"/>
     <include file="ri.sql" relativeToChangelogFile="true"/>
-    <include file="etlHelper.sql" relativeToChangelogFile="true"/>
+    <include file="etlHelper.xml" relativeToChangelogFile="true"/>
     <include file="logHelper.sql" relativeToChangelogFile="true"/>
     <include file="grants.sql" relativeToChangelogFile="true"/>
 
