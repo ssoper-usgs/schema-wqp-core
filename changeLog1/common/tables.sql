@@ -899,6 +899,7 @@ partition by range (data_source_id)
 (partition taxa_name_stewards values less than (2)
 ,partition taxa_name_nwis values less than (3)
 ,partition taxa_name_storet values less than (4)
+,partition taxa_name_biodata values less than (5)
 ,partition taxa_name_garbage values less than (maxvalue)
 );
 --rollback drop table taxa_name cascade constraints purge;
@@ -907,4 +908,16 @@ partition by range (data_source_id)
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM' and column_name = 'TAXONOMIC_NAME'
 alter table result_sum add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1CommonTablesBS
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM' and column_name = 'TAXONOMIC_NAME'
+alter table result_ct_sum add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1CommonTablesBT
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM' and column_name = 'TAXONOMIC_NAME'
+alter table result_nr_sum add (taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;

@@ -840,3 +840,29 @@ create table wqx_activity
 ,act_sam_transport_storage_desc varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table wqx_activity cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBF
+create table taxa_name_swap_storet
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table taxa_name_swap_storet cascade constraints purge;
+
+--changeset drsteini:1StoretTablesBG
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_STORET' and column_name = 'TAXONOMIC_NAME'
+alter table result_sum_swap_storet add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1StoretTablesBH
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM_SWAP_STORET' and column_name = 'TAXONOMIC_NAME'
+alter table result_ct_sum_swap_storet add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1StoretTablesBI
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_STORET' and column_name = 'TAXONOMIC_NAME'
+alter table result_nr_sum_swap_storet add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;

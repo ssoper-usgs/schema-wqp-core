@@ -645,3 +645,29 @@ create table biodata_activity
 ,act_sam_transport_storage_desc varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
 --rollback drop table biodata_activity cascade constraints purge;
+
+--changeset drsteini:1BiodataTablesAV
+create table taxa_name_swap_biodata
+(data_source_id					number
+,code_value						varchar2(500 char)
+,description					varchar2(4000 char)
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table taxa_name_swap_biodata cascade constraints purge;
+
+--changeset drsteini:1BiodataTablesAW
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_BIODATA' and column_name = 'TAXONOMIC_NAME'
+alter table result_sum_swap_biodata add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1BiodataTablesAX
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM_SWAP_BIODATA' and column_name = 'TAXONOMIC_NAME'
+alter table result_ct_sum_swap_biodata add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:1BiodataTablesAY
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_BIODATA' and column_name = 'TAXONOMIC_NAME'
+alter table result_nr_sum_swap_biodata add (taxonomic_name varchar2(4000 char));
+--rollback select 'no rollback - cannot drop column from compressed table' from dual;

@@ -421,3 +421,19 @@ create bitmap index rcts_stewards_assemblage on result_ct_sum_swap_stewards(asse
 --changeset drsteini:1StewardsIndexesDV
 create bitmap index rnrs_stewards_assemblage on result_nr_sum_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
 --rollback drop index rnrs_stewards_assemblage;
+
+--changeset drsteini:1StewardsIndexesDW
+create bitmap index r_stewards_taxa_name on result_swap_stewards(sample_tissue_taxonomic_name) local parallel 4 nologging;
+--rollback drop index r_stewards_taxa_name;
+
+--changeset drsteini:1StewardsIndexesDX
+create bitmap index rs_stewards_taxa_name on result_sum_swap_stewards(taxonomic_name) local parallel 4 nologging;
+--rollback drop index rs_stewards_taxa_name;
+
+--changeset drsteini:1StewardsIndexesDY
+create bitmap index rcts_stewards_taxa_name on result_ct_sum_swap_stewards(taxonomic_name) local parallel 4 nologging;
+--rollback drop index rcts_stewards_taxa_name;
+
+--changeset drsteini:1StewardsIndexesDZ
+create bitmap index rnrs_stewards_taxa_name on result_nr_sum_swap_stewards(taxonomic_name) local parallel 4 nologging;
+--rollback drop index rnrs_stewards_taxa_name;
