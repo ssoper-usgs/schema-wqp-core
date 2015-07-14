@@ -1,46 +1,3 @@
---liquibase formatted sql
-
---This is for the wqp_core schema
-
---changeset drsteini:1EtlHelperAA endDelimiter:/ splitStatements:false
-create or replace package etl_helper as
-
-	procedure drop_ri(p_table_suffix in user_tables.table_name%type);
-	
-	procedure drop_indexes(p_table_name in user_indexes.table_name%type);
-	
-	procedure create_summaries(p_table_suffix in user_tables.table_name%type);
-	
-	procedure create_code_tables(p_table_suffix in user_tables.table_name%type);
-	
-    procedure create_qwportal_summary(p_table_suffix in user_tables.table_name%type);
-
-	procedure create_station_indexes(p_table_suffix in user_tables.table_name%type);
-
-	procedure create_result_indexes(p_table_suffix in user_tables.table_name%type);
-
-	procedure create_station_sum_indexes(p_table_suffix in user_tables.table_name%type);
-
-	procedure create_result_sum_indexes(p_table_suffix in user_tables.table_name%type);
-
-	procedure create_result_ct_sum_indexes(p_table_suffix in user_tables.table_name%type);
-
-	procedure create_result_nr_sum_indexes(p_table_suffix in user_tables.table_name%type);
-	
-	procedure add_ri(p_table_suffix in user_tables.table_name%type);
-	
-	procedure analyze_tables(p_table_suffix in user_tables.table_name%type);
-	
-	procedure validate(p_data_source_id in data_source.data_source_id%type);
-	
-	procedure install(p_table_suffix in user_tables.table_name%type);
-	
-	procedure update_last_etl(p_data_source_id in last_etl.data_source_id%type);
-
-end etl_helper;
---rollback drop package etl_helper;
-
---changeset drsteini:1EtlHelperAB endDelimiter:/ splitStatements:false
 create or replace package body etl_helper as
 
 	procedure drop_ri(p_table_suffix in user_tables.table_name%type) is
@@ -121,27 +78,14 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
 		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
-             governmental_unit_code, project_id, assemblage_sampled_name, result_count)
-        select data_source_id,
-               data_source,
-               station_id,
-               site_id,
-               event_date,
-               analytical_method,
-               p_code,
-               characteristic_name,
-               characteristic_type,
-               sample_media,
-               organization,
-               site_type,
-               huc,
-               governmental_unit_code,
-               project_id,
-               assemblage_sampled_name,
-               count(*) result_count
+             governmental_unit_code, project_id, assemblage_sampled_name, taxonomic_name, result_count)
+        select data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code, characteristic_name,
+               characteristic_type, sample_media, organization, site_type, huc, governmental_unit_code, project_id,
+               assemblage_sampled_name, sample_tissue_taxonomic_name, count(*) result_count
           from result_swap_' || p_table_suffix || '
             group by data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code, characteristic_name,
-                     characteristic_type, sample_media, organization, site_type, huc, governmental_unit_code, project_id, assemblage_sampled_name
+                     characteristic_type, sample_media, organization, site_type, huc, governmental_unit_code, project_id,
+                     assemblage_sampled_name, sample_tissue_taxonomic_name
              order by station_id';
         commit;
 
@@ -154,42 +98,17 @@ create or replace package body etl_helper as
         execute immediate 'truncate table ' || table_name;
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
-          	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization,
-             huc, sample_media, characteristic_type, characteristic_name, analytical_method,
-             p_code, project_id, assemblage_sampled_name, result_count)
+          	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization, huc, sample_media,
+             characteristic_type, characteristic_name, analytical_method, p_code, project_id, assemblage_sampled_name,
+             taxonomic_name, result_count)
         select /*+ parallel(4) */ 
-               data_source_id,
-               data_source,
-               station_id,
-               site_id,
-               governmental_unit_code,
-               site_type,
-               organization,
-               huc,
-               sample_media,
-               characteristic_type,
-               characteristic_name,
-               analytical_method,
-               p_code,
-               project_id,
-               assemblage_sampled_name,
-               sum(result_count) result_count
+               data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization, huc, sample_media,
+               characteristic_type, characteristic_name, analytical_method, p_code, project_id, assemblage_sampled_name,
+			   taxonomic_name, sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
-             group by data_source_id,
-                      data_source,
-                      site_id,
-                      station_id,
-                      governmental_unit_code,
-                      site_type,
-                      organization,
-                      huc,
-                      sample_media,
-                      characteristic_type,
-                      characteristic_name,
-                      analytical_method,
-                      p_code,
-                      project_id,
-                      assemblage_sampled_name
+             group by data_source_id, data_source, site_id, station_id, governmental_unit_code, site_type, organization, huc,
+                      sample_media, characteristic_type, characteristic_name, analytical_method, p_code, project_id,
+                      assemblage_sampled_name, taxonomic_name
              order by characteristic_name';
         commit;
 
@@ -203,15 +122,15 @@ create or replace package body etl_helper as
         execute immediate 'truncate table ' || table_name;
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
-          	(data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-             characteristic_name, characteristic_type, sample_media, project_id, assemblage_sampled_name, result_count)
+          	(data_source_id, data_source, station_id, event_date, analytical_method, p_code, characteristic_name,
+             characteristic_type, sample_media, project_id, assemblage_sampled_name, taxonomic_name, result_count)
         select /*+ parallel(4) */ 
-               data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-               characteristic_name, characteristic_type, sample_media, project_id, assemblage_sampled_name,
+               data_source_id, data_source, station_id, event_date, analytical_method, p_code, characteristic_name,
+               characteristic_type, sample_media, project_id, assemblage_sampled_name, taxonomic_name,
                sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
-             group by data_source_id, data_source, station_id, event_date, analytical_method, p_code,
-                      characteristic_name, characteristic_type, sample_media, project_id, assemblage_sampled_name
+             group by data_source_id, data_source, station_id, event_date, analytical_method, p_code, characteristic_name,
+                      characteristic_type, sample_media, project_id, assemblage_sampled_name, taxonomic_name
              order by characteristic_name';
         commit;
 
@@ -453,8 +372,24 @@ create or replace package body etl_helper as
 
         execute immediate sql_stmnt;
         commit;
+        
 
-    end create_code_tables;
+        
+        table_name := dbms_assert.sql_object_name(upper('taxa_name_swap_' || p_table_suffix));
+
+        dbms_output.put_line('populating:' || table_name);
+        execute immediate 'truncate table ' || table_name;
+
+        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
+          	(data_source_id, code_value)
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
+                        sample_tissue_taxonomic_name code_value
+          from result_swap_' || p_table_suffix || '
+         where sample_media is not null';
+        commit;
+
+        end create_code_tables;
     
     procedure create_qwportal_summary(p_table_suffix in user_tables.table_name%type) is
         table_name		user_tables.table_name%type;
@@ -651,6 +586,10 @@ create or replace package body etl_helper as
         stmt := 'create bitmap index r_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
+
+        stmt := 'create bitmap index r_' || p_table_suffix || '_taxa_name on ' || table_name || '(sample_tissue_taxonomic_name) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
         
 	end create_result_indexes;
 
@@ -811,8 +750,12 @@ create or replace package body etl_helper as
         stmt := 'create bitmap index rs_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
-	
-	end create_result_sum_indexes;
+
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_taxa_name on ' || table_name || '(taxonomic_name) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+    end create_result_sum_indexes;
 
 	procedure create_result_ct_sum_indexes(p_table_suffix in user_tables.table_name%type) is
         stmt            varchar2(32000);
@@ -902,6 +845,10 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_taxa_name on ' || table_name || '(taxonomic_name) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
     end create_result_ct_sum_indexes;
 
 	procedure create_result_nr_sum_indexes(p_table_suffix in user_tables.table_name%type) is
@@ -941,6 +888,10 @@ create or replace package body etl_helper as
         execute immediate stmt;
 
         stmt := 'create bitmap index rnrs_' || p_table_suffix || '_station on ' || table_name || '(station_id) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_taxa_name on ' || table_name || '(taxonomic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
         
@@ -1227,4 +1178,3 @@ create or replace package body etl_helper as
 	end update_last_etl;
 
 end etl_helper;
---rollback drop package body etl_helper;
