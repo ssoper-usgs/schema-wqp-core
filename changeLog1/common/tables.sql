@@ -908,9 +908,3 @@ partition by range (data_source_id)
 --changeset drsteini:1CommonTablesBR
 alter table result_sum add (taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
-
---changeset drsteini:1CommonTablesBS
---rollback drop table taxa_name cascade constraints purge;
-
---changeset drsteini:1CommonTablesBT
---rollback drop table taxa_name cascade constraints purge;
