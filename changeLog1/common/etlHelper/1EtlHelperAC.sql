@@ -998,7 +998,10 @@ create or replace package body etl_helper as
 	
 	    dbms_output.put_line('analyze station_sum...');
 	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
-	    
+	    	
+	    dbms_output.put_line('analyze taxa_name...');
+	    dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'TAXA_NAME_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+
 	end analyze_tables;
 
 	procedure validate(p_data_source_id in data_source.data_source_id%type) is
@@ -1156,6 +1159,10 @@ create or replace package body etl_helper as
 		dbms_output.put_line('state');
 		execute immediate 'alter table state exchange partition state_' || suffix ||
 	                      ' with table state_swap_' || suffix || ' including indexes';
+	
+		dbms_output.put_line('taxa_name');
+		execute immediate 'alter table taxa_name exchange partition taxa_name_' || suffix ||
+	                      ' with table taxa_name_swap_' || suffix || ' including indexes';
 	
 	    if (suffix = 'storet' or suffix = 'nwis') then
 			dbms_output.put_line('qwportal_summary');
