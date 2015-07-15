@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"> 
+
+    <preConditions>
+        <dbms type="oracle" />
+        <runningAs username="WQP_CORE" />
+    </preConditions>
+
+    <changeSet author="drsteini" id="1EtlHelperAA">
+        <createProcedure path="etlHelper/1EtlHelperAA.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="1EtlHelperAB">
+        <createProcedure path="etlHelper/1EtlHelperAB.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="1EtlHelperAC">
+        <createProcedure path="etlHelper/1EtlHelperAC.sql" relativeToChangelogFile="true" />
+        <rollback changeSetId="1EtlHelperAB" changeSetAuthor="drsteini"/>
+    </changeSet>
+
+</databaseChangeLog>

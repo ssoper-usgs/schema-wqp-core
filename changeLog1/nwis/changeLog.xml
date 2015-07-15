@@ -10,7 +10,10 @@
         <runningAs username="WQP_CORE" />
     </preConditions>
 
-    <include file="changeLog1/changeLog.xml" relativeToChangelogFile="true"/>
-    <include file="changeLogData/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="tables.sql" relativeToChangelogFile="true"/>
+    <include file="indexes.sql" relativeToChangelogFile="true"/>
+    <include file="ri.sql" relativeToChangelogFile="true"/>
+    <include file="synonyms.sql" relativeToChangelogFile="true"/>
+    <include file="grants.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
