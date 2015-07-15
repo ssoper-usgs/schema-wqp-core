@@ -81,3 +81,7 @@ grant select on project to wqp_user;
 --changeset drsteini:1GrantsAV
 grant select on assemblage to wqp_user;
 --rollback revoke select on assemblage from wqp_user;
+
+--changeset drsteini:1GrantsAW
+grant select on taxonomic_name to wqp_user;
+--rollback revoke select on taxonomic_name from wqp_user;
