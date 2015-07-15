@@ -906,18 +906,18 @@ partition by range (data_source_id)
 
 --changeset drsteini:1CommonTablesBR
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM' and column_name = 'TAXONOMIC_NAME'
-alter table result_sum add (taxonomic_name varchar2(4000 char));
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
+alter table result_sum add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
 
 --changeset drsteini:1CommonTablesBS
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM' and column_name = 'TAXONOMIC_NAME'
-alter table result_ct_sum add (taxonomic_name varchar2(4000 char));
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
+alter table result_ct_sum add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
 
 --changeset drsteini:1CommonTablesBT
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM' and column_name = 'TAXONOMIC_NAME'
-alter table result_nr_sum add (taxonomic_name varchar2(4000 char));
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
+alter table result_nr_sum add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;

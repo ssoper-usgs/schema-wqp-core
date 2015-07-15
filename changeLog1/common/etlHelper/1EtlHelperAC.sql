@@ -78,7 +78,7 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
 		  	(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
              characteristic_name, characteristic_type, sample_media, organization, site_type, huc,
-             governmental_unit_code, project_id, assemblage_sampled_name, taxonomic_name, result_count)
+             governmental_unit_code, project_id, assemblage_sampled_name, sample_tissue_taxonomic_name, result_count)
         select data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code, characteristic_name,
                characteristic_type, sample_media, organization, site_type, huc, governmental_unit_code, project_id,
                assemblage_sampled_name, sample_tissue_taxonomic_name, count(*) result_count
@@ -100,15 +100,15 @@ create or replace package body etl_helper as
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization, huc, sample_media,
              characteristic_type, characteristic_name, analytical_method, p_code, project_id, assemblage_sampled_name,
-             taxonomic_name, result_count)
+             sample_tissue_taxonomic_name, result_count)
         select /*+ parallel(4) */ 
                data_source_id, data_source, station_id, site_id, governmental_unit_code, site_type, organization, huc, sample_media,
                characteristic_type, characteristic_name, analytical_method, p_code, project_id, assemblage_sampled_name,
-			   taxonomic_name, sum(result_count) result_count
+			   sample_tissue_taxonomic_name, sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
              group by data_source_id, data_source, site_id, station_id, governmental_unit_code, site_type, organization, huc,
                       sample_media, characteristic_type, characteristic_name, analytical_method, p_code, project_id,
-                      assemblage_sampled_name, taxonomic_name
+                      assemblage_sampled_name, sample_tissue_taxonomic_name
              order by characteristic_name';
         commit;
 
@@ -123,14 +123,14 @@ create or replace package body etl_helper as
 
         execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || '
           	(data_source_id, data_source, station_id, event_date, analytical_method, p_code, characteristic_name,
-             characteristic_type, sample_media, project_id, assemblage_sampled_name, taxonomic_name, result_count)
+             characteristic_type, sample_media, project_id, assemblage_sampled_name, sample_tissue_taxonomic_name, result_count)
         select /*+ parallel(4) */ 
                data_source_id, data_source, station_id, event_date, analytical_method, p_code, characteristic_name,
-               characteristic_type, sample_media, project_id, assemblage_sampled_name, taxonomic_name,
+               characteristic_type, sample_media, project_id, assemblage_sampled_name, sample_tissue_taxonomic_name,
                sum(result_count) result_count
           from result_sum_swap_' || p_table_suffix || '
              group by data_source_id, data_source, station_id, event_date, analytical_method, p_code, characteristic_name,
-                      characteristic_type, sample_media, project_id, assemblage_sampled_name, taxonomic_name
+                      characteristic_type, sample_media, project_id, assemblage_sampled_name, sample_tissue_taxonomic_name
              order by characteristic_name';
         commit;
 
@@ -751,7 +751,7 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index rs_' || p_table_suffix || '_taxa_name on ' || table_name || '(taxonomic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index rs_' || p_table_suffix || '_taxa_name on ' || table_name || '(sample_tissue_taxonomic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -845,7 +845,7 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index rcts_' || p_table_suffix || '_taxa_name on ' || table_name || '(taxonomic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index rcts_' || p_table_suffix || '_taxa_name on ' || table_name || '(sample_tissue_taxonomic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -891,7 +891,7 @@ create or replace package body etl_helper as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_taxa_name on ' || table_name || '(taxonomic_name) local parallel 4 nologging';
+        stmt := 'create bitmap index rnrs_' || p_table_suffix || '_taxa_name on ' || table_name || '(sample_tissue_taxonomic_name) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
         

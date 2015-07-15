@@ -429,13 +429,13 @@ create bitmap index r_nwis_taxa_name on result_swap_nwis(sample_tissue_taxonomic
 --rollback drop index r_nwis_taxa_name;
 
 --changeset drsteini:1NwisIndexesDX
-create bitmap index rs_nwis_taxa_name on result_sum_swap_nwis(taxonomic_name) local parallel 4 nologging;
+create bitmap index rs_nwis_taxa_name on result_sum_swap_nwis(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rs_nwis_taxa_name;
 
 --changeset drsteini:1NwisIndexesDY
-create bitmap index rcts_nwis_taxa_name on result_ct_sum_swap_nwis(taxonomic_name) local parallel 4 nologging;
+create bitmap index rcts_nwis_taxa_name on result_ct_sum_swap_nwis(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rcts_nwis_taxa_name;
 
 --changeset drsteini:1NwisIndexesDZ
-create bitmap index rnrs_nwis_taxa_name on result_nr_sum_swap_nwis(taxonomic_name) local parallel 4 nologging;
+create bitmap index rnrs_nwis_taxa_name on result_nr_sum_swap_nwis(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rnrs_nwis_taxa_name;

@@ -656,18 +656,18 @@ create table taxa_name_swap_biodata
 
 --changeset drsteini:1BiodataTablesAW
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_BIODATA' and column_name = 'TAXONOMIC_NAME'
-alter table result_sum_swap_biodata add (taxonomic_name varchar2(4000 char));
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_BIODATA' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
+alter table result_sum_swap_biodata add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
 
 --changeset drsteini:1BiodataTablesAX
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM_SWAP_BIODATA' and column_name = 'TAXONOMIC_NAME'
-alter table result_ct_sum_swap_biodata add (taxonomic_name varchar2(4000 char));
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_CT_SUM_SWAP_BIODATA' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
+alter table result_ct_sum_swap_biodata add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
 
 --changeset drsteini:1BiodataTablesAY
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_BIODATA' and column_name = 'TAXONOMIC_NAME'
-alter table result_nr_sum_swap_biodata add (taxonomic_name varchar2(4000 char));
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_BIODATA' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
+alter table result_nr_sum_swap_biodata add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;

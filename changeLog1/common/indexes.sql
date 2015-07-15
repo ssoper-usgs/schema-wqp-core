@@ -482,13 +482,13 @@ create bitmap index result_taxa_name on result(sample_tissue_taxonomic_name) loc
 --rollback drop index result_taxa_name;
 
 --changeset drsteini:1CommonIndexesEJ
-create bitmap index result_sum_taxa_name on result_sum(taxonomic_name) local parallel 4 nologging;
+create bitmap index result_sum_taxa_name on result_sum(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index result_sum_taxa_name;
 
 --changeset drsteini:1CommonIndexesEK
-create bitmap index result_ct_sum_taxa_name on result_ct_sum(taxonomic_name) local parallel 4 nologging;
+create bitmap index result_ct_sum_taxa_name on result_ct_sum(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index result_ct_sum_taxa_name;
 
 --changeset drsteini:1CommonIndexesEL
-create bitmap index result_nr_sum_taxa_name on result_nr_sum(taxonomic_name) local parallel 4 nologging;
+create bitmap index result_nr_sum_taxa_name on result_nr_sum(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index result_nr_sum_taxa_name;
