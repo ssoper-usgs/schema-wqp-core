@@ -386,7 +386,7 @@ create or replace package body etl_helper as
                distinct data_source_id,
                         sample_tissue_taxonomic_name code_value
           from result_swap_' || p_table_suffix || '
-         where sample_media is not null';
+         where sample_tissue_taxonomic_name is not null';
         commit;
 
         end create_code_tables;
