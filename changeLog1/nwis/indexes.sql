@@ -439,3 +439,7 @@ create bitmap index rcts_nwis_taxa_name on result_ct_sum_swap_nwis(sample_tissue
 --changeset drsteini:1NwisIndexesDZ
 create bitmap index rnrs_nwis_taxa_name on result_nr_sum_swap_nwis(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rnrs_nwis_taxa_name;
+
+--changeset drsteini:WQP-788-create_pds_nwis_code
+create bitmap index pds_nwis_code on project_dim_swap_nwis(code_value) parallel 4 nologging;
+--rollback drop index pds_nwis_code;

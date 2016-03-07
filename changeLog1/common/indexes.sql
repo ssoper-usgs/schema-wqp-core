@@ -492,3 +492,7 @@ create bitmap index result_ct_sum_taxa_name on result_ct_sum(sample_tissue_taxon
 --changeset drsteini:1CommonIndexesEL
 create bitmap index result_nr_sum_taxa_name on result_nr_sum(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index result_nr_sum_taxa_name;
+
+--changeset drsteini:WQP-788-create_project_dim_code
+create bitmap index project_dim_code on project_dim(code_value) local parallel 4 nologging;
+--rollback drop index project_dim_code;

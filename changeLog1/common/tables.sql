@@ -921,3 +921,17 @@ alter table result_ct_sum add (sample_tissue_taxonomic_name varchar2(4000 char))
 --precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
 alter table result_nr_sum add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:WQP-788-create_project_dim
+create table project_dim
+(data_source_id					number
+,code_value						varchar2(500 char)
+,project_dim_value				varchar2(4000 char)
+)partition by range (data_source_id)
+(partition project_dim_stewards values less than (2)
+,partition project_dim_nwis values less than (3)
+,partition project_dim_storet values less than (4)
+,partition project_dim_biodata values less than (5)
+,partition project_dim_garbage values less than (maxvalue)
+);
+--rollback drop table project_dim cascade constraints purge;

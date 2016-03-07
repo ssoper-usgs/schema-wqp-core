@@ -439,3 +439,7 @@ create bitmap index rcts_biodata_taxa_name on result_ct_sum_swap_biodata(sample_
 --changeset drsteini:1BiodataIndexesDZ
 create bitmap index rnrs_biodata_taxa_name on result_nr_sum_swap_biodata(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rnrs_biodata_taxa_name;
+
+--changeset drsteini:WQP-788-create_pds_biodata_code
+create bitmap index pds_biodata_code on project_dim_swap_biodata(code_value) parallel 4 nologging;
+--rollback drop index pds_biodata_code;
