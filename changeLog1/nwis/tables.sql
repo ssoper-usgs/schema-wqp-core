@@ -645,3 +645,11 @@ alter table result_ct_sum_swap_nwis add (sample_tissue_taxonomic_name varchar2(4
 --precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_NWIS' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
 alter table result_nr_sum_swap_nwis add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:WQP-788-create_project_dim_swap_nwis
+create table project_dim_swap_nwis
+(data_source_id					number
+,code_value						varchar2(500 char)
+,project_dim_value				varchar2(4000 char)
+);
+--rollback drop table project_dim_swap_nwis cascade constraints purge;

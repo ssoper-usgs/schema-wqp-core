@@ -671,3 +671,11 @@ alter table result_ct_sum_swap_biodata add (sample_tissue_taxonomic_name varchar
 --precondition-sql-check expectedResult:0 select count(*) from user_tab_cols where table_name = 'RESULT_NR_SUM_SWAP_BIODATA' and column_name = 'SAMPLE_TISSUE_TAXONOMIC_NAME'
 alter table result_nr_sum_swap_biodata add (sample_tissue_taxonomic_name varchar2(4000 char));
 --rollback select 'no rollback - cannot drop column from compressed table' from dual;
+
+--changeset drsteini:WQP-788-create_project_dim_swap_biodata
+create table project_dim_swap_biodata
+(data_source_id					number
+,code_value						varchar2(500 char)
+,project_dim_value				varchar2(4000 char)
+);
+--rollback drop table project_dim_swap_biodata cascade constraints purge;

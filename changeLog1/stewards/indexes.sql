@@ -437,3 +437,7 @@ create bitmap index rcts_stewards_taxa_name on result_ct_sum_swap_stewards(sampl
 --changeset drsteini:1StewardsIndexesDZ
 create bitmap index rnrs_stewards_taxa_name on result_nr_sum_swap_stewards(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rnrs_stewards_taxa_name;
+
+--changeset drsteini:WQP-788-create_pds_stewards_code
+create bitmap index pds_stewards_code on project_dim_swap_stewards(code_value) parallel 4 nologging;
+--rollback drop index pds_stewards_code;

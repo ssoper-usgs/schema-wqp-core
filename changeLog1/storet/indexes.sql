@@ -438,3 +438,7 @@ create bitmap index rcts_storet_taxa_name on result_ct_sum_swap_storet(sample_ti
 --changeset drsteini:1StewardsIndexesDZ
 create bitmap index rnrs_storet_taxa_name on result_nr_sum_swap_storet(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rnrs_storet_taxa_name;
+
+--changeset drsteini:WQP-788-create_pds_storet_code
+create bitmap index pds_storet_code on project_dim_swap_storet(code_value) parallel 4 nologging;
+--rollback drop index pds_storet_code;
