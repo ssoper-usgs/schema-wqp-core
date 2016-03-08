@@ -29,4 +29,84 @@
         <rollback changeSetId="1EtlHelperAB" changeSetAuthor="drsteini"/>
     </changeSet>
 
+    <changeSet author="drsteini" id="WQP-788-drop_etl_helper_body">
+        <sql>drop package body etl_helper</sql>
+        <rollback changeSetId="1EtlHelperAC" changeSetAuthor="drsteini"/>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-drop_etl_helper_definition">
+        <sql>drop package etl_helper</sql>
+        <rollback changeSetId="1EtlHelperAA" changeSetAuthor="drsteini"/>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_main_definition">
+        <createProcedure path="etlHelper/main/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_main
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_code_definition">
+        <createProcedure path="etlHelper/code/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_code
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_result_definition">
+        <createProcedure path="etlHelper/result/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_result
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_station_definition">
+        <createProcedure path="etlHelper/station/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_station
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_summary_definition">
+        <createProcedure path="etlHelper/summary/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_summary
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_main_body">
+        <createProcedure path="etlHelper/main/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_main
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_code_body">
+        <createProcedure path="etlHelper/code/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_code
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_result_body">
+        <createProcedure path="etlHelper/result/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_result
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_station_body">
+        <createProcedure path="etlHelper/station/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_station
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-788-create-etl_helper_summary_body">
+        <createProcedure path="etlHelper/summary/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_summary
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>
