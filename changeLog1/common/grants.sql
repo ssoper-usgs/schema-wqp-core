@@ -85,3 +85,7 @@ grant select on assemblage to wqp_user;
 --changeset drsteini:1GrantsAW
 grant select on taxa_name to wqp_user;
 --rollback revoke select on taxa_name from wqp_user;
+
+--changeset drsteini:WQP-788-grant_select_project_dim_wqp_user
+grant select on project_dim to wqp_user;
+--rollback revoke select on project_dim from wqp_user;
