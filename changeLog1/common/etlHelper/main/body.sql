@@ -152,81 +152,10 @@ create or replace package body etl_helper_main as
         suffix user_tables.table_name%type;
     begin
 
-	    suffix := dbms_assert.simple_sql_name(p_table_suffix);
-		
-		dbms_output.put_line('station');
-	    execute immediate 'alter table station exchange partition station_' || suffix ||
-	                      ' with table station_swap_' || suffix || ' including indexes';
-	    
-	    dbms_output.put_line('result');
-	   	execute immediate 'alter table result exchange partition result_' || suffix ||
-	                      ' with table result_swap_' || suffix || ' including indexes';
-	    
-	   	dbms_output.put_line('station_sum');
-		execute immediate 'alter table station_sum exchange partition station_sum_' || suffix ||
-	                      ' with table station_sum_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('result_sum');
-		execute immediate 'alter table result_sum exchange partition result_sum_' || suffix ||
-	                      ' with table result_sum_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('result_ct_sum');
-		execute immediate 'alter table result_ct_sum exchange partition rcts_' || suffix ||
-	                      ' with table result_ct_sum_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('result_nr_sum');
-		execute immediate 'alter table result_nr_sum exchange partition res_nr_sum_' || suffix ||
-	                      ' with table result_nr_sum_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('assemblage');
-		execute immediate 'alter table assemblage exchange partition assemblage_' || suffix ||
-	                      ' with table assemblage_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('characteristic_name');
-		execute immediate 'alter table char_name exchange partition char_name_' || suffix ||
-	                      ' with table char_name_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('characteristic_type');
-		execute immediate 'alter table char_type exchange partition char_type_' || suffix ||
-	                      ' with table char_type_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('country');
-		execute immediate 'alter table country exchange partition country_' || suffix ||
-	                      ' with table country_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('county');
-		execute immediate 'alter table county exchange partition county_' || suffix ||
-	                      ' with table county_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('organization');
-		execute immediate 'alter table organization exchange partition organization_' || suffix ||
-	                      ' with table organization_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('project');
-		execute immediate 'alter table project exchange partition project_' || suffix ||
-	                      ' with table project_swap_' || suffix || ' including indexes';
-	
-		dbms_output.put_line('sample_media');
-		execute immediate 'alter table sample_media exchange partition sample_media_' || suffix ||
-	                      ' with table sample_media_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('site_type');
-		execute immediate 'alter table site_type exchange partition site_type_' || suffix ||
-	                      ' with table site_type_swap_' || suffix || ' including indexes';
-	    
-		dbms_output.put_line('state');
-		execute immediate 'alter table state exchange partition state_' || suffix ||
-	                      ' with table state_swap_' || suffix || ' including indexes';
-	
-		dbms_output.put_line('taxa_name');
-		execute immediate 'alter table taxa_name exchange partition taxa_name_' || suffix ||
-	                      ' with table taxa_name_swap_' || suffix || ' including indexes';
-	
-	    if (suffix = 'storet' or suffix = 'nwis') then
-			dbms_output.put_line('qwportal_summary');
-			execute immediate 'alter table qwportal_summary exchange partition summary_' || suffix ||
-	                          ' with table qwportal_summary_swap_' || suffix || ' including indexes';
-		end if;
+    	etl_helper_code.install(p_table_suffix);
+    	etl_helper_summary.install(p_table_suffix);
+       	etl_helper_station.install(p_table_suffix);
+        etl_helper_result.install(p_table_suffix);
 
 	end install;
 

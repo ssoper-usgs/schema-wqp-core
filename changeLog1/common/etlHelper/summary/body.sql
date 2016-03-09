@@ -56,7 +56,7 @@ create or replace package body etl_helper_summary as
                  on station.station_id = result.station_id
             order by organization';
 
-        create_table('station_sum_swap', p_table_suffix, sql_suffix);
+        create_table('station_sum_swap_', p_table_suffix, sql_suffix);
 
     end create_station_sum;
 
