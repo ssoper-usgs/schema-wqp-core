@@ -496,3 +496,13 @@ create bitmap index result_nr_sum_taxa_name on result_nr_sum(sample_tissue_taxon
 --changeset drsteini:WQP-788-create_project_dim_code
 create bitmap index project_dim_code on project_dim(code_value) local parallel 4 nologging;
 --rollback drop index project_dim_code;
+
+--changeset drsteini:WQP-767-states_geom_metadata
+insert into user_sdo_geom_metadata 
+values ('STATES', 'GEOM',
+        mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -180, 180, 0.005), mdsys.sdo_dim_element('Y', -90, 90, 0.005)), 8265);
+--rollback delete from user_sdo_geom_metadata where table_name = 'STATES';
+
+--changeset drsteini:WQP-767-create_index_states_geom
+create index states_geom on states (geom) indextype is mdsys.spatial_index parameters('sdo_indx_dims=2 , layer_gtype=MULTIPOLYGON');
+--rollback drop index states_geom;
