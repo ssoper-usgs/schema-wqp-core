@@ -134,10 +134,10 @@ create or replace package body etl_helper_summary as
                    regexp_substr(county_code, '[^:]+', 1, 3) county_fips_code,
                    regexp_substr(state_code, '[^:]+', 1, 2)||regexp_substr(county_code, '[^:]+', 1, 3) fips_state_and_county,
                    huc_8,
-                   min(case when event_date between to_date('01-JAN-1875', 'DD-MON-YYYY') and to_date('19-FEB-2015', 'DD-MON-YYYY') then event_date else null end) min_date,
-                   max(case when event_date between to_date('01-JAN-1875', 'DD-MON-YYYY') and to_date('19-FEB-2015', 'DD-MON-YYYY') then event_date else null end) max_date,
-                   count(distinct case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 12 then activity else null end) samples_past_12_months,
-                   count(distinct case when months_between(to_date('19-FEB-2015', 'DD-MON-YYYY'), event_date) between 0 and 60 then activity else null end) samples_past_60_months,
+                   min(case when event_date between to_date('01-JAN-1875', 'DD-MON-YYYY') and sysdate then event_date else null end) min_date,
+                   max(case when event_date between to_date('01-JAN-1875', 'DD-MON-YYYY') and sysdate then event_date else null end) max_date,
+                   count(distinct case when months_between(sysdate, event_date) between 0 and 12 then activity else null end) samples_past_12_months,
+                   count(distinct case when months_between(sysdate, event_date) between 0 and 60 then activity else null end) samples_past_60_months,
                    count(distinct activity) samples_all_time
               from result_swap_!' || p_table_suffix || q'!
              where state_code between 'US:01' and 'US:56'

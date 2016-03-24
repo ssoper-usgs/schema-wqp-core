@@ -89,3 +89,15 @@ grant select on taxa_name to wqp_user;
 --changeset drsteini:WQP-788-grant_select_project_dim_wqp_user
 grant select on project_dim to wqp_user;
 --rollback revoke select on project_dim from wqp_user;
+
+--changeset drsteini:WQP-767-grant_select_states_wqp_user
+grant select on states to wqp_user;
+--rollback revoke select on states from wqp_user;
+
+--changeset drsteini:WQP-788-grant_select_huc8_conus_hi_ak_pr_dis_wqp_user
+grant select on huc8_conus_hi_ak_pr_dis to wqp_user;
+--rollback revoke select on huc8_conus_hi_ak_pr_dis from wqp_user;
+
+--changeset drsteini:WQP-788-grant_select_us_counties_dis_20121015_wqp_user
+grant select on us_counties_dis_20121015 to wqp_user;
+--rollback revoke select on us_counties_dis_20121015 from wqp_user;

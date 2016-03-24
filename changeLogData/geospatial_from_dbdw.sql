@@ -17,3 +17,7 @@ insert into county_geom_lookup select * from county_geom_lookup@wqp_core_dbdw.er
 --changeset drsteini:1GeoFromDbdwAD context:dev,qa,prod
 insert into huc8_geom_lookup select * from huc8_geom_lookup@wqp_core_dbdw.er.usgs.gov;
 --rollback truncate table huc8_geom_lookup;
+
+--changeset drsteini:WQP-767-Populate-States context:dev,qa,prod
+insert into states select * from states@nwis_ws_star_dbdw.er.usgs.gov;
+--rollback truncate table states;
