@@ -1052,3 +1052,7 @@ create table states
 ,geom        					mdsys.sdo_geometry
 );
 --rollback drop table states cascade constraints purge;
+
+--changeset drsteini:WQP-800-alter-web_service_log
+alter table web_service_log add (post_data clob);
+--rollback alter table web_service_log drop column post_data;
