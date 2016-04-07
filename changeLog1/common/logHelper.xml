@@ -100,4 +100,14 @@
         </rollback>
     </changeSet>
 
+    <changeSet author="drsteini" id="WQP-800-alter-log_helper-spec">
+        <createProcedure path="logHelper/wqp800Spec.sql" relativeToChangelogFile="true" />
+        <rollback changeSetId="1LogHelperAA" changeSetAuthor="drsteini"/>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-800-alter-log_helper-body">
+        <createProcedure path="logHelper/wqp800Body.sql" relativeToChangelogFile="true" />
+        <rollback changeSetId="1LogHelperAB" changeSetAuthor="drsteini"/>
+    </changeSet>
+
 </databaseChangeLog>
