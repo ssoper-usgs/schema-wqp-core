@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"> 
+
+	<preConditions>
+		<dbms type="oracle" />
+		<runningAs username="WQP_CORE" />
+	</preConditions>
+
+	<changeSet author="drsteini" id="WQP-807_create_spec_pkg_dynamic_list">
+		<createProcedure path="dynamicList/wqp807Spec.sql" relativeToChangelogFile="true" />
+		<rollback>
+			drop package pkg_dynamic_list
+		</rollback>
+	</changeSet>
+
+	<changeSet author="drsteini" id="WQP-807_create_body_pkg_dynamic_list">
+		<createProcedure path="dynamicList/wqp807Body.sql" relativeToChangelogFile="true" />
+		<rollback>
+			drop package body pkg_dynamic_list
+		</rollback>
+	</changeSet>
+
+</databaseChangeLog>
