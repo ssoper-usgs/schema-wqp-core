@@ -101,3 +101,7 @@ grant select on huc8_conus_hi_ak_pr_dis to wqp_user;
 --changeset drsteini:WQP-788-grant_select_us_counties_dis_20121015_wqp_user
 grant select on us_counties_dis_20121015 to wqp_user;
 --rollback revoke select on us_counties_dis_20121015 from wqp_user;
+
+--changeset drsteini:WQP-807_grant_wqp_user_pkg_dynamic_list
+grant execute on pkg_dynamic_list to wqp_user;
+--rollback revoke execute on pkg_dynamic_list from wqp_user;
