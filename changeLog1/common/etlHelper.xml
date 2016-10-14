@@ -109,4 +109,9 @@
         </rollback>
     </changeSet>
 
+    <changeSet author="drsteini" id="WQP-789-modify-etl_helper_code_body">
+        <createProcedure path="etlHelper/code/wqp789Body.sql" relativeToChangelogFile="true" />
+        <rollback changeSetId="WQP-788-create-etl_helper_code_body" changeSetAuthor="drsteini"/>
+    </changeSet>
+
 </databaseChangeLog>
