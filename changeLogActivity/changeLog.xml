@@ -10,8 +10,10 @@
         <runningAs username="WQP_CORE" />
     </preConditions>
 
-    <include file="changeLog1/changeLog.xml" relativeToChangelogFile="true"/>
-    <include file="changeLogActivity/changeLog.xml" relativeToChangelogFile="true"/>
-    <include file="changeLogData/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="common/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="stewards/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="nwis/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="storet/changeLog.xml" relativeToChangelogFile="true"/>
+    <include file="biodata/changeLog.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
