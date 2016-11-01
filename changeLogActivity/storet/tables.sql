@@ -318,3 +318,9 @@ drop table wqx_activity cascade constraints purge;
 --rollback ,thermal_preservative_name      varchar2(4000 char)
 --rollback ,act_sam_transport_storage_desc varchar2(4000 char)
 --rollback ) parallel 4 compress pctfree 0 nologging cache;
+
+--changeset drsteini:WQP-913-alter-result_no_source
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tab_columns where table_name = 'RESULT_NO_SOURCE' and column_name = 'ACTIVITY_ID'
+alter table result_no_source add activity_id number;
+--rollback select 'need to manually drop table and re-create using changeset drsteini:1StoretTablesAV' from dual;
