@@ -143,7 +143,7 @@ create or replace package body etl_helper_code as
             select /*+ parallel(4) */ 
                    distinct s.data_source_id,
                             s.county_code code_value,
-                            s.country_code || ', ' || nvl(nwis_state.st_name, state.st_name) || ', ' || nvl(nwis_county.cnty_name,county.cnty_name) description
+                            s.country_code || ', ' || nvl(nwis_state.state_nm, state.st_name) || ', ' || nvl(nwis_county.county_nm,county.cnty_name) description
               from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
                    join wqx.country
                      on s.country_code = country.cntry_cd
@@ -153,7 +153,7 @@ create or replace package body etl_helper_code as
                    left join wqx.county
                      on state.st_uid = county.st_uid and
                         regexp_substr(s.county_code, '[^:]+', 1, 3) = county.cnty_fips_cd
-                   left join nwis_ws_star.nwis_state
+                   left join nwis_ws_star.state nwis_state
                      on s.country_code = nwis_state.country_cd and
                         regexp_substr(s.state_code, '[^:]+', 1, 2) = nwis_state.state_cd
                    left join nwis_ws_star.county nwis_county
@@ -281,15 +281,15 @@ create or replace package body etl_helper_code as
             select /*+ parallel(4) */ 
                    distinct s.data_source_id,
                             s.state_code code_value,
-                            s.country_code || ', ' || nvl(nwis_state.st_name,state.st_name) description_with_country,
-                            nvl(nwis_state.st_name,state.st_name) description_with_out_country
+                            s.country_code || ', ' || nvl(nwis_state.state_nm,state.st_name) description_with_country,
+                            nvl(nwis_state.state_nm,state.st_name) description_with_out_country
               from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
                    join wqx.country
                      on s.country_code = country.cntry_cd 
                    left join wqx.state
                      on country.cntry_uid = state.cntry_uid and
                         regexp_substr(s.state_code, '[^:]+', 1, 2) = state.st_fips_cd
-                   left join nwis_ws_star.nwis_state
+                   left join nwis_ws_star.state nwis_state
                      on s.country_code = nwis_state.country_cd and
                         regexp_substr(s.state_code, '[^:]+', 1, 2) = nwis_state.state_cd
              where s.state_code is not null!';
