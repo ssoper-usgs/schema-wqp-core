@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd"> 
+
+    <preConditions>
+        <dbms type="oracle" />
+        <runningAs username="WQP_CORE" />
+    </preConditions>
+
+    <changeSet author="drsteini" id="WQP-915_create_definition_etl_helper_activity">
+        <createProcedure path="etlHelper/activity/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_activity
+        </rollback>
+    </changeSet>
+
+	<changeSet author="drsteini" id="WQP-915_create_body_etl_helper_activity">
+        <createProcedure path="etlHelper/activity/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_activity
+        </rollback>
+    </changeSet>
+
+
+    <changeSet author="drsteini" id="WQP-915_create_definition_etl_helper_activity_metric">
+        <createProcedure path="etlHelper/activityMetric/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_activity_metric
+        </rollback>
+    </changeSet>
+
+	<changeSet author="drsteini" id="WQP-915_create_body_etl_helper_activity_metric">
+        <createProcedure path="etlHelper/activityMetric/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_activity_metric
+        </rollback>
+    </changeSet>
+
+
+    <changeSet author="drsteini" id="WQP-915_create_definition_etl_helper_main">
+        <createProcedure path="etlHelper/main/definition.sql" relativeToChangelogFile="true" />
+        <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-788-create-etl_helper_main_definition" changeSetAuthor="drsteini" -->
+    </changeSet>
+
+	<changeSet author="drsteini" id="WQP-915_create_body_etl_helper_main">
+        <createProcedure path="etlHelper/main/body.sql" relativeToChangelogFile="true" />
+        <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-788-create-etl_helper_main_body" changeSetAuthor="drsteini" -->
+    </changeSet>
+
+</databaseChangeLog>
