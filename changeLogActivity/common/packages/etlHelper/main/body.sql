@@ -50,7 +50,7 @@ create or replace package body etl_helper_main as
         execute immediate stmt;   
 
         stmt := 'alter table activity_swap_' || suffix || ' add constraint activity_pk_' || suffix || 
-                ' primary key (data_source_id, activity_id) rely enable novalidate';
+                ' primary key (data_source_id, station_id, activity_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -60,9 +60,9 @@ create or replace package body etl_helper_main as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'alter table act_metric_swap' || suffix || ' add constraint am_activity_fk_' || suffix ||
-                ' foreign key (data_source_id, activity_id) references activity_swap_' || suffix ||
-                ' (data_source_id, activity_id) rely enable novalidate';
+        stmt := 'alter table act_metric_swap_' || suffix || ' add constraint am_activity_fk_' || suffix ||
+                ' foreign key (data_source_id, station_id, activity_id) references activity_swap_' || suffix ||
+                ' (data_source_id, station_id, activity_id) rely enable novalidate';
         execute immediate stmt;
 
         stmt := 'alter table result_swap_' || suffix || ' add constraint r_station_fk_' || suffix ||
@@ -152,7 +152,7 @@ create or replace package body etl_helper_main as
         execute immediate 'select count(*) from ' || l_table_name || ' partition (' || dbms_assert.simple_sql_name(p_partition_prefix) || suffix || ')' into old_rows;
         execute immediate 'select count(*) from ' || l_table_name || '_swap_' || suffix into new_rows;
 
-        if new_rows > min_rows and new_rows > old_rows - max_diff then
+        if new_rows >= min_rows and new_rows >= old_rows - max_diff then
             pass_fail := 'PASS';
         else
             pass_fail := 'FAIL';
