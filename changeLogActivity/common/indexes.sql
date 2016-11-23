@@ -140,3 +140,66 @@ create bitmap index act_metric_state on act_metric(state_code) local parallel 4 
 create bitmap index act_metric_station on act_metric(station_id) local parallel 4 nologging;
 --rollback drop index act_metric_station;
 
+--changeset drsteini:WQP-933-create-activity_sum_country
+create bitmap index activity_sum_country on activity_sum(country_code) local parallel 4 nologging;
+--rollback drop index activity_sum_country;
+
+--changeset drsteini:WQP-933-create-activity_sum_county
+create bitmap index activity_sum_county on activity_sum(county_code) local parallel 4 nologging;
+--rollback drop index activity_sum_county;
+
+--changeset drsteini:WQP-933-create-activity_sum_event_date
+create bitmap index activity_sum_event_date on activity_sum(event_date) local parallel 4 nologging;
+--rollback drop index activity_sum_event_date;
+
+--changeset drsteini:WQP-933-create-activity_sum_huc10
+create bitmap index activity_sum_huc10 on activity_sum(huc_10) local parallel 4 nologging;
+--rollback drop index activity_sum_huc10;
+
+--changeset drsteini:WQP-933-create-activity_sum_huc12
+create bitmap index activity_sum_huc12 on activity_sum(huc_12) local parallel 4 nologging;
+--rollback drop index activity_sum_huc12;
+
+--changeset drsteini:WQP-933-create-activity_sum_huc2
+create bitmap index activity_sum_huc2 on activity_sum(huc_2) local parallel 4 nologging;
+--rollback drop index activity_sum_huc2;
+
+--changeset drsteini:WQP-933-create-activity_sum_huc4
+create bitmap index activity_sum_huc4 on activity_sum(huc_4) local parallel 4 nologging;
+--rollback drop index activity_sum_huc4;
+
+--changeset drsteini:WQP-933-create-activity_sum_huc6
+create bitmap index activity_sum_huc6 on activity_sum(huc_6) local parallel 4 nologging;
+--rollback drop index activity_sum_huc6;
+
+--changeset drsteini:WQP-933-create-activity_sum_huc8
+create bitmap index activity_sum_huc8 on activity_sum(huc_8) local parallel 4 nologging;
+--rollback drop index activity_sum_huc8;
+
+--changeset drsteini:WQP-933-create-activity_sum_organization
+create bitmap index activity_sum_organization on activity_sum(organization) local parallel 4 nologging;
+--rollback drop index activity_sum_organization;
+
+--changeset drsteini:WQP-933-create-activity_sum_project
+create bitmap index activity_sum_project on activity_sum(project_id) local parallel 4 nologging;
+--rollback drop index activity_sum_project;
+
+--changeset drsteini:WQP-933-create-activity_sum_sample_media
+create bitmap index activity_sum_sample_media on activity_sum(sample_media) local parallel 4 nologging;
+--rollback drop index activity_sum_sample_media;
+
+--changeset drsteini:WQP-933-create-activity_sum_site
+create bitmap index activity_sum_site on activity_sum(site_id) local parallel 4 nologging;
+--rollback drop index activity_sum_site;
+
+--changeset drsteini:WQP-933-create-activity_sum_site_type
+create bitmap index activity_sum_site_type on activity_sum(site_type) local parallel 4 nologging;
+--rollback drop index activity_sum_site_type;
+
+--changeset drsteini:WQP-933-create-activity_sum_state
+create bitmap index activity_sum_state on activity_sum(state_code) local parallel 4 nologging;
+--rollback drop index activity_sum_state;
+
+--changeset drsteini:WQP-933-create-activity_sum_station
+create bitmap index activity_sum_station on activity_sum(station_id) local parallel 4 nologging;
+--rollback drop index activity_sum_station;
