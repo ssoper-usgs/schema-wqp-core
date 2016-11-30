@@ -50,9 +50,19 @@
         <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-788-create-etl_helper_main_body" changeSetAuthor="drsteini" -->
     </changeSet>
 
+    <changeSet author="drsteini" id="WQP-933_create_definition_etl_helper_summary">
+        <createProcedure path="etlHelper/summary/definition.sql" relativeToChangelogFile="true" />
+        <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-788-create-etl_helper_summary_definition" changeSetAuthor="drsteini" -->
+    </changeSet>
+
     <changeSet author="drsteini" id="WQP-933_create_body_etl_helper_summary">
         <createProcedure path="etlHelper/summary/body.sql" relativeToChangelogFile="true" />
         <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-788-create-etl_helper_summary_body" changeSetAuthor="drsteini" -->
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-933_create_body_etl_helper_code">
+        <createProcedure path="etlHelper/code/body.sql" relativeToChangelogFile="true" />
+        <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-789-modify-etl_helper_code_body" changeSetAuthor="drsteini" -->
     </changeSet>
 
 </databaseChangeLog>
