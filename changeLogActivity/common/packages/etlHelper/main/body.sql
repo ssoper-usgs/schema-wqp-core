@@ -77,18 +77,6 @@ create or replace package body etl_helper_main as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'alter table result_ct_sum_swap_' || suffix || ' add constraint rcts_station_fk' || suffix ||
-                ' foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
-                ' (data_source_id, station_id) rely enable novalidate';
-        dbms_output.put_line(stmt);
-        execute immediate stmt;
-
-        stmt := 'alter table result_nr_sum_swap_' || suffix || ' add constraint rnrs_station_fk' || suffix ||
-                ' foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
-                ' (data_source_id, station_id) rely enable novalidate';
-        dbms_output.put_line(stmt);
-        execute immediate stmt;
-
     end add_ri;
 
     procedure analyze_tables(p_table_suffix in user_tables.table_name%type) is

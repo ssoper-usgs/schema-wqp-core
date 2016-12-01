@@ -115,7 +115,7 @@ create or replace package body etl_helper_activity_metric as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('activity');
+        dbms_output.put_line('act_metric');
         execute immediate 'alter table act_metric exchange partition act_metric_' || suffix ||
             ' with table act_metric_swap_' || suffix || ' including indexes';
 

@@ -217,7 +217,6 @@ create table activity_sum_swap_stewards
 ,governmental_unit_code         varchar2(9 char)
 ,activity_id                    number
 ,project_id                     varchar2(4000 char)
-,activity_count                 number
 ,act_metric_count               number
 ,result_count                   number
 ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
@@ -271,17 +270,148 @@ partition by range (event_date)
 alter table result_swap_stewards add activity_id number;
 --rollback select 'cannot rollback add on compressed table need manually drop table and re-create using changeset changeLog1/stewards/tables/drsteini:1StewardsTablesAB manually' from dual;
 
---changeset drsteini:WQP-932-alter-result_ct_sum_swap_stewards-activity_id
+--changeset drsteini:WQP-932-drop-result_ct_sum_swap_stewards
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_columns where table_name = 'RESULT_CT_SUM_SWAP_STEWARDS' and column_name = 'ACTIVITY_ID'
-alter table result_ct_sum_swap_stewards add activity_id number;
---rollback select 'cannot rollback add on compressed table need manually drop table and re-create using changeset changeLog1/stewards/tables/drsteini:1StewardsTablesAE and 1StewardsTablesAS manually' from dual;
+--precondition-sql-check expectedResult:1 select count(*) from user_tables where table_name = 'RESULT_CT_SUM_SWAP_STEWARDS'
+drop table result_ct_sum_swap_stewards cascade constraints purge;
+--rollback create table result_ct_sum_swap_stewards
+--rollback (data_source_id                 number
+--rollback ,data_source                    varchar2(8 char)
+--rollback ,station_id                     number
+--rollback ,site_id                        varchar2(4000 char)
+--rollback ,analytical_method              varchar2(4000 char)
+--rollback ,p_code                         varchar2(4000 char)
+--rollback ,characteristic_name            varchar2(4000 char)
+--rollback ,characteristic_type            varchar2(4000 char)
+--rollback ,sample_media                   varchar2(4000 char)
+--rollback ,organization                   varchar2(4000 char)
+--rollback ,site_type                      varchar2(4000 char)
+--rollback ,huc                            varchar2(12 char)
+--rollback ,governmental_unit_code         varchar2(9 char)
+--rollback ,project_id                     varchar2(4000 char)
+--rollback ,assemblage_sampled_name        varchar2(4000 char)
+--rollback ,result_count                   number
+--rollback ,huc_2                          generated always as (case when length(huc) > 1 then substr(huc,1,2) else null end)
+--rollback ,huc_4                          generated always as (case when length(huc) > 3 then substr(huc,1,4) else null end)
+--rollback ,huc_6                          generated always as (case when length(huc) > 5 then substr(huc,1,6) else null end)
+--rollback ,huc_8                          generated always as (case when length(huc) > 7 then substr(huc,1,8) else null end)
+--rollback ,huc_10                         generated always as (case when length(huc) > 9 then substr(huc,1,10) else null end)
+--rollback ,huc_12                         generated always as (case when length(huc) = 12 then substr(huc,1,12) else null end)
+--rollback ,country_code                   generated always as (regexp_substr(governmental_unit_code, '[^:]+'))
+--rollback ,state_code                     generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+'))
+--rollback ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
+--rollback ,sample_tissue_taxonomic_name   varchar2(4000 char)
+--rollback ,constraint rcts_station_fk_stewards
+--rollback    foreign key (data_source_id, station_id)
+--rollback      references station_sum_swap_stewards (data_source_id, station_id)
+--rollback        rely enable novalidate
+--rollback ) parallel 4 compress pctfree 0 nologging cache
+--rollback partition by list (characteristic_type)
+--rollback     (partition rcts_stewards_biol values ('Biological'),
+--rollback      partition rcts_stewards_info values ('Information'),
+--rollback      partition rcts_stewards_inorg1 values ('Inorganics, Major, Metals'),
+--rollback      partition rcts_stewards_inorg2 values ('Inorganics, Major, Non-metals'),
+--rollback      partition rcts_stewards_inorg3 values ('Inorganics, Minor, Metals'),
+--rollback      partition rcts_stewards_inorg4 values ('Inorganics, Minor, Non-metals'),
+--rollback      partition rcts_stewards_micro values ('Microbiological'),
+--rollback      partition rcts_stewards_na values ('Not Assigned'),
+--rollback      partition rcts_stewards_nut values ('Nutrient'),
+--rollback      partition rcts_stewards_org1 values ('Organics, Other'),
+--rollback      partition rcts_stewards_org2 values ('Organics, PCBs'),
+--rollback      partition rcts_stewards_org3 values ('Organics, Pesticide'),
+--rollback      partition rcts_stewards_phys values ('Physical'),
+--rollback      partition rcts_stewards_pop values ('Population/Community'),
+--rollback      partition rcts_stewards_radio values ('Radiochemical'),
+--rollback      partition rcts_stewards_sed values ('Sediment'),
+--rollback      partition rcts_stewards_iso values ('Stable Isotopes'),
+--rollback      partition rcts_stewards_tox values ('Toxicity'),
+--rollback      partition rcts_stewards_def values (default)
+--rollback );
+--rollback create bitmap index rcts_stewards_analytical on result_ct_sum_swap_stewards(analytical_method) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_assemblage on result_ct_sum_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_char_name on result_ct_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_char_type on result_ct_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_country on result_ct_sum_swap_stewards(country_code) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_county on result_ct_sum_swap_stewards(county_code) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_huc10 on result_ct_sum_swap_stewards(huc_10) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_huc12 on result_ct_sum_swap_stewards(huc_12) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_huc2 on result_ct_sum_swap_stewards(huc_2) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_huc4 on result_ct_sum_swap_stewards(huc_4) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_huc6 on result_ct_sum_swap_stewards(huc_6) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_huc8 on result_ct_sum_swap_stewards(huc_8) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_organization on result_ct_sum_swap_stewards(organization) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_project on result_ct_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_p_code on result_ct_sum_swap_stewards(p_code) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_sample_media on result_ct_sum_swap_stewards(sample_media) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_site on result_ct_sum_swap_stewards(site_id) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_site_type on result_ct_sum_swap_stewards(site_type) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_state on result_ct_sum_swap_stewards(state_code) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_station on result_ct_sum_swap_stewards(station_id) local parallel 4 nologging;
+--rollback create bitmap index rcts_stewards_taxa_name on result_ct_sum_swap_stewards(sample_tissue_taxonomic_name) local parallel 4 nologging;
 
---changeset drsteini:WQP-932-alter-result_nr_sum_swap_stewards-activity_id
+--changeset drsteini:WQP-932-drop-result_nr_sum_swap_stewards
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tab_columns where table_name = 'RESULT_NR_SUM_SWAP_STEWARDS' and column_name = 'ACTIVITY_ID'
-alter table result_nr_sum_swap_stewards add activity_id number;
---rollback select 'cannot rollback add on compressed table need manually drop table and re-create using changeset changeLog1/stewards/tables/drsteini:1StewardsTablesAF and 1StewardsTablesAT manually' from dual;
+--precondition-sql-check expectedResult:1 select count(*) from user_tables where table_name = 'RESULT_NR_SUM_SWAP_STEWARDS'
+drop table result_nr_sum_swap_stewards cascade constraints purge;
+--rollback create table result_nr_sum_swap_stewards
+--rollback (data_source_id                 number
+--rollback ,data_source                    varchar2(8 char)
+--rollback ,station_id                     number
+--rollback ,event_date                     date
+--rollback ,analytical_method              varchar2(4000 char)
+--rollback ,p_code                         varchar2(4000 char)
+--rollback ,characteristic_name            varchar2(4000 char)
+--rollback ,characteristic_type            varchar2(4000 char)
+--rollback ,sample_media                   varchar2(4000 char)
+--rollback ,project_id                     varchar2(4000 char)
+--rollback ,assemblage_sampled_name        varchar2(4000 char)
+--rollback ,result_count                   number
+--rollback ,sample_tissue_taxonomic_name   varchar2(4000 char)
+--rollback ,constraint rnrs_station_fk_stewards
+--rollback    foreign key (data_source_id, station_id)
+--rollback      references station_sum_swap_stewards (data_source_id, station_id)
+--rollback        rely enable novalidate
+--rollback ) parallel 4 compress pctfree 0 nologging cache
+--rollback partition by range (event_date)
+--rollback     (partition res_nr_sum_stewards_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')),
+--rollback      partition res_nr_sum_stewards_y_maxx values less than (maxvalue)
+--rollback     );
+--rollback create bitmap index rnrs_stewards_analytical on result_nr_sum_swap_stewards(analytical_method) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_assemblage on result_nr_sum_swap_stewards(assemblage_sampled_name) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_char_name on result_nr_sum_swap_stewards(characteristic_name) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_char_type on result_nr_sum_swap_stewards(characteristic_type) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_project on result_nr_sum_swap_stewards(project_id) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_p_code on result_nr_sum_swap_stewards(p_code) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_sample_media on result_nr_sum_swap_stewards(sample_media) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_station on result_nr_sum_swap_stewards(station_id) local parallel 4 nologging;
+--rollback create bitmap index rnrs_stewards_taxa_name on result_nr_sum_swap_stewards(sample_tissue_taxonomic_name) local parallel 4 nologging;
 
 --changeset drsteini:WQP-932-alter-result_sum_swap_stewards-activity_id
 --preconditions onFail:MARK_RAN onError:HALT
@@ -294,3 +424,17 @@ alter table result_sum_swap_stewards add activity_id number;
 --precondition-sql-check expectedResult:0 select count(*) from user_tab_columns where table_name = 'STATION_SUM_SWAP_STEWARDS' and column_name = 'ACTIVITY_COUNT'
 alter table station_sum_swap_stewards add activity_count number;
 --rollback select 'cannot rollback add on compressed table need manually drop table and re-create using changeset changeLog1/stewards/tables/drsteini:1StewardsTablesAC manually' from dual;
+
+--changeset drsteini:alter-result_swap_stewards-split-2017-2018
+alter table result_swap_stewards split partition result_stewards_y_maxx into 
+(partition result_stewards_y_2017 values less than (to_date('01-JAN-2018', 'DD-MON-YYYY')) tablespace result2
+,partition result_stewards_y_2018 values less than (to_date('01-JAN-2019', 'DD-MON-YYYY')) tablespace result3
+,partition result_stewards_y_maxx);
+--rollback alter table result_swap_stewards merge partitions result_stewards_y_2017, result_stewards_y_2018, result_stewards_y_maxx into partition result_stewards_y_maxx;
+
+--changeset drsteini:alter-result_sum_swap_stewards-split-2017-2018
+alter table result_sum_swap_stewards split partition result_sum_stewards_y_maxx into 
+(partition result_sum_stewards_y_2017 values less than (to_date('01-JAN-2018', 'DD-MON-YYYY')) tablespace result2
+,partition result_sum_stewards_y_2018 values less than (to_date('01-JAN-2019', 'DD-MON-YYYY')) tablespace result3
+,partition result_sum_stewards_y_maxx);
+--rollback alter table result_sum_swap_stewards merge partitions result_sum_stewards_y_2017, result_sum_stewards_y_2018, result_sum_stewards_y_maxx into partition result_sum_stewards_y_maxx;
