@@ -140,3 +140,66 @@ create bitmap index am_storet_state on act_metric_swap_storet(state_code) local 
 create bitmap index am_storet_station on act_metric_swap_storet(station_id) local parallel 4 nologging;
 --rollback drop index am_storet_station;
 
+--changeset drsteini:WQP-933-create-as_storet_country
+create bitmap index as_storet_country on activity_sum_swap_storet(country_code) local parallel 4 nologging;
+--rollback drop index as_storet_country;
+
+--changeset drsteini:WQP-933-create-as_storet_county
+create bitmap index as_storet_county on activity_sum_swap_storet(county_code) local parallel 4 nologging;
+--rollback drop index as_storet_county;
+
+--changeset drsteini:WQP-933-create-as_storet_event_date
+create bitmap index as_storet_event_date on activity_sum_swap_storet(event_date) local parallel 4 nologging;
+--rollback drop index as_storet_event_date;
+
+--changeset drsteini:WQP-933-create-as_storet_huc10
+create bitmap index as_storet_huc10 on activity_sum_swap_storet(huc_10) local parallel 4 nologging;
+--rollback drop index as_storet_huc10;
+
+--changeset drsteini:WQP-933-create-as_storet_huc12
+create bitmap index as_storet_huc12 on activity_sum_swap_storet(huc_12) local parallel 4 nologging;
+--rollback drop index as_storet_huc12;
+
+--changeset drsteini:WQP-933-create-as_storet_huc2
+create bitmap index as_storet_huc2 on activity_sum_swap_storet(huc_2) local parallel 4 nologging;
+--rollback drop index as_storet_huc2;
+
+--changeset drsteini:WQP-933-create-as_storet_huc4
+create bitmap index as_storet_huc4 on activity_sum_swap_storet(huc_4) local parallel 4 nologging;
+--rollback drop index as_storet_huc4;
+
+--changeset drsteini:WQP-933-create-as_storet_huc6
+create bitmap index as_storet_huc6 on activity_sum_swap_storet(huc_6) local parallel 4 nologging;
+--rollback drop index as_storet_huc6;
+
+--changeset drsteini:WQP-933-create-as_storet_huc8
+create bitmap index as_storet_huc8 on activity_sum_swap_storet(huc_8) local parallel 4 nologging;
+--rollback drop index as_storet_huc8;
+
+--changeset drsteini:WQP-933-create-as_storet_organization
+create bitmap index as_storet_organization on activity_sum_swap_storet(organization) local parallel 4 nologging;
+--rollback drop index as_storet_organization;
+
+--changeset drsteini:WQP-933-create-as_storet_project
+create bitmap index as_storet_project on activity_sum_swap_storet(project_id) local parallel 4 nologging;
+--rollback drop index as_storet_project;
+
+--changeset drsteini:WQP-933-create-as_storet_sample_media
+create bitmap index as_storet_sample_media on activity_sum_swap_storet(sample_media) local parallel 4 nologging;
+--rollback drop index as_storet_sample_media;
+
+--changeset drsteini:WQP-933-create-as_storet_site
+create bitmap index as_storet_site on activity_sum_swap_storet(site_id) local parallel 4 nologging;
+--rollback drop index as_storet_site;
+
+--changeset drsteini:WQP-933-create-as_storet_site_type
+create bitmap index as_storet_site_type on activity_sum_swap_storet(site_type) local parallel 4 nologging;
+--rollback drop index as_storet_site_type;
+
+--changeset drsteini:WQP-933-create-as_storet_state
+create bitmap index as_storet_state on activity_sum_swap_storet(state_code) local parallel 4 nologging;
+--rollback drop index as_storet_state;
+
+--changeset drsteini:WQP-933-create-as_storet_station
+create bitmap index as_storet_station on activity_sum_swap_storet(station_id) local parallel 4 nologging;
+--rollback drop index as_storet_station;
