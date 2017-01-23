@@ -10,3 +10,6 @@ grant select on activity to wqp_user;
 grant select on act_metric to wqp_user;
 --rollback revoke select on act_metric from wqp_user;
 
+--changeset drsteini:WQP-1023-grant-activity_sum-to-wqp_user
+grant select on activity_sum to wqp_user;
+--rollback revoke select on activity_sum from wqp_user;
