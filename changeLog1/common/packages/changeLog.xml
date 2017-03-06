@@ -24,4 +24,14 @@
 		</rollback>
 	</changeSet>
 
+	<changeSet author="abramhall" id="WQP-999_create_spec_pkg_dynamic_list">
+		<createProcedure path="dynamicList/wqp999Spec.sql" relativeToChangelogFile="true" />
+        <rollback changeSetId="WQP-807_create_spec_pkg_dynamic_list" changeSetAuthor="drsteini"/>
+	</changeSet>
+
+	<changeSet author="abramhall" id="WQP-999_create_body_pkg_dynamic_list">
+		<createProcedure path="dynamicList/wqp999Body.sql" relativeToChangelogFile="true" />
+        <rollback changeSetId="WQP-807_create_body_pkg_dynamic_list" changeSetAuthor="drsteini"/>
+	</changeSet>
+
 </databaseChangeLog>
