@@ -203,3 +203,147 @@ create bitmap index activity_sum_state on activity_sum(state_code) local paralle
 --changeset drsteini:WQP-933-create-activity_sum_station
 create bitmap index activity_sum_station on activity_sum(station_id) local parallel 4 nologging;
 --rollback drop index activity_sum_station;
+
+--changeset drsteini:create.r_detect_qnt_lmt_activity
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_ACTIVITY';
+create bitmap index r_detect_qnt_lmt_activity on res_detect_qnt_lmt(activity) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_activity;
+
+--changeset drsteini:create.r_detect_qnt_lmt_analytical
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_ANALYTICAL';
+create bitmap index r_detect_qnt_lmt_analytical on res_detect_qnt_lmt(analytical_method) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_analytical;
+
+--changeset drsteini:create.r_detect_qnt_lmt_assemblage
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_ASSEMBLAGE';
+create bitmap index r_detect_qnt_lmt_assemblage on res_detect_qnt_lmt(assemblage_sampled_name) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_assemblage;
+
+--changeset drsteini:create.r_detect_qnt_lmt_char_name
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_CHAR_NAME';
+create bitmap index r_detect_qnt_lmt_char_name on res_detect_qnt_lmt(characteristic_name) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_char_name;
+
+--changeset drsteini:create.r_detect_qnt_lmt_char_type
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_CHAR_TYPE';
+create bitmap index r_detect_qnt_lmt_char_type on res_detect_qnt_lmt(characteristic_type) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_char_type;
+
+--changeset drsteini:create.r_detect_qnt_lmt_country
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_COUNTRY';
+create bitmap index r_detect_qnt_lmt_country on res_detect_qnt_lmt(country_code) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_country;
+
+--changeset drsteini:create.r_detect_qnt_lmt_county
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_COUNTY';
+create bitmap index r_detect_qnt_lmt_county on res_detect_qnt_lmt(county_code) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_county;
+
+--changeset drsteini:create.r_detect_qnt_lmt_event_date
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_EVENT_DATE';
+create bitmap index r_detect_qnt_lmt_event_date on res_detect_qnt_lmt(event_date) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_event_date;
+
+--changeset drsteini:create.r_detect_qnt_lmt_huc2
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_HUC2';
+create bitmap index r_detect_qnt_lmt_huc2 on res_detect_qnt_lmt(huc_2) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_huc2;
+
+--changeset drsteini:create.r_detect_qnt_lmt_huc4
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_HUC4';
+create bitmap index r_detect_qnt_lmt_huc4 on res_detect_qnt_lmt(huc_4) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_huc4;
+
+--changeset drsteini:create.r_detect_qnt_lmt_huc6
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_HUC6';
+create bitmap index r_detect_qnt_lmt_huc6 on res_detect_qnt_lmt(huc_6) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_huc6;
+
+--changeset drsteini:create.r_detect_qnt_lmt_huc8
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_HUC8';
+create bitmap index r_detect_qnt_lmt_huc8 on res_detect_qnt_lmt(huc_8) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_huc8;
+
+--changeset drsteini:create.r_detect_qnt_lmt_huc10
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_HUC10';
+create bitmap index r_detect_qnt_lmt_huc10 on res_detect_qnt_lmt(huc_10) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_huc10;
+
+--changeset drsteini:create.r_detect_qnt_lmt_huc12
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_HUC12';
+create bitmap index r_detect_qnt_lmt_huc12 on res_detect_qnt_lmt(HUC_12) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_huc12;
+
+--changeset drsteini:create.r_detect_qnt_lmt_organization
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_ORGANIZATION';
+create bitmap index r_detect_qnt_lmt_organization on res_detect_qnt_lmt(organization) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_organization;
+
+--changeset drsteini:create.r_detect_qnt_lmt_p_code
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_P_CODE';
+create bitmap index r_detect_qnt_lmt_p_code on res_detect_qnt_lmt(p_code) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_p_code;
+
+--changeset drsteini:create.r_detect_qnt_lmt_project
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_PORJECT';
+create bitmap index r_detect_qnt_lmt_project on res_detect_qnt_lmt(project_id) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_project;
+
+--changeset drsteini:create.r_detect_qnt_lmt_result
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_RESULT';
+create bitmap index r_detect_qnt_lmt_result on res_detect_qnt_lmt(result_id) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_result;
+
+--changeset drsteini:create.r_detect_qnt_lmt_sample_media
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_SAMPLE_MEDIA';
+create bitmap index r_detect_qnt_lmt_sample_media on res_detect_qnt_lmt(sample_media) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_sample_media;
+
+--changeset drsteini:create.r_detect_qnt_lmt_site
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_SITE';
+create bitmap index r_detect_qnt_lmt_site on res_detect_qnt_lmt(site_id) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_site;
+
+--changeset drsteini:create.r_detect_qnt_lmt_site_type
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_SITE_TYPE';
+create bitmap index r_detect_qnt_lmt_site_type on res_detect_qnt_lmt(site_type) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_site_type;
+
+--changeset drsteini:create.r_detect_qnt_lmt_state
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_STATE';
+create bitmap index r_detect_qnt_lmt_state on res_detect_qnt_lmt(state_code) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_state;
+
+--changeset drsteini:create.r_detect_qnt_lmt_station
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_STATION';
+create bitmap index r_detect_qnt_lmt_station on res_detect_qnt_lmt(station_id) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_station;
+
+--changeset drsteini:create.r_detect_qnt_lmt_taxa_name
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_TAXA_NAME';
+create bitmap index r_detect_qnt_lmt_taxa_name on res_detect_qnt_lmt(sample_tissue_taxonomic_name) local parallel 4 nologging;
+--rollback drop index r_detect_qnt_lmt_taxa_name;
