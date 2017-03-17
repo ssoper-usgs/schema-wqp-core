@@ -345,5 +345,5 @@ create bitmap index rdql_storet_station on res_detect_qnt_lmt_swap_storet(statio
 --changeset drsteini:create.rdql_storet_taxa_name
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'RDQL_STORET_TAXA_NAME';
-create bitmap index rdql_storet_taxa_name on res_detect_qnt_lmt_swap_storet(sample_tissue_sampled_taxonomic_name) local parallel 4 nologging;
+create bitmap index rdql_storet_taxa_name on res_detect_qnt_lmt_swap_storet(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index rdql_storet_taxa_name;

@@ -345,5 +345,5 @@ create bitmap index r_detect_qnt_lmt_station on res_detect_qnt_lmt(station_id) l
 --changeset drsteini:create.r_detect_qnt_lmt_taxa_name
 --preconditions onFail:MARK_RAN onError:HALT
 --precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_TAXA_NAME';
-create bitmap index r_detect_qnt_lmt_taxa_name on res_detect_qnt_lmt(sample_tissue_sampled_taxonomic_name) local parallel 4 nologging;
+create bitmap index r_detect_qnt_lmt_taxa_name on res_detect_qnt_lmt(sample_tissue_taxonomic_name) local parallel 4 nologging;
 --rollback drop index r_detect_qnt_lmt_taxa_name;
