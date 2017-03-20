@@ -302,7 +302,7 @@ create bitmap index r_detect_qnt_lmt_p_code on res_detect_qnt_lmt(p_code) local 
 
 --changeset drsteini:create.r_detect_qnt_lmt_project
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_PORJECT';
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'R_DETECT_QNT_LMT_PROJECT';
 create bitmap index r_detect_qnt_lmt_project on res_detect_qnt_lmt(project_id) local parallel 4 nologging;
 --rollback drop index r_detect_qnt_lmt_project;
 
