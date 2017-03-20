@@ -70,4 +70,18 @@
         <rollback changeSetId="WQP-915_create_body_etl_helper_main" changeSetAuthor="drsteini"/>
     </changeSet>
 
+    <changeSet author="drsteini" id="WQP-1029_create_definition_etl_helper_res_detect_qnt_lmt">
+        <createProcedure path="etlHelper/resDetectQntLmt/definition.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package etl_helper_res_detect_qnt_lmt
+        </rollback>
+    </changeSet>
+
+    <changeSet author="drsteini" id="WQP-1029_create_body_etl_helper_res_detect_qnt_lmt">
+        <createProcedure path="etlHelper/resDetectQntLmt/body.sql" relativeToChangelogFile="true" />
+        <rollback>
+            drop package body etl_helper_res_detect_qnt_lmt
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>
