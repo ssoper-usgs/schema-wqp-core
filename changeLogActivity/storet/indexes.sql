@@ -302,7 +302,7 @@ create bitmap index rdql_storet_p_code on res_detect_qnt_lmt_swap_storet(p_code)
 
 --changeset drsteini:create.rdql_storet_project
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'RDQL_STORET_PORJECT';
+--precondition-sql-check expectedResult:0 select count(*) from user_indexes where index_name = 'RDQL_STORET_PROJECT';
 create bitmap index rdql_storet_project on res_detect_qnt_lmt_swap_storet(project_id) parallel 4 nologging;
 --rollback drop index rdql_storet_project;
 

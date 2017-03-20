@@ -567,7 +567,7 @@ alter table result_sum_swap_storet split partition result_sum_storet_y_maxx into
 
 --changeset drsteini:create.wqx_res_detect_qnt_lmt
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'WQX_RES_DETECT_QNT';
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'WQX_RES_DETECT_QNT_LMT';
 create table wqx_res_detect_qnt_lmt
 (res_uid                        number
 ,rdqlmt_uid                     number
