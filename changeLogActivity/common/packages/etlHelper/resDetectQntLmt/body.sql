@@ -131,7 +131,7 @@ create or replace package body etl_helper_r_detect_qnt_lmt as
         end_job     boolean := false;
     begin
 
-        end_job := etl_helper_main.validate_table('result', 'result_', p_table_suffix);
+        end_job := etl_helper_main.validate_table('r_detect_qnt_lmt', 'r_detect_qnt_lmt_', p_table_suffix);
 
         return end_job;
 
