@@ -565,10 +565,10 @@ alter table result_sum_swap_storet split partition result_sum_storet_y_maxx into
 ,partition result_sum_storet_y_maxx);
 --rollback alter table result_sum_swap_storet merge partitions result_sum_storet_y_2017, result_sum_storet_y_2018, result_sum_storet_y_maxx into partition result_sum_storet_y_maxx;
 
---changeset drsteini:create.wqx_res_detect_qnt_lmt
+--changeset drsteini:WQP-1033.create.wqx_r_detect_qnt_lmt
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'WQX_RES_DETECT_QNT_LMT';
-create table wqx_res_detect_qnt_lmt
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'WQX_r_detect_qnt_lmt';
+create table wqx_r_detect_qnt_lmt
 (res_uid                        number
 ,rdqlmt_uid                     number
 ,rdqlmt_measure                 varchar2(4000 char)
@@ -576,12 +576,12 @@ create table wqx_res_detect_qnt_lmt
 ,dqltyp_uid                     number
 ,dqltyp_name                    varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table wqx_res_detect_qnt_lmt cascade constraints purge;
+--rollback drop table wqx_r_detect_qnt_lmt cascade constraints purge;
 
---changeset drsteini:create.res_detect_qnt_lmt_swap_storet
+--changeset drsteini:WQP-1033.create.r_detect_qnt_lmt_swap_storet
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'RES_DETECT_QNT_LMT_SWAP_STORET';
-create table res_detect_qnt_lmt_swap_storet
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt_SWAP_STORET';
+create table r_detect_qnt_lmt_swap_storet
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -617,4 +617,4 @@ create table res_detect_qnt_lmt_swap_storet
 ,state_code                     varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+'))
 ,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table res_detect_qnt_lmt_swap_storet cascade constraints purge;
+--rollback drop table r_detect_qnt_lmt_swap_storet cascade constraints purge;

@@ -1,10 +1,10 @@
-create or replace package body etl_helper_res_detect_qnt_lmt as
+create or replace package body etl_helper_r_detect_qnt_lmt as
 
     procedure drop_indexes(p_table_suffix in user_tables.table_name%type) is
         table_name user_tables.table_name%type;
     begin
 
-        table_name := dbms_assert.sql_object_name(upper('res_detect_qnt_lmt_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('r_detect_qnt_lmt_swap_' || p_table_suffix));
         etl_helper_main.drop_indexes(table_name);	
 
     end drop_indexes;
@@ -14,8 +14,8 @@ create or replace package body etl_helper_res_detect_qnt_lmt as
         table_name      user_tables.table_name%type;
     begin
 
-        dbms_output.put_line('creating res_detect_qnt_lmt indexes...');
-        table_name := dbms_assert.sql_object_name(upper('res_detect_qnt_lmt_swap_' || p_table_suffix));
+        dbms_output.put_line('creating r_detect_qnt_lmt indexes...');
+        table_name := dbms_assert.sql_object_name(upper('r_detect_qnt_lmt_swap_' || p_table_suffix));
 
         stmt := 'create bitmap index rdql_' || p_table_suffix || '_activity on ' || table_name || '(activity) parallel 4 nologging';
         dbms_output.put_line(stmt);
@@ -121,8 +121,8 @@ create or replace package body etl_helper_res_detect_qnt_lmt as
 
         suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 
-        dbms_output.put_line('analyze res_detect_qnt_lmt...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RES_DETECT_QNT_LMT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_output.put_line('analyze r_detect_qnt_lmt...');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'r_detect_qnt_lmt_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
@@ -144,9 +144,9 @@ create or replace package body etl_helper_res_detect_qnt_lmt as
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
         dbms_output.put_line('result');
-        execute immediate 'alter table res_detect_qnt_lmt exchange partition res_detect_qnt_lmt_' || suffix ||
-                          ' with table res_detect_qnt_lmt_swap_' || suffix || ' including indexes';
+        execute immediate 'alter table r_detect_qnt_lmt exchange partition r_detect_qnt_lmt_' || suffix ||
+                          ' with table r_detect_qnt_lmt_swap_' || suffix || ' including indexes';
 
     end install;
 
-end etl_helper_res_detect_qnt_lmt;
+end etl_helper_r_detect_qnt_lmt;

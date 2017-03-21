@@ -439,10 +439,10 @@ alter table result_sum_swap_nwis split partition result_sum_nwis_y_maxx into
 ,partition result_sum_nwis_y_maxx);
 --rollback alter table result_sum_swap_nwis merge partitions result_sum_nwis_y_2017, result_sum_nwis_y_2018, result_sum_nwis_y_maxx into partition result_sum_nwis_y_maxx;
 
---changeset drsteini:create.res_detect_qnt_lmt_swap_nwis
+--changeset drsteini:WQP-1033.create.r_detect_qnt_lmt_swap_nwis
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'RES_DETECT_QNT_LMT_SWAP_NWIS';
-create table res_detect_qnt_lmt_swap_nwis
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt_SWAP_NWIS';
+create table r_detect_qnt_lmt_swap_nwis
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -478,4 +478,4 @@ create table res_detect_qnt_lmt_swap_nwis
 ,state_code                     varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+'))
 ,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table res_detect_qnt_lmt_swap_nwis cascade constraints purge;
+--rollback drop table r_detect_qnt_lmt_swap_nwis cascade constraints purge;

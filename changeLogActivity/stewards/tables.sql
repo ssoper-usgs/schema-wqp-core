@@ -439,10 +439,10 @@ alter table result_sum_swap_stewards split partition result_sum_stewards_y_maxx 
 ,partition result_sum_stewards_y_maxx);
 --rollback alter table result_sum_swap_stewards merge partitions result_sum_stewards_y_2017, result_sum_stewards_y_2018, result_sum_stewards_y_maxx into partition result_sum_stewards_y_maxx;
 
---changeset drsteini:create.res_detect_qnt_lmt_swap_stewards
+--changeset drsteini:WQP-1033.create.r_detect_qnt_lmt_swap_stewards
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'RES_DETECT_QNT_LMT_SWAP_STEWARDS';
-create table res_detect_qnt_lmt_swap_stewards
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt_SWAP_STEWARDS';
+create table r_detect_qnt_lmt_swap_stewards
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -478,4 +478,4 @@ create table res_detect_qnt_lmt_swap_stewards
 ,state_code                     varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+'))
 ,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache;
---rollback drop table res_detect_qnt_lmt_swap_stewards cascade constraints purge;
+--rollback drop table r_detect_qnt_lmt_swap_stewards cascade constraints purge;

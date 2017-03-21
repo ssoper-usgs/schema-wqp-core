@@ -88,7 +88,7 @@ create or replace package body etl_helper_main as
         etl_helper_activity.analyze_tables(p_table_suffix);
         etl_helper_activity_metric.analyze_tables(p_table_suffix);
         etl_helper_result.analyze_tables(p_table_suffix);
-        etl_helper_res_detect_qnt_lmt.analyze_tables(p_table_suffix);
+        etl_helper_r_detect_qnt_lmt.analyze_tables(p_table_suffix);
 
     end analyze_tables;
 
@@ -101,7 +101,7 @@ create or replace package body etl_helper_main as
                    etl_helper_activity.validate_transformation(p_table_suffix) or
                    etl_helper_activity_metric.validate_transformation(p_table_suffix) or
                    etl_helper_result.validate_transformation(p_table_suffix) or
-                   etl_helper_res_detect_qnt_lmt.validate_transformation(p_table_suffix);
+                   etl_helper_r_detect_qnt_lmt.validate_transformation(p_table_suffix);
 
         if end_job then
             raise_application_error(-20666, 'Failed to pass one or more validation checks.');
@@ -168,7 +168,7 @@ create or replace package body etl_helper_main as
         etl_helper_activity.install(p_table_suffix);
         etl_helper_activity_metric.install(p_table_suffix);
         etl_helper_result.install(p_table_suffix);
-        etl_helper_res_detect_qnt_lmt.install(p_table_suffix);
+        etl_helper_r_detect_qnt_lmt.install(p_table_suffix);
 
     end install;
 
