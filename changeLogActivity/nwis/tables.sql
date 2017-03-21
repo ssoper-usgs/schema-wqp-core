@@ -438,3 +438,44 @@ alter table result_sum_swap_nwis split partition result_sum_nwis_y_maxx into
 ,partition result_sum_nwis_y_2018 values less than (to_date('01-JAN-2019', 'DD-MON-YYYY')) tablespace result3
 ,partition result_sum_nwis_y_maxx);
 --rollback alter table result_sum_swap_nwis merge partitions result_sum_nwis_y_2017, result_sum_nwis_y_2018, result_sum_nwis_y_maxx into partition result_sum_nwis_y_maxx;
+
+--changeset drsteini:create.res_detect_qnt_lmt_swap_nwis
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'RES_DETECT_QNT_LMT_SWAP_NWIS';
+create table res_detect_qnt_lmt_swap_nwis
+(data_source_id                 number
+,data_source                    varchar2(8 char)
+,station_id                     number
+,site_id                        varchar2(4000 char)
+,event_date                     date
+,activity                       varchar2(4000 char)
+,analytical_method              varchar2(4000 char)
+,p_code                         varchar2(4000 char)
+,characteristic_name            varchar2(4000 char)
+,characteristic_type            varchar2(4000 char)
+,sample_media                   varchar2(4000 char)
+,organization                   varchar2(4000 char)
+,site_type                      varchar2(4000 char)
+,huc                            varchar2(12 char)
+,governmental_unit_code         varchar2(9 char)
+,project_id                     varchar2(4000 char)
+,assemblage_sampled_name        varchar2(4000 char)
+,sample_tissue_taxonomic_name   varchar2(4000 char)
+,activity_id                    number
+,result_id                      number
+,organization_name              varchar2(4000 char)
+,detection_limit_id             number
+,detection_limit                varchar2(4000 char)
+,detection_limit_unit           varchar2(4000 char)
+,detection_limit_desc           varchar2(4000 char)
+,huc_2                          varchar2(2 char) generated always as (case  when length(huc)>1 then substr(huc,1,2) else null end)
+,huc_4                          varchar2(4 char) generated always as (case  when length(huc)>3 then substr(huc,1,4) else null end)
+,huc_6                          varchar2(6 char) generated always as (case  when length(huc)>5 then substr(huc,1,6) else null end)
+,huc_8                          varchar2(8 char) generated always as (case  when length(huc)>7 then substr(huc,1,8) else null end)
+,huc_10                         varchar2(10 char) generated always as (case  when length(huc)>9 then substr(huc,1,10) else null end)
+,huc_12                         varchar2(12 char) generated always as (case length(huc) when 12 then substr(huc,1,12) else null end)
+,country_code                   varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+'))
+,state_code                     varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+'))
+,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
+) parallel 4 compress pctfree 0 nologging cache;
+--rollback drop table res_detect_qnt_lmt_swap_nwis cascade constraints purge;

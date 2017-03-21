@@ -100,7 +100,7 @@ create or replace package body etl_helper_main as
                    etl_helper_station.validate_transformation(p_table_suffix) or
                    etl_helper_activity.validate_transformation(p_table_suffix) or
                    etl_helper_activity_metric.validate_transformation(p_table_suffix) or
-                   etl_helper_result.validate_transformation(p_table_suffix);
+                   etl_helper_result.validate_transformation(p_table_suffix) or
                    etl_helper_res_detect_qnt_lmt.validate_transformation(p_table_suffix);
 
         if end_job then
