@@ -143,7 +143,7 @@ create or replace package body etl_helper_r_detect_qnt_lmt as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('result');
+        dbms_output.put_line('r_detect_qnt_lmt');
         execute immediate 'alter table r_detect_qnt_lmt exchange partition r_detect_qnt_lmt_' || suffix ||
                           ' with table r_detect_qnt_lmt_swap_' || suffix || ' including indexes';
 
