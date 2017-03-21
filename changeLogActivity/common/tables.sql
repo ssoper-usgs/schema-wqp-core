@@ -674,10 +674,10 @@ alter table result_sum split subpartition result_sum_garbage_y_maxx into
 ,subpartition result_sum_garbage_y_maxx);
 --rollback alter table result_sum merge subpartitions result_sum_garbage_y_2017, result_sum_garbage_y_2018, result_sum_garbage_y_maxx into subpartition result_sum_garbage_y_maxx;
 
---changeset drsteini:create.res_detect_qnt_lmt
+--changeset drsteini:WQP-1033.create.r_detect_qnt_lmt
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'RES_DETECT_QNT_LMT';
-create table res_detect_qnt_lmt
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt';
+create table r_detect_qnt_lmt
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,station_id                     number
@@ -714,10 +714,10 @@ create table res_detect_qnt_lmt
 ,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
-(partition res_detect_qnt_lmt_stewards values less than (2)
-,partition res_detect_qnt_lmt_nwis values less than (3)
-,partition res_detect_qnt_lmt_storet values less than (4)
-,partition res_detect_qnt_lmt_biodata values less than (5)
-,partition res_detect_qnt_lmt_garbage values less than (maxvalue)
+(partition r_detect_qnt_lmt_stewards values less than (2)
+,partition r_detect_qnt_lmt_nwis values less than (3)
+,partition r_detect_qnt_lmt_storet values less than (4)
+,partition r_detect_qnt_lmt_biodata values less than (5)
+,partition r_detect_qnt_lmt_garbage values less than (maxvalue)
 );
---rollback drop table res_detect_qnt_lmt cascade constraints purge;
+--rollback drop table r_detect_qnt_lmt cascade constraints purge;

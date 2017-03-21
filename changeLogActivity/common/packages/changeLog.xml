@@ -65,22 +65,22 @@
         <rollback/> <!-- manually run changeSetId="changeLog1/common/etlHelper/WQP-789-modify-etl_helper_code_body" changeSetAuthor="drsteini" -->
     </changeSet>
 
-    <changeSet author="drsteini" id="WQP-1029_create_body_etl_helper_main">
+    <changeSet author="drsteini" id="WQP-1029.create.body.etl_helper_main">
         <createProcedure path="etlHelper/main/bodyWqp1029.sql" relativeToChangelogFile="true" />
         <rollback changeSetId="WQP-915_create_body_etl_helper_main" changeSetAuthor="drsteini"/>
     </changeSet>
 
-    <changeSet author="drsteini" id="WQP-1029_create_definition_etl_helper_res_detect_qnt_lmt">
+    <changeSet author="drsteini" id="WQP-1029.create.definition.etl_helper_r_detect_qnt_lmt">
         <createProcedure path="etlHelper/resDetectQntLmt/definition.sql" relativeToChangelogFile="true" />
         <rollback>
-            drop package etl_helper_res_detect_qnt_lmt
+            drop package etl_helper_r_detect_qnt_lmt
         </rollback>
     </changeSet>
 
-    <changeSet author="drsteini" id="WQP-1029_create_body_etl_helper_res_detect_qnt_lmt">
+    <changeSet author="drsteini" id="WQP-1029.create.body.etl_helper_r_detect_qnt_lmt">
         <createProcedure path="etlHelper/resDetectQntLmt/body.sql" relativeToChangelogFile="true" />
         <rollback>
-            drop package body etl_helper_res_detect_qnt_lmt
+            drop package body etl_helper_r_detect_qnt_lmt
         </rollback>
     </changeSet>
 

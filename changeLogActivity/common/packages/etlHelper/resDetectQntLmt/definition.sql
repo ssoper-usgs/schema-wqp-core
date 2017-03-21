@@ -1,4 +1,4 @@
-create or replace package etl_helper_res_detect_qnt_lmt as
+create or replace package etl_helper_r_detect_qnt_lmt as
 
     procedure drop_indexes(p_table_suffix in user_tables.table_name%type);
 
@@ -11,4 +11,4 @@ create or replace package etl_helper_res_detect_qnt_lmt as
 
     procedure install(p_table_suffix in user_tables.table_name%type);
 
-end etl_helper_res_detect_qnt_lmt;
+end etl_helper_r_detect_qnt_lmt;
