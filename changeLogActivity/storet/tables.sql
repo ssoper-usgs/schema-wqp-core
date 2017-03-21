@@ -580,7 +580,7 @@ create table wqx_r_detect_qnt_lmt
 
 --changeset drsteini:WQP-1033.create.r_detect_qnt_lmt_swap_storet
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt_SWAP_STORET';
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'R_DETECT_QNT_LMT_SWAP_STORET';
 create table r_detect_qnt_lmt_swap_storet
 (data_source_id                 number
 ,data_source                    varchar2(8 char)

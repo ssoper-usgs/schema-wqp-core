@@ -441,7 +441,7 @@ alter table result_sum_swap_stewards split partition result_sum_stewards_y_maxx 
 
 --changeset drsteini:WQP-1033.create.r_detect_qnt_lmt_swap_stewards
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt_SWAP_STEWARDS';
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'R_DETECT_QNT_LMT_SWAP_STEWARDS';
 create table r_detect_qnt_lmt_swap_stewards
 (data_source_id                 number
 ,data_source                    varchar2(8 char)

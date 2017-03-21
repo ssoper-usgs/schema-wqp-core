@@ -441,7 +441,7 @@ alter table result_sum_swap_nwis split partition result_sum_nwis_y_maxx into
 
 --changeset drsteini:WQP-1033.create.r_detect_qnt_lmt_swap_nwis
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt_SWAP_NWIS';
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'R_DETECT_QNT_LMT_SWAP_NWIS';
 create table r_detect_qnt_lmt_swap_nwis
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
