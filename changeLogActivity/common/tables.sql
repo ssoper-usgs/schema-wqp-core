@@ -676,7 +676,7 @@ alter table result_sum split subpartition result_sum_garbage_y_maxx into
 
 --changeset drsteini:WQP-1033.create.r_detect_qnt_lmt
 --preconditions onFail:MARK_RAN onError:HALT
---precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'r_detect_qnt_lmt';
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'R_DETECT_QNT_LMT';
 create table r_detect_qnt_lmt
 (data_source_id                 number
 ,data_source                    varchar2(8 char)

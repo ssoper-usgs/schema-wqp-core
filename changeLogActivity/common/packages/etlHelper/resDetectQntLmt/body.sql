@@ -122,7 +122,7 @@ create or replace package body etl_helper_r_detect_qnt_lmt as
         suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 
         dbms_output.put_line('analyze r_detect_qnt_lmt...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'r_detect_qnt_lmt_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'R_DETECT_QNT_LMT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
