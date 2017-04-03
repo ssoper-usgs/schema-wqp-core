@@ -48,4 +48,13 @@
 
     <include file="geospatial_from_dbdw.sql" relativeToChangelogFile="true"/>
 
+    <changeSet author="drsteini" id="load-wqx_dql_hierarchy" runOnChange="true">
+        <delete tableName="wqx_dql_hierarchy"/>
+        <loadData encoding="UTF-8"
+                  file="changeLogData/wqx_dql_hierarchy.csv"
+                  tableName="wqx_dql_hierarchy">
+        </loadData>
+        <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
+    </changeSet>
+
 </databaseChangeLog>
