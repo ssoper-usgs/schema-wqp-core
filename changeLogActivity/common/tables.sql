@@ -721,3 +721,17 @@ partition by range (data_source_id)
 ,partition r_detect_qnt_lmt_garbage values less than (maxvalue)
 );
 --rollback drop table r_detect_qnt_lmt cascade constraints purge;
+
+--changeset drsteini:WQP-1094.create.wqx_dql_hierarchy
+--preconditions onFail:MARK_RAN onError:HALT
+--precondition-sql-check expectedResult:0 select count(*) from user_tables where table_name = 'WQX_DQL_HIERARCHY';
+create table wqx_dql_hierarchy
+(hierarchy_value                number              constraint nn_wqx_dql_hierarchy_pk not null
+,dqltyp_uid                     number              constraint nn_wqx_dql_hierarchy_ak not null
+,dqltyp_name                    varchar2(4000 char)
+,constraint wqx_dql_hierarchy_pk
+  primary key (hierarchy_value)
+,constraint wqx_dql_hierarchy_ak
+  unique (dqltyp_uid)
+);
+--rollback drop table wqx_dql_hierarchy cascade constraints purge;
