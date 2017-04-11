@@ -714,11 +714,47 @@ create table r_detect_qnt_lmt
 ,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
-(partition r_detect_qnt_lmt_stewards values less than (2)
-,partition r_detect_qnt_lmt_nwis values less than (3)
-,partition r_detect_qnt_lmt_storet values less than (4)
-,partition r_detect_qnt_lmt_biodata values less than (5)
-,partition r_detect_qnt_lmt_garbage values less than (maxvalue)
+  subpartition by range (event_date)
+  subpartition template
+    (subpartition p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_1990 values less than (to_date('01-JAN-1991', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_1991 values less than (to_date('01-JAN-1992', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_1992 values less than (to_date('01-JAN-1993', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_1993 values less than (to_date('01-JAN-1994', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_1994 values less than (to_date('01-JAN-1995', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_1995 values less than (to_date('01-JAN-1996', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_1996 values less than (to_date('01-JAN-1997', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_1997 values less than (to_date('01-JAN-1998', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_1998 values less than (to_date('01-JAN-1999', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_1999 values less than (to_date('01-JAN-2000', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_2000 values less than (to_date('01-JAN-2001', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_2001 values less than (to_date('01-JAN-2002', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_2002 values less than (to_date('01-JAN-2003', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_2003 values less than (to_date('01-JAN-2004', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_2004 values less than (to_date('01-JAN-2005', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_2005 values less than (to_date('01-JAN-2006', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_2006 values less than (to_date('01-JAN-2007', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_2007 values less than (to_date('01-JAN-2008', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_2008 values less than (to_date('01-JAN-2009', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_2009 values less than (to_date('01-JAN-2010', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_2010 values less than (to_date('01-JAN-2011', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_2011 values less than (to_date('01-JAN-2012', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_2012 values less than (to_date('01-JAN-2013', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_2013 values less than (to_date('01-JAN-2014', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_2014 values less than (to_date('01-JAN-2015', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_2015 values less than (to_date('01-JAN-2016', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_2016 values less than (to_date('01-JAN-2017', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_2017 values less than (to_date('01-JAN-2018', 'DD-MON-YYYY')) tablespace result2,
+     subpartition y_2018 values less than (to_date('01-JAN-2019', 'DD-MON-YYYY')) tablespace result3,
+     subpartition y_2019 values less than (to_date('01-JAN-2020', 'DD-MON-YYYY')) tablespace result4,
+     subpartition y_2020 values less than (to_date('01-JAN-2021', 'DD-MON-YYYY')) tablespace result1,
+     subpartition y_maxx values less than (maxvalue) tablespace result2
+    )
+(partition rdtct_qnt_lmt_stewards values less than (2)
+,partition rdtct_qnt_lmt_nwis values less than (3)
+,partition rdtct_qnt_lmt_storet values less than (4)
+,partition rdtct_qnt_lmt_biodata values less than (5)
+,partition rdtct_qnt_lmt_garbage values less than (maxvalue)
 );
 --rollback drop table r_detect_qnt_lmt cascade constraints purge;
 
