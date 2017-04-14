@@ -1,0 +1,290 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_analytical"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_ANALYTICAL' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_analytical on result_sum_swap_storet(analytical_method) local parallel 4 nologging;
+        - rollback: drop index rs_storet_analytical;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_assemblage"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_ASSEMBLAGE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_assemblage on result_sum_swap_storet(assemblage_sampled_name) local parallel 4 nologging;
+        - rollback: drop index rs_storet_assemblage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_char_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_CHAR_NAME' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_char_name on result_sum_swap_storet(characteristic_name) local parallel 4 nologging;
+        - rollback: drop index rs_storet_char_name;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_char_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_CHAR_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_char_type on result_sum_swap_storet(characteristic_type) local parallel 4 nologging;
+        - rollback: drop index rs_storet_char_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_COUNTRY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_country on result_sum_swap_storet(country_code) local parallel 4 nologging;
+        - rollback: drop index rs_storet_country;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_COUNTY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_county on result_sum_swap_storet(county_code) local parallel 4 nologging;
+        - rollback: drop index rs_storet_county;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_event_date"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_EVENT_DATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_event_date on result_sum_swap_storet(event_date) local parallel 4 nologging;
+        - rollback: drop index rs_storet_event_date;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_huc10"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_HUC10' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_huc10 on result_sum_swap_storet(huc_10) local parallel 4 nologging;
+        - rollback: drop index rs_storet_huc10;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_huc12"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_HUC12' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_huc12 on result_sum_swap_storet(huc_12) local parallel 4 nologging;
+        - rollback: drop index rs_storet_huc12;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_huc2"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_HUC2' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_huc2 on result_sum_swap_storet(huc_2) local parallel 4 nologging;
+        - rollback: drop index rs_storet_huc2;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_huc4"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_HUC4' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_huc4 on result_sum_swap_storet(huc_4) local parallel 4 nologging;
+        - rollback: drop index rs_storet_huc4;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_huc6"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_HUC6' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_huc6 on result_sum_swap_storet(huc_6) local parallel 4 nologging;
+        - rollback: drop index rs_storet_huc6;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_huc8"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_HUC8' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_huc8 on result_sum_swap_storet(huc_8) local parallel 4 nologging;
+        - rollback: drop index rs_storet_huc8;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_organization on result_sum_swap_storet(organization) local parallel 4 nologging;
+        - rollback: drop index rs_storet_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_p_code"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_P_CODE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_p_code on result_sum_swap_storet(p_code) local parallel 4 nologging;
+        - rollback: drop index rs_storet_p_code;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_project"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_PROJECT' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_project on result_sum_swap_storet(project_id) local parallel 4 nologging;
+        - rollback: drop index rs_storet_project;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_sample_media"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_SAMPLE_MEDIA' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_sample_media on result_sum_swap_storet(sample_media) local parallel 4 nologging;
+        - rollback: drop index rs_storet_sample_media;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_SITE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_site on result_sum_swap_storet(site_id) local parallel 4 nologging;
+        - rollback: drop index rs_storet_site;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_site_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_SITE_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_site_type on result_sum_swap_storet(site_type) local parallel 4 nologging;
+        - rollback: drop index rs_storet_site_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_STATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_state on result_sum_swap_storet(state_code) local parallel 4 nologging;
+        - rollback: drop index rs_storet_state;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_STATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_station on result_sum_swap_storet(station_id) local parallel 4 nologging;
+        - rollback: drop index rs_storet_station;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rs_storet_sum_taxa_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RS_STORET_TAXA_NAME' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rs_storet_taxa_name on result_sum_swap_storet(sample_tissue_taxonomic_name) local parallel 4 nologging;
+        - rollback: drop index rs_storet_taxa_name;

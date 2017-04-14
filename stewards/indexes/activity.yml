@@ -1,0 +1,225 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_activity_id"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_ACTIVITY_ID' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_activity_id on activity_swap_stewards(activity_id) local parallel 4 nologging;
+        - rollback: drop index a_stewards_activity_id;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_ACTIVITY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_activity on activity_swap_stewards(activity) local parallel 4 nologging;
+        - rollback: drop index a_stewards_activity;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_COUNTRY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_country on activity_swap_stewards(country_code) local parallel 4 nologging;
+        - rollback: drop index a_stewards_country;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_COUNTY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_county on activity_swap_stewards(county_code) local parallel 4 nologging;
+        - rollback: drop index a_stewards_county;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_event_date"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_EVENT_DATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_event_date on activity_swap_stewards(event_date) local parallel 4 nologging;
+        - rollback: drop index a_stewards_event_date;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_huc10"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_HUC10' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_huc10 on activity_swap_stewards(huc_10) local parallel 4 nologging;
+        - rollback: drop index a_stewards_huc10;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_huc12"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_HUC12' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_huc12 on activity_swap_stewards(huc_12) local parallel 4 nologging;
+        - rollback: drop index a_stewards_huc12;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_huc2"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_HUC2' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_huc2 on activity_swap_stewards(huc_2) local parallel 4 nologging;
+        - rollback: drop index a_stewards_huc2;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_huc4"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_HUC4' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_huc4 on activity_swap_stewards(huc_4) local parallel 4 nologging;
+        - rollback: drop index a_stewards_huc4;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_huc6"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_HUC6' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_huc6 on activity_swap_stewards(huc_6) local parallel 4 nologging;
+        - rollback: drop index a_stewards_huc6;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_huc8"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_HUC8' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_huc8 on activity_swap_stewards(huc_8) local parallel 4 nologging;
+        - rollback: drop index a_stewards_huc8;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_organization on activity_swap_stewards(organization) local parallel 4 nologging;
+        - rollback: drop index a_stewards_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_sample_media"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_SAMPLE_MEDIA' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_sample_media on activity_swap_stewards(sample_media) local parallel 4 nologging;
+        - rollback: drop index a_stewards_sample_media;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_SITE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_site on activity_swap_stewards(site_id) local parallel 4 nologging;
+        - rollback: drop index a_stewards_site;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_site_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_SITE_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_site_type on activity_swap_stewards(site_type) local parallel 4 nologging;
+        - rollback: drop index a_stewards_site_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_STATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_state on activity_swap_stewards(state_code) local parallel 4 nologging;
+        - rollback: drop index a_stewards_state;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.a_stewards_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_STEWARDS_STATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_stewards_station on activity_swap_stewards(station_id) local parallel 4 nologging;
+        - rollback: drop index a_stewards_station;

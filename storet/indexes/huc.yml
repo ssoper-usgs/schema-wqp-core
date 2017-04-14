@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "insert.huc8_geom_lookup_geom.into.user_sdo_geom_metadata"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_sdo_geom_metadata where table_name = 'HUC8_GEOM_LOOKUP';
+      changes:
+        - sql: insert into user_sdo_geom_metadata values ('HUC8_GEOM_LOOKUP', 'GEOM', mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.229655487448, 179.856674735386, 0.005), mdsys.sdo_dim_element('Y', -14.424695094277, 71.439572590153, 0.005)), 4269);
+        - rollback: delete from user_sdo_geom_metadata where table_name = 'HUC8_GEOM_LOOKUP';
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.huc8_geom_lookup_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'HUC8_GEOM_LOOKUP_GEOM' and object_type = 'INDEX';
+      changes:
+        - sql: create index huc8_geom_lookup_geom on huc8_geom_lookup(geom) indextype is mdsys.spatial_index parameters ('sdo_indx_dims=2 , layer_gtype=MULTIPOLYGON');
+        - rollback: drop index huc8_geom_lookup_geom;

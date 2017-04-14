@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.project_dim_code"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'PROJECT_DIM_CODE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index project_dim_code on project_dim(code_value) local parallel 4 nologging;
+        - rollback: drop index project_dim_code;

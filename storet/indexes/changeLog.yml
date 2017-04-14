@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - include:
+      file: "activity.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "activitySum.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "actMetric.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "county.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "huc.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectDim.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "result.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "resultSum.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "rdetectQntLmt.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "station.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "stationSum.yml"
+      relativeToChangelogFile: true

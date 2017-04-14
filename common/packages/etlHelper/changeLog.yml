@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - include:
+      file: "main/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "activity/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "activityMetric/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "code/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "rDetectQntLmt/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "result/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "station/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "summary/changeLog.yml"
+      relativeToChangelogFile: true
+
+

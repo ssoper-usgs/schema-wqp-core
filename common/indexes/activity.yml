@@ -1,0 +1,225 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_activity_id"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_ACTIVITY_ID' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_activity_id on activity(activity_id) local parallel 4 nologging;
+        - rollback: drop index activity_activity_id;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_ACTIVITY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_activity on activity(activity) local parallel 4 nologging;
+        - rollback: drop index activity_activity;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_COUNTRY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_country on activity(country_code) local parallel 4 nologging;
+        - rollback: drop index activity_country;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_COUNTY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_county on activity(county_code) local parallel 4 nologging;
+        - rollback: drop index activity_county;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_event_date"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_EVENT_DATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_event_date on activity(event_date) local parallel 4 nologging;
+        - rollback: drop index activity_event_date;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_huc10"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_HUC10' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_huc10 on activity(huc_10) local parallel 4 nologging;
+        - rollback: drop index activity_huc10;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_huc12"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_HUC12' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_huc12 on activity(huc_12) local parallel 4 nologging;
+        - rollback: drop index activity_huc12;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_huc2"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_HUC2' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_huc2 on activity(huc_2) local parallel 4 nologging;
+        - rollback: drop index activity_huc2;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_huc4"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_HUC4' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_huc4 on activity(huc_4) local parallel 4 nologging;
+        - rollback: drop index activity_huc4;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_huc6"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_HUC6' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_huc6 on activity(huc_6) local parallel 4 nologging;
+        - rollback: drop index activity_huc6;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_huc8"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_HUC8' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_huc8 on activity(huc_8) local parallel 4 nologging;
+        - rollback: drop index activity_huc8;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_organization on activity(organization) local parallel 4 nologging;
+        - rollback: drop index activity_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_sample_media"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SAMPLE_MEDIA' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_sample_media on activity(sample_media) local parallel 4 nologging;
+        - rollback: drop index activity_sample_media;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SITE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_site on activity(site_id) local parallel 4 nologging;
+        - rollback: drop index activity_site;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_site_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SITE_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_site_type on activity(site_type) local parallel 4 nologging;
+        - rollback: drop index activity_site_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_STATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_state on activity(state_code) local parallel 4 nologging;
+        - rollback: drop index activity_state;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.activity_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_STATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index activity_station on activity(station_id) local parallel 4 nologging;
+        - rollback: drop index activity_station;

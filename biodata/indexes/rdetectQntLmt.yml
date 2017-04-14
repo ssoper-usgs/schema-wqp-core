@@ -1,0 +1,316 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_ACTIVITY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_activity on r_detect_qnt_lmt_swap_biodata(activity) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_activity;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_analytical"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_ANALYTICAL' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_analytical on r_detect_qnt_lmt_swap_biodata(analytical_method) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_analytical;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_assemblage"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_ASSEMBLAGE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_assemblage on r_detect_qnt_lmt_swap_biodata(assemblage_sampled_name) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_assemblage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_char_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_CHAR_NAME' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_char_name on r_detect_qnt_lmt_swap_biodata(characteristic_name) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_char_name;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_char_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_CHAR_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_char_type on r_detect_qnt_lmt_swap_biodata(characteristic_type) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_char_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_COUNTRY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_country on r_detect_qnt_lmt_swap_biodata(country_code) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_country;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_COUNTY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_county on r_detect_qnt_lmt_swap_biodata(county_code) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_county;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_event_date"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_EVENT_DATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_event_date on r_detect_qnt_lmt_swap_biodata(event_date) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_event_date;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_huc10"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_HUC10' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_huc10 on r_detect_qnt_lmt_swap_biodata(huc_10) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_huc10;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_huc12"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_HUC12' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_huc12 on r_detect_qnt_lmt_swap_biodata(HUC_12) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_huc12;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_huc2"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_HUC2' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_huc2 on r_detect_qnt_lmt_swap_biodata(huc_2) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_huc2;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_huc4"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_HUC4' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_huc4 on r_detect_qnt_lmt_swap_biodata(huc_4) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_huc4;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_huc6"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_HUC6' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_huc6 on r_detect_qnt_lmt_swap_biodata(huc_6) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_huc6;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_huc8"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_HUC8' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_huc8 on r_detect_qnt_lmt_swap_biodata(huc_8) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_huc8;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_organization on r_detect_qnt_lmt_swap_biodata(organization) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_p_code"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_P_CODE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_p_code on r_detect_qnt_lmt_swap_biodata(p_code) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_p_code;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_project"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_PROJECT' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_project on r_detect_qnt_lmt_swap_biodata(project_id) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_project;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_RESULT' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_result on r_detect_qnt_lmt_swap_biodata(result_id) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_result;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_sample_media"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_SAMPLE_MEDIA' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_sample_media on r_detect_qnt_lmt_swap_biodata(sample_media) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_sample_media;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_SITE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_site on r_detect_qnt_lmt_swap_biodata(site_id) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_site;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_site_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_SITE_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_site_type on r_detect_qnt_lmt_swap_biodata(site_type) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_site_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_STATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_state on r_detect_qnt_lmt_swap_biodata(state_code) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_state;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_STATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_station on r_detect_qnt_lmt_swap_biodata(station_id) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_station;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.rdql_biodata_taxa_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'RDQL_BIODATA_TAXA_NAME' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index rdql_biodata_taxa_name on r_detect_qnt_lmt_swap_biodata(sample_tissue_taxonomic_name) local parallel 4 nologging;
+        - rollback: drop index rdql_biodata_taxa_name;

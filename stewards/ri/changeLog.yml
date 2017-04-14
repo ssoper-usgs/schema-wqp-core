@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_swap_stewards.station_pk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'STATION_PK_STEWARDS' and table_name = 'STATION_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_swap_stewards add constraint station_pk_stewards primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_swap_stewards drop constraint station_pk_stewards;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_sum_swap_stewards.station_sum_pk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'STATION_SUM_PK_STEWARDS' and table_name = 'STATION_SUM_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_sum_swap_stewards add constraint station_sum_pk_stewards primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_sum_swap_stewards drop constraint station_sum_pk_stewards;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_swap_stewards.activity_pk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ACTIVITY_PK_STEWARDS' and table_name = 'ACTIVITY_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity_swap_stewards add constraint activity_pk_stewards primary key (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table activity_swap_stewards drop constraint activity_pk_stewards;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_swap_stewards.a_station_fk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'A_STATION_FK_STEWARDS' and table_name = 'ACTIVITY_SWAP_STEWARDS' and constraint_type = 'R';
+      changes:
+        - sql: alter table activity_swap_stewards add constraint a_station_fk_stewards foreign key (data_source_id, station_id) references station_swap_stewards (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table activity_swap_stewards drop constraint a_station_fk_stewards;
+
+  - changeSet:
+      author: drsteini
+      id: "create.act_metric_swap_stewards.am_activity_fk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'AM_ACTIVITY_FK_STEWARDS' and table_name = 'ACT_METRIC_SWAP_STEWARDS' and constraint_type = 'R';
+      changes:
+        - sql: alter table act_metric_swap_stewards add constraint am_activity_fk_stewards foreign key (data_source_id, station_id, activity_id) references activity_swap_stewards (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table act_metric_swap_stewards drop constraint am_activity_fk_stewards;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_swap_stewards.r_station_fk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'R_STATION_FK_STEWARDS' and table_name = 'RESULT_SWAP_STEWARDS' and constraint_type = 'R';
+      changes:
+        - sql: alter table result_swap_stewards add constraint r_station_fk_stewards foreign key (data_source_id, station_id) references station_swap_stewards (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table result_swap_stewards drop constraint r_station_fk_stewards;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_sum_swap_stewards.rs_station_fk_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'RS_STATION_FK_STEWARDS' and table_name = 'RESULT_SUM_SWAP_STEWARDS' and constraint_type = 'R';
+      changes:
+        - sql: alter table result_sum_swap_stewards add constraint rs_station_fk_stewards foreign key (data_source_id, station_id) references station_sum_swap_stewards (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table result_sum_swap_stewards drop constraint rs_station_fk_stewards;

@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_swap_storet.station_pk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'STATION_PK_STORET' and table_name = 'STATION_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_swap_storet add constraint station_pk_storet primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_swap_storet drop constraint station_pk_storet;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_sum_swap_storet.station_sum_pk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'STATION_SUM_PK_STORET' and table_name = 'STATION_SUM_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_sum_swap_storet add constraint station_sum_pk_storet primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_sum_swap_storet drop constraint station_sum_pk_storet;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_swap_storet.activity_pk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ACTIVITY_PK_STORET' and table_name = 'ACTIVITY_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity_swap_storet add constraint activity_pk_storet primary key (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table activity_swap_storet drop constraint activity_pk_storet;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_swap_storet.a_station_fk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'A_STATION_FK_STORET' and table_name = 'ACTIVITY_SWAP_STORET' and constraint_type = 'R';
+      changes:
+        - sql: alter table activity_swap_storet add constraint a_station_fk_storet foreign key (data_source_id, station_id) references station_swap_storet (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table activity_swap_storet drop constraint a_station_fk_storet;
+
+  - changeSet:
+      author: drsteini
+      id: "create.act_metric_swap_storet.am_activity_fk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'AM_ACTIVITY_FK_STORET' and table_name = 'ACT_METRIC_SWAP_STORET' and constraint_type = 'R';
+      changes:
+        - sql: alter table act_metric_swap_storet add constraint am_activity_fk_storet foreign key (data_source_id, station_id, activity_id) references activity_swap_storet (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table act_metric_swap_storet drop constraint am_activity_fk_storet;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_swap_storet.r_station_fk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'R_STATION_FK_STORET' and table_name = 'RESULT_SWAP_STORET' and constraint_type = 'R';
+      changes:
+        - sql: alter table result_swap_storet add constraint r_station_fk_storet foreign key (data_source_id, station_id) references station_swap_storet (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table result_swap_storet drop constraint r_station_fk_storet;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_sum_swap_storet.rs_station_fk_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'RS_STATION_FK_STORET' and table_name = 'RESULT_SUM_SWAP_STORET' and constraint_type = 'R';
+      changes:
+        - sql: alter table result_sum_swap_storet add constraint rs_station_fk_storet foreign key (data_source_id, station_id) references station_sum_swap_storet (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table result_sum_swap_storet drop constraint rs_station_fk_storet;

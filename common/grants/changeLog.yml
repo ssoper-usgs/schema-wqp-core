@@ -1,0 +1,228 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.activity.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on activity to ${readOnlyUser};
+        - rollback: revoke select on activity from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.act_metric.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on act_metric to ${readOnlyUser};
+        - rollback: revoke select on act_metric from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.activity_sum.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on activity_sum to ${readOnlyUser};
+        - rollback: revoke select on activity_sum from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.assemblage.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on assemblage to ${readOnlyUser};
+        - rollback: revoke select on assemblage from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.char_name.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on char_name to ${readOnlyUser};
+        - rollback: revoke select on char_name from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.char_type.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on char_type to ${readOnlyUser};
+        - rollback: revoke select on char_type from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.country.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on country to ${readOnlyUser};
+        - rollback: revoke select on country from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.county.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on county to ${readOnlyUser};
+        - rollback: revoke select on county from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.data_source.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on data_source to ${readOnlyUser};
+        - rollback: revoke select on data_source from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.huc8_conus_hi_ak_pr_dis.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on huc8_conus_hi_ak_pr_dis to ${readOnlyUser};
+        - rollback: revoke select on huc8_conus_hi_ak_pr_dis from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.last_etl.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on last_etl to ${readOnlyUser};
+        - rollback: revoke select on last_etl from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.execute.log_helper.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant execute on log_helper to ${readOnlyUser};
+        - rollback: revoke execute on log_helper from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.organization.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on organization to ${readOnlyUser};
+        - rollback: revoke select on organization from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.execute.pkg_dynamic_list.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant execute on pkg_dynamic_list to ${readOnlyUser};
+        - rollback: revoke execute on pkg_dynamic_list from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.project.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on project to ${readOnlyUser};
+        - rollback: revoke select on project from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.project_dim.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on project_dim to ${readOnlyUser};
+        - rollback: revoke select on project_dim from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.qwportal_summary.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on qwportal_summary to ${readOnlyUser};
+        - rollback: revoke select on qwportal_summary from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.result.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on result to ${readOnlyUser};
+        - rollback: revoke select on result from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.result_sum.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on result_sum to ${readOnlyUser};
+        - rollback: revoke select on result_sum from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.r_detect_qnt_lmt.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on r_detect_qnt_lmt to ${readOnlyUser};
+        - rollback: revoke select on r_detect_qnt_lmt from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.sample_media.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on sample_media to ${readOnlyUser};
+        - rollback: revoke select on sample_media from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.site_type.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on site_type to ${readOnlyUser};
+        - rollback: revoke select on site_type from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.state.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on state to ${readOnlyUser};
+        - rollback: revoke select on state from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.states.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on states to ${readOnlyUser};
+        - rollback: revoke select on states from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.station.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on station to ${readOnlyUser};
+        - rollback: revoke select on station from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.station_sum.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on station_sum to ${readOnlyUser};
+        - rollback: revoke select on station_sum from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.taxa_name.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on taxa_name to ${readOnlyUser};
+        - rollback: revoke select on taxa_name from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.us_counties_dis_20121015.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on us_counties_dis_20121015 to ${readOnlyUser};
+        - rollback: revoke select on us_counties_dis_20121015 from ${readOnlyUser};

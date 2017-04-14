@@ -1,0 +1,21 @@
+create table county_geom_lookup
+(statefp                        varchar2(2 byte)
+,countyfp                       varchar2(3 byte)
+,countyns                       varchar2(8 byte)
+,geoid                          varchar2(5 byte)
+,name                           varchar2(100 byte)
+,namelsad                       varchar2(100 byte)
+,lsad                           varchar2(2 byte)
+,classfp                        varchar2(2 byte)
+,mtfcc                          varchar2(5 byte)
+,csafp                          varchar2(3 byte)
+,cbsafp                         varchar2(5 byte)
+,metdivfp                       varchar2(5 byte)
+,funcstat                       varchar2(1 byte)
+,aland                          number(14,0)
+,awater                         number(14,0)
+,intptlat                       varchar2(11 byte)
+,intptlon                       varchar2(12 byte)
+,countyid                       number(9,0)
+,geom                           sdo_geometry
+) parallel 4 compress pctfree 0 nologging;
