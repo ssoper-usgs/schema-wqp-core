@@ -3,7 +3,7 @@
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <preConditions>
           <dbms type="oracle" />
@@ -13,7 +13,8 @@
     <changeSet author="drsteini" id="loadDataSource" runOnChange="true">
         <delete tableName="data_source"/>
         <loadData encoding="UTF-8"
-                  file="changeLogData/data_source.csv"
+                  file="data_source.csv"
+                  relativeToChangelogFile="true"
                   tableName="data_source">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -22,7 +23,8 @@
     <changeSet author="drsteini" id="loadWqxHrdatToSrid" runOnChange="true">
         <delete tableName="wqx_hrdat_to_srid"/>
         <loadData encoding="UTF-8"
-                  file="changeLogData/wqx_hrdat_to_srid.csv"
+                  file="wqx_hrdat_to_srid.csv"
+                  relativeToChangelogFile="true"
                   tableName="wqx_hrdat_to_srid">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -31,7 +33,8 @@
     <changeSet author="drsteini" id="loadWqxSiteTypeConversion" runOnChange="true">
         <delete tableName="wqx_site_type_conversion"/>
         <loadData encoding="UTF-8"
-                  file="changeLogData/wqx_site_type_conversion.csv"
+                  file="wqx_site_type_conversion.csv"
+                  relativeToChangelogFile="true"
                   tableName="wqx_site_type_conversion">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -40,7 +43,8 @@
     <changeSet author="drsteini" id="loadEtlThreshold" runOnChange="true">
         <delete tableName="etl_threshold"/>
         <loadData encoding="UTF-8"
-                  file="changeLogData/etl_threshold.csv"
+                  file="etl_threshold.csv"
+                  relativeToChangelogFile="true"
                   tableName="etl_threshold">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>
@@ -51,7 +55,8 @@
     <changeSet author="drsteini" id="load-wqx_dql_hierarchy" runOnChange="true">
         <delete tableName="wqx_dql_hierarchy"/>
         <loadData encoding="UTF-8"
-                  file="changeLogData/wqx_dql_hierarchy.csv"
+                  file="wqx_dql_hierarchy.csv"
+                  relativeToChangelogFile="true"
                   tableName="wqx_dql_hierarchy">
         </loadData>
         <rollback>select 'no rollback - you must restore previous csv and rerun manually' from dual</rollback>

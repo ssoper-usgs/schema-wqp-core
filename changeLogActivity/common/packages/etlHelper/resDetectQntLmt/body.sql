@@ -65,7 +65,7 @@ create or replace package body etl_helper_r_detect_qnt_lmt as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index rdql_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) parallel 4 nologging';
+        stmt := 'create bitmap index rdql_' || p_table_suffix || '_huc6 on ' || table_name || '(huc_6) local parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -131,7 +131,7 @@ create or replace package body etl_helper_r_detect_qnt_lmt as
         end_job     boolean := false;
     begin
 
-        end_job := etl_helper_main.validate_table('r_detect_qnt_lmt', 'r_detect_qnt_lmt_', p_table_suffix);
+        end_job := etl_helper_main.validate_table('r_detect_qnt_lmt', 'rdtct_qnt_lmt_', p_table_suffix);
 
         return end_job;
 
@@ -144,7 +144,7 @@ create or replace package body etl_helper_r_detect_qnt_lmt as
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
         dbms_output.put_line('r_detect_qnt_lmt');
-        execute immediate 'alter table r_detect_qnt_lmt exchange partition r_detect_qnt_lmt_' || suffix ||
+        execute immediate 'alter table r_detect_qnt_lmt exchange partition rdtct_qnt_lmt_' || suffix ||
                           ' with table r_detect_qnt_lmt_swap_' || suffix || ' including indexes';
 
     end install;
