@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.log_helper"
+      changes:
+        - sqlFile:
+            path: definition.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package log_helper;
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.body.log_helper"
+      changes:
+        - sqlFile:
+            path: body.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package body log_helper;

@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.station.station_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'STATION_PK' and table_name = 'STATION' and constraint_type = 'P';
+      changes:
+        - sql: alter table station add constraint station_pk primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station drop constraint station_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_sum.station_sum_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'STATION_SUM_PK' and table_name = 'STATION_SUM' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_sum add constraint station_sum_pk primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_sum drop constraint station_sum_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity.activity_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ACTIVITY_PK' and table_name = 'ACTIVITY' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity add constraint activity_pk primary key (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table activity drop constraint activity_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity.activity_station_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ACTIVITY_STATION_FK' and table_name = 'ACTIVITY' and constraint_type = 'R';
+      changes:
+        - sql: alter table activity add constraint activity_station_fk foreign key (data_source_id, station_id) references station (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table activity drop constraint activity_station_fk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.act_metric.act_metric_activity_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ACT_METRIC_ACTIVITY_FK' and table_name = 'ACT_METRIC' and constraint_type = 'R';
+      changes:
+        - sql: alter table act_metric add constraint act_metric_activity_fk foreign key (data_source_id, station_id, activity_id) references activity (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table act_metric drop constraint act_metric_activity_fk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result.result_station_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'RESULT_STATION_FK' and table_name = 'RESULT' and constraint_type = 'R';
+      changes:
+        - sql: alter table result add constraint result_station_fk foreign key (data_source_id, station_id) references station (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table result drop constraint result_station_fk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_sum.result_sum_station_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'RESULT_SUM_STATION_FK' and table_name = 'RESULT_SUM' and constraint_type = 'R';
+      changes:
+        - sql: alter table result_sum add constraint result_sum_station_fk foreign key (data_source_id, station_id) references station_sum (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table result_sum drop constraint result_sum_station_fk;

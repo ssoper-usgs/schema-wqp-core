@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - include:
+      file: "databaseLinks/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "tables/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "indexes/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "ri/changeLog.yml"
+      relativeToChangelogFile: true

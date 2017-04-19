@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.database.link.wqp_core_dbdw.er.usgs.gov"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'WQP_CORE_DBDW.ER.USGS.GOV' and object_type = 'DATABASE LINK';
+      changes:
+        - sql: create database link wqp_core_dbdw.er.usgs.gov connect to wqp_core identified by "${wqp_core_dbdw_pwd}" using 'dbdw.er.usgs.gov';
+        - rollback: drop database link wqp_core_dbdw.er.usgs.gov;

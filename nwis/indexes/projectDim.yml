@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.pds_nwis_code"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'PDS_NWIS_CODE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index pds_nwis_code on project_dim_swap_nwis(code_value) parallel 4 nologging;
+        - rollback: drop index pds_nwis_code;

@@ -1,0 +1,212 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_COUNTRY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_country on station_sum_swap_biodata(country_code) parallel 4 nologging;
+        - rollback: drop index ss_biodata_country;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_COUNTY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_county on station_sum_swap_biodata(county_code) parallel 4 nologging;
+        - rollback: drop index ss_biodata_county;
+
+  - changeSet:
+      author: drsteini
+      id: "insert.ss_biodata_geom.into.user_sdo_geom_metadata"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_sdo_geom_metadata where table_name = 'STATION_SUM_SWAP_BIODATA';
+      changes:
+        - sql: insert into user_sdo_geom_metadata values ('STATION_SUM_SWAP_BIODATA', 'GEOM', mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -180, 180, 0.005), mdsys.sdo_dim_element('Y', -90, 90, 0.005)), 4269);
+        - rollback: delete from user_sdo_geom_metadata where table_name = 'STATION_SUM_SWAP_BIODATA';
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_GEOM' and object_type = 'INDEX';
+      changes:
+        - sql: create index ss_biodata_geom on station_sum_swap_biodata(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2 LAYER_GTYPE="POINT"');
+        - rollback: drop index ss_biodata_geom;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_huc10"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_HUC10' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_huc10 on station_sum_swap_biodata(huc_10) parallel 4 nologging;
+        - rollback: drop index ss_biodata_huc10;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_huc12"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_HUC12' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_huc12 on station_sum_swap_biodata(huc_12) parallel 4 nologging;
+        - rollback: drop index ss_biodata_huc12;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_huc2"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_HUC2' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_huc2 on station_sum_swap_biodata(huc_2) parallel 4 nologging;
+        - rollback: drop index ss_biodata_huc2;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_huc4"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_HUC4' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_huc4 on station_sum_swap_biodata(huc_4) parallel 4 nologging;
+        - rollback: drop index ss_biodata_huc4;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_huc6"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_HUC6' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_huc6 on station_sum_swap_biodata(huc_6) parallel 4 nologging;
+        - rollback: drop index ss_biodata_huc6;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_huc8"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_HUC8' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_huc8 on station_sum_swap_biodata(huc_8) parallel 4 nologging;
+        - rollback: drop index ss_biodata_huc8;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_organization on station_sum_swap_biodata(organization) parallel 4 nologging;
+        - rollback: drop index ss_biodata_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create unique index ss_biodata_pk on station_sum_swap_biodata(data_source_id, station_id) parallel 4 nologging;
+        - rollback: drop index ss_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_SITE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_site on station_sum_swap_biodata(site_id) parallel 4 nologging;
+        - rollback: drop index ss_biodata_site;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_site_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_SITE_TYPE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_site_type on station_sum_swap_biodata(site_type) parallel 4 nologging;
+        - rollback: drop index ss_biodata_site_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_STATE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_state on station_sum_swap_biodata(state_code) parallel 4 nologging;
+        - rollback: drop index ss_biodata_state;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.ss_biodata_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'SS_BIODATA_STATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index ss_biodata_station on station_sum_swap_biodata(station_id) parallel 4 nologging;
+        - rollback: drop index ss_biodata_station;

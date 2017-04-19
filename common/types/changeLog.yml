@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.type.typ_vctbl"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'TYP_VCTBL' and object_type = 'TYPE';
+      changes:
+        - sqlFile:
+            path: typVctbl.sql
+            relativeToChangelogFile: true
+        - rollback: drop type typ_vctbl;

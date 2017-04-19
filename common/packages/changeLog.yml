@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - include:
+      file: "etlHelper/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "logHelper/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "pkgDynamicList/changeLog.yml"
+      relativeToChangelogFile: true
