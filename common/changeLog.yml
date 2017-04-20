@@ -3,9 +3,10 @@ databaseChangeLog:
     - dbms:
         type: oracle
 
-  - include:
-      file: "databaseLinks/changeLog.yml"
-      relativeToChangelogFile: true
+#Do not run the database links script - unless you have verified the passwords are correct!!!
+#  - include:
+#      file: "databaseLinks/changeLog.yml"
+#      relativeToChangelogFile: true
 
   - include:
       file: "types/changeLog.yml"
