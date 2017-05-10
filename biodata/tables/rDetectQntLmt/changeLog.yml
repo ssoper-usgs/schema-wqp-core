@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.r_detect_qnt_lmt_swap_biodata"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: r_detect_qnt_lmt_swap_biodata
+      changes:
+        - sqlFile:
+            path: rDetectQntLmt.sql
+            relativeToChangelogFile: true
+        - rollback: drop table r_detect_qnt_lmt_swap_biodata cascade constraints purge;

@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity_sum"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_sum
+      changes:
+        - sqlFile:
+            path: activitySum.sql
+            relativeToChangelogFile: true
+        - rollback: drop table activity_sum cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity_sum.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SUM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: activitySumExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table activity_sum merge partitions activity_sum_stewards, activity_sum_nwis, activity_sum_storet, activity_sum_biodata, activity_sum_garbage into partition activity_sum_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity_sum.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SUM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: activitySumInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table activity_sum merge partitions activity_sum_nwis, activity_sum_garbage into partition activity_sum_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.activity_sum.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SUM' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table activity_sum add deprecated_flag varchar2(3 char);
+        - rollback: alter table activity_sum set unused column deprecated_flag;

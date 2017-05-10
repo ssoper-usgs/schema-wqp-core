@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county
+      changes:
+        - sqlFile:
+            path: county.sql
+            relativeToChangelogFile: true
+        - rollback: drop table county cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.county.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'COUNTY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: countyExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table county merge partitions county_stewards, county_nwis, county_storet, county_biodata, county_garbage into partition county_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.county.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'COUNTY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: countyInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table county merge partitions county_nwis, county_garbage into partition county_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.us_counties_dis_20121015"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: us_counties_dis_20121015
+      changes:
+        - sqlFile:
+            path: usCountiesDis20121015.sql
+            relativeToChangelogFile: true
+        - rollback: drop table us_counties_dis_20121015 cascade constraints purge;

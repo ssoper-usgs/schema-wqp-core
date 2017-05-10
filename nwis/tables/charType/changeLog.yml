@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.char_type_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: char_type_swap_nwis
+      changes:
+        - sqlFile:
+            path: charType.sql
+            relativeToChangelogFile: true
+        - rollback: drop table char_type_swap_nwis cascade constraints purge;

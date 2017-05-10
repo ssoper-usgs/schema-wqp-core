@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_dim"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_dim
+      changes:
+        - sqlFile:
+            path: projectDim.sql
+            relativeToChangelogFile: true
+        - rollback: drop table project_dim cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_dim.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'PROJECT_DIM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: projectDimExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table project_dim merge partitions project_dim_stewards, project_dim_nwis, project_dim_storet, project_dim_biodata, project_dim_garbage into partition project_dim_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_dim.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'PROJECT_DIM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: projectDimInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table project_dim merge partitions project_dim_nwis, project_dim_garbage into partition project_dim_garbage;

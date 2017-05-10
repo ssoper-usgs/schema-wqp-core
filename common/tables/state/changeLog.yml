@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: state
+      changes:
+        - sqlFile:
+            path: state.sql
+            relativeToChangelogFile: true
+        - rollback: drop table state cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.state.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stateExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table state merge partitions state_stewards, state_nwis, state_storet, state_biodata, state_garbage into partition state_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.state.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stateInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table state merge partitions state_nwis, state_garbage into partition state_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.states"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: states
+      changes:
+        - sqlFile:
+            path: states.sql
+            relativeToChangelogFile: true
+        - rollback: drop table states cascade constraints purge;

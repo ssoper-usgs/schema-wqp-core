@@ -2,7 +2,7 @@ create table public_srsnames_00000
 (parm_cd                        varchar2(5 char) not null
 ,description                    varchar2(170 char)
 ,characteristicname             varchar2(1200 char)
-,neasureunitcode                varchar2(10 char)
+,measureunitcode                varchar2(10 char)
 ,resultsamplefraction           varchar2(24 char)
 ,resulttemperaturebasis         varchar2(12 char)
 ,resultstatisticalbasis         varchar2(25 char)

@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_sum"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: station_sum
+      changes:
+        - sqlFile:
+            path: stationSum.sql
+            relativeToChangelogFile: true
+        - rollback: drop table station_sum cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_sum.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION_SUM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stationSumExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table station_sum merge partitions station_sum_stewards, station_sum_nwis, station_sum_storet, station_sum_biodata, station_sum_garbage into partition station_sum_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_sum.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION_SUM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stationSumInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table station_sum merge partitions station_sum_nwis, station_sum_garbage into partition station_sum_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table station_sum add deprecated_flag varchar2(3 char);
+        - rollback: alter table station_sum set unused column deprecated_flag;

@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: station
+      changes:
+        - sqlFile:
+            path: station.sql
+            relativeToChangelogFile: true
+        - rollback: drop table station cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stationExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table station merge partitions station_stewards, station_nwis, station_storet, station_biodata, station_garbage into partition station_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stationInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table station merge partitions station_nwis, station_garbage into partition station_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table station add deprecated_flag varchar2(3 char);
+        - rollback: alter table station set unused column deprecated_flag;

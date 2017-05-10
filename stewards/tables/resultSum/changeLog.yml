@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result_sum_swap_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: result_sum_swap_stewards
+      changes:
+        - sqlFile:
+            path: resultSum.sql
+            relativeToChangelogFile: true
+        - rollback: drop table result_sum_swap_stewards cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.result_sum_swap_stewards.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_STEWARDS' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table result_sum_swap_stewards add deprecated_flag varchar2(3 char);
+        - rollback: alter table result_sum_swap_stewards set unused column deprecated_flag;

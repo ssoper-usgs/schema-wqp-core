@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.etl_threshold"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: etl_threshold
+      changes:
+        - sqlFile:
+            path: etlThreshold.sql
+            relativeToChangelogFile: true
+        - rollback: drop table etl_threshold cascade constraints purge;

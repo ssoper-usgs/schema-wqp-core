@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: web_service_log
+      id: "create.table.web_service_log"
+      changes:
+        - sqlFile:
+            path: webServiceLog.sql
+            relativeToChangelogFile: true
+        - rollback: drop table web_service_log cascade constraints purge;

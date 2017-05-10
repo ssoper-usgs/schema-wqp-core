@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.taxa_name_swap_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: taxa_name_swap_stewards
+      changes:
+        - sqlFile:
+            path: taxaName.sql
+            relativeToChangelogFile: true
+        - rollback: drop table taxa_name_swap_stewards cascade constraints purge;

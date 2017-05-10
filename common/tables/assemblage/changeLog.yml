@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.assemblage"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: assemblage
+      changes:
+        - sqlFile:
+            path: assemblage.sql
+            relativeToChangelogFile: true
+        - rollback: drop table assemblage cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.assemblage.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ASSEMBLAGE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: assemblageExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table assemblage merge partitions assemblage_stewards, assemblage_nwis, assemblage_storet, assemblage_biodata, assemblage_garbage into partition assemblage_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.assemblage.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ASSEMBLAGE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: assemblageInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table assemblage merge partitions assemblage_nwis, assemblage_garbage into partition assemblage_garbage;

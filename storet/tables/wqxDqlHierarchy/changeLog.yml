@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.wqx_dql_hierarchy"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: wqx_dql_hierarchy
+      changes:
+        - sqlFile:
+            path: wqxDqlHierarchy.sql
+            relativeToChangelogFile: true
+        - rollback: drop table wqx_dql_hierarchy cascade constraints purge;
