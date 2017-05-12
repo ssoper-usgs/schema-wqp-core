@@ -20,7 +20,6 @@ databaseChangeLog:
   - include:
       file: "nwis/changeLog.yml"
       relativeToChangelogFile: true
-      context: external
 
   - include:
       file: "storet/changeLog.yml"
