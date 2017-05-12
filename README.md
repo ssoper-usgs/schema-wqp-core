@@ -20,12 +20,14 @@ Parameters used for configuration:
 
 * **nemi\_data\_pwd** - The password used in creating database links to the nemi repository.
 
-* **wqp\_core\_pwd** - The password used in creating database links to the wqp safe repository.
+* **wqp_core_dbdw_pwd** - The password used in creating database links to the wqp safe repository.
 
 
 Context values used for configuration:
 
-* **external** - These changesets are unique to the WQP.
+* **external** - These changesets are unique to the external WQP.
+
+* **internal** - These changesets are unique to the internal WQP.
 
 * **ci** - These changesets are unique to the continuous integration database layer.
 
