@@ -161,6 +161,19 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "create.index.a_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_NWIS_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_nwis_pk on activity_swap_nwis(data_source_id, station_id, activity_id) local parallel 4 nologging;
+        - rollback: drop index a_nwis_pk;
+
+  - changeSet:
+      author: drsteini
       id: "create.index.a_nwis_sample_media"
       preConditions:
         - onFail: MARK_RAN

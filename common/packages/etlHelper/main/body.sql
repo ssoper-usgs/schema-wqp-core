@@ -39,18 +39,18 @@ create or replace package body etl_helper_main as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        stmt := 'alter table station_swap_' || suffix || ' add constraint station_pk_' || suffix || 
-                ' primary key (data_source_id, station_id) rely enable novalidate';
+        stmt := 'alter table station_swap_' || suffix || ' add constraint s' || suffix || 
+                '_pk primary key (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'alter table station_sum_swap_' || suffix || ' add constraint station_sum_pk_' || suffix ||
-                ' primary key (data_source_id, station_id) rely enable novalidate';
+        stmt := 'alter table station_sum_swap_' || suffix || ' add constraint ss_' || suffix ||
+                '_pk primary key (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;   
 
-        stmt := 'alter table activity_swap_' || suffix || ' add constraint activity_pk_' || suffix || 
-                ' primary key (data_source_id, station_id, activity_id) rely enable novalidate';
+        stmt := 'alter table activity_swap_' || suffix || ' add constraint a_' || suffix || 
+                '_pk primary key (data_source_id, station_id, activity_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
