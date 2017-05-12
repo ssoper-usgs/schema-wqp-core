@@ -5,42 +5,42 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.station_swap_nwis.station_pk_nwis"
+      id: "create.station_swap_nwis.s_nwis_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_constraints where constraint_name = 'STATION_PK_NWIS' and table_name = 'STATION_SWAP_NWIS' and constraint_type = 'P';
+            sql: select count(*) from user_constraints where constraint_name = 'S_NWIS_PK' and table_name = 'STATION_SWAP_NWIS' and constraint_type = 'P';
       changes:
-        - sql: alter table station_swap_nwis add constraint station_pk_nwis primary key (data_source_id, station_id) rely enable novalidate;
-        - rollback: alter table station_swap_nwis drop constraint station_pk_nwis;
+        - sql: alter table station_swap_nwis add constraint s_nwis_pk primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_swap_nwis drop constraint s_nwis_pk;
 
   - changeSet:
       author: drsteini
-      id: "create.station_sum_swap_nwis.station_sum_pk_nwis"
+      id: "create.station_sum_swap_nwis.ss_nwis_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_constraints where constraint_name = 'STATION_SUM_PK_NWIS' and table_name = 'STATION_SUM_SWAP_NWIS' and constraint_type = 'P';
+            sql: select count(*) from user_constraints where constraint_name = 'SS_NWIS_PK' and table_name = 'STATION_SUM_SWAP_NWIS' and constraint_type = 'P';
       changes:
-        - sql: alter table station_sum_swap_nwis add constraint station_sum_pk_nwis primary key (data_source_id, station_id) rely enable novalidate;
-        - rollback: alter table station_sum_swap_nwis drop constraint station_sum_pk_nwis;
+        - sql: alter table station_sum_swap_nwis add constraint ss_nwis_pk primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_sum_swap_nwis drop constraint ss_nwis_pk;
 
   - changeSet:
       author: drsteini
-      id: "create.activity_swap_nwis.activity_pk_nwis"
+      id: "create.activity_swap_nwis.a_nwis_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_constraints where constraint_name = 'ACTIVITY_PK_NWIS' and table_name = 'ACTIVITY_SWAP_NWIS' and constraint_type = 'P';
+            sql: select count(*) from user_constraints where constraint_name = 'A_NWIS_PK' and table_name = 'ACTIVITY_SWAP_NWIS' and constraint_type = 'P';
       changes:
-        - sql: alter table activity_swap_nwis add constraint activity_pk_nwis primary key (data_source_id, station_id, activity_id) rely enable novalidate;
-        - rollback: alter table activity_swap_nwis drop constraint activity_pk_nwis;
+        - sql: alter table activity_swap_nwis add constraint a_nwis_pk primary key (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table activity_swap_nwis drop constraint a_nwis_pk;
 
   - changeSet:
       author: drsteini

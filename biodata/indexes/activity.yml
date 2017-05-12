@@ -161,6 +161,19 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "create.index.a_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'A_BIODATA_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index a_biodata_pk on activity_swap_biodata(data_source_id, station_id, activity_id) local parallel 4 nologging;
+        - rollback: drop index a_biodata_pk;
+
+  - changeSet:
+      author: drsteini
       id: "create.index.a_biodata_sample_media"
       preConditions:
         - onFail: MARK_RAN

@@ -5,7 +5,7 @@ create or replace package body etl_helper_activity as
     begin
 
         table_name := dbms_assert.sql_object_name(upper('activity_swap_' || p_table_suffix));
-        etl_helper_main.drop_indexes(table_name);    
+        etl_helper_main.drop_indexes(table_name);
 
     end drop_indexes;
 
@@ -62,6 +62,10 @@ create or replace package body etl_helper_activity as
         execute immediate stmt;
 
         stmt := 'create bitmap index a_' || p_table_suffix || '_organization on ' || table_name || '(organization) local parallel 4 nologging';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'create unique index a_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, station_id, activity_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 

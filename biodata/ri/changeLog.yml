@@ -5,42 +5,42 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.station_swap_biodata.station_pk_biodata"
+      id: "create.station_swap_biodata.s_biodata_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_constraints where constraint_name = 'STATION_PK_BIODATA' and table_name = 'STATION_SWAP_BIODATA' and constraint_type = 'P';
+            sql: select count(*) from user_constraints where constraint_name = 'S_BIODATA_PK' and table_name = 'STATION_SWAP_BIODATA' and constraint_type = 'P';
       changes:
-        - sql: alter table station_swap_biodata add constraint station_pk_biodata primary key (data_source_id, station_id) rely enable novalidate;
-        - rollback: alter table station_swap_biodata drop constraint station_pk_biodata;
+        - sql: alter table station_swap_biodata add constraint s_biodata_pk primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_swap_biodata drop constraint s_biodata_pk;
 
   - changeSet:
       author: drsteini
-      id: "create.station_sum_swap_biodata.station_sum_pk_biodata"
+      id: "create.station_sum_swap_biodata.ss_biodata_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_constraints where constraint_name = 'STATION_SUM_PK_BIODATA' and table_name = 'STATION_SUM_SWAP_BIODATA' and constraint_type = 'P';
+            sql: select count(*) from user_constraints where constraint_name = 'SS_BIODATA_PK' and table_name = 'STATION_SUM_SWAP_BIODATA' and constraint_type = 'P';
       changes:
-        - sql: alter table station_sum_swap_biodata add constraint station_sum_pk_biodata primary key (data_source_id, station_id) rely enable novalidate;
-        - rollback: alter table station_sum_swap_biodata drop constraint station_sum_pk_biodata;
+        - sql: alter table station_sum_swap_biodata add constraint ss_biodata_pk primary key (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table station_sum_swap_biodata drop constraint ss_biodata_pk;
 
   - changeSet:
       author: drsteini
-      id: "create.activity_swap_biodata.activity_pk_biodata"
+      id: "create.activity_swap_biodata."
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_constraints where constraint_name = 'ACTIVITY_PK_BIODATA' and table_name = 'ACTIVITY_SWAP_BIODATA' and constraint_type = 'P';
+            sql: select count(*) from user_constraints where constraint_name = 'A_BIODATA_PK' and table_name = 'ACTIVITY_SWAP_BIODATA' and constraint_type = 'P';
       changes:
-        - sql: alter table activity_swap_biodata add constraint activity_pk_biodata primary key (data_source_id, station_id, activity_id) rely enable novalidate;
-        - rollback: alter table activity_swap_biodata drop constraint activity_pk_biodata;
+        - sql: alter table activity_swap_biodata add constraint a_biodata_pk primary key (data_source_id, station_id, activity_id) rely enable novalidate;
+        - rollback: alter table activity_swap_biodata drop constraint a_biodata_pk;
 
   - changeSet:
       author: drsteini

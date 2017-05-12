@@ -57,7 +57,7 @@ create or replace package body etl_helper_station as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create unique index s_pk_' || p_table_suffix || ' on ' || table_name || '(data_source_id, station_id) parallel 4 nologging';
+        stmt := 'create unique index s_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, station_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
