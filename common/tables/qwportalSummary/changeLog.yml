@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.qwportal_summary"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: qwportal_summary
+      changes:
+        - sqlFile:
+            path: qwportalSummary.sql
+            relativeToChangelogFile: true
+        - rollback: drop table qwportal_summary cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.qwportal_summary.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'QWPORTAL_SUMMARY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: qwportalSummaryExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table qwportal_summary merge partitions summary_stewards, summary_nwis, summary_storet, summary_biodata, summary_garbage into partition summary_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.qwportal_summary.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'QWPORTAL_SUMMARY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: qwportalSummaryInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table qwportal_summary merge partitions summary_nwis, summary_garbage into partition summary_garbage;

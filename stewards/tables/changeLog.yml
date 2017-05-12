@@ -3,317 +3,86 @@ databaseChangeLog:
     - dbms:
         type: oracle
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.act_metric_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: act_metric_swap_stewards
-      changes:
-        - sqlFile:
-            path: actMetric/actMetric.sql
-            relativeToChangelogFile: true
-        - rollback: drop table act_metric_swap_stewards cascade constraints purge;
+  - include:
+      file: "activity/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.activity_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: activity_swap_stewards
-      changes:
-        - sqlFile:
-            path: activity/activity.sql
-            relativeToChangelogFile: true
-        - rollback: drop table activity_swap_stewards cascade constraints purge;
+  - include:
+      file: "activitySum/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.activity_sum_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: activity_sum_swap_stewards
-      changes:
-        - sqlFile:
-            path: activitySum/activitySum.sql
-            relativeToChangelogFile: true
-        - rollback: drop table activity_sum_swap_stewards cascade constraints purge;
+  - include:
+      file: "actMetric/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.assemblage_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: assemblage_swap_stewards
-      changes:
-        - sqlFile:
-            path: assemblage/assemblage.sql
-            relativeToChangelogFile: true
-        - rollback: drop table assemblage_swap_stewards cascade constraints purge;
+  - include:
+      file: "assemblage/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.char_name_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: char_name_swap_stewards
-      changes:
-        - sqlFile:
-            path: charName/charName.sql
-            relativeToChangelogFile: true
-        - rollback: drop table char_name_swap_stewards cascade constraints purge;
+  - include:
+      file: "charName/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.char_type_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: char_type_swap_stewards
-      changes:
-        - sqlFile:
-            path: charType/charType.sql
-            relativeToChangelogFile: true
-        - rollback: drop table char_type_swap_stewards cascade constraints purge;
+  - include:
+      file: "charType/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.country_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: country_swap_stewards
-      changes:
-        - sqlFile:
-            path: country/country.sql
-            relativeToChangelogFile: true
-        - rollback: drop table country_swap_stewards cascade constraints purge;
+  - include:
+      file: "country/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.county_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: county_swap_stewards
-      changes:
-        - sqlFile:
-            path: county/county.sql
-            relativeToChangelogFile: true
-        - rollback: drop table county_swap_stewards cascade constraints purge;
+  - include:
+      file: "county/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.organization_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: organization_swap_stewards
-      changes:
-        - sqlFile:
-            path: organization/organization.sql
-            relativeToChangelogFile: true
-        - rollback: drop table organization_swap_stewards cascade constraints purge;
+  - include:
+      file: "organization/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.project_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: project_swap_stewards
-      changes:
-        - sqlFile:
-            path: project/project.sql
-            relativeToChangelogFile: true
-        - rollback: drop table project_swap_stewards cascade constraints purge;
+  - include:
+      file: "project/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.project_dim_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: project_dim_swap_stewards
-      changes:
-        - sqlFile:
-            path: projectDim/projectDim.sql
-            relativeToChangelogFile: true
-        - rollback: drop table project_dim_swap_stewards cascade constraints purge;
+  - include:
+      file: "projectDim/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.qwportal_summary_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: qwportal_summary_swap_stewards
-      changes:
-        - sqlFile:
-            path: qwportalSummary/qwportalSummary.sql
-            relativeToChangelogFile: true
-        - rollback: drop table qwportal_summary_swap_stewards cascade constraints purge;
+  - include:
+      file: "qwportalSummary/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.r_detect_qnt_lmt_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: r_detect_qnt_lmt_swap_stewards
-      changes:
-        - sqlFile:
-            path: rDetectQntLmt/rDetectQntLmt.sql
-            relativeToChangelogFile: true
-        - rollback: drop table r_detect_qnt_lmt_swap_stewards cascade constraints purge;
+  - include:
+      file: "rDetectQntLmt/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.result_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: result_swap_stewards
-      changes:
-        - sqlFile:
-            path: result/result.sql
-            relativeToChangelogFile: true
-        - rollback: drop table result_swap_stewards cascade constraints purge;
+  - include:
+      file: "result/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.result_sum_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: result_sum_swap_stewards
-      changes:
-        - sqlFile:
-            path: resultSum/resultSum.sql
-            relativeToChangelogFile: true
-        - rollback: drop table result_sum_swap_stewards cascade constraints purge;
+  - include:
+      file: "resultSum/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.sample_media_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: sample_media_swap_stewards
-      changes:
-        - sqlFile:
-            path: sampleMedia/sampleMedia.sql
-            relativeToChangelogFile: true
-        - rollback: drop table sample_media_swap_stewards cascade constraints purge;
+  - include:
+      file: "sampleMedia/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.site_type_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: site_type_swap_stewards
-      changes:
-        - sqlFile:
-            path: siteType/siteType.sql
-            relativeToChangelogFile: true
-        - rollback: drop table site_type_swap_stewards cascade constraints purge;
+  - include:
+      file: "siteType/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.state_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: state_swap_stewards
-      changes:
-        - sqlFile:
-            path: state/state.sql
-            relativeToChangelogFile: true
-        - rollback: drop table state_swap_stewards cascade constraints purge;
+  - include:
+      file: "state/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.station_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: station_swap_stewards
-      changes:
-        - sqlFile:
-            path: station/station.sql
-            relativeToChangelogFile: true
-        - rollback: drop table station_swap_stewards cascade constraints purge;
+  - include:
+      file: "station/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.station_sum_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: station_sum_swap_stewards
-      changes:
-        - sqlFile:
-            path: stationSum/stationSum.sql
-            relativeToChangelogFile: true
-        - rollback: drop table station_sum_swap_stewards cascade constraints purge;
+  - include:
+      file: "stationSum/changeLog.yml"
+      relativeToChangelogFile: true
 
-  - changeSet:
-      author: drsteini
-      id: "create.table.taxa_name_swap_stewards"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: taxa_name_swap_stewards
-      changes:
-        - sqlFile:
-            path: taxaName/taxaName.sql
-            relativeToChangelogFile: true
-        - rollback: drop table taxa_name_swap_stewards cascade constraints purge;
+  - include:
+      file: "taxaName/changeLog.yml"
+      relativeToChangelogFile: true

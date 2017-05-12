@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.r_detect_qnt_lmt"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: r_detect_qnt_lmt
+      changes:
+        - sqlFile:
+            path: rDetectQntLmt.sql
+            relativeToChangelogFile: true
+        - rollback: drop table r_detect_qnt_lmt cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.r_detect_qnt_lmt.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'R_DETECT_QNT_LMT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: rDetectQntLmtExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table r_detect_qnt_lmt merge partitions rdtct_qnt_lmt_stewards, rdtct_qnt_lmt_nwis, rdtct_qnt_lmt_storet, rdtct_qnt_lmt_biodata, rdtct_qnt_lmt_garbage into partition rdtct_qnt_lmt_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.r_detect_qnt_lmt.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'R_DETECT_QNT_LMT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: rDetectQntLmtInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table r_detect_qnt_lmt merge partitions rdtct_qnt_lmt_nwis, rdtct_qnt_lmt_garbage into partition rdtct_qnt_lmt_garbage;

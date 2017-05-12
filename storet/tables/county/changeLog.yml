@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.county_geom_lookup"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_geom_lookup
+      changes:
+        - sqlFile:
+            path: countyGeomLookup.sql
+            relativeToChangelogFile: true
+        - rollback: drop table county_geom_lookup cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.county_swap_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_swap_storet
+      changes:
+        - sqlFile:
+            path: county.sql
+            relativeToChangelogFile: true
+        - rollback: drop table county_swap_storet cascade constraints purge;

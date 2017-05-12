@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.taxa_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: taxa_name
+      changes:
+        - sqlFile:
+            path: taxaName.sql
+            relativeToChangelogFile: true
+        - rollback: drop table taxa_name cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.taxa_name.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'TAXA_NAME' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: taxaNameExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table taxa_name merge partitions taxa_name_stewards, taxa_name_nwis, taxa_name_storet, taxa_name_biodata, taxa_name_garbage into partition taxa_name_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.taxa_name.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'TAXA_NAME' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: taxaNameInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table taxa_name merge partitions taxa_name_nwis, taxa_name_garbage into partition taxa_name_garbage;

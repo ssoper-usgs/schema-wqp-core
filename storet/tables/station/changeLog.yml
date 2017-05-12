@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_swap_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: station_swap_storet
+      changes:
+        - sqlFile:
+            path: station.sql
+            relativeToChangelogFile: true
+        - rollback: drop table station_swap_storet cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_swap_storet.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SWAP_STORET' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table station_swap_storet add deprecated_flag varchar2(3 char);
+        - rollback: alter table station_swap_storet set unused column deprecated_flag;

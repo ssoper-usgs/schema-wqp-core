@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.county_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_swap_nwis
+      changes:
+        - sqlFile:
+            path: county.sql
+            relativeToChangelogFile: true
+        - rollback: drop table county_swap_nwis cascade constraints purge;

@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.public_srsnames_00000"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: public_srsnames_00000
+      changes:
+        - sqlFile:
+            path: publicSrsnames.sql
+            relativeToChangelogFile: true
+        - rollback: drop table public_srsnames_00000 cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.public_srsnames_test"
+      context: ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: public_srsnames_test
+      changes:
+        - sqlFile:
+            path: publicSrsnamesTest.sql
+            relativeToChangelogFile: true
+        - rollback: drop table public_srsnames_test cascade constraints purge;

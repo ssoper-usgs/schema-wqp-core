@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity
+      changes:
+        - sqlFile:
+            path: activity.sql
+            relativeToChangelogFile: true
+        - rollback: drop table activity cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: activityExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table activity merge partitions activity_stewards, activity_nwis, activity_storet, activity_biodata, activity_garbage into partition activity_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ACTIVITY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: activityInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table activity merge partitions activity_nwis, activity_garbage into partition activity_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.activity.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table activity add deprecated_flag varchar2(3 char);
+        - rollback: alter table activity set unused column deprecated_flag;

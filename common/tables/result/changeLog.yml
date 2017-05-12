@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: result
+      changes:
+        - sqlFile:
+            path: result.sql
+            relativeToChangelogFile: true
+        - rollback: drop table result cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'RESULT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: resultExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table result merge partitions result_stewards, result_nwis, result_storet, result_biodata, result_garbage into partition result_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'RESULT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: resultInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table result merge partitions result_nwis, result_garbage into partition result_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.result.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'RESULT' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table result add deprecated_flag varchar2(3 char);
+        - rollback: alter table result set unused column deprecated_flag;

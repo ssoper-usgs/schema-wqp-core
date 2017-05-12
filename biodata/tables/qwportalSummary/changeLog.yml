@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.qwportal_summary_swap_biodata"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: qwportal_summary_swap_biodata
+      changes:
+        - sqlFile:
+            path: qwportalSummary.sql
+            relativeToChangelogFile: true
+        - rollback: drop table qwportal_summary_swap_biodata cascade constraints purge;

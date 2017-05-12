@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity_no_source"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_no_source
+      changes:
+        - sqlFile:
+            path: activityNoSource.sql
+            relativeToChangelogFile: true
+        - rollback: drop table activity_no_source cascade constraints purge;

@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.huc8_conus_hi_ak_pr_dis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: huc8_conus_hi_ak_pr_dis
+      changes:
+        - sqlFile:
+            path: huc8ConusHiAkPrDis.sql
+            relativeToChangelogFile: true
+        - rollback: drop table huc8_conus_hi_ak_pr_dis cascade constraints purge;

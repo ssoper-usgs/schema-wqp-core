@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.last_etl"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: last_etl
+      changes:
+        - sqlFile:
+            path: lastEtl.sql
+            relativeToChangelogFile: true
+        - rollback: drop table last_etl cascade constraints purge;

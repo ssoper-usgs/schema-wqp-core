@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: country
+      changes:
+        - sqlFile:
+            path: country.sql
+            relativeToChangelogFile: true
+        - rollback: drop table country cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.country.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'COUNTRY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: countryExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table country merge partitions country_stewards, country_nwis, country_storet, country_biodata, country_garbage into partition country_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.country.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'COUNTRY' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: countryInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table country merge partitions country_nwis, country_garbage into partition country_garbage;

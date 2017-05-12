@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.char_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: char_type
+      changes:
+        - sqlFile:
+            path: charType.sql
+            relativeToChangelogFile: true
+        - rollback: drop table char_type cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.char_type.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'CHAR_TYPE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: charTypeExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table char_type merge partitions char_type_stewards, char_type_nwis, char_type_storet, char_type_biodata, char_type_garbage into partition char_type_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.char_type.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'CHAR_TYPE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: charTypeInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table char_type merge partitions char_type_nwis, char_type_garbage into partition char_type_garbage;

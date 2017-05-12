@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.huc8_geom_lookup"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: huc8_geom_lookup
+      changes:
+        - sqlFile:
+            path: huc8GeomLookup.sql
+            relativeToChangelogFile: true
+        - rollback: drop table huc8_geom_lookup cascade constraints purge;

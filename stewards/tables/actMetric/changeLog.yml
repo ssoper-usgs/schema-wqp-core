@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.act_metric_swap_stewards"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: act_metric_swap_stewards
+      changes:
+        - sqlFile:
+            path: actMetric.sql
+            relativeToChangelogFile: true
+        - rollback: drop table act_metric_swap_stewards cascade constraints purge;

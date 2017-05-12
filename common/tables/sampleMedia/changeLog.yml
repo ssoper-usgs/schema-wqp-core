@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.sample_media"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: sample_media
+      changes:
+        - sqlFile:
+            path: sampleMedia.sql
+            relativeToChangelogFile: true
+        - rollback: drop table sample_media cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.sample_media.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'SAMPLE_MEDIA' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: sampleMediaExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table sample_media merge partitions sample_media_stewards, sample_media_nwis, sample_media_storet, sample_media_biodata, sample_media_garbage into partition sample_media_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.sample_media.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'SAMPLE_MEDIA' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: sampleMediaInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table sample_media merge partitions sample_media_nwis, sample_media_garbage into partition sample_media_garbage;

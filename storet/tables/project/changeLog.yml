@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_swap_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_swap_storet
+      changes:
+        - sqlFile:
+            path: project.sql
+            relativeToChangelogFile: true
+        - rollback: drop table project_swap_storet cascade constraints purge;
