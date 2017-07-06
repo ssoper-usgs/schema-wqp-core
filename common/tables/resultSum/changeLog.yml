@@ -49,16 +49,3 @@ databaseChangeLog:
             path: resultSumInternalPartitions.sql
             relativeToChangelogFile: true
         - rollback: alter table result_sum merge partitions result_sum_nwis, result_sum_garbage into partition result_sum_garbage;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.result_sum.add.column.deprecated_flag"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'RESULT_SUM' and column_name = 'DEPRECATED_FLAG';
-      changes:
-        - sql: alter table result_sum add deprecated_flag varchar2(3 char);
-        - rollback: alter table result_sum set unused column deprecated_flag;

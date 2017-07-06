@@ -17,16 +17,3 @@ databaseChangeLog:
             path: resultSum.sql
             relativeToChangelogFile: true
         - rollback: drop table result_sum_swap_nwis cascade constraints purge;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.result_sum_swap_nwis.add.column.deprecated_flag"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'RESULT_SUM_SWAP_NWIS' and column_name = 'DEPRECATED_FLAG';
-      changes:
-        - sql: alter table result_sum_swap_nwis add deprecated_flag varchar2(3 char);
-        - rollback: alter table result_sum_swap_nwis set unused column deprecated_flag;

@@ -17,16 +17,3 @@ databaseChangeLog:
             path: activitySum.sql
             relativeToChangelogFile: true
         - rollback: drop table activity_sum_swap_storet cascade constraints purge;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.activity_sum_swap_storet.add.column.deprecated_flag"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SUM_SWAP_STORET' and column_name = 'DEPRECATED_FLAG';
-      changes:
-        - sql: alter table activity_sum_swap_storet add deprecated_flag varchar2(3 char);
-        - rollback: alter table activity_sum_swap_storet set unused column deprecated_flag;

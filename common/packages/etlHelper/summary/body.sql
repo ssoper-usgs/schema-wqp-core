@@ -116,7 +116,7 @@ create or replace package body etl_helper_summary as
            upper(p_table_suffix) = 'STORET' then
 
             sql_suffix := q'!(data_source_id, fips_state_code, fips_county_code, fips_state_and_county, huc8, min_date, max_date,
-                    samples_past_12_months, samples_past_60_months, samples_all_time)
+                              samples_past_12_months, samples_past_60_months, samples_all_time)
             select /*+ parallel(4) */ data_source_id,
                    regexp_substr(state_code, '[^:]+', 1, 2) state_fips_code,
                    regexp_substr(county_code, '[^:]+', 1, 3) county_fips_code,
@@ -130,7 +130,7 @@ create or replace package body etl_helper_summary as
               from result_swap_!' || p_table_suffix || q'!
              where state_code between 'US:01' and 'US:56'
                 group by data_source_id, regexp_substr(state_code, '[^:]+', 1, 2), regexp_substr(county_code, '[^:]+', 1, 3), huc_8!';
-                
+
             create_table('qwportal_summary_swap_', p_table_suffix, sql_suffix);
 
         end if;
