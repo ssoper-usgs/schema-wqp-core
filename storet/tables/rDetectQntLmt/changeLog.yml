@@ -17,3 +17,29 @@ databaseChangeLog:
             path: rDetectQntLmt.sql
             relativeToChangelogFile: true
         - rollback: drop table r_detect_qnt_lmt_swap_storet cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.r_detect_qnt_lmt_swap_storet.add.column.deprecated_flag"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'R_DETECT_QNT_LMT_SWAP_STORET' and column_name = 'DEPRECATED_FLAG';
+      changes:
+        - sql: alter table r_detect_qnt_lmt_swap_storet add deprecated_flag varchar2(3 char);
+        - rollback: alter table r_detect_qnt_lmt_swap_storet set unused column deprecated_flag;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.r_detect_qnt_lmt_swap_storet.add.column.web_code"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'R_DETECT_QNT_LMT_SWAP_STORET' and column_name = 'WEB_CODE';
+      changes:
+        - sql: alter table r_detect_qnt_lmt_swap_storet add web_code varchar2(3 char);
+        - rollback: alter table r_detect_qnt_lmt_swap_storet set unused column web_code;

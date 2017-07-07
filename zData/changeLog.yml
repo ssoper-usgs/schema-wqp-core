@@ -11,3 +11,8 @@ databaseChangeLog:
       file: "external/changeLog.yml"
       relativeToChangelogFile: true
       context: external
+
+  - include:
+      file: "internal/changeLog.yml"
+      relativeToChangelogFile: true
+      context: internal

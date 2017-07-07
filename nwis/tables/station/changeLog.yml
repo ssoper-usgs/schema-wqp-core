@@ -30,3 +30,16 @@ databaseChangeLog:
       changes:
         - sql: alter table station_swap_nwis add deprecated_flag varchar2(3 char);
         - rollback: alter table station_swap_nwis set unused column deprecated_flag;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_swap_nwis.add.column.web_code"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SWAP_NWIS' and column_name = 'WEB_CODE';
+      changes:
+        - sql: alter table station_swap_nwis add web_code varchar2(3 char);
+        - rollback: alter table station_swap_nwis set unused column web_code;

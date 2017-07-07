@@ -17,3 +17,11 @@ databaseChangeLog:
             path: qwportalSummary.sql
             relativeToChangelogFile: true
         - rollback: drop table qwportal_summary_swap_nwis cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.qwportal_summary_swap_nwis.nwis_or_epa.internal"
+      context: internal
+      changes:
+        - sql: alter table qwportal_summary_swap_nwis modify nwis_or_epa generated always as (case data_source_id when 1 then 'N' else null end);
+        - rollback: alter table qwportal_summary_swap_nwis modify nwis_or_epa generated always as (case data_source_id when 2 then 'N' when 3 then 'E' else null end);
