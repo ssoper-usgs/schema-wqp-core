@@ -26,3 +26,11 @@ databaseChangeLog:
       changes:
         - sql: insert into states select * from states@wqp_core_dbdw.er.usgs.gov;
         - rollback: truncate table states;
+
+  - changeSet:
+      author: skaymen
+      id: "load.huc12nometa"
+      context: dev,qa,prod
+      changes:
+        - sql: insert into huc12nometa select * from huc12nometa@wqp_core_dbdw.er.usgs.gov;
+        - rollback: truncate table huc12nometa;
