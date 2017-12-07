@@ -226,3 +226,11 @@ databaseChangeLog:
         - sql:
             sql: grant select on us_counties_dis_20121015 to ${readOnlyUser};
         - rollback: revoke select on us_counties_dis_20121015 from ${readOnlyUser};
+
+  - changeSet:
+      author: skaymen
+      id: "grant.select.huc12nometa.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on huc12nometa to ${readOnlyUser};
+        - rollback: revoke select on huc12nometa from ${readOnlyUser};
