@@ -6,6 +6,7 @@ create table project_data
 ,organization_name				varchar2(4000 char)
 ,project_identifier				varchar2(4000 char)
 ,project_name					varchar2(4000 char)
+,description					varchar2(4000 char)
 ,sampling_design_type_code		varchar2(4000 char)
 ,qapp_approved_indicator		varchar2(4000 char)
 ,qapp_approval_agency_name		varchar2(4000 char)

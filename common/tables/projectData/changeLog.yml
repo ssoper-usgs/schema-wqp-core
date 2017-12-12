@@ -47,17 +47,4 @@ databaseChangeLog:
             path: projectDataInternalPartitions.sql 
             relativeToChangelogFile: true
         - rollback: alter table project_data merge partitions project_data_nwis, project_data_garbage into partition project_data_garbage;
-        
-  - changeSet:
-      author: ayan
-      id: "alter.table.project_data.add.column.description"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'PROJECT_DATA' and column_name = 'DESCRIPTION';
-      changes:
-        - sql: alter table project_table add description varchar2(4000 char);
-        - rollback: alter table project_table set unused column description;
             
