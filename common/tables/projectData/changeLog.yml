@@ -58,6 +58,6 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_tab_cols where table_name = 'PROJECT_DATA' and column_name = 'DESCRIPTION';
       changes:
-        - sql: alter table activity add description varchar2(4000 char);
-        - rollback: alter table activity set unused column description;
+        - sql: alter table project_table add description varchar2(4000 char);
+        - rollback: alter table project_table set unused column description;
             
