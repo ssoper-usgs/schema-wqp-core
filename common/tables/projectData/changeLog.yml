@@ -52,7 +52,7 @@ databaseChangeLog:
       author: ayan
       id: "alter.table.project_data.add.column.description"
       preConditions:
-        - onFail: MARK_RUN
+        - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
