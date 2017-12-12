@@ -14,7 +14,7 @@ databaseChangeLog:
               tableName: project_data
       changes:
         - sqlFile:
-            path: project_data.sql
+            path: projectData.sql
             relativeToChangelogFile: true
         - rollback: drop table project_data cascade constraints purge;
         
