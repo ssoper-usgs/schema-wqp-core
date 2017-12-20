@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.etl_helper_project"
+      changes:
+        - sqlFile:
+            path: definition.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package etl_helper_project;
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.body.etl_helper_project"
+      changes:
+        - sqlFile:
+            path: body.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package body etl_helper_project;

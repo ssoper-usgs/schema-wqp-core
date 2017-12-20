@@ -93,3 +93,16 @@ databaseChangeLog:
       changes:
         - sql: alter table result_sum add constraint result_sum_station_fk foreign key (data_source_id, station_id) references station_sum (data_source_id, station_id) rely enable novalidate;
         - rollback: alter table result_sum drop constraint result_sum_station_fk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project_data.project_data_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'PROJECT_DATA_PK' and table_name = 'PROJECT_DATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table project_data add constraint project_data_pk primary key (data_source_id, project_id) rely enable novalidate;
+        - rollback: alter table project_data drop constraint project_data_pk;

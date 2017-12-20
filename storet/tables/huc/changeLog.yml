@@ -17,3 +17,17 @@ databaseChangeLog:
             path: huc8GeomLookup.sql
             relativeToChangelogFile: true
         - rollback: drop table huc8_geom_lookup cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "drop.table.huc8_geom_lookup"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - tableExists:
+            tableName: huc8_geom_lookup
+      changes:
+        - sql: drop table huc8_geom_lookup cascade constraints purge;
+        - rollback:
+            changeSetId: "create.table.huc8_geom_lookup"
+            changeSetAuthor: drsteini

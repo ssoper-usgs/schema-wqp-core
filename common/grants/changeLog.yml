@@ -234,10 +234,19 @@ databaseChangeLog:
         - sql:
             sql: grant select on huc12nometa to ${readOnlyUser};
         - rollback: revoke select on huc12nometa from ${readOnlyUser};
-#  - changeSet:
-#      author: ayan
-#      id: "grant.select.project_data.${readOnlyUser}"
-#      changes:
-#        - sql:
-#            sql: grant select on project_data to ${readOnlyUser};
-#        - rollback: revoke select on project_data from ${readOnlyUser};
+
+  - changeSet:
+      author: ayan
+      id: "grant.select.project_data.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on project_data to ${readOnlyUser};
+        - rollback: revoke select on project_data from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.execute.typ_vctbl.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant execute on typ_vctbl to ${readOnlyUser};
+        - rollback: revoke execute on typ_vctbl from ${readOnlyUser};
