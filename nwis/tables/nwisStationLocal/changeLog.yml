@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.nwis_station_local"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: nwis_station_local
+      changes:
+        - sqlFile:
+            path: nwisStationLocal.sql
+            relativeToChangelogFile: true
+        - rollback: drop table nwis_station_local cascade constraints purge;
