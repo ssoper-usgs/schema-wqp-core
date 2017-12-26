@@ -34,7 +34,7 @@ databaseChangeLog:
         - rollback: select 'no rollback - you must restore previous wqx_hrdat_to_srid.tsv and rerun manually' from dual
 
   - changeSet:
-      id: loadWqxSiteTypeConversion
+      id: load.wqx_site_type_conversion
       author: drsteini
       runOnChange: true
       changes:
@@ -83,6 +83,8 @@ databaseChangeLog:
       id: "load.county_geom_lookup"
       context: dev,qa,prod
       changes:
+        - delete:
+            tableName: county_geom_lookup
         - sql: insert into county_geom_lookup select * from county_geom_lookup@wqp_core_dbdw.er.usgs.gov;
         - rollback: truncate table county_geom_lookup;
 
@@ -91,6 +93,7 @@ databaseChangeLog:
       id: "load.huc8_geom_lookup"
       context: dev,qa,prod
       changes:
+        - delete:
+            tableName: huc8_geom_lookup
         - sql: insert into huc8_geom_lookup select * from huc8_geom_lookup@wqp_core_dbdw.er.usgs.gov;
         - rollback: truncate table huc8_geom_lookup;
-
