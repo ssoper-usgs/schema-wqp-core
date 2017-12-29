@@ -68,6 +68,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "projectObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "publicSrsnames/changeLog.yml"
       relativeToChangelogFile: true
 

@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+      
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_object"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_object
+      changes:
+        - sqlFile:
+            path: projectObject.sql
+            relativeToChangelogFile: true
+        - rollback: drop table project_object cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_object.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'PROJECT_OBJECT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: projectObjectExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table project_object merge partitions project_object_stewards, project_object_nwis, project_object_storet, project_object_biodata, project_object_garbage into partition project_object_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.project_object.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'PROJECT_OBJECT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: projectObjectInternalPartitions.sql 
+            relativeToChangelogFile: true
+        - rollback: alter table project_object merge partitions project_object_nwis, project_object_garbage into partition project_object_garbage;

@@ -42,3 +42,7 @@ databaseChangeLog:
   - include:
       file: "projectData.yml"
       relativeToChangelogFile: true
+
+  - include:
+      file: "projectObject.yml"
+      relativeToChangelogFile: true

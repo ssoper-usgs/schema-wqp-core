@@ -96,7 +96,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.project_data_swap_storet.pd_storet_pk"
+      id: "create.project_data_swap_storet.pdata_storet_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -106,3 +106,16 @@ databaseChangeLog:
       changes:
         - sql: alter table project_data_swap_storet add constraint pdata_storet_pk primary key (data_source_id, project_id) rely enable novalidate;
         - rollback: alter table project_data_swap_storet drop constraint pdata_storet_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project_object_swap_storet.pobject_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'POBJECT_STORET_PK' and table_name = 'PROJECT_OBJECT_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table project_object_swap_storet add constraint pobject_storet_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table project_object_swap_storet drop constraint pobject_storet_pk;
