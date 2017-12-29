@@ -58,10 +58,10 @@ databaseChangeLog:
   - include:
       file: "project/changeLog.yml"
       relativeToChangelogFile: true
-      
-#  - include:
-#      file: "projectData/changeLog.yml"
-#      relativeToChangelogFile: true
+
+  - include:
+      file: "projectData/changeLog.yml"
+      relativeToChangelogFile: true
 
   - include:
       file: "projectDim/changeLog.yml"
