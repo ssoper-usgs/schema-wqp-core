@@ -46,7 +46,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.huc8_geom_lookup_geom"
+      id: "drop.index.huc8_geom_lookup_geom"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
