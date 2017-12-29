@@ -90,3 +90,7 @@ databaseChangeLog:
   - include:
       file: "nwisStationLocal/changeLog.yml"
       relativeToChangelogFile: true
+
+  - include:
+      file: "projectData/changeLog.yml"
+      relativeToChangelogFile: true

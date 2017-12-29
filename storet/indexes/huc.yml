@@ -28,3 +28,33 @@ databaseChangeLog:
       changes:
         - sql: create index huc8_geom_lookup_geom on huc8_geom_lookup(geom) indextype is mdsys.spatial_index parameters ('sdo_indx_dims=2 , layer_gtype=MULTIPOLYGON');
         - rollback: drop index huc8_geom_lookup_geom;
+
+  - changeSet:
+      author: drsteini
+      id: "remove.huc8_geom_lookup_geom.from.user_sdo_geom_metadata"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_sdo_geom_metadata where table_name = 'HUC8_GEOM_LOOKUP';
+      changes:
+        - sql: delete from user_sdo_geom_metadata where table_name = 'HUC8_GEOM_LOOKUP';
+        - rollback:
+            changeSetId: "insert.huc8_geom_lookup_geom.into.user_sdo_geom_metadata"
+            changeSetAuthor: drsteini
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.huc8_geom_lookup_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'HUC8_GEOM_LOOKUP_GEOM' and object_type = 'INDEX';
+      changes:
+        - sql: drop index huc8_geom_lookup_geom;
+        - rollback:
+            changeSetId: "create.index.huc8_geom_lookup_geom"
+            changeSetAuthor: drsteini

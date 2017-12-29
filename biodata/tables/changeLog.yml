@@ -86,3 +86,7 @@ databaseChangeLog:
   - include:
       file: "taxaName/changeLog.yml"
       relativeToChangelogFile: true
+
+  - include:
+      file: "projectData/changeLog.yml"
+      relativeToChangelogFile: true

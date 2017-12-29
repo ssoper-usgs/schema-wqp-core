@@ -50,3 +50,7 @@ databaseChangeLog:
   - include:
       file: "stationSum.yml"
       relativeToChangelogFile: true
+
+  - include:
+      file: "projectData.yml"
+      relativeToChangelogFile: true

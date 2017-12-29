@@ -93,3 +93,16 @@ databaseChangeLog:
       changes:
         - sql: alter table result_sum_swap_biodata add constraint rs_station_fk_biodata foreign key (data_source_id, station_id) references station_sum_swap_biodata (data_source_id, station_id) rely enable novalidate;
         - rollback: alter table result_sum_swap_biodata drop constraint rs_station_fk_biodata;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project_data_swap_biodata.pd_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'PDATA_BIODATA_PK' and table_name = 'PROJECT_DATA_SWAP_BIODATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table project_data_swap_biodata add constraint pdata_biodata_pk primary key (data_source_id, project_id) rely enable novalidate;
+        - rollback: alter table project_data_swap_biodata drop constraint pdata_biodata_pk;

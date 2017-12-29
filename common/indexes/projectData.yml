@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.project_data_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'PROJECT_DATA_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index project_data_organization on project_data(organization) local parallel 4 nologging;
+        - rollback: drop index project_data_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.project_data_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'PROJECT_DATA_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create unique index project_data_pk on project_data(data_source_id, project_id) local parallel 4 nologging;
+        - rollback: drop index project_data_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.project_data_identifier"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'PROJECT_DATA_IDENTIFIER' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index project_data_identifier on project_data(project_identifier) local parallel 4 nologging;
+        - rollback: drop index project_data_identifier;

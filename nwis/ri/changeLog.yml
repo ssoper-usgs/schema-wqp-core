@@ -93,3 +93,16 @@ databaseChangeLog:
       changes:
         - sql: alter table result_sum_swap_nwis add constraint rs_station_fk_nwis foreign key (data_source_id, station_id) references station_sum_swap_nwis (data_source_id, station_id) rely enable novalidate;
         - rollback: alter table result_sum_swap_nwis drop constraint rs_station_fk_nwis;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project_data_swap_nwis.pd_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'PDATA_NWIS_PK' and table_name = 'PROJECT_DATA_SWAP_NWIS' and constraint_type = 'P';
+      changes:
+        - sql: alter table project_data_swap_nwis add constraint pdata_nwis_pk primary key (data_source_id, project_id) rely enable novalidate;
+        - rollback: alter table project_data_swap_nwis drop constraint pdata_nwis_pk;
