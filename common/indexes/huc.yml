@@ -4,33 +4,6 @@ databaseChangeLog:
         type: oracle
 
   - changeSet:
-      author: drsteini
-      id: "insert.hc8_cns_h_k_pr_ds_geom_spix.into.user_sdo_geom_metadata"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_sdo_geom_metadata where table_name = 'HUC8_CONUS_HI_AK_PR_DIS';
-      changes:
-        - sql: insert into user_sdo_geom_metadata values ('HUC8_CONUS_HI_AK_PR_DIS', 'GEOM', mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -179.133392333984, 179.788208007813, 0.005), mdsys.sdo_dim_element('Y', 17.674692153931, 71.398048400879, 0.005)), 4269);
-        - rollback: delete from user_sdo_geom_metadata where table_name = 'HUC8_CONUS_HI_AK_PR_DIS';
-
-  - changeSet:
-      author: drsteini
-      id: "create.index.hc8_cns_h_k_pr_ds_geom_spix"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_objects where object_name = 'HC8_CNS_H_K_PR_DS_GEOM_SPIX' and object_type = 'INDEX';
-      changes:
-        - sql: create index hc8_cns_h_k_pr_ds_geom_spix on huc8_conus_hi_ak_pr_dis(geom) indextype is mdsys.spatial_index parameters ('SDO_INDX_DIMS=2');
-        - rollback: drop index hc8_cns_h_k_pr_ds_geom_spix;
-
-
-  - changeSet:
       author: skaymen
       id: "insert.sidx_huc12nometa.into.user_sdo_geom_metadata"
       preConditions:

@@ -39,3 +39,6 @@ databaseChangeLog:
       file: "project/changeLog.yml"
       relativeToChangelogFile: true
 
+  - include:
+      file: "projectObject/changeLog.yml"
+      relativeToChangelogFile: true

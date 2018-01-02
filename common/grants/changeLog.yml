@@ -250,3 +250,11 @@ databaseChangeLog:
         - sql:
             sql: grant execute on typ_vctbl to ${readOnlyUser};
         - rollback: revoke execute on typ_vctbl from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.project_object.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on project_object to ${readOnlyUser};
+        - rollback: revoke select on project_object from ${readOnlyUser};

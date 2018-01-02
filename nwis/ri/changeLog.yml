@@ -96,7 +96,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.project_data_swap_nwis.pd_nwis_pk"
+      id: "create.project_data_swap_nwis.pdata_nwis_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -106,3 +106,16 @@ databaseChangeLog:
       changes:
         - sql: alter table project_data_swap_nwis add constraint pdata_nwis_pk primary key (data_source_id, project_id) rely enable novalidate;
         - rollback: alter table project_data_swap_nwis drop constraint pdata_nwis_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project_object_swap_nwis.pobject_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'POBJECT_NWIS_PK' and table_name = 'PROJECT_OBJECT_SWAP_NWIS' and constraint_type = 'P';
+      changes:
+        - sql: alter table project_object_swap_nwis add constraint pobject_nwis_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table project_object_swap_nwis drop constraint pobject_nwis_pk;

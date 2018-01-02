@@ -96,7 +96,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.project_data_swap_biodata.pd_biodata_pk"
+      id: "create.project_data_swap_biodata.pdata_biodata_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -106,3 +106,16 @@ databaseChangeLog:
       changes:
         - sql: alter table project_data_swap_biodata add constraint pdata_biodata_pk primary key (data_source_id, project_id) rely enable novalidate;
         - rollback: alter table project_data_swap_biodata drop constraint pdata_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project_object_swap_biodata.pobject_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'POBJECT_BIODATA_PK' and table_name = 'PROJECT_OBJECT_SWAP_BIODATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table project_object_swap_biodata add constraint pobject_biodata_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table project_object_swap_biodata drop constraint pobject_biodata_pk;
