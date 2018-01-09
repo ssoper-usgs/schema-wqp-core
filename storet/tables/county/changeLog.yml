@@ -32,3 +32,19 @@ databaseChangeLog:
             path: county.sql
             relativeToChangelogFile: true
         - rollback: drop table county_swap_storet cascade constraints purge;
+
+  - changeSet:
+      author: skaymen
+      id: "create.table.county_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_geom
+      changes:
+        - sqlFile:
+            path: countyGeom.sql
+            relativeToChangelogFile: true
+        - rollback: drop table county_geom cascade constraints purge;
+
