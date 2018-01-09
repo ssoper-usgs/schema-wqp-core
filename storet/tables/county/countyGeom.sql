@@ -1,4 +1,4 @@
-create table countyGeom
+create table county_geom
 (fips_county_code                 varchar2(3 char)
 ,county_name                      varchar2(256 char)
 ,geom                             sdo_geometry
