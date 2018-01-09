@@ -29,7 +29,7 @@ databaseChangeLog:
         - sql: create index county_geom_lookup_geom on county_geom_lookup(geom) indextype is mdsys.spatial_index parameters ('sdo_indx_dims=2 , layer_gtype=MULTIPOLYGON');
         - rollback: drop index county_geom_lookup_geom;
 
-  -changeSet:
+  - changeSet:
       author: skaymen
       id: "insert.county_geom.into.user_sdo_geom_metadata"
       preConditions:
@@ -42,7 +42,7 @@ databaseChangeLog:
         - sql: insert into user_sdo_geom_metadata values ('COUNTY_GEOM', 'GEOM', mdsys.sdo_dim_array( mdsys.sdo_dim_element('X', -180, 180, 0.005), mdsys.sdo_dim_element('Y', -90, 90, 0.005)), 4269);
         - rollback: delete from user_sdo_geom_metadata where table_name = 'COUNTY_GEOM';
 
-  -changeSet:
+  - changeSet:
       author: skaymen
       id: "create.index.county_geom"
       preConditions:
