@@ -4,48 +4,48 @@ databaseChangeLog:
         type: oracle
 
   - changeSet:
-      author: drsteini
-      id: "create.table.assemblage"
+      author: skaymen
+      id: "create.table.station_code"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - tableExists:
-              tableName: assemblage
+              tableName: station_code
       changes:
         - sqlFile:
-            path: assemblage.sql
+            path: stationCode.sql
             relativeToChangelogFile: true
-        - rollback: drop table assemblage cascade constraints purge;
+        - rollback: drop table station_code cascade constraints purge;
 
   - changeSet:
-      author: drsteini
-      id: "create.table.assemblage.partitions.external"
+      author: skaymen
+      id: "create.table.station_code.partitions.external"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ASSEMBLAGE' and object_type = 'TABLE PARTITION';
+            sql: select count(*) from user_objects where object_name = 'STATION_CODE' and object_type = 'TABLE PARTITION';
       changes:
         - sqlFile:
-            path: assemblageExternalPartitions.sql
+            path: stationCodeExternalPartitions.sql
             relativeToChangelogFile: true
-        - rollback: alter table assemblage merge partitions assemblage_stewards, assemblage_nwis, assemblage_storet, assemblage_biodata, assemblage_garbage into partition assemblage_garbage;
+        - rollback: alter table station_code merge partitions station_code_stewards, station_code_nwis, station_code_storet, station_code_biodata, station_code_garbage into partition station_code_garbage;
 
   - changeSet:
-      author: drsteini
-      id: "create.table.assemblage.partitions.internal"
+      author: skaymen
+      id: "create.table.station_code.partitions.internal"
       context: internal
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ASSEMBLAGE' and object_type = 'TABLE PARTITION';
+            sql: select count(*) from user_objects where object_name = 'STATION_CODE' and object_type = 'TABLE PARTITION';
       changes:
         - sqlFile:
-            path: assemblageInternalPartitions.sql
+            path: stationCodeInternalPartitions.sql
             relativeToChangelogFile: true
-        - rollback: alter table assemblage merge partitions assemblage_nwis, assemblage_garbage into partition assemblage_garbage;
+        - rollback: alter table station_code merge partitions station_code_nwis, station_code_garbage into partition station_code_garbage;
