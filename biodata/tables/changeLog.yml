@@ -88,6 +88,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "stationCode/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "stationSum/changeLog.yml"
       relativeToChangelogFile: true
 
