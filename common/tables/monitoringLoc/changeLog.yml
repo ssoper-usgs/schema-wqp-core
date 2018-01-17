@@ -27,7 +27,7 @@ databaseChangeLog:
         - onError: HALT
         - sqlCheck:
             expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'STATION_CODE' and object_type = 'TABLE PARTITION';
+            sql: select count(*) from user_objects where object_name = 'MONITORING_LOC' and object_type = 'TABLE PARTITION';
       changes:
         - sqlFile:
             path: monitoringLocExternalPartitions.sql
@@ -43,7 +43,7 @@ databaseChangeLog:
         - onError: HALT
         - sqlCheck:
             expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'STATION_CODE' and object_type = 'TABLE PARTITION';
+            sql: select count(*) from user_objects where object_name = 'MONITORING_LOC' and object_type = 'TABLE PARTITION';
       changes:
         - sqlFile:
             path: monitoringLocInternalPartitions.sql
