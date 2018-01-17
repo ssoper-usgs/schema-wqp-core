@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.mls_stewards_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'MLS_STEWARDS_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index mls_stewards_organization on monitoring_loc_swap_stewards(organization) local parallel 4 nologging;
+        - rollback: drop index mls_stewards_organization;

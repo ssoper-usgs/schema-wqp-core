@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: skaymen
+      id: "create.table.monitoring_loc"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc
+      changes:
+        - sqlFile:
+            path: monitoringLoc.sql
+            relativeToChangelogFile: true
+        - rollback: drop table monitoring_loc cascade constraints purge;
+
+  - changeSet:
+      author: skaymen
+      id: "create.table.monitoring_loc.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION_CODE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: monitoringLocExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table monitoring_loc merge partitions monitoring_loc_stewards, monitoring_loc_nwis, monitoring_loc_storet, monitoring_loc_biodata, monitoring_loc_garbage into partition monitoring_loc_garbage;
+
+  - changeSet:
+      author: skaymen
+      id: "create.table.monitoring_loc.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION_CODE' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: monitoringLocInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table monitoring_loc merge partitions monitoring_loc_nwis, monitoring_loc_garbage into partition monitoring_loc_garbage;

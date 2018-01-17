@@ -52,6 +52,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "monitoringLoc.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "organization/changeLog.yml"
       relativeToChangelogFile: true
 
@@ -105,10 +109,6 @@ databaseChangeLog:
 
   - include:
       file: "station/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "stationCode/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:

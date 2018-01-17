@@ -16,6 +16,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "monitoringLoc.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "projectDim.yml"
       relativeToChangelogFile: true
 

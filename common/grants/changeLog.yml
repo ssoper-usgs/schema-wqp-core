@@ -101,6 +101,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.monitoring_loc.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on monitoring_loc to ${readOnlyUser};
+        - rollback: revoke select on monitoring_loc from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.select.organization.${readOnlyUser}"
       changes:
         - sql:
