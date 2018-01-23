@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: skaymen
+      id: "create.table.monitoring_loc_swap_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_swap_storet
+      changes:
+        - sqlFile:
+            path: monitoringLoc.sql
+            relativeToChangelogFile: true
+        - rollback: drop table monitoring_loc_swap_storet cascade constraints purge;
