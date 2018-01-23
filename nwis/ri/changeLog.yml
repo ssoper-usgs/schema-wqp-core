@@ -119,3 +119,29 @@ databaseChangeLog:
       changes:
         - sql: alter table project_object_swap_nwis add constraint pobject_nwis_pk primary key (data_source_id, object_id) rely enable novalidate;
         - rollback: alter table project_object_swap_nwis drop constraint pobject_nwis_pk;
+
+  - changeSet:
+      author: zmoore
+      id: "create.prj_ml_weighting_swap_nwis.prjmlw_nwis_ml_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'PRJMLW_BIODATA_ML_FK' and table_name = 'PRJ_ML_WEIGHTING_SWAP_BIODATA' and constraint_type = 'R';
+      changes:
+        - sql: alter table prj_ml_weighting_swap_nwis add constraint prjmlw_nwis_ml_fk foreign key (data_source_id, station_id) references station_swap_nwis (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table prj_ml_weighting_swap_nwis drop constraint prjmlw_nwis_ml_fk;
+        
+  - changeSet:
+      author: zmoore
+      id: "create.prj_ml_weighting_swap_nwis.prjmlw_nwis_prj_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'PRJMLW_BIODATA_PRJ_FK' and table_name = 'PRJ_ML_WEIGHTING_SWAP_BIODATA' and constraint_type = 'R';
+      changes:
+        - sql: alter table prj_ml_weighting_swap_nwis add constraint prjmlw_nwis_prj_fk foreign key (data_source_id, project_id) references project_data_swap_nwis (data_source_id, project_id) rely enable novalidate;
+        - rollback: alter table prj_ml_weighting_swap_nwis drop constraint prjmlw_nwis_prj_fk;
