@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: skaymen
+      id: "create.table.monitoring_loc_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_swap_nwis
+      changes:
+        - sqlFile:
+            path: monitoringLoc.sql
+            relativeToChangelogFile: true
+        - rollback: drop table monitoring_loc_swap_nwis cascade constraints purge;

@@ -22,3 +22,23 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: false
         - rollback: drop package body etl_helper_code;
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.etl_helper_code.wqp-1173"
+      changes:
+        - sqlFile:
+            path: definition-WQP-1173.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package etl_helper_code;
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.body.etl_helper_code.wqp-1173"
+      changes:
+        - sqlFile:
+            path: body-WQP-1173.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package body etl_helper_code;
