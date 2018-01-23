@@ -72,7 +72,7 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: "projectMLWeighting/changeLog.yml"
+      file: "prjMLWeighting/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
