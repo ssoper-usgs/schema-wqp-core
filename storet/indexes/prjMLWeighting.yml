@@ -13,7 +13,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_IDENTIFIER' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_identifier on prj_ml_weighting_swap_storet(project_identifier) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_identifier on prj_ml_weighting_swap_storet(project_identifier) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_identifier;
 
   - changeSet:
@@ -26,7 +26,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_COUNTRY' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_country on prj_ml_weighting_swap_storet(country_code) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_country on prj_ml_weighting_swap_storet(country_code) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_country;
 
   - changeSet:
@@ -39,7 +39,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_COUNTY' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_county on prj_ml_weighting_swap_storet(county_code) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_county on prj_ml_weighting_swap_storet(county_code) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_county;
 
   - changeSet:
@@ -52,7 +52,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_HUC10' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_huc10 on prj_ml_weighting_swap_storet(huc_10) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_huc10 on prj_ml_weighting_swap_storet(huc_10) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_huc10;
 
   - changeSet:
@@ -65,7 +65,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_HUC12' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_huc12 on prj_ml_weighting_swap_storet(huc_12) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_huc12 on prj_ml_weighting_swap_storet(huc_12) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_huc12;
 
   - changeSet:
@@ -78,7 +78,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_HUC2' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_huc2 on prj_ml_weighting_swap_storet(huc_2) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_huc2 on prj_ml_weighting_swap_storet(huc_2) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_huc2;
 
   - changeSet:
@@ -91,7 +91,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_HUC4' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_huc4 on prj_ml_weighting_swap_storet(huc_4) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_huc4 on prj_ml_weighting_swap_storet(huc_4) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_huc4;
 
   - changeSet:
@@ -104,7 +104,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_HUC6' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_huc6 on prj_ml_weighting_swap_storet(huc_6) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_huc6 on prj_ml_weighting_swap_storet(huc_6) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_huc6;
 
   - changeSet:
@@ -117,7 +117,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_HUC8' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_huc8 on prj_ml_weighting_swap_storet(huc_8) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_huc8 on prj_ml_weighting_swap_storet(huc_8) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_huc8;
 
   - changeSet:
@@ -130,7 +130,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_ORGANIZATION' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_organization on prj_ml_weighting_swap_storet(organization) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_organization on prj_ml_weighting_swap_storet(organization) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_organization;
 
   - changeSet:
@@ -143,7 +143,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_SITE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_site on prj_ml_weighting_swap_storet(site_id) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_site on prj_ml_weighting_swap_storet(site_id) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_site;
 
   - changeSet:
@@ -156,7 +156,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_SITE_TYPE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_site_type on prj_ml_weighting_swap_storet(site_type) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_site_type on prj_ml_weighting_swap_storet(site_type) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_site_type;
 
   - changeSet:
@@ -169,7 +169,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_STATE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_state on prj_ml_weighting_swap_storet(state_code) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_state on prj_ml_weighting_swap_storet(state_code) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_state;
 
   - changeSet:
@@ -182,5 +182,5 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_STORET_STATION' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_storet_station on prj_ml_weighting_swap_storet(station_id) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_storet_station on prj_ml_weighting_swap_storet(station_id) parallel 4 nologging;
         - rollback: drop index prjmlw_storet_station;
