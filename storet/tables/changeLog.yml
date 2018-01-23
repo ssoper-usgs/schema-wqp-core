@@ -150,3 +150,7 @@ databaseChangeLog:
   - include:
       file: "projectData/changeLog.yml"
       relativeToChangelogFile: true
+
+  - include:
+      file: "prjMLWeighting/changeLog.yml"
+      relativeToChangelogFile: true

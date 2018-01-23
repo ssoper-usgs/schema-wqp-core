@@ -72,6 +72,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "projectMLWeighting/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "publicSrsnames/changeLog.yml"
       relativeToChangelogFile: true
 
