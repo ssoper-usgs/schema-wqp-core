@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+      
+  - changeSet:
+      author: zmoore
+      id: "create.table.prj_ml_weighting"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: prj_ml_weighting
+      changes:
+        - sqlFile:
+            path: prjMLWeighting.sql
+            relativeToChangelogFile: true
+        - rollback: drop table prj_ml_weighting cascade constraints purge;
+
+  - changeSet:
+      author: zmoore
+      id: "create.table.prj_ml_weighting.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'PRJ_ML_WEIGHTING' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: prjMLWeightingExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table prj_ml_weighting merge partitions prj_ml_weighting_stewards, prj_ml_weighting_nwis, prj_ml_weighting_storet, prj_ml_weighting_biodata, prj_ml_weighting_garbage into partition prj_ml_weighting_garbage;
+
+  - changeSet:
+      author: zmoore
+      id: "create.table.prj_ml_weighting.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'PRJ_ML_WEIGHTING' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: prjMLWeightingInternalPartitions.sql 
+            relativeToChangelogFile: true
+        - rollback: alter table prj_ml_weighting merge partitions prj_ml_weighting_nwis, prj_ml_weighting_garbage into partition prj_ml_weighting_garbage;

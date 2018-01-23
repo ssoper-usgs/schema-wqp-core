@@ -60,6 +60,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "prjMLWeighting/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "qwportalSummary/changeLog.yml"
       relativeToChangelogFile: true
 
