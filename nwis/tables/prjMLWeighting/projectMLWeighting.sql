@@ -1,6 +1,6 @@
 create table prj_ml_weighting_swap_nwis
 (data_source_id                 number
-,project_id						number
+,project_id                     number
 ,station_id                     number
 ,data_source                    varchar2(8 char)
 ,site_id                        varchar2(4000 char)
@@ -8,7 +8,7 @@ create table prj_ml_weighting_swap_nwis
 ,site_type                      varchar2(4000 char)
 ,huc                            varchar2(12 char)
 ,governmental_unit_code         varchar2(9 char)
-,project_identifier				varchar2(4000 char)
+,project_identifier             varchar2(4000 char)
 ,measure_value                  varchar2(4000 char)
 ,unit_code                      varchar2(4000 char)
 ,statistical_stratum            varchar2(4000 char)
