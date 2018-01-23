@@ -1,4 +1,5 @@
 create table prj_ml_weighting_swap_stewards
+(data_source_id                 number
 ,project_id                     number
 ,station_id                     number
 ,data_source                    varchar2(8 char)
