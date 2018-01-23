@@ -13,7 +13,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_IDENTIFIER' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_identifier on prj_ml_weighting_swap_biodata(project_identifier) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_identifier on prj_ml_weighting_swap_biodata(project_identifier) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_identifier;
 
   - changeSet:
@@ -26,7 +26,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_COUNTRY' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_country on prj_ml_weighting_swap_biodata(country_code) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_country on prj_ml_weighting_swap_biodata(country_code) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_country;
 
   - changeSet:
@@ -39,7 +39,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_COUNTY' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_county on prj_ml_weighting_swap_biodata(county_code) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_county on prj_ml_weighting_swap_biodata(county_code) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_county;
 
   - changeSet:
@@ -52,7 +52,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_HUC10' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_huc10 on prj_ml_weighting_swap_biodata(huc_10) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_huc10 on prj_ml_weighting_swap_biodata(huc_10) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_huc10;
 
   - changeSet:
@@ -65,7 +65,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_HUC12' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_huc12 on prj_ml_weighting_swap_biodata(huc_12) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_huc12 on prj_ml_weighting_swap_biodata(huc_12) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_huc12;
 
   - changeSet:
@@ -78,7 +78,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_HUC2' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_huc2 on prj_ml_weighting_swap_biodata(huc_2) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_huc2 on prj_ml_weighting_swap_biodata(huc_2) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_huc2;
 
   - changeSet:
@@ -91,7 +91,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_HUC4' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_huc4 on prj_ml_weighting_swap_biodata(huc_4) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_huc4 on prj_ml_weighting_swap_biodata(huc_4) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_huc4;
 
   - changeSet:
@@ -104,7 +104,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_HUC6' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_huc6 on prj_ml_weighting_swap_biodata(huc_6) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_huc6 on prj_ml_weighting_swap_biodata(huc_6) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_huc6;
 
   - changeSet:
@@ -117,7 +117,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_HUC8' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_huc8 on prj_ml_weighting_swap_biodata(huc_8) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_huc8 on prj_ml_weighting_swap_biodata(huc_8) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_huc8;
 
   - changeSet:
@@ -130,7 +130,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_ORGANIZATION' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_organization on prj_ml_weighting_swap_biodata(organization) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_organization on prj_ml_weighting_swap_biodata(organization) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_organization;
 
   - changeSet:
@@ -143,7 +143,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_SITE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_site on prj_ml_weighting_swap_biodata(site_id) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_site on prj_ml_weighting_swap_biodata(site_id) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_site;
 
   - changeSet:
@@ -156,7 +156,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_SITE_TYPE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_site_type on prj_ml_weighting_swap_biodata(site_type) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_site_type on prj_ml_weighting_swap_biodata(site_type) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_site_type;
 
   - changeSet:
@@ -169,7 +169,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_STATE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_state on prj_ml_weighting_swap_biodata(state_code) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_state on prj_ml_weighting_swap_biodata(state_code) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_state;
 
   - changeSet:
@@ -182,5 +182,5 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'PRJMLW_BIODATA_STATION' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index prjmlw_biodata_station on prj_ml_weighting_swap_biodata(station_id) local parallel 4 nologging;
+        - sql: create bitmap index prjmlw_biodata_station on prj_ml_weighting_swap_biodata(station_id) parallel 4 nologging;
         - rollback: drop index prjmlw_biodata_station;
