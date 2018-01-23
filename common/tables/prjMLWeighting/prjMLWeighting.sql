@@ -35,5 +35,5 @@ create table prj_ml_weighting
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
-(partition project_object_garbage values less than (maxvalue)
+(partition prj_ml_weighting_garbage values less than (maxvalue)
 );
