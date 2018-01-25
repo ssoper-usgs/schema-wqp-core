@@ -5,6 +5,7 @@ create table prj_ml_weighting
 ,data_source                    varchar2(8 char)
 ,site_id                        varchar2(4000 char)
 ,organization                   varchar2(4000 char)
+,organization_name              varchar2(4000 char)
 ,site_type                      varchar2(4000 char)
 ,huc                            varchar2(12 char)
 ,governmental_unit_code         varchar2(9 char)
