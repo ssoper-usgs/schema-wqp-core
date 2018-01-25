@@ -197,7 +197,10 @@ create or replace package body etl_helper_code as
                         s.organization,
                         s.site_id || ' ' || s.station_name text
           from station_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' s
-         where s.site_type is not null';
+               join station_sum_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' ss
+                 on s.station_id = ss.station_id
+         where s.site_type is not null and
+               ss.activity_count > 0';
 
         table_name := create_table('monitoring_loc_swap_', p_table_suffix, sql_suffix);
 
