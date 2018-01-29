@@ -31,7 +31,9 @@ databaseChangeLog:
             path: definition-WQP-1173.sql
             relativeToChangelogFile: true
             splitStatements: false
-        - rollback: drop package etl_helper_code;
+        - rollback:
+            changeSetId: "create.package.etl_helper_code"
+            changeSetAuthor: drsteini
 
   - changeSet:
       author: drsteini
@@ -41,4 +43,6 @@ databaseChangeLog:
             path: body-WQP-1173.sql
             relativeToChangelogFile: true
             splitStatements: false
-        - rollback: drop package body etl_helper_code;
+        - rollback:
+            changeSetId: "create.package.body.etl_helper_code"
+            changeSetAuthor: drsteini
