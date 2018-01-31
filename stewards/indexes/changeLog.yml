@@ -8,6 +8,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "activityObject.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "activitySum.yml"
       relativeToChangelogFile: true
 
@@ -20,11 +24,27 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "prjMLWeighting.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectData.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "projectDim.yml"
       relativeToChangelogFile: true
 
   - include:
+      file: "projectObject.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "result.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "resultObject.yml"
       relativeToChangelogFile: true
 
   - include:
@@ -40,17 +60,9 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "stationObject.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "stationSum.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "projectData.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "projectObject.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "prjMLWeighting.yml"
       relativeToChangelogFile: true

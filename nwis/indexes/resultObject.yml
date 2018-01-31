@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.robject_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ROBJECT_NWIS_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create unique index robject_nwis_pk on result_object_swap_nwis(data_source_id, object_id) parallel 4 nologging;
+        - rollback: drop index robject_nwis_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.robject_nwis_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ROBJECT_NWIS_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index robject_nwis_organization on result_object_swap_nwis(organization) parallel 4 nologging;
+        - rollback: drop index robject_nwis_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.robject_nwis_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ROBJECT_NWIS_ACTIVITY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index robject_nwis_activity on result_object_swap_nwis(activity) parallel 4 nologging;
+        - rollback: drop index robject_nwis_activity;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.robject_nwis_source"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ROBJECT_NWIS_SOURCE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index robject_nwis_source on result_object_swap_nwis(data_source) parallel 4 nologging;
+        - rollback: drop index robject_nwis_source;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.robject_nwis_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ROBJECT_NWIS_RESULT' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index robject_nwis_result on result_object_swap_nwis(result_id) parallel 4 nologging;
+        - rollback: drop index robject_nwis_result;
