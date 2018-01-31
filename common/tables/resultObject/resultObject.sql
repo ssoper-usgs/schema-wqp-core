@@ -12,4 +12,4 @@ create table result_object
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
 (partition result_object_garbage values less than (maxvalue)
-)
+);
