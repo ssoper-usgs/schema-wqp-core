@@ -41,7 +41,7 @@ databaseChangeLog:
       id: "create.package.body.log_helper-wqp-1183-4.sql"
       changes:
         - sqlFile:
-            path: body-wqp-1183-4.sql.sql
+            path: body-wqp-1183-4.sql
             relativeToChangelogFile: true
             splitStatements: false
         - rollback:
