@@ -39,5 +39,5 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'AOBJECT_BIODATA_ACTIVITY' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index aobject_biodata_identifier on activity_object_swap_biodata(activity) parallel 4 nologging;
-        - rollback: drop index aobject_biodata_identifier;
+        - sql: create bitmap index aobject_biodata_activity on activity_object_swap_biodata(activity) parallel 4 nologging;
+        - rollback: drop index aobject_biodata_activity;

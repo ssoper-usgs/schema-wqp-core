@@ -1,4 +1,4 @@
-create or replace package body etl_helper_project_object as
+create or replace package body etl_helper_result_object as
 
     procedure drop_indexes(p_table_suffix in user_tables.table_name%type) is
         table_name user_tables.table_name%type;
@@ -73,4 +73,4 @@ create or replace package body etl_helper_project_object as
 
     end install;
 
-end etl_helper_project_object;
+end etl_helper_result_object;

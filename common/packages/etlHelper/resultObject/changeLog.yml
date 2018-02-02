@@ -5,20 +5,20 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.package.etl_helper_project_object"
+      id: "create.package.etl_helper_result_object"
       changes:
         - sqlFile:
             path: definition.sql
             relativeToChangelogFile: true
             splitStatements: false
-        - rollback: drop package etl_helper_project_object;
+        - rollback: drop package etl_helper_result_object;
 
   - changeSet:
       author: drsteini
-      id: "create.package.body.etl_helper_project_object"
+      id: "create.package.body.etl_helper_result_object"
       changes:
         - sqlFile:
             path: body.sql
             relativeToChangelogFile: true
             splitStatements: false
-        - rollback: drop package body etl_helper_project_object;
+        - rollback: drop package body etl_helper_result_object;
