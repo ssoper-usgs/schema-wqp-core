@@ -4,7 +4,7 @@ create or replace package body etl_helper_result_object as
         table_name user_tables.table_name%type;
     begin
 
-        table_name := dbms_assert.sql_object_name(upper('project_object_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('result_object_swap_' || p_table_suffix));
         etl_helper_main.drop_indexes(table_name);
 
     end drop_indexes;
@@ -14,26 +14,26 @@ create or replace package body etl_helper_result_object as
         table_name      user_tables.table_name%type;
     begin
 
-        dbms_output.put_line('creating project_object indexes...');
-        table_name := dbms_assert.sql_object_name(upper('project_object_swap_' || p_table_suffix));
+        dbms_output.put_line('creating result_object indexes...');
+        table_name := dbms_assert.sql_object_name(upper('result_object_swap_' || p_table_suffix));
 
-        stmt := 'create bitmap index pobject_' || p_table_suffix || '_organization on ' || table_name || '(organization) parallel 4 nologging';
+        stmt := 'create bitmap index robject_' || p_table_suffix || '_organization on ' || table_name || '(organization) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pobject_' || p_table_suffix || '_activity on ' || table_name || '(activity) parallel 4 nologging';
+        stmt := 'create bitmap index robject_' || p_table_suffix || '_activity on ' || table_name || '(activity) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pobject_' || p_table_suffix || '_source on ' || table_name || '(data_source) parallel 4 nologging';
+        stmt := 'create bitmap index robject_' || p_table_suffix || '_source on ' || table_name || '(data_source) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pobject_' || p_table_suffix || '_result on ' || table_name || '(result_id) parallel 4 nologging';
+        stmt := 'create bitmap index robject_' || p_table_suffix || '_result on ' || table_name || '(result_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create unique index pobject_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, object_id) parallel 4 nologging';
+        stmt := 'create unique index robject_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, object_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -45,8 +45,8 @@ create or replace package body etl_helper_result_object as
 
         suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 
-        dbms_output.put_line('analyze project_object...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'PROJECT_OBJECT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_output.put_line('analyze result_object...');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'RESULT_OBJECT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
@@ -55,7 +55,7 @@ create or replace package body etl_helper_result_object as
         end_job boolean := false;
     begin
 
-        end_job := etl_helper_main.validate_table('project_object', 'project_object_', p_table_suffix);
+        end_job := etl_helper_main.validate_table('result_object', 'result_object_', p_table_suffix);
 
         return end_job;
 
@@ -67,9 +67,9 @@ create or replace package body etl_helper_result_object as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('project');
-        execute immediate 'alter table project_object exchange partition project_object_' || suffix ||
-                          ' with table project_object_swap_' || suffix || ' including indexes';
+        dbms_output.put_line('result');
+        execute immediate 'alter table result_object exchange partition result_object_' || suffix ||
+                          ' with table result_object_swap_' || suffix || ' including indexes';
 
     end install;
 
