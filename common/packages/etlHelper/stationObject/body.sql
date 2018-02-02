@@ -4,7 +4,7 @@ create or replace package body etl_helper_station_object as
         table_name user_tables.table_name%type;
     begin
 
-        table_name := dbms_assert.sql_object_name(upper('project_object_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('station_object_swap_' || p_table_suffix));
         etl_helper_main.drop_indexes(table_name);
 
     end drop_indexes;
@@ -14,18 +14,18 @@ create or replace package body etl_helper_station_object as
         table_name      user_tables.table_name%type;
     begin
 
-        dbms_output.put_line('creating project_object indexes...');
-        table_name := dbms_assert.sql_object_name(upper('project_object_swap_' || p_table_suffix));
+        dbms_output.put_line('creating station_object indexes...');
+        table_name := dbms_assert.sql_object_name(upper('station_object_swap_' || p_table_suffix));
 
-        stmt := 'create bitmap index pobject_' || p_table_suffix || '_organization on ' || table_name || '(organization) parallel 4 nologging';
+        stmt := 'create bitmap index sobject_' || p_table_suffix || '_organization on ' || table_name || '(organization) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create bitmap index pobject_' || p_table_suffix || '_site_id on ' || table_name || '(site_id) parallel 4 nologging';
+        stmt := 'create bitmap index sobject_' || p_table_suffix || '_site_id on ' || table_name || '(site_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create unique index pobject_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, object_id) parallel 4 nologging';
+        stmt := 'create unique index sobject_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, object_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -37,8 +37,8 @@ create or replace package body etl_helper_station_object as
 
         suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 
-        dbms_output.put_line('analyze project_object...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'PROJECT_OBJECT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_output.put_line('analyze station_object...');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'STATION_OBJECT_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
@@ -47,7 +47,7 @@ create or replace package body etl_helper_station_object as
         end_job boolean := false;
     begin
 
-        end_job := etl_helper_main.validate_table('project_object', 'project_object_', p_table_suffix);
+        end_job := etl_helper_main.validate_table('station_object', 'station_object_', p_table_suffix);
 
         return end_job;
 
@@ -59,9 +59,9 @@ create or replace package body etl_helper_station_object as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('project');
-        execute immediate 'alter table project_object exchange partition project_object_' || suffix ||
-                          ' with table project_object_swap_' || suffix || ' including indexes';
+        dbms_output.put_line('station');
+        execute immediate 'alter table station_object exchange partition station_object_' || suffix ||
+                          ' with table station_object_swap_' || suffix || ' including indexes';
 
     end install;
 
