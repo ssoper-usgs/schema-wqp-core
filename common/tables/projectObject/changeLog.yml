@@ -2,7 +2,7 @@ databaseChangeLog:
   - preConditions:
     - dbms:
       - type: oracle
-      
+
   - changeSet:
       author: drsteini
       id: "create.table.project_object"
