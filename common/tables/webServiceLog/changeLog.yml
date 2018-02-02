@@ -11,9 +11,36 @@ databaseChangeLog:
         - not:
           - tableExists:
               tableName: web_service_log
+
       id: "create.table.web_service_log"
       changes:
         - sqlFile:
             path: webServiceLog.sql
             relativeToChangelogFile: true
         - rollback: drop table web_service_log cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.web_service_log.add.column.user_agent"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'WEB_SERVICE_LOG' and column_name = 'USER_AGENT';
+      changes:
+        - sql: alter table web_service_log add user_agent varchar2(4000 char);
+        - rollback: alter table web_service_log set unused column user_agent;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.web_service_log.add.column.download_details"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'WEB_SERVICE_LOG' and column_name = 'DOWNLOAD_DETAILS';
+      changes:
+        - sql: alter table web_service_log add download_details clob;
+        - rollback: alter table web_service_log set unused column download_details;
