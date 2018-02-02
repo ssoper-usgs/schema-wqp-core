@@ -22,3 +22,28 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: false
         - rollback: drop package body log_helper;
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.log_helper-wqp-1183-4"
+      changes:
+        - sqlFile:
+            path: definition-wqp-1183-4.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package log_helper;
+        - rollback:
+            changeSetId: "create.package.log_helper"
+            changeSetAuthor: drsteini
+
+  - changeSet:
+      author: drsteini
+      id: "create.package.body.log_helper-wqp-1183-4.sql"
+      changes:
+        - sqlFile:
+            path: body-wqp-1183-4.sql.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback:
+            changeSetId: "create.package.body.log_helper"
+            changeSetAuthor: drsteini
