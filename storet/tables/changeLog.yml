@@ -12,6 +12,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "activityObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "activitySum/changeLog.yml"
       relativeToChangelogFile: true
 
@@ -84,6 +88,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "resultObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "resultSum/changeLog.yml"
       relativeToChangelogFile: true
 
@@ -105,6 +113,10 @@ databaseChangeLog:
 
   - include:
       file: "stationNoSource/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "stationObject/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:

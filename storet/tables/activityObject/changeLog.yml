@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.activity_object_swap_storet"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_object_swap_storet
+      changes:
+        - sqlFile:
+            path: activityObject.sql
+            relativeToChangelogFile: true
+        - rollback: drop table activity_object_swap_storet cascade constraints purge;
