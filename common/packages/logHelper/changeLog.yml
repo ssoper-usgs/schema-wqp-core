@@ -31,7 +31,6 @@ databaseChangeLog:
             path: definition-wqp-1183-4.sql
             relativeToChangelogFile: true
             splitStatements: false
-        - rollback: drop package log_helper;
         - rollback:
             changeSetId: "create.package.log_helper"
             changeSetAuthor: drsteini
