@@ -55,12 +55,12 @@ create or replace package body etl_helper_main as
         execute immediate stmt;
 
         stmt := 'alter table station_object_swap_' || suffix || ' add constraint sobject_' || suffix || 
-                '_pk primary key (data_source_id, station_id) rely enable novalidate';
+                '_pk primary key (data_source_id, object_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
         stmt := 'alter table station_sum_swap_' || suffix || ' add constraint ss_' || suffix ||
-                '_pk primary key (data_source_id, object_id) rely enable novalidate';
+                '_pk primary key (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;   
 
