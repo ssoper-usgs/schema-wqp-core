@@ -213,8 +213,8 @@ create or replace package body etl_helper_main as
 
         etl_helper_code.install(p_table_suffix);
         etl_helper_summary.install(p_table_suffix);
-        etl_helper_project.install(p_table_suffix);
-        etl_helper_project_object.install(p_table_suffix);
+        etl_helper_station.install(p_table_suffix);
+        etl_helper_station_object.install(p_table_suffix);
         etl_helper_project.install(p_table_suffix);
         etl_helper_project_object.install(p_table_suffix);
         etl_helper_activity.install(p_table_suffix);
