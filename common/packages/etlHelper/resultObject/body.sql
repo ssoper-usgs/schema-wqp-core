@@ -67,7 +67,7 @@ create or replace package body etl_helper_result_object as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('result');
+        dbms_output.put_line('result_object');
         execute immediate 'alter table result_object exchange partition result_object_' || suffix ||
                           ' with table result_object_swap_' || suffix || ' including indexes';
 
