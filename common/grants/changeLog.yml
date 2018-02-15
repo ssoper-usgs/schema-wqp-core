@@ -21,6 +21,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.activity_object.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on activity_object to ${readOnlyUser};
+        - rollback: revoke select on activity_object from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.select.activity_sum.${readOnlyUser}"
       changes:
         - sql:
@@ -189,6 +197,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.result_object.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on result_object to ${readOnlyUser};
+        - rollback: revoke select on result_object from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.select.result_sum.${readOnlyUser}"
       changes:
         - sql:
@@ -242,6 +258,14 @@ databaseChangeLog:
         - sql:
             sql: grant select on station to ${readOnlyUser};
         - rollback: revoke select on station from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.station_object.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on station_object to ${readOnlyUser};
+        - rollback: revoke select on station_object from ${readOnlyUser};
 
   - changeSet:
       author: drsteini

@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.aobject_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'AOBJECT_STORET_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create unique index aobject_storet_pk on activity_object_swap_storet(data_source_id, object_id) parallel 4 nologging;
+        - rollback: drop index aobject_storet_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.aobject_storet_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'AOBJECT_STORET_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index aobject_storet_organization on activity_object_swap_storet(organization) parallel 4 nologging;
+        - rollback: drop index aobject_storet_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.aobject_storet_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'AOBJECT_STORET_ACTIVITY' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index aobject_storet_activity on activity_object_swap_storet(activity) parallel 4 nologging;
+        - rollback: drop index aobject_storet_activity;
