@@ -92,6 +92,14 @@ databaseChangeLog:
         - rollback: revoke select on huc8_conus_hi_ak_pr_dis from ${readOnlyUser};
 
   - changeSet:
+      author: skaymen
+      id: "grant.select.huc12nometa.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on huc12nometa to ${readOnlyUser};
+        - rollback: revoke select on huc12nometa from ${readOnlyUser};
+
+  - changeSet:
       author: drsteini
       id: "grant.select.last_etl.${readOnlyUser}"
       changes:
@@ -140,12 +148,36 @@ databaseChangeLog:
         - rollback: revoke select on project from ${readOnlyUser};
 
   - changeSet:
+      author: ayan
+      id: "grant.select.project_data.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on project_data to ${readOnlyUser};
+        - rollback: revoke select on project_data from ${readOnlyUser};
+
+  - changeSet:
       author: drsteini
       id: "grant.select.project_dim.${readOnlyUser}"
       changes:
         - sql:
             sql: grant select on project_dim to ${readOnlyUser};
         - rollback: revoke select on project_dim from ${readOnlyUser};
+
+  - changeSet:
+      author: zmoore
+      id: "grant.select.prj_ml_weighting.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on prj_ml_weighting to ${readOnlyUser};
+        - rollback: revoke select on prj_ml_weighting from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.project_object.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on project_object to ${readOnlyUser};
+        - rollback: revoke select on project_object from ${readOnlyUser};
 
   - changeSet:
       author: drsteini
@@ -253,30 +285,6 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "grant.select.us_counties_dis_20121015.${readOnlyUser}"
-      changes:
-        - sql:
-            sql: grant select on us_counties_dis_20121015 to ${readOnlyUser};
-        - rollback: revoke select on us_counties_dis_20121015 from ${readOnlyUser};
-
-  - changeSet:
-      author: skaymen
-      id: "grant.select.huc12nometa.${readOnlyUser}"
-      changes:
-        - sql:
-            sql: grant select on huc12nometa to ${readOnlyUser};
-        - rollback: revoke select on huc12nometa from ${readOnlyUser};
-
-  - changeSet:
-      author: ayan
-      id: "grant.select.project_data.${readOnlyUser}"
-      changes:
-        - sql:
-            sql: grant select on project_data to ${readOnlyUser};
-        - rollback: revoke select on project_data from ${readOnlyUser};
-
-  - changeSet:
-      author: drsteini
       id: "grant.execute.typ_vctbl.${readOnlyUser}"
       changes:
         - sql:
@@ -285,8 +293,8 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "grant.select.project_object.${readOnlyUser}"
+      id: "grant.select.us_counties_dis_20121015.${readOnlyUser}"
       changes:
         - sql:
-            sql: grant select on project_object to ${readOnlyUser};
-        - rollback: revoke select on project_object from ${readOnlyUser};
+            sql: grant select on us_counties_dis_20121015 to ${readOnlyUser};
+        - rollback: revoke select on us_counties_dis_20121015 from ${readOnlyUser};
