@@ -437,7 +437,7 @@ create or replace package body etl_helper_code as
         execute immediate 'alter table organization exchange partition organization_' || suffix ||
                           ' with table organization_swap_' || suffix || ' including indexes';
 
-        dbms_output.put_line('project');
+        dbms_output.put_line('project_data');
         execute immediate 'alter table project exchange partition project_' || suffix ||
                           ' with table project_swap_' || suffix || ' including indexes';
 
