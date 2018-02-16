@@ -59,7 +59,7 @@ create or replace package body etl_helper_project_object as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('project');
+        dbms_output.put_line('project_object');
         execute immediate 'alter table project_object exchange partition project_object_' || suffix ||
                           ' with table project_object_swap_' || suffix || ' including indexes';
 

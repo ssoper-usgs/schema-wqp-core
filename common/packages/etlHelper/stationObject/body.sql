@@ -59,7 +59,7 @@ create or replace package body etl_helper_station_object as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('station');
+        dbms_output.put_line('station_object');
         execute immediate 'alter table station_object exchange partition station_object_' || suffix ||
                           ' with table station_object_swap_' || suffix || ' including indexes';
 
