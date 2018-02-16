@@ -59,7 +59,7 @@ create or replace package body etl_helper_activity_object as
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
-        dbms_output.put_line('activity');
+        dbms_output.put_line('activity_object');
         execute immediate 'alter table activity_object exchange partition activity_object_' || suffix ||
                           ' with table activity_object_swap_' || suffix || ' including indexes';
 
