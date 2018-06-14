@@ -125,6 +125,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.org_data.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on org_data to ${readOnlyUser};
+        - rollback: revoke select on org_data from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.select.organization.${readOnlyUser}"
       changes:
         - sql:
