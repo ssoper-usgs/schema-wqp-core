@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_data"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_data
+      changes:
+        - sqlFile:
+            path: orgData.sql
+            relativeToChangelogFile: true
+        - rollback: drop table org_data cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_data.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ORG_DATA' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: orgDataExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table org_data merge partitions org_data_stewards, org_data_nwis, org_data_storet, org_data_biodata, org_data_garbage into partition org_data_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_data.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ORG_DATA' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: orgDataInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table org_data merge partitions org_data_nwis, org_data_garbage into partition org_data_garbage;
