@@ -24,6 +24,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "orgData/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "rDetectQntLmt/changeLog.yml"
       relativeToChangelogFile: true
 

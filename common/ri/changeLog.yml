@@ -145,3 +145,16 @@ databaseChangeLog:
       changes:
         - sql: alter table prj_ml_weighting add constraint prj_ml_weighting_prj_fk foreign key (data_source_id, project_id) references project_data (data_source_id, project_id) rely enable novalidate;
         - rollback: alter table prj_ml_weighting drop constraint prj_ml_weighting_prj_fk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.org_data.org_data_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ORG_DATA_PK' and table_name = 'ORG_DATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table org_data add constraint org_data_pk primary key (data_source_id, organization_id) rely enable novalidate;
+        - rollback: alter table org_data drop constraint org_data_pk;
