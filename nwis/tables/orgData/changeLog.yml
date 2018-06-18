@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_data_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_data_swap_nwis
+      changes:
+        - sqlFile:
+            path: orgData.sql
+            relativeToChangelogFile: true
+        - rollback: drop table org_data_swap_nwis cascade constraints purge;

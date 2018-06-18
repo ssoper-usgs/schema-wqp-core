@@ -48,6 +48,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "orgData/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "project/changeLog.yml"
       relativeToChangelogFile: true
 

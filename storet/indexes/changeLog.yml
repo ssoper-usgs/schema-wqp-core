@@ -32,6 +32,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "orgData.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "prjMLWeighting.yml"
       relativeToChangelogFile: true
 
