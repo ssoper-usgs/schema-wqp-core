@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.odata_nwis_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ODATA_NWIS_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index odata_nwis_organization on org_data_swap_nwis(organization) parallel 4 nologging;
+        - rollback: drop index odata_nwis_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.odata_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'ODATA_NWIS_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create unique index odata_nwis_pk on org_data_swap_nwis(data_source_id, organization_id) parallel 4 nologging;
+        - rollback: drop index odata_nwis_pk;

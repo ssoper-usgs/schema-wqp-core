@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: zmoore
+      id: "create.package.etl_helper_prj_ml_weighting"
+      changes:
+        - sqlFile:
+            path: definition.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package etl_helper_prj_ml_weighting;
+
+  - changeSet:
+      author: zmoore
+      id: "create.package.body.etl_helper_prj_ml_weighting"
+      changes:
+        - sqlFile:
+            path: body.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop package body etl_helper_prj_ml_weighting;

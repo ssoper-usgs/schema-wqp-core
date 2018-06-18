@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.station_object_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'STATION_OBJECT_PK' and object_type = 'INDEX';
+      changes:
+        - sql: create unique index station_object_pk on station_object(data_source_id, object_id) local parallel 4 nologging;
+        - rollback: drop index station_object_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.station_object_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'STATION_OBJECT_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index station_object_organization on station_object(organization) local parallel 4 nologging;
+        - rollback: drop index station_object_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.station_object_site_id"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'STATION_OBJECT_SITE_ID' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index station_object_site_id on station_object(site_id) local parallel 4 nologging;
+        - rollback: drop index station_object_site_id;

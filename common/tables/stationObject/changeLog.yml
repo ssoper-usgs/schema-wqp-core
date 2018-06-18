@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_object"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: station_object
+      changes:
+        - sqlFile:
+            path: stationObject.sql
+            relativeToChangelogFile: true
+        - rollback: drop table station_object cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_object.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION_OBJECT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stationObjectExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table station_object merge partitions station_object_stewards, station_object_nwis, station_object_storet, station_object_biodata, station_object_garbage into partition station_object_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.station_object.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'STATION_OBJECT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: stationObjectInternalPartitions.sql 
+            relativeToChangelogFile: true
+        - rollback: alter table station_object merge partitions station_object_nwis, station_object_garbage into partition station_object_garbage;

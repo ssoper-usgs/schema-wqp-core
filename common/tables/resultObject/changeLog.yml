@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result_object"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: result_object
+      changes:
+        - sqlFile:
+            path: resultObject.sql
+            relativeToChangelogFile: true
+        - rollback: drop table result_object cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result_object.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'RESULT_OBJECT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: resultObjectExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table result_object merge partitions result_object_stewards, result_object_nwis, result_object_storet, result_object_biodata, result_object_garbage into partition result_object_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.result_object.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'RESULT_OBJECT' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: resultObjectInternalPartitions.sql 
+            relativeToChangelogFile: true
+        - rollback: alter table result_object merge partitions result_object_nwis, result_object_garbage into partition result_object_garbage;

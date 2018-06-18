@@ -16,7 +16,15 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "activityObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "code/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "orgData/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
@@ -28,7 +36,15 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "resultObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "station/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "stationObject/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
@@ -41,4 +57,8 @@ databaseChangeLog:
 
   - include:
       file: "projectObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "prjMLWeighting/changeLog.yml"
       relativeToChangelogFile: true
