@@ -21,7 +21,7 @@ create or replace package body etl_helper_org_data as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create unique index odata_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, org_id) parallel 4 nologging';
+        stmt := 'create unique index odata_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, organization_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
