@@ -43,4 +43,3 @@ databaseChangeLog:
       changes:
         - sql: alter table r_detect_qnt_lmt_swap_biodata add web_code varchar2(3 char);
         - rollback: alter table r_detect_qnt_lmt_swap_biodata set unused column web_code;
-

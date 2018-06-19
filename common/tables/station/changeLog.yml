@@ -75,4 +75,3 @@ databaseChangeLog:
       changes:
         - sql: alter table station add web_code varchar2(3 char);
         - rollback: alter table station set unused column web_code;
-

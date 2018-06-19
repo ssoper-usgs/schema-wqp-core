@@ -75,5 +75,3 @@ databaseChangeLog:
       changes:
         - sql: alter table r_detect_qnt_lmt add web_code varchar2(3 char);
         - rollback: alter table r_detect_qnt_lmt set unused column web_code;
-        
-

@@ -43,4 +43,3 @@ databaseChangeLog:
       changes:
         - sql: alter table result_swap_stewards add web_code varchar2(3 char);
         - rollback: alter table result_swap_stewards set unused column web_code;
-
