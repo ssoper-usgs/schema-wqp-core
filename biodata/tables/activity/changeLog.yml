@@ -43,55 +43,55 @@ databaseChangeLog:
       changes:
         - sql: alter table activity_swap_biodata add web_code varchar2(3 char);
         - rollback: alter table activity_swap_biodata set unused column web_code;
-        
+
  - changeSet:
       author: skaymen
-      id: "alter.table.activity_swap_biodata.add.column.activity_object_name"
+      id: "alter.table.activity_swap_nwis.add.column.activity_object_name"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_BIODATA' and column_name = 'ACTIVITY_OBJECT_NAME';
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_NWIS' and column_name = 'ACTIVITY_OBJECT_NAME';
       changes:
-        - sql: alter table activity_swap_biodata add activity_object_name varchar2(4000 char);
-        - rollback: alter table activity_swap_biodata set unused column activity_object_name;
+        - sql: alter table activity_swap_nwis add activity_object_name varchar2(4000 char);
+        - rollback: alter table activity_swap_nwis set unused column activity_object_name;
 
  - changeSet:
        author: skaymen
-       id: "alter.table.activity_swap_biodata.add.column.activity_object_type"
+       id: "alter.table.activity_swap_nwis.add.column.activity_object_type"
        preConditions:
          - onFail: MARK_RAN
          - onError: HALT
          - sqlCheck:
              expectedResult: 0
-             sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_BIODATA' and column_name = 'ACTIVITY_OBJECT_TYPE';
+             sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_NWIS' and column_name = 'ACTIVITY_OBJECT_TYPE';
        changes:
-         - sql: alter table activity_swap_biodata add activity_object_type varchar2(4000 char);
-         - rollback: alter table activity_swap_biodata set unused column activity_object_type;
-         
+         - sql: alter table activity_swap_nwis add activity_object_type varchar2(4000 char);
+         - rollback: alter table activity_swap_nwis set unused column activity_object_type;
+
  - changeSet:
         author: skaymen
-        id: "alter.table.activity_swap_biodata.add.column.activity_file_url"
+        id: "alter.table.activity_swap_nwis.add.column.activity_file_url"
         preConditions:
           - onFail: MARK_RAN
           - onError: HALT
           - sqlCheck:
               expectedResult: 0
-              sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_BIODATA' and column_name = 'ACTIVITY_FILE_URL';
+              sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_NWIS' and column_name = 'ACTIVITY_FILE_URL';
         changes:
-          - sql: alter table activity_swap_biodata add activity_file_url varchar2(4000 char);
-          - rollback: alter table activity_swap_biodata set unused column activity_file_url;
-          
+          - sql: alter table activity_swap_nwis add activity_file_url varchar2(4000 char);
+          - rollback: alter table activity_swap_nwis set unused column activity_file_url;
+
  - changeSet:
          author: skaymen
-         id: "alter.table.activity_swap_biodata.add.column.result_count"
+         id: "alter.table.activity_swap_nwis.add.column.result_count"
          preConditions:
            - onFail: MARK_RAN
            - onError: HALT
            - sqlCheck:
                expectedResult: 0
-               sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_BIODATA' and column_name = 'RESULT_COUNT';
+               sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_NWIS' and column_name = 'RESULT_COUNT';
          changes:
-           - sql: alter table activity_swap_biodata add result_count varchar2(4000 char);
-           - rollback: alter table activity_swap_biodata set unused column result_count;
+           - sql: alter table activity_swap_nwis add result_count varchar2(4000 char);
+           - rollback: alter table activity_swap_nwis set unused column result_count;

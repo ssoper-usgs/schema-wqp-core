@@ -43,7 +43,7 @@ databaseChangeLog:
       changes:
         - sql: alter table activity_swap_stewards add web_code varchar2(3 char);
         - rollback: alter table activity_swap_stewards set unused column web_code;
-        
+
  - changeSet:
       author: skaymen
       id: "alter.table.activity_swap_stewards.add.column.activity_object_name"
@@ -69,7 +69,7 @@ databaseChangeLog:
        changes:
          - sql: alter table activity_swap_stewards add activity_object_type varchar2(4000 char);
          - rollback: alter table activity_swap_stewards set unused column activity_object_type;
-         
+
  - changeSet:
         author: skaymen
         id: "alter.table.activity_swap_stewards.add.column.activity_file_url"
@@ -82,7 +82,7 @@ databaseChangeLog:
         changes:
           - sql: alter table activity_swap_stewards add activity_file_url varchar2(4000 char);
           - rollback: alter table activity_swap_stewards set unused column activity_file_url;
-          
+
  - changeSet:
          author: skaymen
          id: "alter.table.activity_swap_stewards.add.column.result_count"
