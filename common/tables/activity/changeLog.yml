@@ -76,7 +76,7 @@ databaseChangeLog:
         - sql: alter table activity add web_code varchar2(3 char);
         - rollback: alter table activity set unused column web_code;
         
- - changeSet:
+  - changeSet:
       author: skaymen
       id: "alter.table.activity.add.column.activity_object_name"
       preConditions:
@@ -89,41 +89,41 @@ databaseChangeLog:
         - sql: alter table activity add activity_object_name varchar2(4000 char);
         - rollback: alter table activity set unused column activity_object_name;
 
- - changeSet:
-       author: skaymen
-       id: "alter.table.activity.add.column.activity_object_type"
-       preConditions:
-         - onFail: MARK_RAN
-         - onError: HALT
-         - sqlCheck:
-             expectedResult: 0
-             sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'ACTIVITY_OBJECT_TYPE';
-       changes:
-         - sql: alter table activity add activity_object_type varchar2(4000 char);
-         - rollback: alter table activity set unused column activity_object_type;
+  - changeSet:
+      author: skaymen
+      id: "alter.table.activity.add.column.activity_object_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'ACTIVITY_OBJECT_TYPE';
+      changes:
+        - sql: alter table activity add activity_object_type varchar2(4000 char);
+        - rollback: alter table activity set unused column activity_object_type;
          
- - changeSet:
-        author: skaymen
-        id: "alter.table.activity.add.column.activity_file_url"
-        preConditions:
-          - onFail: MARK_RAN
-          - onError: HALT
-          - sqlCheck:
-              expectedResult: 0
-              sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'ACTIVITY_FILE_URL';
-        changes:
-          - sql: alter table activity add activity_file_url varchar2(4000 char);
-          - rollback: alter table activity set unused column activity_file_url;
+  - changeSet:
+      author: skaymen
+      id: "alter.table.activity.add.column.activity_file_url"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'ACTIVITY_FILE_URL';
+      changes:
+        - sql: alter table activity add activity_file_url varchar2(4000 char);
+        - rollback: alter table activity set unused column activity_file_url;
           
- - changeSet:
-         author: skaymen
-         id: "alter.table.activity.add.column.result_count"
-         preConditions:
-           - onFail: MARK_RAN
-           - onError: HALT
-           - sqlCheck:
-               expectedResult: 0
-               sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'RESULT_COUNT';
-         changes:
-           - sql: alter table activity add result_count varchar2(4000 char);
-           - rollback: alter table activity set unused column result_count;
+  - changeSet:
+      author: skaymen
+      id: "alter.table.activity.add.column.result_count"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'RESULT_COUNT';
+      changes:
+        - sql: alter table activity add result_count varchar2(4000 char);
+        - rollback: alter table activity set unused column result_count;
