@@ -82,16 +82,3 @@ databaseChangeLog:
       changes:
         - sql: alter table activity_swap_storet add activity_file_url varchar2(4000 char);
         - rollback: alter table activity_swap_storet set unused column activity_file_url;
-          
-  - changeSet:
-      author: skaymen
-      id: "alter.table.activity_swap_storet.add.column.result_count"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_STORET' and column_name = 'RESULT_COUNT';
-      changes:
-        - sql: alter table activity_swap_storet add result_count varchar2(4000 char);
-        - rollback: alter table activity_swap_storet set unused column result_count;
