@@ -49,3 +49,15 @@ databaseChangeLog:
             path: orgDataInternalPartitions.sql
             relativeToChangelogFile: true
         - rollback: alter table org_data merge partitions org_data_nwis, org_data_garbage into partition org_data_garbage;
+  - changeSet:
+      author: mbucknell
+      id: "alter.table.org_data.add.column.organization_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ORG_DATA' and column_name = 'ORGANIZATION_TYPE';
+        - changes:
+          - sql: alter table org_data add organization_type varchar2(4000 char);
+          - rollback: alter table org_data set unused column organization_type;
