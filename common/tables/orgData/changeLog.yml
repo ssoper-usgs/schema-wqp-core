@@ -58,6 +58,6 @@ databaseChangeLog:
         - sqlCheck:
             expectedResult: 0
             sql: select count(*) from user_tab_cols where table_name = 'ORG_DATA' and column_name = 'ORGANIZATION_TYPE';
-        - changes:
-          - sql: alter table org_data add organization_type varchar2(4000 char);
-          - rollback: alter table org_data set unused column organization_type;
+      changes:
+        - sql: alter table org_data add organization_type varchar2(4000 char);
+        - rollback: alter table org_data set unused column organization_type;
