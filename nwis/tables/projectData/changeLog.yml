@@ -11,7 +11,7 @@ databaseChangeLog:
         - onError: HALT
         - not:
           - tableExists:
-              tableName: project_data_swap_biodata
+              tableName: project_data_swap_nwis
       changes:
         - sqlFile:
             path: projectData.sql

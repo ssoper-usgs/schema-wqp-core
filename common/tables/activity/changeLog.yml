@@ -114,16 +114,3 @@ databaseChangeLog:
       changes:
         - sql: alter table activity add activity_file_url varchar2(4000 char);
         - rollback: alter table activity set unused column activity_file_url;
-          
-  - changeSet:
-      author: skaymen
-      id: "alter.table.activity.add.column.result_count"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'RESULT_COUNT';
-      changes:
-        - sql: alter table activity add result_count varchar2(4000 char);
-        - rollback: alter table activity set unused column result_count;
