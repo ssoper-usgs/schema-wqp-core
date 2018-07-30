@@ -67,7 +67,7 @@ databaseChangeLog:
 
   - changeSet:
       author: abriggs, ssoper
-      id: "alter.table.county.add.column."
+      id: "alter.table.county.add.column.description_wo_country_state"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
