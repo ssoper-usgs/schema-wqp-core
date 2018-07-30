@@ -17,3 +17,42 @@ databaseChangeLog:
             path: stationSum.sql
             relativeToChangelogFile: true
         - rollback: drop table station_sum_swap_stewards cascade constraints purge;
+
+  - changeSet:
+      author: ssoper, abriggs
+      id: "alter.table.station_sum_swap_stewards.add.column.char_type_ct_past_12_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'STATION_SUM_SWAP_STEWARDS' and column_name = 'CHAR_TYPE_CT_PAST_12_MONTHS';
+      changes:
+        - sql: alter table station_sum_swap_stewards add char_type_ct_past_12_months clob;
+        - rollback: alter table station_sum_swap_stewards set unused column char_type_ct_past_12_months;
+
+  - changeSet:
+      author: ssoper, abriggs
+      id: "alter.table.station_sum_swap_stewards.add.column.char_type_ct_past_60_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'STATION_SUM_SWAP_STEWARDS' and column_name = 'CHAR_TYPE_CT_PAST_60_MONTHS';
+      changes:
+        - sql: alter table station_sum_swap_stewards add char_type_ct_past_60_months clob;
+        - rollback: alter table station_sum_swap_stewards set unused column char_type_ct_past_60_months;
+
+  - changeSet:
+      author: ssoper, abriggs
+      id: "alter.table.station_sum_swap_stewards.add.column.char_type_ct_all_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'STATION_SUM_SWAP_STEWARDS' and column_name = 'CHAR_TYPE_CT_ALL_MONTHS';
+      changes:
+        - sql: alter table station_sum_swap_stewards add char_type_ct_all_months clob;
+        - rollback: alter table station_sum_swap_stewards set unused column char_type_ct_all_months;
