@@ -48,3 +48,16 @@ databaseChangeLog:
             relativeToChangelogFile: true
         - rollback: drop table county_geom cascade constraints purge;
 
+  - changeSet:
+      author: abriggs, ssoper
+      id: "alter.table.county_swap_storet.add.column.description_with_out_country_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'COUNTY_SWAP_STORET' and column_name = 'DESCRIPTION_WITH_OUT_COUNTRY_STATE';
+      changes:
+        - sql: alter table county_swap_storet add description_with_out_country_state varchar2(4000 char);
+        - rollback: alter table county_swap_storet set unused column description_with_out_country_state;
+
