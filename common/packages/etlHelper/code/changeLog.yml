@@ -56,5 +56,5 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: false
         - rollback:
-            changeSetId: "create.package.body.etl_helper_code"
-            changeSetAuthor: abriggs, ssoper
+            changeSetId: "create.package.body.etl_helper_code.wqp-1173"
+            changeSetAuthor: drsteini

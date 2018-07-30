@@ -20,13 +20,13 @@ databaseChangeLog:
 
   - changeSet:
       author: abriggs, ssoper
-      id: "alter.table.county_swap_biodata.add.column.description_with_out_country_state"
+      id: "alter.table.county_swap_biodata.add.column.description_wo_country_state"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'COUNTY_SWAP_BIODATA' and column_name = 'DESCRIPTION_WITH_OUT_COUNTRY_STATE';
+            sql: select count(*) from user_tab_cols where table_name = 'COUNTY_SWAP_BIODATA' and column_name = 'DESCRIPTION_WO_COUNTRY_STATE';
       changes:
-        - sql: alter table county_swap_biodata add description_with_out_country_state varchar2(4000 char);
-        - rollback: alter table county_swap_biodata set unused column description_with_out_country_state;
+        - sql: alter table county_swap_biodata add description_wo_country_state varchar2(4000 char);
+        - rollback: alter table county_swap_biodata set unused column description_wo_country_state;

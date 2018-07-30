@@ -141,12 +141,12 @@ create or replace package body etl_helper_code as
     begin
 
         if upper(p_table_suffix) = 'STORET' then
-              sql_suffix := q'! (data_source_id, code_value, description)
+              sql_suffix := q'! (data_source_id, code_value, description, description_wo_country_state)
             select /*+ parallel(4) */ 
-                    distinct s.data_source_id,
+                    distinct s.data_source_id,description_wo_country_state
                             s.county_code code_value,
                             s.country_code || ', ' || nvl(nwis_state.state_nm, state.st_name) || ', ' || nvl(nwis_county.county_nm,county.cnty_name) description                 
-                            nvl(nwis_county.county_nm,county.cnty_name) description_with_out_country_state
+                            nvl(nwis_county.county_nm,county.cnty_name) description_wo_country_state
               
               from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
                    join wqx.country
@@ -166,12 +166,12 @@ create or replace package body etl_helper_code as
                         regexp_substr(s.county_code, '[^:]+', 1, 3) = nwis_county.county_cd
              where s.county_code is not null!';
         else
-            sql_suffix := q'! (data_source_id, code_value, description)
+            sql_suffix := q'! (data_source_id, code_value, description, description_wo_country_state)
             select /*+ parallel(4) */ 
                    distinct s.data_source_id,
                             s.county_code code_value,
                             s.country_code || ', ' || state.state_nm || ', ' || county.county_nm description,
-                            county.county_nm description_with_out_country_state
+                            county.county_nm description_wo_country_state
               from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
                    left join nwis_ws_star.state
                      on s.country_code = state.country_cd and
