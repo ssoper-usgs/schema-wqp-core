@@ -26,7 +26,7 @@ databaseChangeLog:
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_objects where object_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'SUMMARY_PAST_12_MONTHS';
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'SUMMARY_PAST_12_MONTHS';
       changes:
         - sql: alter table station_sum_swap_biodata add summary_past_12_months clob;
         - rollback: alter table station_sum_swap_biodata set unused column summary_past_12_months;
@@ -39,7 +39,7 @@ databaseChangeLog:
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_objects where object_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'SUMMARY_PAST_60_MONTHS';
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'SUMMARY_PAST_60_MONTHS';
       changes:
         - sql: alter table station_sum_swap_biodata add summary_past_60_months clob;
         - rollback: alter table station_sum_swap_biodata set unused column summary_past_60_months;
@@ -52,7 +52,7 @@ databaseChangeLog:
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_objects where object_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'SUMMARY_ALL_MONTHS';
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'SUMMARY_ALL_MONTHS';
       changes:
         - sql: alter table station_sum_swap_biodata add summary_all_months clob;
         - rollback: alter table station_sum_swap_biodata set unused column summary_all_months;
