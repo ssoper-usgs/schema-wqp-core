@@ -17,3 +17,16 @@ databaseChangeLog:
             path: county.sql
             relativeToChangelogFile: true
         - rollback: drop table county_swap_stewards cascade constraints purge;
+
+  - changeSet:
+      author: abriggs, ssoper
+      id: "alter.table.county_swap_stewards.add.column.description_wo_country_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'COUNTY_SWAP_STEWARDS' and column_name = 'DESCRIPTION_WO_COUNTRY_STATE';
+      changes:
+        - sql: alter table county_swap_stewards add description_wo_country_state varchar2(4000 char);
+        - rollback: alter table county_swap_stewards set unused column description_wo_country_state;
