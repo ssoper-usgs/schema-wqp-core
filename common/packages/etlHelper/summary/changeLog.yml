@@ -34,3 +34,15 @@ databaseChangeLog:
         - rollback:
             changeSetId: "create.package.body.etl_helper_summary"
             changeSetAuthor: drsteini
+
+  - changeSet:
+      author: mbucknell
+      id: "create.package.body.etl_helper_summary.WQP-1251"
+      changes:
+        - sqlFile:
+            path: body_WQP-1251.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback:
+            changeSetId: "create.package.body.etl_helper_main.WQP-1235"
+            changeSetAuthor: skaymen
