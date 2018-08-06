@@ -58,7 +58,7 @@ create or replace package body etl_helper_summary as
                                group by station_id) activity
                  on station.station_id = activity.station_id
                left join (select station_id, count(*) result_count
-                            from result_swap_' || p_table_suffix || '
+                            from result_swap_' || p_table_suffix || q'!
                                group by station_id) result
                  on station.station_id = result.station_id
                left join (select station_id,
@@ -66,7 +66,7 @@ create or replace package body etl_helper_summary as
                                     within group (order by station_id, characteristic_type) || '}' past_12_months
                             from
                               (select station_id, characteristic_type, sum(result_count) result_count_type
-                                from result_sum_swap_' || p_table_suffix || '
+                                from result_sum_swap_!' || p_table_suffix || q'!
                                 where event_date > add_months(sysdate, -12) group by station_id, characteristic_type) counts_12_months
                             group by station_id) results_12_months
                   on station.station_id = results_12_months.station_id
@@ -75,7 +75,7 @@ create or replace package body etl_helper_summary as
                                     within group (order by station_id, characteristic_type) || '}' past_60_months
                             from
                               (select station_id, characteristic_type, sum(result_count) result_count_type
-                                from result_sum_swap_' || p_table_suffix || '
+                                from result_sum_swap_!' || p_table_suffix || q'!
                                 where event_date > add_months(sysdate, -60) group by station_id, characteristic_type) counts_60_months
                             group by station_id) results_60_months
                   on station.station_id = results_60_months.station_id
@@ -84,7 +84,7 @@ create or replace package body etl_helper_summary as
                                     within group (order by station_id, characteristic_type) || '}' all_months
                             from
                               (select station_id, characteristic_type, sum(result_count) result_count_type
-                                from result_sum_swap_' || p_table_suffix || '
+                                from result_sum_swap_!' || p_table_suffix || '
                                 group by station_id, characteristic_type) counts_all
                             group by station_id) results_all_months
                   on station.station_id = results_all_months.station_id';
