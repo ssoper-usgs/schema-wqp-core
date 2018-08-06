@@ -36,7 +36,7 @@ create or replace package body etl_helper_summary as
         sql_suffix varchar2(4000 char);
     begin
 
-        sql_suffix := '(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom, activity_count, result_count)
+        sql_suffix := '(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom, activity_count, result_count, summary_past_12_months, summary_past_60_months, summary_all_months)
         select /*+ parallel(4) */
                station.data_source_id,
                station.data_source,
@@ -49,9 +49,9 @@ create or replace package body etl_helper_summary as
                station.geom,
                nvl(activity.activity_count,0) activity_count,
                nvl(result.result_count,0) result_count,
-               result_sum_12_months.past_12_months summary_past_12_months,
-               result_sum_60_months.past_60_months summary_past_60_months,
-               result_sum_all_months.all_months summary_all_months
+               results_12_months.past_12_months summary_past_12_months,
+               results_60_months.past_60_months summary_past_60_months,
+               results_all_months.all_months summary_all_months
           from station_swap_' || p_table_suffix || ' station
                left join (select station_id, count(*) activity_count
                             from activity_swap_' || p_table_suffix || '
@@ -61,33 +61,33 @@ create or replace package body etl_helper_summary as
                             from result_swap_' || p_table_suffix || '
                                group by station_id) result
                  on station.station_id = result.station_id
-               left join (select station_id, '{' ||
-                                 LISTAGG('"' || characteristic_type || '": ' || counts_12_months.result_count_type, ',')
-                    WITHIN GROUP (ORDER BY characteristic_type,station_id) || '}' past_12_months
-                    from
-                     (select station_id, characteristic_type,
-                         SUM(result_count) result_count_type
-                      from result_sum_swap_' || p_table_suffix || '
-                      where event_date > ADD_MONTHS(SYSDATE, -12) group by station_id, characteristic_type) counts_12_months group by station_id) result_sum_12_months
-                  on station.station_id = result_sum_12_months.station_id
-               left join (select station_id, '{' ||
-                                 LISTAGG('"' || characteristic_type || '": ' || counts_60_months.result_count_type, ',')
-                    WITHIN GROUP (ORDER BY characteristic_type,station_id) || '}' past_60_months
-                    from
-                     (select station_id, characteristic_type,
-                         SUM(result_count) result_count_type
-                      from result_sum_swap_' || p_table_suffix || '
-                      where event_date > ADD_MONTHS(SYSDATE, -60) group by station_id, characteristic_type) counts_60_months group by station_id) result_sum_60_months
-                  on station.station_id = result_sum_60_months.station_id
-               left join (select station_id, '{' ||
-                                 LISTAGG('"' || characteristic_type || '": ' || counts_all.result_count_type, ',')
-                    WITHIN GROUP (ORDER BY characteristic_type,station_id) || '}' all_months
-                    from
-                     (select station_id, characteristic_type,
-                         SUM(result_count) result_count_type
-                      from result_sum_swap_' || p_table_suffix || '
-                      group by station_id, characteristic_type) counts_all group by station_id) result_sum_all_months
-                  on station.station_id = result_sum_all_months.station_id'
+               left join (select station_id,
+                                 '{' || listagg('"' || characteristic_type || '": ' || counts_12_months.result_count_type, ',')
+                                    within group (order by station_id, characteristic_type) || '}' past_12_months
+                            from
+                              (select station_id, characteristic_type, sum(result_count) result_count_type
+                                from result_sum_swap_' || p_table_suffix || '
+                                where event_date > add_months(sysdate, -12) group by station_id, characteristic_type) counts_12_months
+                            group by station_id) results_12_months
+                  on station.station_id = results_12_months.station_id
+               left join (select station_id,
+                                 '{' || listagg('"' || characteristic_type || '": ' || counts_60_months.result_count_type, ',')
+                                    within group (order by station_id, characteristic_type) || '}' past_60_months
+                            from
+                              (select station_id, characteristic_type, sum(result_count) result_count_type
+                                from result_sum_swap_' || p_table_suffix || '
+                                where event_date > add_months(sysdate, -60) group by station_id, characteristic_type) counts_60_months
+                            group by station_id) results_60_months
+                  on station.station_id = results_60_months.station_id
+               left join (select station_id,
+                                 '{' || listagg('"' || characteristic_type || '": ' || counts_all.result_count_type, ',')
+                                    within group (order by station_id, characteristic_type) || '}' all_months
+                            from
+                              (select station_id, characteristic_type, sum(result_count) result_count_type
+                                from result_sum_swap_' || p_table_suffix || '
+                                group by station_id, characteristic_type) counts_all
+                            group by station_id) results_all_months
+                  on station.station_id = results_all_months.station_id'
 
         create_table('station_sum_swap_', p_table_suffix, sql_suffix);
 
