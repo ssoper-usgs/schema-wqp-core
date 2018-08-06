@@ -87,7 +87,7 @@ create or replace package body etl_helper_summary as
                                 from result_sum_swap_' || p_table_suffix || '
                                 group by station_id, characteristic_type) counts_all
                             group by station_id) results_all_months
-                  on station.station_id = results_all_months.station_id'
+                  on station.station_id = results_all_months.station_id';
 
         create_table('station_sum_swap_', p_table_suffix, sql_suffix);
 
