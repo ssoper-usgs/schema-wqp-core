@@ -143,9 +143,9 @@ create or replace package body etl_helper_code as
         if upper(p_table_suffix) = 'STORET' then
               sql_suffix := q'! (data_source_id, code_value, description, description_wo_country_state)
             select /*+ parallel(4) */ 
-                    distinct s.data_source_id,description_wo_country_state
+                    distinct s.data_source_id,
                             s.county_code code_value,
-                            s.country_code || ', ' || nvl(nwis_state.state_nm, state.st_name) || ', ' || nvl(nwis_county.county_nm,county.cnty_name) description                 
+                            s.country_code || ', ' || nvl(nwis_state.state_nm, state.st_name) || ', ' || nvl(nwis_county.county_nm,county.cnty_name) description,
                             nvl(nwis_county.county_nm,county.cnty_name) description_wo_country_state
               
               from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
