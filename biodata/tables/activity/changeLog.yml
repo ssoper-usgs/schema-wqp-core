@@ -82,3 +82,16 @@ databaseChangeLog:
       changes:
         - sql: alter table activity_swap_biodata add activity_file_url varchar2(4000 char);
         - rollback: alter table activity_swap_biodata set unused column activity_file_url;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.activity_swap_biodata.add.column.activity_metric_url"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_BIODATA' and column_name = 'ACTIVITY_METRIC_URL';
+      changes:
+        - sql: alter table activity_swap_biodata add activity_metric_url varchar2(4000 char);
+        - rollback: alter table activity_swap_biodata set unused column activity_metric_url;
