@@ -95,3 +95,42 @@ databaseChangeLog:
       changes:
         - sql: alter table activity_swap_stewards add activity_metric_url varchar2(4000 char);
         - rollback: alter table activity_swap_stewards set unused column activity_metric_url;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.activity_swap_stewards.add.column.project_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_STEWARDS' and column_name = 'PROJECT_NAME';
+      changes:
+        - sql: alter table activity_swap_stewards add project_name varchar2(4000 char);
+        - rollback: alter table activity_swap_stewards set unused column project_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.activity_swap_stewards.add.column.monitoring_location_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_STEWARDS' and column_name = 'MONITORING_LOCATION_NAME';
+      changes:
+        - sql: alter table activity_swap_stewards add monitoring_location_name varchar2(4000 char);
+        - rollback: alter table activity_swap_stewards set unused column monitoring_location_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.activity_swap_stewards.add.column.activity_group_url"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY_SWAP_STEWARDS' and column_name = 'ACTIVITY_GROUP_URL';
+      changes:
+        - sql: alter table activity_swap_stewards add activity_group_url varchar2(4000 char);
+        - rollback: alter table activity_swap_stewards set unused column activity_group_url;
