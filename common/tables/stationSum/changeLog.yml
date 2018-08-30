@@ -88,3 +88,55 @@ databaseChangeLog:
       changes:
         - sql: alter table station_sum add summary_all_months clob;
         - rollback: alter table station_sum set unused column summary_all_months;
+
+  - changeSet:
+      author: ssoper
+      id: "alter.table.station_sum.add.column.activity_count_past_12_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM' and column_name = 'ACTIVITY_COUNT_PAST_12_MONTHS';
+      changes:
+        - sql: alter table station_sum add activity_count_past_12_months number;
+        - rollback: alter table station_sum set unused column activity_count_past_12_months;
+
+  - changeSet:
+      author: ssoper
+      id: "alter.table.station_sum.add.column.activity_count_past_60_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM' and column_name = 'ACTIVITY_COUNT_PAST_60_MONTHS';
+      changes:
+        - sql: alter table station_sum add activity_count_past_60_months number;
+        - rollback: alter table station_sum set unused column activity_count_past_60_months;
+
+  - changeSet:
+      author: ssoper
+      id: "alter.table.station_sum.add.column.result_count_past_12_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM' and column_name = 'RESULT_COUNT_PAST_12_MONTHS';
+      changes:
+        - sql: alter table station_sum add result_count_past_12_months number;
+        - rollback: alter table station_sum set unused column result_count_past_12_months;
+
+  - changeSet:
+      author: ssoper
+      id: "alter.table.station_sum.add.column.result_count_past_60_months"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM' and column_name = 'RESULT_COUNT_PAST_60_MONTHS';
+      changes:
+        - sql: alter table station_sum add result_count_past_60_months number;
+        - rollback: alter table station_sum set unused column result_count_past_60_months;
