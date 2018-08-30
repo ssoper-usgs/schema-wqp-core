@@ -36,7 +36,7 @@ create or replace package body etl_helper_summary as
         sql_suffix varchar2(4000 char);
     begin
 
-        sql_suffix := '(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom, activity_count, result_count, summary_past_12_months, summary_past_60_months, summary_all_months)
+        sql_suffix := '(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom, activity_count_past_12_months, activity_count_past_60_months, activity_count, result_count_past_12_months, result_count_past_60_months, result_count, summary_past_12_months, summary_past_60_months, summary_all_months)
         select /*+ parallel(4) */
                station.data_source_id,
                station.data_source,
