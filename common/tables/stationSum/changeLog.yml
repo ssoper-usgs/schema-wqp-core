@@ -89,7 +89,7 @@ databaseChangeLog:
         - sql: alter table station_sum add summary_all_months clob;
         - rollback: alter table station_sum set unused column summary_all_months;
 
-- changeSet:
+  - changeSet:
       author: ssoper
       id: "alter.table.station_sum.add.column.activity_count_past_12_months"
       preConditions:
