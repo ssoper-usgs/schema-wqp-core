@@ -136,41 +136,13 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: "wqxActivityProject/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxAnalyticalMethod/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxDetectionQuantLimit/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxDqlHierarchy/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxHrdatToSrid/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxRDetectQntLmt/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxSiteTypeConversion/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "wqxStationLocal/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
       file: "projectData/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
       file: "prjMLWeighting/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqx/changeLog.yml"
       relativeToChangelogFile: true

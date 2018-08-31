@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.wqx_result_lab_sample_prep_sum"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: wqx_result_lab_sample_prep_sum
+      changes:
+        - sqlFile:
+            path: wqxResultLabSamplePrepSum.sql
+            relativeToChangelogFile: true
+        - rollback: drop table wqx_result_lab_sample_prep_sum cascade constraints purge;

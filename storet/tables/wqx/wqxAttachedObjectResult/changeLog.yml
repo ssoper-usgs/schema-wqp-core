@@ -5,15 +5,15 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.table.wqx_activity_project"
+      id: "create.table.wqx_attached_object_result"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - tableExists:
-              tableName: wqx_activity_project
+              tableName: wqx_attached_object_result
       changes:
         - sqlFile:
-            path: wqxActivityProject.sql
+            path: wqxAttachedObjectResult.sql
             relativeToChangelogFile: true
-        - rollback: drop table wqx_activity_project cascade constraints purge;
+        - rollback: drop table wqx_attached_object_result cascade constraints purge;
