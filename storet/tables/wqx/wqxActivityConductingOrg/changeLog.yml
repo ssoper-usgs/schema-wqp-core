@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.wqx_activity_conducting_org"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: wqx_activity_conducting_org
+      changes:
+        - sqlFile:
+            path: wqxActivityConductingOrg.sql
+            relativeToChangelogFile: true
+        - rollback: drop table wqx_activity_conducting_org cascade constraints purge;

@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.wqx_activity_metric_sum"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: wqx_activity_metric_sum
+      changes:
+        - sqlFile:
+            path: wqxActivityMetricSum.sql
+            relativeToChangelogFile: true
+        - rollback: drop table wqx_activity_metric_sum cascade constraints purge;

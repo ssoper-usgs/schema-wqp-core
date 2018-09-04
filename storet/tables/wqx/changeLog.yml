@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - include:
+      file: "wqxActivityConductingOrg/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxActivityMetricSum/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxActivityProject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxAnalyticalMethod/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxAttachedObjectActivity/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxAttachedObjectResult/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxDetectionQuantLimit/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxDqlHierarchy/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxHrdatToSrid/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxRDetectQntLmt/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxResultFrequencyClass/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxResultLabSamplePrepSum/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxResultTaxonFeedingGroup/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxResultTaxonHabit/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxSiteTypeConversion/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "wqxStationLocal/changeLog.yml"
+      relativeToChangelogFile: true
