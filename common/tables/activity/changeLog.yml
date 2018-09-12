@@ -138,7 +138,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_tab_cols where table_name = 'ACTIVITY' and column_name = 'PROJECT_NAME';
       changes:
-        - sql: alter table activity add project_name varchar2(4000 char);
+        - sql: alter table activity add project_name clob;
         - rollback: alter table activity set unused column project_name;
 
   - changeSet:

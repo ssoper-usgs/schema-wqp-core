@@ -28,5 +28,5 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_tab_cols where table_name = 'WQX_ACTIVITY_PROJECT' and column_name = 'PROJECT_NAME_LIST';
       changes:
-        - sql: alter table wqx_activity_project add project_name_list varchar2(4000 char);
+        - sql: alter table wqx_activity_project add project_name_list clob;
         - rollback: alter table wqx_activity_project set unused column project_name_list;
