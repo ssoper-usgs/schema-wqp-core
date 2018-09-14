@@ -17,3 +17,48 @@ databaseChangeLog:
             path: typVctbl.sql
             relativeToChangelogFile: true
         - rollback: drop type typ_vctbl;
+
+  - changeSet:
+      author: drsteini
+      id: "create.type.clobagg_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'CLOBAGG_TYPE' and object_type = 'TYPE';
+      changes:
+        - sqlFile:
+            path: clobaggType/clobaggType.sql
+            relativeToChangelogFile: true
+        - rollback: drop type clobagg_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.type.body.clobagg_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'CLOBAGG_TYPE' and object_type = 'TYPE BODY';
+      changes:
+        - sqlFile:
+            path: clobaggType/clobaggTypeBody.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback: drop type body clobagg_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.function.clobagg"
+      preconditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'CLOBAGG' and object_type = 'FUNCTION';
+      changes:
+        - createProcedure:
+            procedureBody: create or replace function clobagg(input clob) return clob deterministic parallel_enable aggregate using clobagg_type;
+        - rollback: drop function clobagg;
