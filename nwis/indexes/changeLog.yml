@@ -28,6 +28,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "organizationSum.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "prjMLWeighting.yml"
       relativeToChangelogFile: true
 

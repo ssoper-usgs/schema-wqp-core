@@ -89,16 +89,6 @@ databaseChangeLog:
         - rollback: truncate table county_geom_lookup;
 
   - changeSet:
-      author: drsteini
-      id: "load.huc8_geom_lookup"
-      context: dev,qa,prod
-      changes:
-        - delete:
-            tableName: huc8_geom_lookup
-        - sql: insert into huc8_geom_lookup select * from huc8_geom_lookup@wqp_core_dbdw.er.usgs.gov;
-        - rollback: truncate table huc8_geom_lookup;
-
-  - changeSet:
       author: skaymen
       id: "load.county_geom"
       context: dev,qa,prod

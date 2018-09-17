@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.organization_sum"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_sum
+      changes:
+        - sqlFile:
+            path: organizationSum.sql
+            relativeToChangelogFile: true
+        - rollback: drop table organization_sum cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.organization_sum.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ORGANIZATION_SUM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: organizationSumExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table organization_sum merge partitions organization_sum_stewards, organization_sum_nwis, organization_sum_storet, organization_sum_biodata, organization_sum_garbage into partition organization_sum_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.organization_sum.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ORGANIZATION_SUM' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: organizationSumInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table organization_sum merge partitions organization_sum_nwis, organization_sum_garbage into partition organization_sum_garbage;

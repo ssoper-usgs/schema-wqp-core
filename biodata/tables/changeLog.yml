@@ -48,6 +48,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "organizationSum/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "orgData/changeLog.yml"
       relativeToChangelogFile: true
 
@@ -81,6 +85,10 @@ databaseChangeLog:
 
   - include:
       file: "result/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "resultGrouping/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
