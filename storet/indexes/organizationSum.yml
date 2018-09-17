@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.os_storet_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'OS_STORET_ORGANIZATION' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index os_storet_organization on organization_sum_swap_storet(organization) parallel 4 nologging;
+        - rollback: drop index os_storet_organization;

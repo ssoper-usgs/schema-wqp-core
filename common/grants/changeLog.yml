@@ -141,6 +141,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.organization_sum.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on organization_sum to ${readOnlyUser};
+        - rollback: revoke select on organization_sum from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.execute.pkg_dynamic_list.${readOnlyUser}"
       changes:
         - sql:
