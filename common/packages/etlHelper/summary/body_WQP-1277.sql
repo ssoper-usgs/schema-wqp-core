@@ -15,7 +15,8 @@ create or replace package body etl_helper_summary as
 
     procedure create_table(p_table_prefix in user_tables.table_name%type,
                            p_table_suffix in user_tables.table_name%type,
-                           p_sql_suffix in varchar2) is
+                           p_sql_suffix in varchar2,
+                           p_parallel in boolean default true) is
         table_name user_tables.table_name%type;
     begin
 
@@ -27,7 +28,11 @@ create or replace package body etl_helper_summary as
         dbms_output.put_line('populating:' || table_name || ' at:' || systimestamp);
         execute immediate 'truncate table ' || table_name;
 
-        execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || p_sql_suffix;
+        if (p_parallel) then
+            execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || p_sql_suffix;
+        else
+            execute immediate 'insert /*+ append */ into ' || table_name || p_sql_suffix;
+        end if;
         commit;
 
         dbms_output.put_line('finished populating:' || table_name || ' at:' || systimestamp);
@@ -189,7 +194,7 @@ create or replace package body etl_helper_summary as
                           five_year_last_result, five_year_site_count, five_year_activity_count,
                           current_year_last_result, current_year_site_count, current_year_activity_count,
                           all_time_summary, five_year_summary, current_year_summary)
-        with org_sum as (select data_source,
+        with org_sum as (select /*+ noparallel */ data_source,
                                 organization, 
                                 max(event_date) event_date_all_time,
                                 count(distinct site_id) site_count_all_time,
@@ -202,7 +207,7 @@ create or replace package body etl_helper_summary as
                                 count(distinct case when event_date >= trunc(sysdate, 'yyyy') then activity_id else null end) activity_count_current_year
                            from result_sum_swap_!' || p_table_suffix || q'!
                              group by data_source, organization),
-             org_year_agg as (select data_source, 
+             org_year_agg as (select /*+ noparallel */ data_source, 
                                      organization,
                                      the_year,
                                      '"characteristicGroupResultCount":{' || 
@@ -259,7 +264,7 @@ create or replace package body etl_helper_summary as
                  on org_data.data_source = org_sum.data_source and
                     org_data.organization = org_sum.organization
                join (
-                     select data_source,
+                     select /*+ noparallel */ data_source,
                             organization,
                             to_clob('[') || 
                                     rtrim(clobagg(case when years_window = 1 then to_clob(year_data || ',') else null end), ', ') ||
@@ -271,7 +276,7 @@ create or replace package body etl_helper_summary as
                                     rtrim(clobagg(year_data || ','), ', ') ||
                                     to_clob(']') all_time_summary
                        from (
-                             select data_source,
+                             select /*+ noparallel */ data_source,
                                     organization,
                                     years_window,
                                     the_year,
@@ -620,6 +625,10 @@ create or replace package body etl_helper_summary as
     begin
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
+
+        dbms_output.put_line('organization_sum');
+        execute immediate 'alter table organization_sum exchange partition organization_sum_' || suffix ||
+                          ' with table organization_sum_swap_' || suffix || ' including indexes';
 
         dbms_output.put_line('station_sum');
         execute immediate 'alter table station_sum exchange partition station_sum_' || suffix ||
