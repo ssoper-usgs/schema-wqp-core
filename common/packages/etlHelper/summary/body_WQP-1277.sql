@@ -241,7 +241,7 @@ create or replace package body etl_helper_summary as
                                where grouping_id in (0, 1, 3)
                                   group by data_source, organization, the_year
                              )
-        select org_data.data_source_id,
+        select /*+ noparallel */ org_data.data_source_id,
                org_data.data_source,
                org_data.organization_id,
                org_data.organization,
@@ -291,7 +291,7 @@ create or replace package body etl_helper_summary as
                  on org_data.data_source = year_summary.data_source and
                     org_data.organization = year_summary.organization!';
 
-        create_table('organization_sum_swap_', p_table_suffix, sql_suffix);
+        create_table('organization_sum_swap_', p_table_suffix, sql_suffix, false);
 
     end create_organization_sum;
 
