@@ -108,3 +108,185 @@ databaseChangeLog:
       changes:
         - sql: alter table station_sum_swap_biodata add result_count_past_60_months number;
         - rollback: alter table station_sum_swap_biodata set unused column result_count_past_60_months;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.organization_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'ORGANIZATION_NAME';
+      changes:
+        - sql: alter table station_sum_swap_biodata add organization_name varchar2(4000 char);
+        - rollback: alter table station_sum_swap_biodata set unused column organization_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.station_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'STATION_NAME';
+      changes:
+        - sql: alter table station_sum_swap_biodata add station_name varchar2(4000 char);
+        - rollback: alter table station_sum_swap_biodata set unused column station_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.station_type_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'STATION_TYPE_NAME';
+      changes:
+        - sql: alter table station_sum_swap_biodata add station_type_name varchar2(5 char);
+        - rollback: alter table station_sum_swap_biodata set unused column station_type_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.country_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'COUNTRY_NAME';
+      changes:
+        - sql: alter table station_sum_swap_biodata add country_name varchar2(4000 char);
+        - rollback: alter table station_sum_swap_biodata set unused column country_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.state_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'STATE_NAME';
+      changes:
+        - sql: alter table station_sum_swap_biodata add state_name varchar2(57 char);
+        - rollback: alter table station_sum_swap_biodata set unused column state_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.county_name"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'COUNTY_NAME';
+      changes:
+        - sql: alter table station_sum_swap_biodata add county_name varchar2(4000 char);
+        - rollback: alter table station_sum_swap_biodata set unused column county_name;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.all_time_last_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'ALL_TIME_LAST_RESULT';
+      changes:
+        - sql: alter table station_sum_swap_biodata add all_time_last_result date;
+        - rollback: alter table station_sum_swap_biodata set unused column all_time_last_result;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.five_year_last_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'FIVE_YEAR_LAST_RESULT';
+      changes:
+        - sql: alter table station_sum_swap_biodata add five_year_last_result date;
+        - rollback: alter table station_sum_swap_biodata set unused column five_year_last_result;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.five_year_activity_count"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'FIVE_YEAR_ACTIVITY_COUNT';
+      changes:
+        - sql: alter table station_sum_swap_biodata add five_year_activity_count number;
+        - rollback: alter table station_sum_swap_biodata set unused column five_year_activity_count;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.current_year_last_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'CURRENT_YEAR_LAST_RESULT';
+      changes:
+        - sql: alter table station_sum_swap_biodata add current_year_last_result date;
+        - rollback: alter table station_sum_swap_biodata set unused column current_year_last_result;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.current_year_activity_count"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'CURRENT_YEAR_ACTIVITY_COUNT';
+      changes:
+        - sql: alter table station_sum_swap_biodata add current_year_activity_count number;
+        - rollback: alter table station_sum_swap_biodata set unused column current_year_activity_count;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.all_time_summary"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'ALL_TIME_SUMMARY';
+      changes:
+        - sql: alter table station_sum_swap_biodata add all_time_summary clob;
+        - rollback: alter table station_sum_swap_biodata set unused column all_time_summary;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.five_year_summary"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'FIVE_YEAR_SUMMARY';
+      changes:
+        - sql: alter table station_sum_swap_biodata add five_year_summary clob;
+        - rollback: alter table station_sum_swap_biodata set unused column five_year_summary;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.station_sum_swap_biodata.add.column.current_year_summary"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'CURRENT_YEAR_SUMMARY';
+      changes:
+        - sql: alter table station_sum_swap_biodata add current_year_summary clob;
+        - rollback: alter table station_sum_swap_biodata set unused column current_year_summary;
