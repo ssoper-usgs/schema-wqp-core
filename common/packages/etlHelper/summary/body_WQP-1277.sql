@@ -175,10 +175,7 @@ create or replace package body etl_helper_summary as
             group by grouping sets(
                                    (data_source, organization, to_char(event_date, 'yyyy')),
                                    (data_source, organization, to_char(event_date, 'yyyy'), characteristic_type),
-                                   (data_source, organization, to_char(event_date, 'yyyy'), characteristic_type, characteristic_name),
-                                   (data_source, to_char(event_date, 'yyyy')),
-                                   (data_source, to_char(event_date, 'yyyy'), characteristic_type),
-                                   (data_source, to_char(event_date, 'yyyy'), characteristic_type, characteristic_name)
+                                   (data_source, organization, to_char(event_date, 'yyyy'), characteristic_type, characteristic_name)
                                   )!';
 
         create_table('result_grouping_swap_', p_table_suffix, sql_suffix);
@@ -260,34 +257,34 @@ create or replace package body etl_helper_summary as
                year_summary.five_year_summary,
                year_summary.current_year_summary
           from org_data_swap_!' || p_table_suffix || q'! org_data
-               join org_sum
+               left join org_sum
                  on org_data.data_source = org_sum.data_source and
                     org_data.organization = org_sum.organization
-               join (
-                     select /*+ noparallel */ data_source,
-                            organization,
-                            to_clob('[') || 
-                                    rtrim(clobagg(case when years_window = 1 then to_clob(year_data || ',') else null end), ', ') ||
-                                    to_clob(']') current_year_summary,
-                            to_clob('[') || 
-                                    rtrim(clobagg(case when years_window < 6 then to_clob(year_data || ',') else null end), ', ') ||
-                                    to_clob(']') five_year_summary,
-                            to_clob('[') || 
-                                    rtrim(clobagg(year_data || ','), ', ') ||
-                                    to_clob(']') all_time_summary
-                       from (
-                             select /*+ noparallel */ data_source,
-                                    organization,
-                                    years_window,
-                                    the_year,
-                                    '{' || year_metadata || 
-                                       ', ' || group_result_counts ||
-                                       ', ' || name_result_counts ||
-                                       '}' year_data
-                               from org_year_agg
-                            )
-                         group by data_source, organization
-                    ) year_summary
+               left join (
+                          select /*+ noparallel */ data_source,
+                                 organization,
+                                 to_clob('[') ||
+                                         rtrim(clobagg(case when years_window = 1 then to_clob(year_data || ',') else null end), ', ') ||
+                                         to_clob(']') current_year_summary,
+                                 to_clob('[') ||
+                                         rtrim(clobagg(case when years_window < 6 then to_clob(year_data || ',') else null end), ', ') ||
+                                         to_clob(']') five_year_summary,
+                                 to_clob('[') ||
+                                         rtrim(clobagg(year_data || ','), ', ') ||
+                                         to_clob(']') all_time_summary
+                            from (
+                                  select /*+ noparallel */ data_source,
+                                         organization,
+                                         years_window,
+                                         the_year,
+                                         '{' || year_metadata ||
+                                            ', ' || group_result_counts ||
+                                            ', ' || name_result_counts ||
+                                            '}' year_data
+                                    from org_year_agg
+                                 )
+                              group by data_source, organization
+                         ) year_summary
                  on org_data.data_source = year_summary.data_source and
                     org_data.organization = year_summary.organization!';
 
