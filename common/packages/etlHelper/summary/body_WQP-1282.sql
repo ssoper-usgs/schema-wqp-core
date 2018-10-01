@@ -44,12 +44,11 @@ create or replace package body etl_helper_summary as
         sql_suffix varchar2(30000 char);
     begin
 
-        sql_suffix := q'!(data_source_id, data_source, station_id, site_id, station_name, organization, organization_name, site_type, station_type_name,
-                          huc, governmental_unit_code, geom, state_name, county_name,
-                          activity_count, activity_count_past_12_months, activity_count_past_60_months,
-                          result_count, result_count_past_12_months, result_count_past_60_months,
-                          summary_past_12_months, summary_past_60_months, summary_all_months,
-                          all_time_last_result, all_time_activity_count, five_year_last_result, five_year_activity_count,
+        sql_suffix := q'!(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom,
+                          result_count, activity_count, summary_past_12_months, summary_past_60_months, summary_all_months,
+                          activity_count_past_12_months, activity_count_past_60_months, result_count_past_12_months, result_count_past_60_months,
+                          organization_name, station_name, station_type_name, country_name, state_name, county_name,
+                          all_time_last_result, five_year_last_result, five_year_activity_count,
                           current_year_last_result, current_year_activity_count, all_time_summary, five_year_summary, current_year_summary)
         with ml_yr_sum as (
                            select /*+ noparallel */ data_source,
@@ -199,9 +198,9 @@ create or replace package body etl_helper_summary as
                nvl2(ml_yr_sum.event_date_five_year, ml_yr_sum.activity_count_five_year, null) five_year_activity_count,
                ml_yr_sum.event_date_current_year current_year_last_result,
                nvl2(ml_yr_sum.event_date_current_year, ml_yr_sum.activity_count_current_year, null) current_year_activity_count,
-               year_summary.all_time_summary,
-               year_summary.five_year_summary,
-               year_summary.current_year_summary
+               nvl2(ml_yr_sum.event_date_all_time, year_summary.all_time_summary, null) all_time_summary,
+               nvl2(ml_yr_sum.event_date_five_year, year_summary.five_year_summary, null) five_year_summary,
+               nvl2(ml_yr_sum.event_date_current_year, year_summary.current_year_summary, null) current_year_summary
           from station_swap_!' || p_table_suffix || q'! station
                left join ml_yr_sum
                  on station.data_source = ml_yr_sum.data_source and
@@ -241,9 +240,9 @@ create or replace package body etl_helper_summary as
                left join full_state
                  on station.state_code = full_state.state_code
                left join full_county
-                 on station.county_code = full_county.county_code';
+                 on station.county_code = full_county.county_code!';
 
-        create_table('station_sum_swap_', p_table_suffix, sql_suffix);
+        create_table('station_sum_swap_', p_table_suffix, sql_suffix, false);
 
     end create_station_sum;
 
@@ -444,13 +443,13 @@ create or replace package body etl_helper_summary as
                left join (
                           select /*+ noparallel */ data_source,
                                  organization,
-                                 to_clob('[') || 
+                                 to_clob('[') ||
                                          rtrim(clobagg(case when years_window = 1 then to_clob(year_data || ',') else null end), ', ') ||
                                          to_clob(']') current_year_summary,
-                                 to_clob('[') || 
+                                 to_clob('[') ||
                                          rtrim(clobagg(case when years_window < 6 then to_clob(year_data || ',') else null end), ', ') ||
                                          to_clob(']') five_year_summary,
-                                 to_clob('[') || 
+                                 to_clob('[') ||
                                          rtrim(clobagg(year_data || ','), ', ') ||
                                          to_clob(']') all_time_summary
                             from (
@@ -458,7 +457,7 @@ create or replace package body etl_helper_summary as
                                          organization,
                                          years_window,
                                          the_year,
-                                         '{' || year_metadata || 
+                                         '{' || year_metadata ||
                                             ', ' || group_result_counts ||
                                             ', ' || name_result_counts ||
                                             '}' year_data

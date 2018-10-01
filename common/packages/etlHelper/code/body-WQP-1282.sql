@@ -144,16 +144,14 @@ create or replace package body etl_helper_code as
 
         sql_suffix := q'! (data_source_id, code_value, description, organization, text)
         select /*+ parallel(4) */ 
-               distinct s.data_source_id,
-                        s.site_id code_value,
-                        s.station_name description,
-                        s.organization,
-                        s.site_id || ' ' || s.station_name text
-          from station_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' s
-               join station_sum_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' ss
-                 on s.station_id = ss.station_id
-         where s.site_type is not null and
-               ss.activity_count > 0';
+               distinct data_source_id,
+                        site_id code_value,
+                        station_name description,
+                        organization,
+                        site_id || ' ' || station_name text
+          from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || '
+         where site_type is not null and
+               activity_count > 0';
 
         table_name := create_table('monitoring_loc_swap_', p_table_suffix, sql_suffix);
 

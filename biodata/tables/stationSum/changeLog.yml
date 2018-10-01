@@ -145,7 +145,7 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_tab_cols where table_name = 'STATION_SUM_SWAP_BIODATA' and column_name = 'STATION_TYPE_NAME';
       changes:
-        - sql: alter table station_sum_swap_biodata add station_type_name varchar2(5 char);
+        - sql: alter table station_sum_swap_biodata add station_type_name varchar2(4000 char);
         - rollback: alter table station_sum_swap_biodata set unused column station_type_name;
 
   - changeSet:
