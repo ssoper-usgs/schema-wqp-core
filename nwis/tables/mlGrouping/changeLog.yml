@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.ml_grouping_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: ml_grouping_swap_nwis
+      changes:
+        - sqlFile:
+            path: mlGrouping.sql
+            relativeToChangelogFile: true
+        - rollback: drop table ml_grouping_swap_nwis cascade constraints purge;
