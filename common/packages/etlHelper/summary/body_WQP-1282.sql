@@ -47,11 +47,9 @@ create or replace package body etl_helper_summary as
         sql_suffix := q'!(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom,
                           result_count, activity_count, summary_past_12_months, summary_past_60_months, summary_all_months,
                           activity_count_past_12_months, activity_count_past_60_months, result_count_past_12_months, result_count_past_60_months,
-                          organization_name, station_name, station_type_name, country_name, state_name, county_name,
-                          all_time_last_result, five_year_last_result, five_year_activity_count,
-                          current_year_last_result, current_year_activity_count, all_time_summary, five_year_summary, current_year_summary)
+                          organization_name, station_name, station_type_name, country_name, state_name, county_name)
         with ml_yr_sum as (
-                           select /*+ noparallel */ data_source,
+                           select /*+ noparallel */ data_source_id,
                                   site_id, 
                                   max(nvl(last_updated, event_date)) event_date_all_time,
                                   count(distinct activity_id) activity_count,
@@ -65,43 +63,10 @@ create or replace package body etl_helper_summary as
                                   count(case when event_date > add_months(sysdate, -12) then 1 else null end) result_count_past_12_months,
                                   count(case when event_date > add_months(sysdate, -60) then 1 else null end) result_count_past_60_months
                              from result_swap_!' || p_table_suffix || q'!
-                                group by data_source, site_id
+                                group by data_source_id, site_id
                           ),
-             ml_year_agg as (
-                             select /*+ noparallel */ data_source, 
-                                    site_id,
-                                    the_year,
-                                    '"characteristicGroupResultCount":{' || 
-                                        listagg(case when grouping_id = 5 then '"' || characteristic_type || '": ' || total_results else null end, ',')
-                                        within group (order by characteristic_type) ||
-                                       '}' group_result_counts,
-                                    case 
-                                      when the_year >= to_char(sysdate, 'yyyy') then 1
-                                      when the_year >= to_char(add_months(trunc(sysdate, 'yyyy'), - 48), 'yyyy') then 5
-                                      else null
-                                    end years_window,
-                                    '"year": ' || the_year || 
-                                        ', "start": "01-01-' || the_year ||
-                                        '", "end": "12-31-' || the_year ||
-                                        '", "activityCount": ' || min(case when grouping_id = 7 then total_activities else null end) ||
-                                        ', "resultCount": ' || min(case when grouping_id = 7 then total_results else null end) year_metadata,
-                                    to_clob('"characteristicNameSummary":[') || 
-                                        rtrim(clobagg(case
-                                                        when grouping_id = 4
-                                                          then '{"characteristicName": "' || CHARACTERISTIC_NAME || '",' ||
-                                                               '"characteristicType": "' || CHARACTERISTIC_TYPE || '",' ||
-                                                               '"activityCount":' || total_activities || ',' ||
-                                                               '"resultCount":' || total_results || '}, '
-                                                        else null
-                                                      end),
-                                              ', ') ||
-                                        to_clob(']') name_result_counts
-                               from ml_grouping_swap_!' || p_table_suffix || q'!
-                              where grouping_id in (4, 5, 7)
-                                 group by data_source, site_id, the_year
-                             ),
              ml_period_agg as (
-                               select /*+ noparallel */ data_source, 
+                               select /*+ noparallel */ data_source_id, 
                                       site_id,
                                       listagg(nvl2(past_12_months, '"' || characteristic_type || '": ' || past_12_months, null), ',')
                                           within group (order by characteristic_type) summary_past_12_months,
@@ -110,7 +75,7 @@ create or replace package body etl_helper_summary as
                                       listagg(nvl2(all_months, '"' || characteristic_type || '": ' || all_months, null), ',')
                                           within group (order by characteristic_type) summary_all_months
                                  from (
-                                       select data_source,
+                                       select data_source_id,
                                               site_id,
                                               characteristic_type,
                                               sum(case when years_window = 1 then total_results else null end) past_12_months,
@@ -118,9 +83,9 @@ create or replace package body etl_helper_summary as
                                               sum(total_results) all_months
                                          from ml_grouping_swap_!' || p_table_suffix || q'!
                                         where grouping_id = 9
-                                           group by data_source, site_id, characteristic_type
+                                           group by data_source_id, site_id, characteristic_type
                                       )
-                                   group by data_source, site_id
+                                   group by data_source_id, site_id
                              ),
              full_country as ( 
                               select nvl(nwis.country_cd, wqx.cntry_cd) country_code,
@@ -192,48 +157,13 @@ create or replace package body etl_helper_summary as
                station.station_type_name,
                full_country.country_name,
                full_state.state_name,
-               full_county.county_name,
-               ml_yr_sum.event_date_all_time all_time_last_result,
-               ml_yr_sum.event_date_five_year five_year_last_result,
-               nvl2(ml_yr_sum.event_date_five_year, ml_yr_sum.activity_count_five_year, null) five_year_activity_count,
-               ml_yr_sum.event_date_current_year current_year_last_result,
-               nvl2(ml_yr_sum.event_date_current_year, ml_yr_sum.activity_count_current_year, null) current_year_activity_count,
-               nvl2(ml_yr_sum.event_date_all_time, year_summary.all_time_summary, null) all_time_summary,
-               nvl2(ml_yr_sum.event_date_five_year, year_summary.five_year_summary, null) five_year_summary,
-               nvl2(ml_yr_sum.event_date_current_year, year_summary.current_year_summary, null) current_year_summary
+               full_county.county_name
           from station_swap_!' || p_table_suffix || q'! station
                left join ml_yr_sum
-                 on station.data_source = ml_yr_sum.data_source and
+                 on station.data_source_id = ml_yr_sum.data_source_id and
                     station.site_id = ml_yr_sum.site_id
-               left join (
-                     select /*+ noparallel */ data_source,
-                            site_id,
-                            to_clob('[') || 
-                                    rtrim(clobagg(case when years_window = 1 then to_clob(year_data || ',') else null end), ', ') ||
-                                    to_clob(']') current_year_summary,
-                            to_clob('[') || 
-                                    rtrim(clobagg(case when years_window < 6 then to_clob(year_data || ',') else null end), ', ') ||
-                                    to_clob(']') five_year_summary,
-                            to_clob('[') || 
-                                    rtrim(clobagg(year_data || ','), ', ') ||
-                                    to_clob(']') all_time_summary
-                       from (
-                             select /*+ noparallel */ data_source,
-                                    site_id,
-                                    years_window,
-                                    the_year,
-                                    '{' || year_metadata || 
-                                       ', ' || group_result_counts ||
-                                       ', ' || name_result_counts ||
-                                       '}' year_data
-                               from ml_year_agg
-                            )
-                         group by data_source, site_id
-                    ) year_summary
-                 on station.data_source = year_summary.data_source and
-                    station.site_id = year_summary.site_id
                left join ml_period_agg
-                 on station.data_source = ml_period_agg.data_source and
+                 on station.data_source_id = ml_period_agg.data_source_id and
                     station.site_id = ml_period_agg.site_id
                left join full_country
                  on station.country_code = full_country.country_code
@@ -295,9 +225,10 @@ create or replace package body etl_helper_summary as
         sql_suffix varchar2(4000 char);
     begin
 
-        sql_suffix := q'!(data_source, organization, the_year, characteristic_type, characteristic_name,
+        sql_suffix := q'!(data_source_id, data_source, organization, the_year, characteristic_type, characteristic_name,
                           total_monitoring_locations, total_activities, total_results, last_result_date, grouping_id)
-        select data_source,
+        select data_source_id,
+               min(data_source) data_source,
                organization,
                to_char(event_date, 'yyyy') the_year,
                characteristic_type,
@@ -309,9 +240,9 @@ create or replace package body etl_helper_summary as
                grouping_id (to_char(event_date, 'yyyy'), characteristic_type, characteristic_name) grouping_id
           from result_sum_swap_!' || p_table_suffix || q'!
             group by grouping sets(
-                                   (data_source, organization, to_char(event_date, 'yyyy')),
-                                   (data_source, organization, to_char(event_date, 'yyyy'), characteristic_type),
-                                   (data_source, organization, to_char(event_date, 'yyyy'), characteristic_type, characteristic_name)
+                                   (data_source_id, organization, to_char(event_date, 'yyyy')),
+                                   (data_source_id, organization, to_char(event_date, 'yyyy'), characteristic_type),
+                                   (data_source_id, organization, to_char(event_date, 'yyyy'), characteristic_type, characteristic_name)
                                   )!';
 
         create_table('org_grouping_swap_', p_table_suffix, sql_suffix);
@@ -322,9 +253,10 @@ create or replace package body etl_helper_summary as
         sql_suffix varchar2(4000 char);
     begin
 
-        sql_suffix := q'!(data_source, site_id, the_year, years_window, characteristic_type, characteristic_name,
+        sql_suffix := q'!(data_source_id, data_source, site_id, the_year, years_window, characteristic_type, characteristic_name,
                           total_activities, total_results, last_result_date, grouping_id)
-        select data_source,
+        select data_source_id,
+               min(data_source) data_source,
                site_id,
                the_year,
                years_window,
@@ -335,7 +267,8 @@ create or replace package body etl_helper_summary as
                max(event_date) last_result_date,
                grouping_id (the_year, years_window, characteristic_type, characteristic_name) grouping_id
           from (
-                select data_source,
+                select data_source_id,
+                       data_source,
                        organization,
                        site_id,
                        to_char(event_date, 'yyyy') the_year,
@@ -352,10 +285,8 @@ create or replace package body etl_helper_summary as
                   from result_sum_swap_!' || p_table_suffix || q'!
                )
             group by grouping sets(
-                                   (data_source, site_id, the_year),
-                                   (data_source, site_id, the_year, characteristic_type),
-                                   (data_source, site_id, the_year, characteristic_type, characteristic_name),
-                                   (data_source, site_id, years_window, characteristic_type)
+                                   (data_source_id, site_id, the_year, characteristic_type, characteristic_name),
+                                   (data_source_id, site_id, years_window, characteristic_type)
                                   )!';
 
         create_table('ml_grouping_swap_', p_table_suffix, sql_suffix);
@@ -371,7 +302,7 @@ create or replace package body etl_helper_summary as
                           five_year_last_result, five_year_site_count, five_year_activity_count,
                           current_year_last_result, current_year_site_count, current_year_activity_count,
                           all_time_summary, five_year_summary, current_year_summary)
-        with org_sum as (select /*+ noparallel */ data_source,
+        with org_sum as (select /*+ noparallel */ data_source_id,
                                 organization, 
                                 max(event_date) event_date_all_time,
                                 count(distinct site_id) site_count_all_time,
@@ -383,8 +314,8 @@ create or replace package body etl_helper_summary as
                                 count(distinct case when event_date >= trunc(sysdate, 'yyyy') then site_id else null end) site_count_current_year,
                                 count(distinct case when event_date >= trunc(sysdate, 'yyyy') then activity_id else null end) activity_count_current_year
                            from result_sum_swap_!' || p_table_suffix || q'!
-                             group by data_source, organization),
-             org_year_agg as (select /*+ noparallel */ data_source, 
+                             group by data_source_id, organization),
+             org_year_agg as (select /*+ noparallel */ data_source_id, 
                                      organization,
                                      the_year,
                                      '"characteristicGroupResultCount":{' || 
@@ -416,7 +347,7 @@ create or replace package body etl_helper_summary as
                                          to_clob(']') name_result_counts
                                 from org_grouping_swap_!' || p_table_suffix || q'! result_grouping
                                where grouping_id in (0, 1, 3)
-                                  group by data_source, organization, the_year
+                                  group by data_source_id, organization, the_year
                              )
         select /*+ noparallel */ org_data.data_source_id,
                org_data.data_source,
@@ -438,10 +369,10 @@ create or replace package body etl_helper_summary as
                year_summary.current_year_summary
           from org_data_swap_!' || p_table_suffix || q'! org_data
                left join org_sum
-                 on org_data.data_source = org_sum.data_source and
+                 on org_data.data_source_id = org_sum.data_source_id and
                     org_data.organization = org_sum.organization
                left join (
-                          select /*+ noparallel */ data_source,
+                          select /*+ noparallel */ data_source_id,
                                  organization,
                                  to_clob('[') ||
                                          rtrim(clobagg(case when years_window = 1 then to_clob(year_data || ',') else null end), ', ') ||
@@ -453,7 +384,7 @@ create or replace package body etl_helper_summary as
                                          rtrim(clobagg(year_data || ','), ', ') ||
                                          to_clob(']') all_time_summary
                             from (
-                                  select /*+ noparallel */ data_source,
+                                  select /*+ noparallel */ data_source_id,
                                          organization,
                                          years_window,
                                          the_year,
@@ -463,9 +394,9 @@ create or replace package body etl_helper_summary as
                                             '}' year_data
                                     from org_year_agg
                                  )
-                              group by data_source, organization
+                              group by data_source_id, organization
                          ) year_summary
-                 on org_data.data_source = year_summary.data_source and
+                 on org_data.data_source_id = year_summary.data_source_id and
                     org_data.organization = year_summary.organization!';
 
         create_table('organization_sum_swap_', p_table_suffix, sql_suffix, false);
