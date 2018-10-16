@@ -1,5 +1,6 @@
 create table ml_grouping_swap_nwis
-(data_source                    varchar2(8 char)
+(data_source_id                 number
+,data_source                    varchar2(8 char)
 ,site_id                        varchar2(4000 char)
 ,the_year                       varchar2(4 char)
 ,years_window                   number

@@ -1,5 +1,6 @@
 create table org_grouping_swap_biodata
-(data_source                    varchar2(8 char)
+(data_source_id                 number
+,data_source                    varchar2(8 char)
 ,organization                   varchar2(4000 char)
 ,the_year                       varchar2(4 char)
 ,characteristic_type            varchar2(4000 char)
