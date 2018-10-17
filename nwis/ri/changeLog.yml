@@ -132,7 +132,7 @@ databaseChangeLog:
       changes:
         - sql: alter table prj_ml_weighting_swap_nwis add constraint prjmlw_nwis_ml_fk foreign key (data_source_id, station_id) references station_swap_nwis (data_source_id, station_id) rely enable novalidate;
         - rollback: alter table prj_ml_weighting_swap_nwis drop constraint prjmlw_nwis_ml_fk;
-        
+
   - changeSet:
       author: zmoore
       id: "create.prj_ml_weighting_swap_nwis.prjmlw_nwis_prj_fk"
@@ -145,3 +145,16 @@ databaseChangeLog:
       changes:
         - sql: alter table prj_ml_weighting_swap_nwis add constraint prjmlw_nwis_prj_fk foreign key (data_source_id, project_id) references project_data_swap_nwis (data_source_id, project_id) rely enable novalidate;
         - rollback: alter table prj_ml_weighting_swap_nwis drop constraint prjmlw_nwis_prj_fk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.ml_grouping_swap_nwis.mlg_nwis_ss_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'MLG_NWIS_SS_FK' and table_name = 'ML_GROUPING_SWAP_NWIS' and constraint_type = 'R';
+      changes:
+        - sql: alter table ml_grouping_swap_nwis add constraint mlg_nwis_ss_fk foreign key (data_source_id, site_id) references station_sum_swap_nwis (data_source_id, site_id) rely enable novalidate;
+        - rollback: alter table ml_grouping_swap_nwis drop constraint mlg_nwis_ss_fk;

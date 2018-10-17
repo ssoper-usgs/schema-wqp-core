@@ -117,6 +117,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.ml_grouping.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on ml_grouping to ${readOnlyUser};
+        - rollback: revoke select on ml_grouping from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.select.monitoring_loc.${readOnlyUser}"
       changes:
         - sql:
@@ -130,6 +138,14 @@ databaseChangeLog:
         - sql:
             sql: grant select on org_data to ${readOnlyUser};
         - rollback: revoke select on org_data from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.select.org_grouping.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on org_grouping to ${readOnlyUser};
+        - rollback: revoke select on org_grouping from ${readOnlyUser};
 
   - changeSet:
       author: drsteini

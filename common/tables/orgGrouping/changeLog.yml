@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+      - type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_grouping_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_grouping_swap_nwis
+      changes:
+        - sqlFile:
+            path: orgGrouping.sql
+            relativeToChangelogFile: true
+        - rollback: drop table org_grouping_swap_nwis cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_grouping.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ORG_GROUPING' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: orgGroupingExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table org_grouping merge partitions org_grouping_stewards, org_grouping_nwis, org_grouping_storet, org_grouping_biodata, org_grouping_garbage into partition org_grouping_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.org_grouping.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ORG_GROUPING' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: orgGroupingInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table org_grouping merge partitions org_grouping_nwis, org_grouping_garbage into partition org_grouping_garbage;

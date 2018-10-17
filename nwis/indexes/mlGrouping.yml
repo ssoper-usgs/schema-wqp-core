@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.mlg_nwis_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_objects where object_name = 'MLG_NWIS_SITE' and object_type = 'INDEX';
+      changes:
+        - sql: create bitmap index mlg_nwis_site on ml_grouping_swap_nwis(site_id) parallel 4 nologging;
+        - rollback: drop index mlg_nwis_site;
