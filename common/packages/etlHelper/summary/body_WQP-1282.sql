@@ -50,7 +50,7 @@ create or replace package body etl_helper_summary as
                           organization_name, station_name, station_type_name, country_name, state_name, county_name)
         with ml_yr_sum as (
                            select /*+ noparallel */ data_source_id,
-                                  site_id, 
+                                  station_id, 
                                   max(nvl(last_updated, event_date)) event_date_all_time,
                                   count(distinct activity_id) activity_count,
                                   count(*) result_count,
@@ -63,11 +63,11 @@ create or replace package body etl_helper_summary as
                                   count(case when event_date > add_months(sysdate, -12) then 1 else null end) result_count_past_12_months,
                                   count(case when event_date > add_months(sysdate, -60) then 1 else null end) result_count_past_60_months
                              from result_swap_!' || p_table_suffix || q'!
-                                group by data_source_id, site_id
+                                group by data_source_id, station_id
                           ),
              ml_period_agg as (
                                select /*+ noparallel */ data_source_id, 
-                                      site_id,
+                                      station_id,
                                       listagg(nvl2(past_12_months, '"' || characteristic_type || '": ' || past_12_months, null), ',')
                                           within group (order by characteristic_type) summary_past_12_months,
                                       listagg(nvl2(past_60_months, '"' || characteristic_type || '": ' || past_60_months, null), ',')
@@ -76,16 +76,16 @@ create or replace package body etl_helper_summary as
                                           within group (order by characteristic_type) summary_all_months
                                  from (
                                        select data_source_id,
-                                              site_id,
+                                              station_id,
                                               characteristic_type,
                                               sum(case when years_window = 1 then total_results else null end) past_12_months,
                                               sum(case when years_window < 6 then total_results else null end) past_60_months,
                                               sum(total_results) all_months
                                          from ml_grouping_swap_!' || p_table_suffix || q'!
                                         where grouping_id = 9
-                                           group by data_source_id, site_id, characteristic_type
+                                           group by data_source_id, station_id, characteristic_type
                                       )
-                                   group by data_source_id, site_id
+                                   group by data_source_id, station_id
                              ),
              full_country as ( 
                               select nvl(nwis.country_cd, wqx.cntry_cd) country_code,
@@ -161,10 +161,10 @@ create or replace package body etl_helper_summary as
           from station_swap_!' || p_table_suffix || q'! station
                left join ml_yr_sum
                  on station.data_source_id = ml_yr_sum.data_source_id and
-                    station.site_id = ml_yr_sum.site_id
+                    station.station_id = ml_yr_sum.station_id
                left join ml_period_agg
                  on station.data_source_id = ml_period_agg.data_source_id and
-                    station.site_id = ml_period_agg.site_id
+                    station.station_id = ml_period_agg.station_id
                left join full_country
                  on station.country_code = full_country.country_code
                left join full_state
@@ -253,11 +253,11 @@ create or replace package body etl_helper_summary as
         sql_suffix varchar2(4000 char);
     begin
 
-        sql_suffix := q'!(data_source_id, data_source, site_id, the_year, years_window, characteristic_type, characteristic_name,
+        sql_suffix := q'!(data_source_id, data_source, station_id, the_year, years_window, characteristic_type, characteristic_name,
                           total_activities, total_results, last_result_date, grouping_id)
         select data_source_id,
                min(data_source) data_source,
-               site_id,
+               station_id,
                the_year,
                years_window,
                characteristic_type,
@@ -270,7 +270,7 @@ create or replace package body etl_helper_summary as
                 select data_source_id,
                        data_source,
                        organization,
-                       site_id,
+                       station_id,
                        to_char(event_date, 'yyyy') the_year,
                        characteristic_type,
                        characteristic_name,
@@ -285,8 +285,8 @@ create or replace package body etl_helper_summary as
                   from result_sum_swap_!' || p_table_suffix || q'!
                )
             group by grouping sets(
-                                   (data_source_id, site_id, the_year, characteristic_type, characteristic_name),
-                                   (data_source_id, site_id, years_window, characteristic_type)
+                                   (data_source_id, station_id, the_year, characteristic_type, characteristic_name),
+                                   (data_source_id, station_id, years_window, characteristic_type)
                                   )!';
 
         create_table('ml_grouping_swap_', p_table_suffix, sql_suffix);
