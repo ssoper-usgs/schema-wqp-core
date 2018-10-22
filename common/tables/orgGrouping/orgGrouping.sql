@@ -1,4 +1,4 @@
-create table org_grouping_swap_nwis
+create table org_grouping
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
 ,organization                   varchar2(4000 char)

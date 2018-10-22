@@ -13,5 +13,5 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_objects where object_name = 'MLG_BIODATA_SITE' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index mlg_biodata_site on ml_grouping_swap_biodata(site_id) parallel 4 nologging;
+        - sql: create bitmap index mlg_biodata_site on ml_grouping_swap_biodata(station_id) parallel 4 nologging;
         - rollback: drop index mlg_biodata_site;

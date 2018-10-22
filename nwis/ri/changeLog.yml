@@ -156,5 +156,5 @@ databaseChangeLog:
             expectedResult: 0
             sql: select count(*) from user_constraints where constraint_name = 'MLG_NWIS_SS_FK' and table_name = 'ML_GROUPING_SWAP_NWIS' and constraint_type = 'R';
       changes:
-        - sql: alter table ml_grouping_swap_nwis add constraint mlg_nwis_ss_fk foreign key (data_source_id, site_id) references station_sum_swap_nwis (data_source_id, site_id) rely enable novalidate;
+        - sql: alter table ml_grouping_swap_nwis add constraint mlg_nwis_ss_fk foreign key (data_source_id, station_id) references station_sum_swap_nwis (data_source_id, station_id) rely enable novalidate;
         - rollback: alter table ml_grouping_swap_nwis drop constraint mlg_nwis_ss_fk;

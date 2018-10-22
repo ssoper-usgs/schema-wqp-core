@@ -1,7 +1,7 @@
 create table ml_grouping
 (data_source_id                 number
 ,data_source                    varchar2(8 char)
-,site_id                        varchar2(4000 char)
+,station_id                     number
 ,the_year                       varchar2(4 char)
 ,years_window                   number
 ,characteristic_type            varchar2(4000 char)
