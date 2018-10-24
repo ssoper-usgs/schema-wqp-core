@@ -727,10 +727,10 @@ create or replace package body etl_helper_summary as
         dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze ml_grouping...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ML_GROUPING_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ML_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze org_grouping...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ORG_GROUPING_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ORG_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
