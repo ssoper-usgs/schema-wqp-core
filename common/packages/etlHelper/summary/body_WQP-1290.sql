@@ -693,7 +693,7 @@ create or replace package body etl_helper_summary as
     begin
 
         dbms_output.put_line('creating organization_sum indexes...');
-        table_name := dbms_assert.sql_object_name(upper('organization_sum_swap_' || p_table_suffix));
+        table_name := dbms_assert.sql_object_name(upper('ml_grouping_swap_' || p_table_suffix));
 
         stmt := 'create bitmap index mlg_' || p_table_suffix || '_station on ' || table_name || '(station_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
