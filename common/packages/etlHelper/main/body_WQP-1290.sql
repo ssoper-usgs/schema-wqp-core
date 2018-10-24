@@ -121,7 +121,7 @@ create or replace package body etl_helper_main as
 
         stmt := 'alter table ml_grouping_swap_' || suffix || ' add constraint mlg_' || suffix ||
                 '_ss_fk foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
-                ' (data_source_id, station_id_id) rely enable novalidate';
+                ' (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
