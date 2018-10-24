@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.ml_grouping"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: ml_grouping
+      changes:
+        - sqlFile:
+            path: mlGrouping.sql
+            relativeToChangelogFile: true
+        - rollback: drop table ml_grouping cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.ml_grouping.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ML_GROUPING' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: mlGroupingExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table ml_grouping merge partitions ml_grouping_stewards, ml_grouping_nwis, ml_grouping_storet, ml_grouping_biodata, ml_grouping_garbage into partition ml_grouping_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.ml_grouping.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'ML_GROUPING' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: mlGroupingInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table ml_grouping merge partitions ml_grouping_nwis, ml_grouping_garbage into partition ml_grouping_garbage;

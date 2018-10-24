@@ -158,3 +158,16 @@ databaseChangeLog:
       changes:
         - sql: alter table org_data add constraint org_data_pk primary key (data_source_id, organization_id) rely enable novalidate;
         - rollback: alter table org_data drop constraint org_data_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.ml_grouping.ml_grouping_station_sum_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ML_GROUPING_STATION_SUM_FK' and table_name = 'ML_GROUPING' and constraint_type = 'R';
+      changes:
+        - sql: alter table ml_grouping add constraint ml_grouping_station_sum_fk foreign key (data_source_id, station_id) references station_sum (data_source_id, station_id) rely enable novalidate;
+        - rollback: alter table ml_grouping drop constraint ml_grouping_station_sum_fk;
