@@ -5,18 +5,18 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_grouping_swap_nwis"
+      id: "create.table.org_grouping"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - tableExists:
-              tableName: org_grouping_swap_nwis
+              tableName: org_grouping
       changes:
         - sqlFile:
             path: orgGrouping.sql
             relativeToChangelogFile: true
-        - rollback: drop table org_grouping_swap_nwis cascade constraints purge;
+        - rollback: drop table org_grouping cascade constraints purge;
 
   - changeSet:
       author: drsteini
