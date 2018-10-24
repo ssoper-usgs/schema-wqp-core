@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.bio_hab_metric_swap_nwis"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: bio_hab_metric_swap_nwis
+      changes:
+        - sqlFile:
+            path: bioHabMetric.sql
+            relativeToChangelogFile: true
+        - rollback: drop table bio_hab_metric_swap_nwis cascade constraints purge;

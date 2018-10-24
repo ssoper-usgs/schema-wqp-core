@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.bio_hab_metric"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: bio_hab_metric
+      changes:
+        - sqlFile:
+            path: bioHabMetric.sql
+            relativeToChangelogFile: true
+        - rollback: drop table bio_hab_metric cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.bio_hab_metric.partitions.external"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'BIO_HAB_METRIC' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: bioHabMetricExternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table bio_hab_metric merge partitions bio_hab_metric_stewards, bio_hab_metric_nwis, bio_hab_metric_storet, bio_hab_metric_bio_habdata, bio_hab_metric_garbage into partition bio_hab_metric_garbage;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.bio_hab_metric.partitions.internal"
+      context: internal
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'BIO_HAB_METRIC' and object_type = 'TABLE PARTITION';
+      changes:
+        - sqlFile:
+            path: bioHabMetricInternalPartitions.sql
+            relativeToChangelogFile: true
+        - rollback: alter table bio_hab_metric merge partitions bio_hab_metric_nwis, bio_hab_metric_garbage into partition bio_hab_metric_garbage;

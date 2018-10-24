@@ -20,11 +20,19 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "bioHabMetric.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "county.yml"
       relativeToChangelogFile: true
 
   - include:
       file: "huc.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "mlGrouping.yml"
       relativeToChangelogFile: true
 
   - include:
