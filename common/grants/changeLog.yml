@@ -45,6 +45,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "grant.select.bio_hab_metric.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant select on bio_hab_metric to ${readOnlyUser};
+        - rollback: revoke select on bio_hab_metric from ${readOnlyUser};
+
+  - changeSet:
+      author: drsteini
       id: "grant.select.char_name.${readOnlyUser}"
       changes:
         - sql:
