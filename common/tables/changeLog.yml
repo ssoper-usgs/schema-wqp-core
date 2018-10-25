@@ -24,6 +24,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "bioHabMetric/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "charName/changeLog.yml"
       relativeToChangelogFile: true
 
