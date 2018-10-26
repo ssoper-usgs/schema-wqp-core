@@ -17,3 +17,16 @@ databaseChangeLog:
             path: organizationSum.sql
             relativeToChangelogFile: true
         - rollback: drop table organization_sum_swap_storet cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "alter.table.organization_sum_swap_storet.add.column.organization_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_tab_cols where table_name = 'ORGANIZATION_SUM_SWAP_STORET' and column_name = 'ORGANIZATION_TYPE';
+      changes:
+        - sql: alter table organization_sum_swap_storet add organization_type varchar2(4000 char);
+        - rollback: alter table organization_sum_swap_storet set unused column organization_type;
