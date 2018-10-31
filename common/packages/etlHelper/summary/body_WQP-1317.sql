@@ -304,16 +304,16 @@ create or replace package body etl_helper_summary as
                           all_time_summary, five_year_summary, current_year_summary, organization_type)
         with org_sum as (select /*+ noparallel */ data_source_id,
                                 organization, 
-                                max(event_date) event_date_all_time,
+                                max(nvl(last_updated, event_date)) event_date_all_time,
                                 count(distinct site_id) site_count_all_time,
                                 count(distinct activity_id) activity_count_all_time,
-                                max(case when event_date >= add_months(trunc(sysdate, 'yyyy'), - 48) then event_date else null end) event_date_five_year,
+                                max(case when event_date >= add_months(trunc(sysdate, 'yyyy'), - 48) then nvl(last_updated, event_date) else null end) event_date_five_year,
                                 count(distinct case when event_date >= add_months(trunc(sysdate, 'yyyy'), - 48) then site_id else null end) site_count_five_year,
                                 count(distinct case when event_date >= add_months(trunc(sysdate, 'yyyy'), - 48) then activity_id else null end) activity_count_five_year,
-                                max(case when event_date >= trunc(sysdate, 'yyyy') then event_date else null end) event_date_current_year,
+                                max(case when event_date >= trunc(sysdate, 'yyyy') then nvl(last_updated, event_date) else null end) event_date_current_year,
                                 count(distinct case when event_date >= trunc(sysdate, 'yyyy') then site_id else null end) site_count_current_year,
                                 count(distinct case when event_date >= trunc(sysdate, 'yyyy') then activity_id else null end) activity_count_current_year
-                           from result_sum_swap_!' || p_table_suffix || q'!
+                           from result_swap_!' || p_table_suffix || q'!
                              group by data_source_id, organization),
              org_year_agg as (select /*+ noparallel */ data_source_id, 
                                      organization,
