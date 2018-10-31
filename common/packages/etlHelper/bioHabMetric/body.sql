@@ -4,8 +4,8 @@ create or replace package body etl_helper_bio_hab_metric as
         table_name user_tables.table_name%type;
     begin
 
-        table_name := dbms_assert.sql_object_name(upper('act_metric_swap_' || p_table_suffix));
-        etl_helper_main.drop_indexes(table_name);    
+        table_name := dbms_assert.sql_object_name(upper('bio_hab_metric_swap_' || p_table_suffix));
+        etl_helper_main.drop_indexes(table_name);
 
     end drop_indexes;
 
