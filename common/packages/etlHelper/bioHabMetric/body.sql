@@ -53,10 +53,6 @@ create or replace package body etl_helper_bio_hab_metric as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
-        stmt := 'create unique index bhm_' || p_table_suffix || '_pk on ' || table_name || '(data_source_id, station_id) parallel 4 nologging';
-        dbms_output.put_line(stmt);
-        execute immediate stmt;
-
         stmt := 'create bitmap index bhm_' || p_table_suffix || '_site on ' || table_name || '(site_id) parallel 4 nologging';
         dbms_output.put_line(stmt);
         execute immediate stmt;
