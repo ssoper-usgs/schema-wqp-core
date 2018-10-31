@@ -278,8 +278,8 @@ create or replace package body etl_helper_summary as
                        event_date,
                        last_updated,
                        case 
-                          when to_char(event_date, 'yyyy') >= to_char(sysdate, 'yyyy') THEN 1
-                          when to_char(event_date, 'yyyy') >= to_char(add_months(trunc(sysdate, 'yyyy'), - 48), 'yyyy') then 5
+                          when event_date > add_months(sysdate, - 12) then 1
+                          when event_date > add_months(sysdate, - 60) then 5
                           else 9
                        end years_window
                   from result_swap_!' || p_table_suffix || q'!
