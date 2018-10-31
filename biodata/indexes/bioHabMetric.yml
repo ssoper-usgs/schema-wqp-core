@@ -122,19 +122,6 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.bhm_biodata_pk"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_objects where object_name = 'BHM_BIODATA_PK' and object_type = 'INDEX';
-      changes:
-        - sql: create unique index bhm_biodata_pk on bio_hab_metric_swap_biodata(data_source_id, station_id) parallel 4 nologging;
-        - rollback: drop index bhm_biodata_pk;
-
-  - changeSet:
-      author: drsteini
       id: "create.index.bhm_biodata_site"
       preConditions:
         - onFail: MARK_RAN
