@@ -721,19 +721,19 @@ create or replace package body etl_helper_summary as
         suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 
         dbms_output.put_line('analyze activity_sum...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ACTIVITY_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ACTIVITY_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze result_sum...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'RESULT_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze station_sum...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze ml_grouping...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ML_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ML_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze org_grouping...');
-        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ORG_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ORG_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
