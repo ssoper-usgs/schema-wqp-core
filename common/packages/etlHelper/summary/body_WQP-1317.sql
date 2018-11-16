@@ -19,6 +19,7 @@ create or replace package body etl_helper_summary as
                            p_sql_suffix in varchar2,
                            p_parallel in boolean default true) is
         table_name user_tables.table_name%type;
+        l_lock_value lock_table.lock_value%type;
     begin
 
         table_name := dbms_assert.sql_object_name(upper(p_table_prefix || p_table_suffix));
@@ -32,6 +33,7 @@ create or replace package body etl_helper_summary as
         if (p_parallel) then
             execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || p_sql_suffix;
         else
+            select lock_value into l_lock_value from lock_table for update;
             execute immediate 'insert /*+ append */ into ' || table_name || p_sql_suffix;
         end if;
         commit;
@@ -719,19 +721,19 @@ create or replace package body etl_helper_summary as
         suffix := dbms_assert.simple_sql_name(upper(p_table_suffix));
 
         dbms_output.put_line('analyze activity_sum...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ACTIVITY_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ACTIVITY_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze result_sum...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'RESULT_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'RESULT_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze station_sum...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'STATION_SUM_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze ml_grouping...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ML_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ML_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze org_grouping...');
-        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ORG_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+        dbms_stats.gather_table_stats(ownname => 'WQP_CORE', tabname => 'ORG_GROUPING_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
     end analyze_tables;
 
