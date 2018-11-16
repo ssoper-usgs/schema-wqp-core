@@ -19,6 +19,7 @@ create or replace package body etl_helper_summary as
                            p_sql_suffix in varchar2,
                            p_parallel in boolean default true) is
         table_name user_tables.table_name%type;
+        l_lock_value lock_table.lock_value%type;
     begin
 
         table_name := dbms_assert.sql_object_name(upper(p_table_prefix || p_table_suffix));
@@ -32,6 +33,7 @@ create or replace package body etl_helper_summary as
         if (p_parallel) then
             execute immediate 'insert /*+ append parallel(4) */ into ' || table_name || p_sql_suffix;
         else
+            select lock_value into l_lock_value from lock_table for update;
             execute immediate 'insert /*+ append */ into ' || table_name || p_sql_suffix;
         end if;
         commit;

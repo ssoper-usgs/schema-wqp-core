@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.lock_table"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: lock_table
+      changes:
+        - sqlFile:
+            path: lockTable.sql
+            relativeToChangelogFile: true
+        - rollback: drop table lock_table cascade constraints purge;
+
+  - changeSet:
+      author: drsteini
+      id: "populate.table.lock_table"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: lock_table
+      changes:
+        - sql: insert into lock_table (lock_value) values (1);
+        - rollback: delete from lock_table where lock_value = 1;
