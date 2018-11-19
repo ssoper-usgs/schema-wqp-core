@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: oracle
+
+  - changeSet:
+      author: drsteini
+      id: "create.sequence.wqx_etl_job_instance"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 1
+            sql: select count(*) from user_objects where object_name = 'WQX_ETL_JOB_IMSTANCE' and object_type = 'SEQUENCE';
+      changes:
+        - sql: create sequence wqx_etl_job_instance nocache;
+        - rollback: drop sequence wqx_etl_job_instance;

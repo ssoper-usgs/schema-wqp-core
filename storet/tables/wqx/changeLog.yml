@@ -32,6 +32,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "wqxEtlCurrentJob/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "wqxDqlHierarchy/changeLog.yml"
       relativeToChangelogFile: true
 
