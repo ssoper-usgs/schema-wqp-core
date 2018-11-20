@@ -44,6 +44,58 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "create.activity_object_swap_nwis.aobject_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'AOBJECT_NWIS_PK' and table_name = 'ACTIVITY_OBJECT_SWAP_NWIS' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity_object_swap_nwis add constraint aobject_nwis_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table activity_object_swap_nwis drop constraint aobject_nwis_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_object_swap_nwis.robject_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ROBJECT_NWIS_PK' and table_name = 'RESULT_OBJECT_SWAP_NWIS' and constraint_type = 'P';
+      changes:
+        - sql: alter table result_object_swap_nwis add constraint robject_nwis_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table result_object_swap_nwis drop constraint robject_nwis_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_object_swap_nwis.sobject_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'SOBJECT_NWIS_PK' and table_name = 'STATION_OBJECT_SWAP_NWIS' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_object_swap_nwis add constraint sobject_nwis_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table station_object_swap_nwis drop constraint sobject_nwis_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.org_data_swap_nwis.odata_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ODATA_NWIS_PK' and table_name = 'ORG_DATA_SWAP_NWIS' and constraint_type = 'P';
+      changes:
+        - sql: alter table org_data_swap_nwis add constraint odata_nwis_pk primary key (data_source_id, organization_id) rely enable novalidate;
+        - rollback: alter table org_data_swap_nwis drop constraint odata_nwis_pk;
+
+  - changeSet:
+      author: drsteini
       id: "create.activity_swap_nwis.a_station_fk_nwis"
       preConditions:
         - onFail: MARK_RAN

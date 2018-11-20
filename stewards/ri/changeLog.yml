@@ -44,6 +44,58 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "create.activity_object_swap_stewards.aobject_stewards_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'AOBJECT_STEWARDS_PK' and table_name = 'ACTIVITY_OBJECT_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity_object_swap_stewards add constraint aobject_stewards_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table activity_object_swap_stewards drop constraint aobject_stewards_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_object_swap_stewards.robject_stewards_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ROBJECT_STEWARDS_PK' and table_name = 'RESULT_OBJECT_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table result_object_swap_stewards add constraint robject_stewards_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table result_object_swap_stewards drop constraint robject_stewards_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_object_swap_stewards.sobject_stewards_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'SOBJECT_STEWARDS_PK' and table_name = 'STATION_OBJECT_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_object_swap_stewards add constraint sobject_stewards_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table station_object_swap_stewards drop constraint sobject_stewards_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.org_data_swap_stewards.odata_stewards_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ODATA_STEWARDS_PK' and table_name = 'ORG_DATA_SWAP_STEWARDS' and constraint_type = 'P';
+      changes:
+        - sql: alter table org_data_swap_stewards add constraint odata_stewards_pk primary key (data_source_id, organization_id) rely enable novalidate;
+        - rollback: alter table org_data_swap_stewards drop constraint odata_stewards_pk;
+
+  - changeSet:
+      author: drsteini
       id: "create.activity_swap_stewards.a_station_fk_stewards"
       preConditions:
         - onFail: MARK_RAN

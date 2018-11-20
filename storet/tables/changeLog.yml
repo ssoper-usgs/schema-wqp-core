@@ -48,10 +48,6 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: "huc/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
       file: "mlGrouping/changeLog.yml"
       relativeToChangelogFile: true
 

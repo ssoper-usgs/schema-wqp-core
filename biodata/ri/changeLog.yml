@@ -31,7 +31,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.activity_swap_biodata."
+      id: "create.activity_swap_biodata.a_biodata_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -41,6 +41,58 @@ databaseChangeLog:
       changes:
         - sql: alter table activity_swap_biodata add constraint a_biodata_pk primary key (data_source_id, station_id, activity_id) rely enable novalidate;
         - rollback: alter table activity_swap_biodata drop constraint a_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_object_swap_biodata.aobject_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'AOBJECT_BIODATA_PK' and table_name = 'ACTIVITY_OBJECT_SWAP_BIODATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity_object_swap_biodata add constraint aobject_biodata_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table activity_object_swap_biodata drop constraint aobject_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_object_swap_biodata.robject_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ROBJECT_BIODATA_PK' and table_name = 'RESULT_OBJECT_SWAP_BIODATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table result_object_swap_biodata add constraint robject_biodata_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table result_object_swap_biodata drop constraint robject_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_object_swap_biodata.sobject_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'SOBJECT_BIODATA_PK' and table_name = 'STATION_OBJECT_SWAP_BIODATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_object_swap_biodata add constraint sobject_biodata_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table station_object_swap_biodata drop constraint sobject_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.org_data_swap_biodata.odata_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ODATA_BIODATA_PK' and table_name = 'ORG_DATA_SWAP_BIODATA' and constraint_type = 'P';
+      changes:
+        - sql: alter table org_data_swap_biodata add constraint odata_biodata_pk primary key (data_source_id, organization_id) rely enable novalidate;
+        - rollback: alter table org_data_swap_biodata drop constraint odata_biodata_pk;
 
   - changeSet:
       author: drsteini

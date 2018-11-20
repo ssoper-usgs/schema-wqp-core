@@ -24,6 +24,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: "mlGrouping.yml"
+      relativeToChangelogFile: true
+
+  - include:
       file: "monitoringLoc.yml"
       relativeToChangelogFile: true
 
