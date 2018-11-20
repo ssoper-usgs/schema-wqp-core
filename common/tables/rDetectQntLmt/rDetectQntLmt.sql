@@ -33,6 +33,8 @@ create table r_detect_qnt_lmt
 ,country_code                   varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+'))
 ,state_code                     varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+'))
 ,county_code                    varchar2(9 char) generated always as (regexp_substr (governmental_unit_code,'[^:]+:[^:]+:[^:]+'))
+,deprecated_flag                varchar2(3 char)
+,web_code                       varchar2(3 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
   subpartition by range (event_date)

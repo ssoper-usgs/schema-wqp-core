@@ -49,29 +49,3 @@ databaseChangeLog:
             path: stationInternalPartitions.sql
             relativeToChangelogFile: true
         - rollback: alter table station merge partitions station_nwis, station_garbage into partition station_garbage;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.station.add.column.deprecated_flag"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'STATION' and column_name = 'DEPRECATED_FLAG';
-      changes:
-        - sql: alter table station add deprecated_flag varchar2(3 char);
-        - rollback: alter table station set unused column deprecated_flag;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.station.add.column.web_code"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'STATION' and column_name = 'WEB_CODE';
-      changes:
-        - sql: alter table station add web_code varchar2(3 char);
-        - rollback: alter table station set unused column web_code;

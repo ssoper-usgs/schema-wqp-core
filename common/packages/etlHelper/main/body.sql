@@ -34,13 +34,33 @@ create or replace package body etl_helper_main as
 
     procedure add_ri(p_table_suffix in user_tables.table_name%type) is
         stmt            varchar2(32000);
-        suffix            user_tables.table_name%type;
+        suffix          user_tables.table_name%type;
     begin
 
         suffix := dbms_assert.simple_sql_name(p_table_suffix);
 
+        stmt := 'alter table org_data_swap_' || suffix || ' add constraint odata_' || suffix || 
+                '_pk primary key (data_source_id, organization_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'alter table project_data_swap_' || suffix || ' add constraint pdata_' || suffix || 
+                '_pk primary key (data_source_id, project_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'alter table project_object_swap_' || suffix || ' add constraint pobject_' || suffix || 
+                '_pk primary key (data_source_id, object_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
         stmt := 'alter table station_swap_' || suffix || ' add constraint s_' || suffix || 
                 '_pk primary key (data_source_id, station_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'alter table station_object_swap_' || suffix || ' add constraint sobject_' || suffix || 
+                '_pk primary key (data_source_id, object_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
@@ -60,6 +80,11 @@ create or replace package body etl_helper_main as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
+        stmt := 'alter table activity_object_swap_' || suffix || ' add constraint aobject_' || suffix || 
+                '_pk primary key (data_source_id, object_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
         stmt := 'alter table act_metric_swap_' || suffix || ' add constraint am_activity_fk_' || suffix ||
                 ' foreign key (data_source_id, station_id, activity_id) references activity_swap_' || suffix ||
                 ' (data_source_id, station_id, activity_id) rely enable novalidate';
@@ -71,8 +96,31 @@ create or replace package body etl_helper_main as
         dbms_output.put_line(stmt);
         execute immediate stmt;
 
+        stmt := 'alter table result_object_swap_' || suffix || ' add constraint robject_' || suffix || 
+                '_pk primary key (data_source_id, object_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
         stmt := 'alter table result_sum_swap_' || suffix || ' add constraint rs_station_fk_' || suffix ||
                 ' foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
+                ' (data_source_id, station_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'alter table prj_ml_weighting_swap_' || suffix || ' add constraint prjmlw_' || suffix ||
+                '_ml_fk foreign key (data_source_id, station_id) references station_swap_' || suffix ||
+                ' (data_source_id, station_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'alter table prj_ml_weighting_swap_' || suffix || ' add constraint prjmlw_' || suffix ||
+                '_prj_fk foreign key (data_source_id, project_id) references project_data_swap_' || suffix ||
+                ' (data_source_id, project_id) rely enable novalidate';
+        dbms_output.put_line(stmt);
+        execute immediate stmt;
+
+        stmt := 'alter table ml_grouping_swap_' || suffix || ' add constraint mlg_' || suffix ||
+                '_ss_fk foreign key (data_source_id, station_id) references station_sum_swap_' || suffix ||
                 ' (data_source_id, station_id) rely enable novalidate';
         dbms_output.put_line(stmt);
         execute immediate stmt;
@@ -84,11 +132,19 @@ create or replace package body etl_helper_main as
 
         etl_helper_code.analyze_tables(p_table_suffix);
         etl_helper_summary.analyze_tables(p_table_suffix);
+        etl_helper_project.analyze_tables(p_table_suffix);
+        etl_helper_project_object.analyze_tables(p_table_suffix);
         etl_helper_station.analyze_tables(p_table_suffix);
+        etl_helper_station_object.analyze_tables(p_table_suffix);
         etl_helper_activity.analyze_tables(p_table_suffix);
         etl_helper_activity_metric.analyze_tables(p_table_suffix);
+        etl_helper_activity_object.analyze_tables(p_table_suffix);
         etl_helper_result.analyze_tables(p_table_suffix);
+        etl_helper_result_object.analyze_tables(p_table_suffix);
         etl_helper_r_detect_qnt_lmt.analyze_tables(p_table_suffix);
+        etl_helper_prj_ml_weighting.analyze_tables(p_table_suffix);
+        etl_helper_org_data.analyze_tables(p_table_suffix);
+        etl_helper_bio_hab_metric.analyze_tables(p_table_suffix);
 
     end analyze_tables;
 
@@ -97,11 +153,18 @@ create or replace package body etl_helper_main as
     begin
 
         end_job := etl_helper_summary.validate_transformation(p_table_suffix) or
+                   etl_helper_project.validate_transformation(p_table_suffix) or
+                   etl_helper_project_object.validate_transformation(p_table_suffix) or
                    etl_helper_station.validate_transformation(p_table_suffix) or
+                   etl_helper_station_object.validate_transformation(p_table_suffix) or
                    etl_helper_activity.validate_transformation(p_table_suffix) or
                    etl_helper_activity_metric.validate_transformation(p_table_suffix) or
+                   etl_helper_activity_object.validate_transformation(p_table_suffix) or
                    etl_helper_result.validate_transformation(p_table_suffix) or
-                   etl_helper_r_detect_qnt_lmt.validate_transformation(p_table_suffix);
+                   etl_helper_result_object.validate_transformation(p_table_suffix) or
+                   etl_helper_r_detect_qnt_lmt.validate_transformation(p_table_suffix) or
+                   etl_helper_prj_ml_weighting.validate_transformation(p_table_suffix) or
+                   etl_helper_org_data.validate_transformation(p_table_suffix);
 
         if end_job then
             raise_application_error(-20666, 'Failed to pass one or more validation checks.');
@@ -165,10 +228,18 @@ create or replace package body etl_helper_main as
         etl_helper_code.install(p_table_suffix);
         etl_helper_summary.install(p_table_suffix);
         etl_helper_station.install(p_table_suffix);
+        etl_helper_station_object.install(p_table_suffix);
+        etl_helper_project.install(p_table_suffix);
+        etl_helper_project_object.install(p_table_suffix);
         etl_helper_activity.install(p_table_suffix);
         etl_helper_activity_metric.install(p_table_suffix);
+        etl_helper_activity_object.install(p_table_suffix);
         etl_helper_result.install(p_table_suffix);
+        etl_helper_result_object.install(p_table_suffix);
         etl_helper_r_detect_qnt_lmt.install(p_table_suffix);
+        etl_helper_prj_ml_weighting.install(p_table_suffix);
+        etl_helper_org_data.install(p_table_suffix);
+        etl_helper_bio_hab_metric.install(p_table_suffix);
 
     end install;
 

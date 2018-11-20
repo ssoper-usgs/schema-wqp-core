@@ -86,6 +86,15 @@ create table activity_swap_nwis
 ,country_code                   generated always as (regexp_substr(governmental_unit_code, '[^:]+'))
 ,state_code                     generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+'))
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
+,deprecated_flag                varchar2(3 char)
+,web_code                       varchar2(3 char)
+,activity_object_name           varchar2(4000 char)
+,activity_object_type           varchar2(4000 char)
+,activity_file_url              varchar2(4000 char)
+,activity_metric_url            varchar2(4000 char)
+,project_name                   clob
+,monitoring_location_name       varchar2(4000 char)
+,activity_group_url             varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
 (partition activity_nwis_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace ${result1},

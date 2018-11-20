@@ -17,16 +17,3 @@ databaseChangeLog:
             path: orgData.sql
             relativeToChangelogFile: true
         - rollback: drop table org_data_swap_storet cascade constraints purge;
-
-  - changeSet:
-      author: mbucknell
-      id: "alter.table.org_data_swap_storet.add.column.organization_type"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'ORG_DATA_SWAP_STORET' and column_name = 'ORGANIZATION_TYPE';
-      changes:
-        - sql: alter table org_data_swap_storet add organization_type varchar2(4000 char);
-        - rollback: alter table org_data_swap_storet set unused column organization_type;

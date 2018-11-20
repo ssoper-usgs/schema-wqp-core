@@ -19,5 +19,18 @@ create table station_sum_swap_biodata
 ,state_code                     generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+'))
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ,activity_count                 number
+,summary_past_12_months         clob
+,summary_past_60_months         clob
+,summary_all_months             clob
+,activity_count_past_12_months  number
+,activity_count_past_60_months  number
+,result_count_past_12_months    number
+,result_count_past_60_months    number
+,organization_name              varchar2(4000 char)
+,station_name                   varchar2(4000 char)
+,station_type_name              varchar2(4000 char)
+,country_name                   varchar2(4000 char)
+,state_name                     varchar2(57 char)
+,county_name                    varchar2(4000 char)
 )
 parallel 4 compress pctfree 0 nologging cache;

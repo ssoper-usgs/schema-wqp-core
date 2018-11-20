@@ -48,4 +48,6 @@ create table station_swap_biodata
 ,state_fips_code                generated always as (regexp_substr(governmental_unit_code, '[^:]+', 1, 2))
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ,county_fips_code               generated always as (regexp_substr(governmental_unit_code, '[^:]+', 1, 3))
+,deprecated_flag                varchar2(3 char)
+,web_code                       varchar2(3 char)
 ) parallel 4 compress pctfree 0 nologging cache;

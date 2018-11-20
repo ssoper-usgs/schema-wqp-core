@@ -4,7 +4,8 @@ create or replace package log_helper as
                      p_call_type     in web_service_log.call_type%type,
                      p_endpoint      in web_service_log.endpoint%type,
                      p_query_string  in web_service_log.query_string%type,
-                     p_post_data     in web_service_log.post_data%type)
+                     p_post_data     in web_service_log.post_data%type,
+                     p_user_agent    in web_service_log.user_agent%type)
         return number;
 
     procedure log_head_complete(p_web_service_log_id  in web_service_log.web_service_log_id%type,
@@ -14,6 +15,7 @@ create or replace package log_helper as
     procedure log_first_row(p_web_service_log_id in web_service_log.web_service_log_id%type);
 
     procedure log_request_complete(p_web_service_log_id in web_service_log.web_service_log_id%type,
-                                   p_http_status_code   in web_service_log.http_status_code%type);
+                                   p_http_status_code   in web_service_log.http_status_code%type,
+                                   p_download_details   in web_service_log.download_details%type);
 
 end log_helper;

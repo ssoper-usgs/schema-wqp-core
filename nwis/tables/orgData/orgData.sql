@@ -32,4 +32,5 @@ create table org_data_swap_nwis
 ,country_code_3                 varchar2(2 char)
 ,state_code_3                   varchar2(2 char)
 ,county_code_3                  varchar2(3 char)
+,organization_type              varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;

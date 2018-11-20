@@ -12,6 +12,8 @@ create or replace package etl_helper_code as
 
 	procedure create_county(p_table_suffix in user_tables.table_name%type);
 
+	procedure create_monitoring_loc(p_table_suffix in user_tables.table_name%type);
+
 	procedure create_organization(p_table_suffix in user_tables.table_name%type);
 
 	procedure create_project_dim(p_table_suffix in user_tables.table_name%type);
