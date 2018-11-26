@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+    - runningAs:
+        username: postgres
+
+  - changeSet:
+      author: mbucknell
+      id: "grants.${ARS_STEWARDS_OWNER}.to.databasechangelog"
+      changes:
+        - sql: grant select, insert, update, delete on public.databasechangelog to ${ARS_STEWARDS_OWNER}
+        - rollback: revoke select, insert, update, delete on public.databasechangelog from ${ARS_STEWARDS_OWNER}
+
+  - changeSet:
+      author: mbucknell
+      id: "grants.${ARS_STEWARDS_OWNER}.to.databasechangeloglock"
+      changes:
+        - sql: grant select, insert, update, delete on public.databasechangeloglock to ${ARS_STEWARDS_OWNER}
+        - rollback: revoke select, insert, update, delete on public.databasechangeloglock from ${ARS_STEWARDS_OWNER}
+
+  - changeSet:
+      author: mbucknell
+      id: "create.project.schema_${ARS_STEWARDS_SCHEMA_NAME}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_namespace where nspname = '${ARS_STEWARDS_SCHEMA_NAME}';
+      changes:
+        - sql: create schema ${ARS_STEWARDS_SCHEMA_NAME} authorization ${ARS_STEWARDS_OWNER};
+        - rollback: drop schema if exists ${ARS_STEWARDS_SCHEMA_NAME} cascade;
+

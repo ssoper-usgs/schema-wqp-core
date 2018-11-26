@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    build:
+      context: .
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5434:5432
+    container_name: ARS_STEWARDS_Database
+
+  liquibase:
+    build:
+      context: ./liquibase
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ARS_STEWARDS_OWNER=${ARS_STEWARDS_OWNER}
+      - ARS_STEWARDS_OWNER_PASSWORD=${ARS_STEWARDS_OWNER_PASSWORD}
+      - ARS_STEWARDS_DATABASE_NAME=${ARS_STEWARDS_DATABASE_NAME}
+      - ARS_STEWARDS_SCHEMA_NAME=${ARS_STEWARDS_SCHEMA_NAME}
+      - WQP_CORE_OWNER=${WQP_CORE_OWNER}
+      - WQP_CORE_OWNER_PASSWORD=${WQP_CORE_OWNER_PASSWORD}
+    volumes:
+      - ./liquibase/changeLogs:/opt/liquibase/workspace
+      - ./liquibase/logs:/opt/liquibase/logs
+      - ./liquibase/dbInit:/docker-entrypoint-initdb.d
