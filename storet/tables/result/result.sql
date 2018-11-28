@@ -189,6 +189,28 @@ create table result_swap_storet
 ,state_code                     generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+'))
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
 ,activity_id                    number
+,deprecated_flag                varchar2(3 char)
+,web_code                       varchar2(3 char)
+,project_name                   clob
+,monitoring_location_name       varchar2(4000 char)
+,result_object_name             varchar2(4000 char)
+,result_object_type             varchar2(4000 char)
+,result_file_url                varchar2(4000 char)
+,last_updated                   date
+,res_detect_qnt_lmt_url         varchar2(4000 char)
+,lab_sample_prep_url            varchar2(4000 char)
+,frequency_class_code_1         varchar2(4000 char)
+,frequency_class_code_2         varchar2(4000 char)
+,frequency_class_code_3         varchar2(4000 char)
+,frequency_class_unit_1         varchar2(4000 char)
+,frequency_class_unit_2         varchar2(4000 char)
+,frequency_class_unit_3         varchar2(4000 char)
+,frequency_class_lower_bound_1  varchar2(4000 char)
+,frequency_class_lower_bound_2  varchar2(4000 char)
+,frequency_class_lower_bound_3  varchar2(4000 char)
+,frequency_class_upper_bound_1  varchar2(4000 char)
+,frequency_class_upper_bound_2  varchar2(4000 char)
+,frequency_class_upper_bound_3  varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (event_date)
 (partition result_storet_p_1990 values less than (to_date('01-JAN-1990', 'DD-MON-YYYY')) tablespace ${result1},

@@ -29,4 +29,4 @@ databaseChangeLog:
             sql: select count(*) from wqx_etl_current_job;
       changes:
         - sql: insert into wqx_etl_current_job (id) values (0);
-        - rollback: drop table wqx_etl_current_job cascade constraints purge;
+        - rollback: delete from wqx_etl_current_job;

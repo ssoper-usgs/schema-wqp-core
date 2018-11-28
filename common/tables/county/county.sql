@@ -4,6 +4,7 @@ create table county
 ,description                    varchar2(4000 char)
 ,country_code                   generated always as (regexp_substr(code_value, '[^:]+'))
 ,state_code                     generated always as (regexp_substr(code_value, '[^:]+:[^:]+'))
+,description_wo_country_state   varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
 (partition county_garbage values less than (maxvalue)

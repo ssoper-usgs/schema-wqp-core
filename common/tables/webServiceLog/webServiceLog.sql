@@ -12,4 +12,6 @@ create table web_service_log
 ,data_store_counts              varchar2(1000 char)
 ,http_status_code               varchar2(100 char)
 ,post_data                      clob
+,user_agent                     varchar2(4000 char)
+,download_details               clob
 );

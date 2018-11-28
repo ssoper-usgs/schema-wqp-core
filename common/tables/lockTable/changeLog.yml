@@ -21,12 +21,6 @@ databaseChangeLog:
   - changeSet:
       author: drsteini
       id: "populate.table.lock_table"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: lock_table
       changes:
         - sql: insert into lock_table (lock_value) values (1);
         - rollback: delete from lock_table where lock_value = 1;

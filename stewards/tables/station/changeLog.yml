@@ -17,29 +17,3 @@ databaseChangeLog:
             path: station.sql
             relativeToChangelogFile: true
         - rollback: drop table station_swap_stewards cascade constraints purge;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.station_swap_stewards.add.column.deprecated_flag"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'STATION_SWAP_STEWARDS' and column_name = 'DEPRECATED_FLAG';
-      changes:
-        - sql: alter table station_swap_stewards add deprecated_flag varchar2(3 char);
-        - rollback: alter table station_swap_stewards set unused column deprecated_flag;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.station_swap_stewards.add.column.web_code"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'STATION_SWAP_STEWARDS' and column_name = 'WEB_CODE';
-      changes:
-        - sql: alter table station_swap_stewards add web_code varchar2(3 char);
-        - rollback: alter table station_swap_stewards set unused column web_code;

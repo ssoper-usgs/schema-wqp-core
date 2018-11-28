@@ -28,10 +28,6 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: "huc.yml"
-      relativeToChangelogFile: true
-
-  - include:
       file: "monitoringLoc.yml"
       relativeToChangelogFile: true
 

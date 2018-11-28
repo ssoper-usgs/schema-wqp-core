@@ -32,7 +32,7 @@ databaseChangeLog:
         - sqlFile:
             path: bioHabMetricExternalPartitions.sql
             relativeToChangelogFile: true
-        - rollback: alter table bio_hab_metric merge partitions bio_hab_metric_stewards, bio_hab_metric_nwis, bio_hab_metric_storet, bio_hab_metric_bio_habdata, bio_hab_metric_garbage into partition bio_hab_metric_garbage;
+        - rollback: alter table bio_hab_metric merge partitions bio_hab_metric_stewards, bio_hab_metric_nwis, bio_hab_metric_storet, bio_hab_metric_biodata, bio_hab_metric_garbage into partition bio_hab_metric_garbage;
 
   - changeSet:
       author: drsteini

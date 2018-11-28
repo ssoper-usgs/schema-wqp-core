@@ -17,4 +17,5 @@ create table organization_sum_swap_storet
 ,all_time_summary               clob
 ,five_year_summary              clob
 ,current_year_summary           clob
+,organization_type              varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache;

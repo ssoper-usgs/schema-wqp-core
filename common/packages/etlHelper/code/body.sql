@@ -13,6 +13,8 @@ create or replace package body etl_helper_code as
 
         create_county(p_table_suffix);
 
+        create_monitoring_loc(p_table_suffix);
+
         create_organization(p_table_suffix);
 
         create_project_dim(p_table_suffix);
@@ -105,29 +107,13 @@ create or replace package body etl_helper_code as
         table_name user_tables.table_name%type;
     begin
 
-        if upper(p_table_suffix) = 'STORET' then
-              sql_suffix := ' (data_source_id, code_value, description)
-            select /*+ parallel(4) */ 
-                   distinct s.data_source_id,
-                            s.country_code code_value,
-                            nvl(nwis_country.country_nm, country.cntry_name) description
-                       from station_sum_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' s
-                            left join nwis_ws_star.country nwis_country
-                              on s.country_code = nwis_country.country_cd 
-                            join wqx.country
-                              on s.country_code = country.cntry_cd 
-                      where s.country_code is not null';
-        else
-              sql_suffix := ' (data_source_id, code_value, description)
-            select /*+ parallel(4) */ 
-                   distinct s.data_source_id,
-                            s.country_code code_value,
-                            country.country_nm description
-                       from station_sum_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' s
-                            join nwis_ws_star.country
-                              on s.country_code = country.country_cd
-                      where s.country_code is not null';
-        end if;
+        sql_suffix := ' (data_source_id, code_value, description)
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
+                        country_code code_value,
+                        country_name description
+                   from station_sum_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || '
+                  where country_code is not null';
 
         table_name := create_table('country_swap_', p_table_suffix, sql_suffix);
 
@@ -138,62 +124,53 @@ create or replace package body etl_helper_code as
         table_name user_tables.table_name%type;
     begin
 
-        if upper(p_table_suffix) = 'STORET' then
-              sql_suffix := q'! (data_source_id, code_value, description)
-            select /*+ parallel(4) */ 
-                   distinct s.data_source_id,
-                            s.county_code code_value,
-                            s.country_code || ', ' || nvl(nwis_state.state_nm, state.st_name) || ', ' || nvl(nwis_county.county_nm,county.cnty_name) description
-              from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
-                   join wqx.country
-                     on s.country_code = country.cntry_cd
-                   left join wqx.state
-                     on country.cntry_uid = state.cntry_uid and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = state.st_fips_cd
-                   left join wqx.county
-                     on state.st_uid = county.st_uid and
-                        regexp_substr(s.county_code, '[^:]+', 1, 3) = county.cnty_fips_cd
-                   left join nwis_ws_star.state nwis_state
-                     on s.country_code = nwis_state.country_cd and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = nwis_state.state_cd
-                   left join nwis_ws_star.county nwis_county
-                     on s.country_code = nwis_county.country_cd and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = nwis_county.state_cd and
-                        regexp_substr(s.county_code, '[^:]+', 1, 3) = nwis_county.county_cd
-             where s.county_code is not null!';
-        else
-            sql_suffix := q'! (data_source_id, code_value, description)
-            select /*+ parallel(4) */ 
-                   distinct s.data_source_id,
-                            s.county_code code_value,
-                            s.country_code || ', ' || state.state_nm || ', ' || county.county_nm description
-              from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
-                   left join nwis_ws_star.state
-                     on s.country_code = state.country_cd and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = state.state_cd
-                   left join nwis_ws_star.county
-                     on s.country_code = county.country_cd and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = county.state_cd and
-                        regexp_substr(s.county_code, '[^:]+', 1, 3) = county.county_cd
-             where s.county_code is not null!';
-        end if;
+        sql_suffix := q'! (data_source_id, code_value, description, description_wo_country_state)
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
+                        county_code code_value,
+                        country_code || ', ' || state_name || ', ' || county_name description,
+                        county_name description_wo_country_state
+          from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'!
+         where county_code is not null!';
 
         table_name := create_table('county_swap_', p_table_suffix, sql_suffix);
 
     end create_county;
+
+    procedure create_monitoring_loc(p_table_suffix in user_tables.table_name%type) is
+        sql_suffix varchar2(4000 char);
+        table_name user_tables.table_name%type;
+    begin
+
+        sql_suffix := q'! (data_source_id, code_value, description, organization, text)
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
+                        site_id code_value,
+                        station_name description,
+                        organization,
+                        site_id || ' ' || station_name text
+          from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || '
+         where site_type is not null and
+               activity_count > 0';
+
+        table_name := create_table('monitoring_loc_swap_', p_table_suffix, sql_suffix);
+
+        execute immediate 'create bitmap index mls_' || p_table_suffix || '_organization on ' || table_name || '(organization) parallel 4 nologging';
+
+    end create_monitoring_loc;
 
     procedure create_organization(p_table_suffix in user_tables.table_name%type) is
         sql_suffix varchar2(4000 char);
         table_name user_tables.table_name%type;
     begin
 
-        sql_suffix := '    (data_source_id, code_value, description)
+        sql_suffix := '(data_source_id, code_value, description)
         select /*+ parallel(4) */ 
-               distinct s.data_source_id,
-                        s.organization code_value,
-                        s.organization_name description
-          from station_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || ' s
-         where s.organization is not null';
+               distinct data_source_id,
+                        organization code_value,
+                        organization_name description
+          from organization_sum_swap_' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || '
+         where organization is not null';
 
         table_name := create_table('organization_swap_', p_table_suffix, sql_suffix);
 
@@ -276,36 +253,14 @@ create or replace package body etl_helper_code as
         table_name user_tables.table_name%type;
     begin
 
-        if upper(p_table_suffix) = 'STORET' then
-              sql_suffix := q'! (data_source_id, code_value, description_with_country, description_with_out_country)
-            select /*+ parallel(4) */ 
-                   distinct s.data_source_id,
-                            s.state_code code_value,
-                            s.country_code || ', ' || nvl(nwis_state.state_nm,state.st_name) description_with_country,
-                            nvl(nwis_state.state_nm,state.st_name) description_with_out_country
-              from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
-                   join wqx.country
-                     on s.country_code = country.cntry_cd 
-                   left join wqx.state
-                     on country.cntry_uid = state.cntry_uid and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = state.st_fips_cd
-                   left join nwis_ws_star.state nwis_state
-                     on s.country_code = nwis_state.country_cd and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = nwis_state.state_cd
-             where s.state_code is not null!';
-        else
-            sql_suffix := q'! (data_source_id, code_value, description_with_country, description_with_out_country)
-            select /*+ parallel(4) */ 
-                   distinct s.data_source_id,
-                            s.state_code code_value,
-                            s.country_code || ', ' || state.state_nm description_with_country,
-                            state.state_nm description_with_out_country
-              from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'! s
-                   left join nwis_ws_star.state
-                     on s.country_code = state.country_cd and
-                        regexp_substr(s.state_code, '[^:]+', 1, 2) = state.state_cd
-             where s.state_code is not null!';
-        end if;
+        sql_suffix := q'! (data_source_id, code_value, description_with_country, description_with_out_country)
+        select /*+ parallel(4) */ 
+               distinct data_source_id,
+                        state_code code_value,
+                        country_code || ', ' || state_name description_with_country,
+                        state_name description_with_out_country
+          from station_sum_swap_!' || dbms_assert.simple_sql_name(upper(p_table_suffix)) || q'!
+         where state_code is not null!';
 
         table_name := create_table('state_swap_', p_table_suffix, sql_suffix);
 
@@ -348,6 +303,9 @@ create or replace package body etl_helper_code as
         dbms_output.put_line('analyze county...');
         dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'COUNTY_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
+        dbms_output.put_line('analyze monitoring_loc...');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'MONITORING_LOC_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+
         dbms_output.put_line('analyze organization...');
         dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'ORGANIZATION_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
@@ -365,6 +323,9 @@ create or replace package body etl_helper_code as
 
         dbms_output.put_line('analyze state...');
         dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'STATE_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
+
+        dbms_output.put_line('analyze monitoring_loc...');
+        dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'MONITORING_LOC_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
 
         dbms_output.put_line('analyze taxa_name...');
         dbms_stats.gather_table_stats(ownname => '${dataOwner}', tabname => 'TAXA_NAME_SWAP_' || suffix, method_opt => 'FOR ALL INDEXED COLUMNS');
@@ -397,11 +358,15 @@ create or replace package body etl_helper_code as
         execute immediate 'alter table county exchange partition county_' || suffix ||
                           ' with table county_swap_' || suffix || ' including indexes';
 
+        dbms_output.put_line('monitoring_loc');
+        execute immediate 'alter table monitoring_loc exchange partition monitoring_loc_' || suffix ||
+                          ' with table monitoring_loc_swap_' || suffix || ' including indexes';
+
         dbms_output.put_line('organization');
         execute immediate 'alter table organization exchange partition organization_' || suffix ||
                           ' with table organization_swap_' || suffix || ' including indexes';
 
-        dbms_output.put_line('project');
+        dbms_output.put_line('project_data');
         execute immediate 'alter table project exchange partition project_' || suffix ||
                           ' with table project_swap_' || suffix || ' including indexes';
 

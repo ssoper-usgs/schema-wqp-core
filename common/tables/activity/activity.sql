@@ -86,6 +86,15 @@ create table activity
 ,country_code                   generated always as (regexp_substr(governmental_unit_code, '[^:]+'))
 ,state_code                     generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+'))
 ,county_code                    generated always as (regexp_substr(governmental_unit_code, '[^:]+:[^:]+:[^:]+'))
+,deprecated_flag                varchar2(3 char)
+,web_code                       varchar2(3 char)
+,activity_object_name           varchar2(4000 char)
+,activity_object_type           varchar2(4000 char)
+,activity_file_url              varchar2(4000 char)
+,activity_metric_url            varchar2(4000 char)
+,project_name                   clob
+,monitoring_location_name       varchar2(4000 char)
+,activity_group_url             varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
   subpartition by range (event_date)

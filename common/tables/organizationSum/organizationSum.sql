@@ -17,6 +17,7 @@ create table organization_sum
 ,all_time_summary               clob
 ,five_year_summary              clob
 ,current_year_summary           clob
+,organization_type              varchar2(4000 char)
 ) parallel 4 compress pctfree 0 nologging cache
 partition by range (data_source_id)
 (partition organization_sum_garbage values less than (maxvalue)

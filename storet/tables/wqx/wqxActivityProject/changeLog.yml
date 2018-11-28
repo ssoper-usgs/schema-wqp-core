@@ -17,16 +17,3 @@ databaseChangeLog:
             path: wqxActivityProject.sql
             relativeToChangelogFile: true
         - rollback: drop table wqx_activity_project cascade constraints purge;
-
-  - changeSet:
-      author: drsteini
-      id: "alter.table.wqx_activity_project.add.column.project_name_list"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'WQX_ACTIVITY_PROJECT' and column_name = 'PROJECT_NAME_LIST';
-      changes:
-        - sql: alter table wqx_activity_project add project_name_list clob;
-        - rollback: alter table wqx_activity_project set unused column project_name_list;

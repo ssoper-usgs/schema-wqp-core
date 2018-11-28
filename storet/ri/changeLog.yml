@@ -44,6 +44,58 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
+      id: "create.activity_object_swap_storet.aobject_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'AOBJECT_STORET_PK' and table_name = 'ACTIVITY_OBJECT_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table activity_object_swap_storet add constraint aobject_storet_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table activity_object_swap_storet drop constraint aobject_storet_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.result_object_swap_storet.robject_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ROBJECT_STORET_PK' and table_name = 'RESULT_OBJECT_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table result_object_swap_storet add constraint robject_storet_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table result_object_swap_storet drop constraint robject_storet_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.station_object_swap_storet.sobject_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'SOBJECT_STORET_PK' and table_name = 'STATION_OBJECT_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table station_object_swap_storet add constraint sobject_storet_pk primary key (data_source_id, object_id) rely enable novalidate;
+        - rollback: alter table station_object_swap_storet drop constraint sobject_storet_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.org_data_swap_storet.odata_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'ODATA_STORET_PK' and table_name = 'ORG_DATA_SWAP_STORET' and constraint_type = 'P';
+      changes:
+        - sql: alter table org_data_swap_storet add constraint odata_storet_pk primary key (data_source_id, organization_id) rely enable novalidate;
+        - rollback: alter table org_data_swap_storet drop constraint odata_storet_pk;
+
+  - changeSet:
+      author: drsteini
       id: "create.activity_swap_storet.a_station_fk_storet"
       preConditions:
         - onFail: MARK_RAN

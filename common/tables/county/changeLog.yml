@@ -64,16 +64,3 @@ databaseChangeLog:
             path: usCountiesDis20121015.sql
             relativeToChangelogFile: true
         - rollback: drop table us_counties_dis_20121015 cascade constraints purge;
-
-  - changeSet:
-      author: abriggs, ssoper
-      id: "alter.table.county.add.column.description_wo_country_state"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - sqlCheck:
-            expectedResult: 0
-            sql: select count(*) from user_tab_cols where table_name = 'COUNTY' and column_name = 'DESCRIPTION_WO_COUNTRY_STATE';
-      changes:
-        - sql: alter table county add description_wo_country_state varchar2(4000 char);
-        - rollback: alter table county set unused column description_wo_country_state;

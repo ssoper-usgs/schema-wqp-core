@@ -5,13 +5,13 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.mlg_storet_site"
+      id: "create.index.mlg_storet_station"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from user_objects where object_name = 'MLG_STORET_SITE' and object_type = 'INDEX';
+            sql: select count(*) from user_objects where object_name = 'MLG_STORET_STATION' and object_type = 'INDEX';
       changes:
-        - sql: create bitmap index mlg_storet_site on ml_grouping_swap_storet(station_id) parallel 4 nologging;
-        - rollback: drop index mlg_storet_site;
+        - sql: create bitmap index mlg_storet_station on ml_grouping_swap_storet(station_id) parallel 4 nologging;
+        - rollback: drop index mlg_storet_station;
