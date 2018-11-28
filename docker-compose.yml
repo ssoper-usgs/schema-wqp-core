@@ -1,25 +1,28 @@
 version: '3'
 services:
   db:
+    image: wqp_db
     build:
       context: .
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 5434:5432
-    container_name: ARS_STEWARDS_Database
+    container_name: WQP_${CONTEXT}_Database
 
   liquibase:
+    image: wqp_liquibase
     build:
       context: ./liquibase
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - ARS_STEWARDS_OWNER=${ARS_STEWARDS_OWNER}
-      - ARS_STEWARDS_OWNER_PASSWORD=${ARS_STEWARDS_OWNER_PASSWORD}
-      - ARS_STEWARDS_DATABASE_NAME=${ARS_STEWARDS_DATABASE_NAME}
-      - ARS_STEWARDS_SCHEMA_NAME=${ARS_STEWARDS_SCHEMA_NAME}
-      - WQP_CORE_OWNER=${WQP_CORE_OWNER}
-      - WQP_CORE_OWNER_PASSWORD=${WQP_CORE_OWNER_PASSWORD}
+      - DATA_OWNER=${DATA_OWNER}
+      - DATA_OWNER_PASSWORD=${DATA_OWNER_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - SCHEMA_NAME=${SCHEMA_NAME}
+      - READ_ONLY_USER=${READ_ONLY_USER}
+      - READ_ONLY_USER_PASSWORD=${READ_ONLY_USER_PASSWORD}
+      - CONTEXT=${CONTEXT}
     volumes:
       - ./liquibase/changeLogs:/opt/liquibase/workspace
       - ./liquibase/logs:/opt/liquibase/logs
