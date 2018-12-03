@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: skaymen
-      id: "create.table.monitoring_loc"
+      id: "create.table.${schemaName}.monitoring_loc"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: monitoringLoc.sql
             relativeToChangelogFile: true
-        - rollback: drop table monitoring_loc cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.monitoring_loc cascade;
 
   - changeSet:
-      author: skaymen
-      id: "create.table.monitoring_loc.partitions.external"
+      author: drsteini
+      id: "create.table.${schemaName}.monitoring_loc.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'MONITORING_LOC' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_biodata
       changes:
         - sqlFile:
-            path: monitoringLocExternalPartitions.sql
+            path: monitoringLocBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table monitoring_loc merge partitions monitoring_loc_stewards, monitoring_loc_nwis, monitoring_loc_storet, monitoring_loc_biodata, monitoring_loc_garbage into partition monitoring_loc_garbage;
+        - rollback: drop table if exists ${schemaName}.monitoring_loc_biodata cascade;
 
   - changeSet:
-      author: skaymen
-      id: "create.table.monitoring_loc.partitions.internal"
-      context: internal
+      author: drsteini
+      id: "create.table.${schemaName}.monitoring_loc.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'MONITORING_LOC' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_nwis
       changes:
         - sqlFile:
-            path: monitoringLocInternalPartitions.sql
+            path: monitoringLocNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table monitoring_loc merge partitions monitoring_loc_nwis, monitoring_loc_garbage into partition monitoring_loc_garbage;
+        - rollback: drop table if exists ${schemaName}.monitoring_loc_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.monitoring_loc.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_stewards
+      changes:
+        - sqlFile:
+            path: monitoringLocStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.monitoring_loc_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.monitoring_loc.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_storet
+      changes:
+        - sqlFile:
+            path: monitoringLocStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.monitoring_loc_storet cascade;

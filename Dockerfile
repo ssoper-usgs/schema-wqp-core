@@ -1,3 +1,3 @@
-FROM postgres:10
+FROM mdillon/postgis:10
 
 MAINTAINER David Steinich <drsteini@contractor.usgs.gov>

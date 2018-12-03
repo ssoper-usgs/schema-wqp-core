@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.data_source"
+      id: "create.table.${schemaName}.data_source"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,4 +16,4 @@ databaseChangeLog:
         - sqlFile:
             path: dataSource.sql
             relativeToChangelogFile: true
-        - rollback: drop table data_source cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.data_source cascade;

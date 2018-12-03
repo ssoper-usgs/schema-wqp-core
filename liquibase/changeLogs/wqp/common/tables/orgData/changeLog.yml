@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_data"
+      id: "create.table.${schemaName}.org_data"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: orgData.sql
             relativeToChangelogFile: true
-        - rollback: drop table org_data cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.org_data cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_data.partitions.external"
+      id: "create.table.${schemaName}.org_data.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ORG_DATA' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: org_data_biodata
       changes:
         - sqlFile:
-            path: orgDataExternalPartitions.sql
+            path: orgDataBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table org_data merge partitions org_data_stewards, org_data_nwis, org_data_storet, org_data_biodata, org_data_garbage into partition org_data_garbage;
+        - rollback: drop table if exists ${schemaName}.org_data_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_data.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.org_data.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ORG_DATA' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: org_data_nwis
       changes:
         - sqlFile:
-            path: orgDataInternalPartitions.sql
+            path: orgDataNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table org_data merge partitions org_data_nwis, org_data_garbage into partition org_data_garbage;
+        - rollback: drop table if exists ${schemaName}.org_data_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.org_data.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_data_stewards
+      changes:
+        - sqlFile:
+            path: orgDataStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.org_data_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.org_data.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_data_storet
+      changes:
+        - sqlFile:
+            path: orgDataStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.org_data_storet cascade;

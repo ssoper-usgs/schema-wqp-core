@@ -1,35 +1,35 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.public_srsnames_00000"
+      id: "create.table.${schemaName}.public_srsnames"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - tableExists:
-              tableName: public_srsnames_00000
+              tableName: public_srsnames
       changes:
         - sqlFile:
             path: publicSrsnames.sql
             relativeToChangelogFile: true
-        - rollback: drop table public_srsnames_00000 cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.public_srsnames cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.public_srsnames_test"
+      id: "create.table.${schemaName}.public_srsnames_current"
       context: ci
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - tableExists:
-              tableName: public_srsnames_test
+              tableName: public_srsnames_current
       changes:
         - sqlFile:
-            path: publicSrsnamesTest.sql
+            path: publicSrsnamesCurrent.sql
             relativeToChangelogFile: true
-        - rollback: drop table public_srsnames_test cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.public_srsnames_current cascade;

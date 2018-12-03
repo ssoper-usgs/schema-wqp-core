@@ -1,24 +1,23 @@
-create table organization_sum
-(data_source_id                 number
-,data_source                    varchar2(8 char)
-,organization_id                number
-,organization                   varchar2(4000 char)
-,organization_name              varchar2(4000 char)
-,organization_url               varchar2(4000 char)
+create unlogged table if not exists ${schemaName}.organization_sum
+(data_source_id                 smallint
+,data_source                    character varying (8)
+,organization_id                numeric
+,organization                   text
+,organization_name              text
+,organization_url               text
 ,all_time_last_result           date
-,all_time_site_count            number
-,all_time_activity_count        number
+,all_time_site_count            integer
+,all_time_activity_count        integer
 ,five_year_last_result          date
-,five_year_site_count           number
-,five_year_activity_count       number
+,five_year_site_count           integer
+,five_year_activity_count       integer
 ,current_year_last_result       date
-,current_year_site_count        number
-,current_year_activity_count    number
-,all_time_summary               clob
-,five_year_summary              clob
-,current_year_summary           clob
-,organization_type              varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging cache
-partition by range (data_source_id)
-(partition organization_sum_garbage values less than (maxvalue)
-);
+,current_year_site_count        integer
+,current_year_activity_count    integer
+,all_time_summary               json
+,five_year_summary              json
+,current_year_summary           json
+,organization_type              text
+)
+partition by list (data_source_id)
+;

@@ -1,5 +1,7 @@
-create table huc8_conus_hi_ak_pr_dis
-(cat_num                        varchar2(8 char)
-,first_cat_                     varchar2(60 char)
-,geom                           mdsys.sdo_geometry
-);
+create unlogged table if not exists ${schemaName}.huc8_conus_hi_ak_pr_dis
+(cat_num                        character varying (8)
+,first_cat_                     character varying (60)
+,geom                           geometry
+)
+with (fillfactor = 100)
+;

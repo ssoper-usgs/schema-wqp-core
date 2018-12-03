@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.county"
+      id: "create.table.${schemaName}.county"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,43 +16,74 @@ databaseChangeLog:
         - sqlFile:
             path: county.sql
             relativeToChangelogFile: true
-        - rollback: drop table county cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.county cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.county.partitions.external"
+      id: "create.table.${schemaName}.county.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'COUNTY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: county_biodata
       changes:
         - sqlFile:
-            path: countyExternalPartitions.sql
+            path: countyBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table county merge partitions county_stewards, county_nwis, county_storet, county_biodata, county_garbage into partition county_garbage;
+        - rollback: drop table if exists ${schemaName}.county_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.county.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.county.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'COUNTY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: county_nwis
       changes:
         - sqlFile:
-            path: countyInternalPartitions.sql
+            path: countyNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table county merge partitions county_nwis, county_garbage into partition county_garbage;
+        - rollback: drop table if exists ${schemaName}.county_nwis cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.us_counties_dis_20121015"
+      id: "create.table.${schemaName}.county.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_stewards
+      changes:
+        - sqlFile:
+            path: countyStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.county_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.county.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_storet
+      changes:
+        - sqlFile:
+            path: countyStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.county_storet cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.us_counties_dis_20121015"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -63,4 +94,4 @@ databaseChangeLog:
         - sqlFile:
             path: usCountiesDis20121015.sql
             relativeToChangelogFile: true
-        - rollback: drop table us_counties_dis_20121015 cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.us_counties_dis_20121015 cascade;

@@ -1,14 +1,17 @@
-create table public_srsnames_00000
-(parm_cd                        varchar2(5 char) not null
-,description                    varchar2(170 char)
-,characteristicname             varchar2(1200 char)
-,measureunitcode                varchar2(10 char)
-,resultsamplefraction           varchar2(24 char)
-,resulttemperaturebasis         varchar2(12 char)
-,resultstatisticalbasis         varchar2(25 char)
-,resulttimebasis                varchar2(12 char)
-,resultweightbasis              varchar2(15 char)
-,resultparticlesizebasis        varchar2(64 char)
+create unlogged table if not exists ${schemaName}.public_srsnames
+(version_id                     smallint
+,parm_cd                        character varying (5)
+,description                    character varying (170)
+,characteristicname             character varying (1200)
+,measureunitcode                character varying (10)
+,resultsamplefraction           character varying (24)
+,resulttemperaturebasis         character varying (12)
+,resultstatisticalbasis         character varying (25)
+,resulttimebasis                character varying (12)
+,resultweightbasis              character varying (15)
+,resultparticlesizebasis        character varying (64)
 ,last_rev_dt                    date
 ,max_last_rev_dt                date
-) parallel 4 compress pctfree 0 nologging cache;
+)
+partition by list (version_id)
+;

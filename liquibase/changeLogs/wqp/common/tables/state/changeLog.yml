@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.state"
+      id: "create.table.${schemaName}.state"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,43 +16,74 @@ databaseChangeLog:
         - sqlFile:
             path: state.sql
             relativeToChangelogFile: true
-        - rollback: drop table state cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.state cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.state.partitions.external"
+      id: "create.table.${schemaName}.state.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'STATE' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: state_biodata
       changes:
         - sqlFile:
-            path: stateExternalPartitions.sql
+            path: stateBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table state merge partitions state_stewards, state_nwis, state_storet, state_biodata, state_garbage into partition state_garbage;
+        - rollback: drop table if exists ${schemaName}.state_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.state.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.state.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'STATE' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: state_nwis
       changes:
         - sqlFile:
-            path: stateInternalPartitions.sql
+            path: stateNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table state merge partitions state_nwis, state_garbage into partition state_garbage;
+        - rollback: drop table if exists ${schemaName}.state_nwis cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.states"
+      id: "create.table.${schemaName}.state.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: state_stewards
+      changes:
+        - sqlFile:
+            path: stateStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.state_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.state.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: state_storet
+      changes:
+        - sqlFile:
+            path: stateStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.state_storet cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.states"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -63,4 +94,4 @@ databaseChangeLog:
         - sqlFile:
             path: states.sql
             relativeToChangelogFile: true
-        - rollback: drop table states cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.states cascade;

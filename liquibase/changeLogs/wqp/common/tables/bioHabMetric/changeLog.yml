@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.bio_hab_metric"
+      id: "create.table.${schemaName}.bio_hab_metric"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: bioHabMetric.sql
             relativeToChangelogFile: true
-        - rollback: drop table bio_hab_metric cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.bio_hab_metric cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.bio_hab_metric.partitions.external"
+      id: "create.table.${schemaName}.bio_hab_metric.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'BIO_HAB_METRIC' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: bio_hab_metric_biodata
       changes:
         - sqlFile:
-            path: bioHabMetricExternalPartitions.sql
+            path: bioHabMetricBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table bio_hab_metric merge partitions bio_hab_metric_stewards, bio_hab_metric_nwis, bio_hab_metric_storet, bio_hab_metric_biodata, bio_hab_metric_garbage into partition bio_hab_metric_garbage;
+        - rollback: drop table if exists ${schemaName}.bio_hab_metric_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.bio_hab_metric.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.bio_hab_metric.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'BIO_HAB_METRIC' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: bio_hab_metric_nwis
       changes:
         - sqlFile:
-            path: bioHabMetricInternalPartitions.sql
+            path: bioHabMetricNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table bio_hab_metric merge partitions bio_hab_metric_nwis, bio_hab_metric_garbage into partition bio_hab_metric_garbage;
+        - rollback: drop table if exists ${schemaName}.bio_hab_metric_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.bio_hab_metric.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: bio_hab_metric_stewards
+      changes:
+        - sqlFile:
+            path: bioHabMetricStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.bio_hab_metric_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.bio_hab_metric.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: bio_hab_metric_storet
+      changes:
+        - sqlFile:
+            path: bioHabMetricStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.bio_hab_metric_storet cascade;

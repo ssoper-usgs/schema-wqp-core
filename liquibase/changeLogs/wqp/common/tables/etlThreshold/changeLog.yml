@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.etl_threshold"
+      id: "create.table.${schemaName}.etl_threshold"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,4 +16,4 @@ databaseChangeLog:
         - sqlFile:
             path: etlThreshold.sql
             relativeToChangelogFile: true
-        - rollback: drop table etl_threshold cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.etl_threshold cascade;

@@ -1,36 +1,33 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
-    - or:
-      - runningAs:
-          username: wqp_core
-      - runningAs:
-          username: int_wqp
+        type: postgresql
+    - runningAs:
+        username: ${dataOwner}
 
   - include:
       file: "common/changeLog.yml"
       relativeToChangelogFile: true
 
-  - include:
-      file: "stewards/changeLog.yml"
-      relativeToChangelogFile: true
-      context: external
-
-  - include:
-      file: "nwis/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "storet/changeLog.yml"
-      relativeToChangelogFile: true
-      context: external
-
-  - include:
-      file: "biodata/changeLog.yml"
-      relativeToChangelogFile: true
-      context: external
-
-  - include:
-      file: "zData/changeLog.yml"
-      relativeToChangelogFile: true
+#  - include:
+#      file: "stewards/changeLog.yml"
+#      relativeToChangelogFile: true
+#      context: external
+#
+#  - include:
+#      file: "nwis/changeLog.yml"
+#      relativeToChangelogFile: true
+#
+#  - include:
+#      file: "storet/changeLog.yml"
+#      relativeToChangelogFile: true
+#      context: external
+#
+#  - include:
+#      file: "biodata/changeLog.yml"
+#      relativeToChangelogFile: true
+#      context: external
+#
+#  - include:
+#      file: "zData/changeLog.yml"
+#      relativeToChangelogFile: true

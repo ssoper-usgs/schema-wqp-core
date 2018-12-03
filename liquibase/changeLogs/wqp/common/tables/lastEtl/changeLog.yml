@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.last_etl"
+      id: "create.table.${schemaName}.last_etl"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,4 +16,4 @@ databaseChangeLog:
         - sqlFile:
             path: lastEtl.sql
             relativeToChangelogFile: true
-        - rollback: drop table last_etl cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.last_etl cascade;

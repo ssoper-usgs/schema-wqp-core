@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.country"
+      id: "create.table.${schemaName}.country"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: country.sql
             relativeToChangelogFile: true
-        - rollback: drop table country cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.country cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.country.partitions.external"
+      id: "create.table.${schemaName}.country.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'COUNTRY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: country_biodata
       changes:
         - sqlFile:
-            path: countryExternalPartitions.sql
+            path: countryBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table country merge partitions country_stewards, country_nwis, country_storet, country_biodata, country_garbage into partition country_garbage;
+        - rollback: drop table if exists ${schemaName}.country_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.country.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.country.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'COUNTRY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: country_nwis
       changes:
         - sqlFile:
-            path: countryInternalPartitions.sql
+            path: countryNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table country merge partitions country_nwis, country_garbage into partition country_garbage;
+        - rollback: drop table if exists ${schemaName}.country_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.country.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: country_stewards
+      changes:
+        - sqlFile:
+            path: countryStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.country_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.country.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: country_storet
+      changes:
+        - sqlFile:
+            path: countryStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.country_storet cascade;

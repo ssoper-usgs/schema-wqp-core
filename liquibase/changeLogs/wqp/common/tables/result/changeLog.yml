@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.result"
+      id: "create.table.${schemaName}.result"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: result.sql
             relativeToChangelogFile: true
-        - rollback: drop table result cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.result cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.result.partitions.external"
+      id: "create.table.${schemaName}.result.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'RESULT' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: result_biodata
       changes:
         - sqlFile:
-            path: resultExternalPartitions.sql
+            path: resultBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table result merge partitions result_stewards, result_nwis, result_storet, result_biodata, result_garbage into partition result_garbage;
+        - rollback: drop table if exists ${schemaName}.result_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.result.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.result.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'RESULT' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: result_nwis
       changes:
         - sqlFile:
-            path: resultInternalPartitions.sql
+            path: resultNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table result merge partitions result_nwis, result_garbage into partition result_garbage;
+        - rollback: drop table if exists ${schemaName}.result_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.result.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: result_stewards
+      changes:
+        - sqlFile:
+            path: resultStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.result_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.result.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: result_storet
+      changes:
+        - sqlFile:
+            path: resultStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.result_storet cascade;

@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.organization_sum"
+      id: "create.table.${schemaName}.organization_sum"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: organizationSum.sql
             relativeToChangelogFile: true
-        - rollback: drop table organization_sum cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.organization_sum cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.organization_sum.partitions.external"
+      id: "create.table.${schemaName}.organization_sum.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ORGANIZATION_SUM' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: organization_sum_biodata
       changes:
         - sqlFile:
-            path: organizationSumExternalPartitions.sql
+            path: organizationSumBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table organization_sum merge partitions organization_sum_stewards, organization_sum_nwis, organization_sum_storet, organization_sum_biodata, organization_sum_garbage into partition organization_sum_garbage;
+        - rollback: drop table if exists ${schemaName}.organization_sum_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.organization_sum.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.organization_sum.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ORGANIZATION_SUM' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: organization_sum_nwis
       changes:
         - sqlFile:
-            path: organizationSumInternalPartitions.sql
+            path: organizationSumNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table organization_sum merge partitions organization_sum_nwis, organization_sum_garbage into partition organization_sum_garbage;
+        - rollback: drop table if exists ${schemaName}.organization_sum_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.organization_sum.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_sum_stewards
+      changes:
+        - sqlFile:
+            path: organizationSumStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.organization_sum_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.organization_sum.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_sum_storet
+      changes:
+        - sqlFile:
+            path: organizationSumStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.organization_sum_storet cascade;

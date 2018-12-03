@@ -1,6 +1,8 @@
-create table etl_threshold
-(data_source_id                 number
-,table_name                     varchar2(30 char)
-,min_rows                       number
-,max_diff                       number
-);
+create unlogged table if not exists ${schemaName}.etl_threshold
+(data_source_id                 smallint
+,table_name                     character varying (30)
+,min_rows                       integer
+,max_diff                       integer
+)
+with (fillfactor = 100)
+;

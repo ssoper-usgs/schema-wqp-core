@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-      - type: oracle
+      - type: postgresql
       
   - changeSet:
       author: zmoore
-      id: "create.table.prj_ml_weighting"
+      id: "create.table.${schemaName}.prj_ml_weighting"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: prjMLWeighting.sql
             relativeToChangelogFile: true
-        - rollback: drop table prj_ml_weighting cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.prj_ml_weighting cascade;
 
   - changeSet:
-      author: zmoore
-      id: "create.table.prj_ml_weighting.partitions.external"
+      author: drsteini
+      id: "create.table.${schemaName}.prj_ml_weighting.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'PRJ_ML_WEIGHTING' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: prj_ml_weighting_biodata
       changes:
         - sqlFile:
-            path: prjMLWeightingExternalPartitions.sql
+            path: prjMLWeightingBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table prj_ml_weighting merge partitions prj_ml_weighting_stewards, prj_ml_weighting_nwis, prj_ml_weighting_storet, prj_ml_weighting_biodata, prj_ml_weighting_garbage into partition prj_ml_weighting_garbage;
+        - rollback: drop table if exists ${schemaName}.prj_ml_weighting_biodata cascade;
 
   - changeSet:
-      author: zmoore
-      id: "create.table.prj_ml_weighting.partitions.internal"
-      context: internal
+      author: drsteini
+      id: "create.table.${schemaName}.prj_ml_weighting.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'PRJ_ML_WEIGHTING' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: prj_ml_weighting_nwis
       changes:
         - sqlFile:
-            path: prjMLWeightingInternalPartitions.sql 
+            path: prjMLWeightingNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table prj_ml_weighting merge partitions prj_ml_weighting_nwis, prj_ml_weighting_garbage into partition prj_ml_weighting_garbage;
+        - rollback: drop table if exists ${schemaName}.prj_ml_weighting_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.prj_ml_weighting.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: prj_ml_weighting_stewards
+      changes:
+        - sqlFile:
+            path: prjMLWeightingStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.prj_ml_weighting_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.prj_ml_weighting.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: prj_ml_weighting_storet
+      changes:
+        - sqlFile:
+            path: prjMLWeightingStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.prj_ml_weighting_storet cascade;

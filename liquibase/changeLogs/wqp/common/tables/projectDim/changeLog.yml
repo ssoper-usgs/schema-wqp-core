@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.project_dim"
+      id: "create.table.${schemaName}.project_dim"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: projectDim.sql
             relativeToChangelogFile: true
-        - rollback: drop table project_dim cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.project_dim cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.project_dim.partitions.external"
+      id: "create.table.${schemaName}.project_dim.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'PROJECT_DIM' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: project_dim_biodata
       changes:
         - sqlFile:
-            path: projectDimExternalPartitions.sql
+            path: projectDimBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table project_dim merge partitions project_dim_stewards, project_dim_nwis, project_dim_storet, project_dim_biodata, project_dim_garbage into partition project_dim_garbage;
+        - rollback: drop table if exists ${schemaName}.project_dim_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.project_dim.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.project_dim.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'PROJECT_DIM' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: project_dim_nwis
       changes:
         - sqlFile:
-            path: projectDimInternalPartitions.sql
+            path: projectDimNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table project_dim merge partitions project_dim_nwis, project_dim_garbage into partition project_dim_garbage;
+        - rollback: drop table if exists ${schemaName}.project_dim_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.project_dim.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_dim_stewards
+      changes:
+        - sqlFile:
+            path: projectDimStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.project_dim_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.project_dim.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_dim_storet
+      changes:
+        - sqlFile:
+            path: projectDimStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.project_dim_storet cascade;

@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.lock_table"
+      id: "create.table.${schemaName}.lock_table"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,11 +16,12 @@ databaseChangeLog:
         - sqlFile:
             path: lockTable.sql
             relativeToChangelogFile: true
-        - rollback: drop table lock_table cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.lock_table cascade;
 
   - changeSet:
       author: drsteini
       id: "populate.table.lock_table"
       changes:
-        - sql: insert into lock_table (lock_value) values (1);
-        - rollback: delete from lock_table where lock_value = 1;
+        - sql:
+            sql: insert into ${schemaName}.lock_table (lock_value) values (1);
+        - rollback: delete from ${schemaName}.lock_table where lock_value = 1;

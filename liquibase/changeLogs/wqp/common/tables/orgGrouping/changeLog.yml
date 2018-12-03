@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-      - type: oracle
+      - type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_grouping"
+      id: "create.table.${schemaName}.org_grouping"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: orgGrouping.sql
             relativeToChangelogFile: true
-        - rollback: drop table org_grouping cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.org_grouping cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_grouping.partitions.external"
+      id: "create.table.${schemaName}.org_grouping.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ORG_GROUPING' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: org_grouping_biodata
       changes:
         - sqlFile:
-            path: orgGroupingExternalPartitions.sql
+            path: orgGroupingBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table org_grouping merge partitions org_grouping_stewards, org_grouping_nwis, org_grouping_storet, org_grouping_biodata, org_grouping_garbage into partition org_grouping_garbage;
+        - rollback: drop table if exists ${schemaName}.org_grouping_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.org_grouping.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.org_grouping.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ORG_GROUPING' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: org_grouping_nwis
       changes:
         - sqlFile:
-            path: orgGroupingInternalPartitions.sql
+            path: orgGroupingNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table org_grouping merge partitions org_grouping_nwis, org_grouping_garbage into partition org_grouping_garbage;
+        - rollback: drop table if exists ${schemaName}.org_grouping_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.org_grouping.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_grouping_stewards
+      changes:
+        - sqlFile:
+            path: orgGroupingStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.org_grouping_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.org_grouping.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: org_grouping_storet
+      changes:
+        - sqlFile:
+            path: orgGroupingStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.org_grouping_storet cascade;

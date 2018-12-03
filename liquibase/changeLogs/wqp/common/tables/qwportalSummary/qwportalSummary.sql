@@ -1,20 +1,19 @@
-create table qwportal_summary
-(data_source_id                 number
-,fips_state_code                varchar2(2 char)
-,fips_county_code               varchar2(3 char)
-,fips_state_and_county          varchar2(5 char)
-,site_type                      varchar2(30 char)
-,huc8                           varchar2(8 char)
+create unlogged table if not exists ${schemaName}.qwportal_summary
+(data_source_id                 smallint
+,fips_state_code                character varying (2)
+,fips_county_code               character varying (3)
+,fips_state_and_county          character varying (5)
+,site_type                      character varying (30)
+,huc8                           character varying (8)
 ,min_date                       date
 ,max_date                       date
-,samples_past_12_months         number
-,samples_past_60_months         number
-,samples_all_time               number
-,results_past_12_months         number
-,results_past_60_months         number
-,results_all_time               number
-,nwis_or_epa                    generated always as (case data_source_id when 2 then 'N' when 3 then 'E' else null end)
-) parallel 4 compress pctfree 0 nologging cache
-partition by range (data_source_id)
-(partition summary_garbage values less than (maxvalue)
-);
+,samples_past_12_months         integer
+,samples_past_60_months         integer
+,samples_all_time               integer
+,results_past_12_months         integer
+,results_past_60_months         integer
+,results_all_time               integer
+,nwis_or_epa                    character varying (1)
+)
+partition by list (data_source_id)
+;

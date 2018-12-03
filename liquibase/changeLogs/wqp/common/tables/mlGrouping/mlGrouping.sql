@@ -1,16 +1,15 @@
-create table ml_grouping
-(data_source_id                 number
-,data_source                    varchar2(8 char)
-,station_id                     number
-,the_year                       varchar2(4 char)
-,years_window                   number
-,characteristic_type            varchar2(4000 char)
-,characteristic_name            varchar2(4000 char)
-,total_activities               number
-,total_results                  number
+create unlogged table if not exists ${schemaName}.ml_grouping
+(data_source_id                 smallint
+,data_source                    character varying (8)
+,station_id                     numeric
+,the_year                       character varying (4)
+,years_window                   smallint
+,characteristic_type            text
+,characteristic_name            text
+,total_activities               integer
+,total_results                  integer
 ,last_result_date               date
-,grouping_id                    number
-) parallel 4 compress pctfree 0 nologging cache
-partition by range (data_source_id)
-(partition ml_grouping_garbage values less than (maxvalue)
-);
+,grouping_id                    smallint
+)
+partition by list (data_source_id)
+;

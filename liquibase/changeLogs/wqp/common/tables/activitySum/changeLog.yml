@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.activity_sum"
+      id: "create.table.${schemaName}.activity_sum"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: activitySum.sql
             relativeToChangelogFile: true
-        - rollback: drop table activity_sum cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.activity_sum cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.activity_sum.partitions.external"
+      id: "create.table.${schemaName}.activity_sum.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SUM' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: activity_sum_biodata
       changes:
         - sqlFile:
-            path: activitySumExternalPartitions.sql
+            path: activitySumBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table activity_sum merge partitions activity_sum_stewards, activity_sum_nwis, activity_sum_storet, activity_sum_biodata, activity_sum_garbage into partition activity_sum_garbage;
+        - rollback: drop table if exists ${schemaName}.activity_sum_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.activity_sum.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.activity_sum.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ACTIVITY_SUM' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: activity_sum_nwis
       changes:
         - sqlFile:
-            path: activitySumInternalPartitions.sql
+            path: activitySumNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table activity_sum merge partitions activity_sum_nwis, activity_sum_garbage into partition activity_sum_garbage;
+        - rollback: drop table if exists ${schemaName}.activity_sum_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.activity_sum.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_sum_stewards
+      changes:
+        - sqlFile:
+            path: activitySumStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.activity_sum_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.activity_sum.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_sum_storet
+      changes:
+        - sqlFile:
+            path: activitySumStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.activity_sum_storet cascade;

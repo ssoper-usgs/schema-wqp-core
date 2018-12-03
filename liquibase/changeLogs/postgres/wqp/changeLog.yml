@@ -6,29 +6,57 @@ databaseChangeLog:
         username: postgres
 
   - changeSet:
-      author: mbucknell
-      id: "grants.${ARS_STEWARDS_OWNER}.to.databasechangelog"
+      author: drsteini
+      id: "grants.${dataOwner}.to.databasechangelog"
       changes:
-        - sql: grant select, insert, update, delete on public.databasechangelog to ${ARS_STEWARDS_OWNER}
-        - rollback: revoke select, insert, update, delete on public.databasechangelog from ${ARS_STEWARDS_OWNER}
+        - sql: grant select, insert, update, delete on public.databasechangelog to ${dataOwner}
+        - rollback: revoke select, insert, update, delete on public.databasechangelog from ${dataOwner}
 
   - changeSet:
-      author: mbucknell
-      id: "grants.${ARS_STEWARDS_OWNER}.to.databasechangeloglock"
+      author: drsteini
+      id: "grants.${dataOwner}.to.databasechangeloglock"
       changes:
-        - sql: grant select, insert, update, delete on public.databasechangeloglock to ${ARS_STEWARDS_OWNER}
-        - rollback: revoke select, insert, update, delete on public.databasechangeloglock from ${ARS_STEWARDS_OWNER}
+        - sql: grant select, insert, update, delete on public.databasechangeloglock to ${dataOwner}
+        - rollback: revoke select, insert, update, delete on public.databasechangeloglock from ${dataOwner}
+
 
   - changeSet:
-      author: mbucknell
-      id: "create.project.schema_${ARS_STEWARDS_SCHEMA_NAME}"
+      author: drsteini
+      id: "create.extension.postgis"
+      changes:
+        - sql: create extension if not exists postgis;
+        - rollback: drop extension if exists postgis;
+
+  - changeSet:
+      author: drsteini
+      id: "create.extension.postgis_topology"
+      changes:
+        - sql: create extension if not exists postgis_topology;
+        - rollback: drop extension if exists postgis_topology;
+
+  - changeSet:
+      author: drsteini
+      id: "create.extension.fuzzystrmatch"
+      changes:
+        - sql: create extension if not exists fuzzystrmatch;
+        - rollback: drop extension if exists fuzzystrmatch;
+
+  - changeSet:
+      author: drsteini
+      id: "create.extension.postgis_tiger_geocoder"
+      changes:
+        - sql: create extension if not exists postgis_tiger_geocoder;
+        - rollback: drop extension if exists postgis_tiger_geocoder;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project.schema_${schemaName}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_namespace where nspname = '${ARS_STEWARDS_SCHEMA_NAME}';
+            sql: select count(*) from pg_namespace where nspname = '${schemaName}';
       changes:
-        - sql: create schema ${ARS_STEWARDS_SCHEMA_NAME} authorization ${ARS_STEWARDS_OWNER};
-        - rollback: drop schema if exists ${ARS_STEWARDS_SCHEMA_NAME} cascade;
-
+        - sql: create schema ${schemaName} authorization ${dataOwner};
+        - rollback: drop schema if exists ${schemaName} cascade;

@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.qwportal_summary"
+      id: "create.table.${schemaName}.qwportal_summary"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,44 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: qwportalSummary.sql
             relativeToChangelogFile: true
-        - rollback: drop table qwportal_summary cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.qwportal_summary cascade;
 
   - changeSet:
       author: drsteini
-      id: "alter.table.qwportal_summary.nwis_or_epa.internal"
-      context: internal
-      changes:
-        - sql: alter table qwportal_summary modify nwis_or_epa generated always as (case data_source_id when 1 then 'N' else null end);
-        - rollback: alter table qwportal_summary modify nwis_or_epa generated always as (case data_source_id when 2 then 'N' when 3 then 'E' else null end);
-
-  - changeSet:
-      author: drsteini
-      id: "create.table.qwportal_summary.partitions.external"
+      id: "create.table.${schemaName}.qwportal_summary.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'QWPORTAL_SUMMARY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: qwportal_summary_biodata
       changes:
         - sqlFile:
-            path: qwportalSummaryExternalPartitions.sql
+            path: qwportalSummaryBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table qwportal_summary merge partitions summary_stewards, summary_nwis, summary_storet, summary_biodata, summary_garbage into partition summary_garbage;
+        - rollback: drop table if exists ${schemaName}.qwportal_summary_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.qwportal_summary.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.qwportal_summary.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'QWPORTAL_SUMMARY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: qwportal_summary_nwis
       changes:
         - sqlFile:
-            path: qwportalSummaryInternalPartitions.sql
+            path: qwportalSummaryNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table qwportal_summary merge partitions summary_nwis, summary_garbage into partition summary_garbage;
+        - rollback: drop table if exists ${schemaName}.qwportal_summary_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.qwportal_summary.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: qwportal_summary_stewards
+      changes:
+        - sqlFile:
+            path: qwportalSummaryStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.qwportal_summary_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.qwportal_summary.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: qwportal_summary_storet
+      changes:
+        - sqlFile:
+            path: qwportalSummaryStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.qwportal_summary_storet cascade;

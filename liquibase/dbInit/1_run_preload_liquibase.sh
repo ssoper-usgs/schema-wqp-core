@@ -5,17 +5,17 @@ ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/postgres/postgres/changeLog.yml \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://WQP_${context}_Database:5432/postgres \
+	--url=jdbc:postgresql://WQP_${CONTEXT}_Database:5432/postgres \
 	--username=postgres \
 	--password=${POSTGRES_PASSWORD} \
-	--contexts=${context} \
+	--contexts=${CONTEXT} \
 	--logLevel=debug \
 	update \
 	-DPOSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
 	-DDATABASE_NAME=${DATABASE_NAME} \
 	-DdataOwner=${DATA_OWNER} \
 	-DDATA_OWNER_PASSWORD=${DATA_OWNER_PASSWORD} \
-	-DSCHEMA_NAME=${SCHEMA_NAME} \
+	-DschemaName=${SCHEMA_NAME} \
 	-DreadOnlyUser=${READ_ONLY_USER} \
 	-DREAD_ONLY_USER_PASSWORD=${READ_ONLY_USER_PASSWORD} \
 	 > $LIQUIBASE_HOME/logs/liquibasePostgres.log
@@ -25,15 +25,15 @@ ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/postgres/wqp/changeLog.yml \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://WQP_${context}_Database:5432/${DATABASE_NAME} \
+	--url=jdbc:postgresql://WQP_${CONTEXT}_Database:5432/${DATABASE_NAME} \
 	--username=postgres \
 	--password=${POSTGRES_PASSWORD} \
-	--contexts=${context} \
+	--contexts=${CONTEXT} \
 	--logLevel=debug \
 	update \
 	-DPOSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
 	-DdataOwner=${DATA_OWNER} \
-	-DSCHEMA_NAME=${SCHEMA_NAME} \
+	-DschemaName=${SCHEMA_NAME} \
 	 > $LIQUIBASE_HOME/logs/liquibasePostgresWQP.log
 
 # remaining wqp scripts
@@ -41,14 +41,14 @@ ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/wqp/changeLog.yml \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://WQP_${context}_Database:5432/${DATABASE_NAME} \
+	--url=jdbc:postgresql://WQP_${CONTEXT}_Database:5432/${DATABASE_NAME} \
 	--username=${DATA_OWNER} \
 	--password=${DATA_OWNER_PASSWORD} \
-	--contexts=${context} \
+	--contexts=${CONTEXT} \
 	--logLevel=debug \
-	update \
+	updateTestingRollback \
 	-DdataOwner=${DATA_OWNER} \
-	-DSCHEMA_NAME=${SCHEMA_NAME} \
+	-DschemaName=${SCHEMA_NAME} \
 	-DreadOnlyUser=${READ_ONLY_USER} \
 	-Dresult1=${result1} \
 	-Dresult2=${result2} \

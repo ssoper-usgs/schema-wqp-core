@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.site_type"
+      id: "create.table.${schemaName}.site_type"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: siteType.sql
             relativeToChangelogFile: true
-        - rollback: drop table site_type cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.site_type cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.site_type.partitions.external"
+      id: "create.table.${schemaName}.site_type.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'SITE_TYPE' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: site_type_biodata
       changes:
         - sqlFile:
-            path: siteTypeExternalPartitions.sql
+            path: siteTypeBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table site_type merge partitions site_type_stewards, site_type_nwis, site_type_storet, site_type_biodata, site_type_garbage into partition site_type_garbage;
+        - rollback: drop table if exists ${schemaName}.site_type_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.site_type.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.site_type.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'SITE_TYPE' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: site_type_nwis
       changes:
         - sqlFile:
-            path: siteTypeInternalPartitions.sql
+            path: siteTypeNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table site_type merge partitions site_type_nwis, site_type_garbage into partition site_type_garbage;
+        - rollback: drop table if exists ${schemaName}.site_type_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.site_type.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: site_type_stewards
+      changes:
+        - sqlFile:
+            path: siteTypeStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.site_type_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.site_type.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: site_type_storet
+      changes:
+        - sqlFile:
+            path: siteTypeStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.site_type_storet cascade;

@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.activity"
+      id: "create.table.${schemaName}.activity"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: activity.sql
             relativeToChangelogFile: true
-        - rollback: drop table activity cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.activity cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.activity.partitions.external"
+      id: "create.table.${schemaName}.activity.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ACTIVITY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: activity_biodata
       changes:
         - sqlFile:
-            path: activityExternalPartitions.sql
+            path: activityBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table activity merge partitions activity_stewards, activity_nwis, activity_storet, activity_biodata, activity_garbage into partition activity_garbage;
+        - rollback: drop table if exists ${schemaName}.activity_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.activity.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.activity.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'ACTIVITY' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: activity_nwis
       changes:
         - sqlFile:
-            path: activityInternalPartitions.sql
+            path: activityNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table activity merge partitions activity_nwis, activity_garbage into partition activity_garbage;
+        - rollback: drop table if exists ${schemaName}.activity_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.activity.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_stewards
+      changes:
+        - sqlFile:
+            path: activityStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.activity_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.activity.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_storet
+      changes:
+        - sqlFile:
+            path: activityStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.activity_storet cascade;

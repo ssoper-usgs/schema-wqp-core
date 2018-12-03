@@ -1,10 +1,8 @@
-create table state
-(data_source_id                 number
-,code_value                     varchar2(500 char)
-,description_with_country       varchar2(57 char)
-,description_with_out_country   varchar2(53 char)
-,country_code                   generated always as (regexp_substr(code_value, '[^:]+'))
-) parallel 4 compress pctfree 0 nologging cache
-partition by range (data_source_id)
-(partition state_garbage values less than (maxvalue)
-);
+create unlogged table if not exists ${schemaName}.state
+(data_source_id                 smallint
+,code_value                     text
+,description_with_country       character varying (57)
+,description_with_out_country   character varying (53)
+)
+partition by list (data_source_id)
+;

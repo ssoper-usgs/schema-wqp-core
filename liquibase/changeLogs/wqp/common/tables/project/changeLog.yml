@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.project"
+      id: "create.table.${schemaName}.project"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: project.sql
             relativeToChangelogFile: true
-        - rollback: drop table project cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.project cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.project.partitions.external"
+      id: "create.table.${schemaName}.project.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'PROJECT' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: project_biodata
       changes:
         - sqlFile:
-            path: projectExternalPartitions.sql
+            path: projectBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table project merge partitions project_stewards, project_nwis, project_storet, project_biodata, project_garbage into partition project_garbage;
+        - rollback: drop table if exists ${schemaName}.project_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.project.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.project.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'PROJECT' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: project_nwis
       changes:
         - sqlFile:
-            path: projectInternalPartitions.sql
+            path: projectNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table project merge partitions project_nwis, project_garbage into partition project_garbage;
+        - rollback: drop table if exists ${schemaName}.project_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.project.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_stewards
+      changes:
+        - sqlFile:
+            path: projectStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.project_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.project.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: project_storet
+      changes:
+        - sqlFile:
+            path: projectStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.project_storet cascade;

@@ -1,8 +1,7 @@
-create table assemblage
-(data_source_id                 number
-,code_value                     varchar2(500 char)
-,description                    varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging cache
-partition by range (data_source_id)
-(partition assemblage_garbage values less than (maxvalue)
-);
+create unlogged table if not exists ${schemaName}.assemblage
+(data_source_id                 smallint
+,code_value                     text
+,description                    text
+)
+partition by list (data_source_id)
+;

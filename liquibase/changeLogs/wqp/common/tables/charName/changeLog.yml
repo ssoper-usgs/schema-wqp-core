@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.char_name"
+      id: "create.table.${schemaName}.char_name"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,36 +16,67 @@ databaseChangeLog:
         - sqlFile:
             path: charName.sql
             relativeToChangelogFile: true
-        - rollback: drop table char_name cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.char_name cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.char_name.partitions.external"
+      id: "create.table.${schemaName}.char_name.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'CHAR_NAME' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: char_name_biodata
       changes:
         - sqlFile:
-            path: charNameExternalPartitions.sql
+            path: charNameBiodata.sql
             relativeToChangelogFile: true
-        - rollback: alter table char_name merge partitions char_name_stewards, char_name_nwis, char_name_storet, char_name_biodata, char_name_garbage into partition char_name_garbage;
+        - rollback: drop table if exists ${schemaName}.char_name_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.char_name.partitions.internal"
-      context: internal
+      id: "create.table.${schemaName}.char_name.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
-        - sqlCheck:
-            expectedResult: 1
-            sql: select count(*) from user_objects where object_name = 'CHAR_NAME' and object_type = 'TABLE PARTITION';
+        - not:
+          - tableExists:
+              tableName: char_name_nwis
       changes:
         - sqlFile:
-            path: charNameInternalPartitions.sql
+            path: charNameNwis.sql
             relativeToChangelogFile: true
-        - rollback: alter table char_name merge partitions char_name_nwis, char_name_garbage into partition char_name_garbage;
+        - rollback: drop table if exists ${schemaName}.char_name_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.char_name.partition.stewards"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: char_name_stewards
+      changes:
+        - sqlFile:
+            path: charNameStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.char_name_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${schemaName}.char_name.partition.storet"
+      context: external
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: char_name_storet
+      changes:
+        - sqlFile:
+            path: charNameStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${schemaName}.char_name_storet cascade;

@@ -1,16 +1,15 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
-
-#Do not run the database links script - unless you have verified the passwords are correct!!!
-#  - include:
-#      file: "databaseLinks/changeLog.yml"
-#      relativeToChangelogFile: true
+        type: postgresql
 
   - include:
-      file: "types/changeLog.yml"
+      file: "grants/changeLog.yml"
       relativeToChangelogFile: true
+
+#  - include:
+#      file: "types/changeLog.yml"
+#      relativeToChangelogFile: true
 
   - include:
       file: "tables/changeLog.yml"
@@ -20,18 +19,10 @@ databaseChangeLog:
       file: "indexes/changeLog.yml"
       relativeToChangelogFile: true
 
-  - include:
-      file: "ri/changeLog.yml"
-      relativeToChangelogFile: true
+#  - include:
+#      file: "ri/changeLog.yml"
+#      relativeToChangelogFile: true
 
-  - include:
-      file: "synonyms/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "packages/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "grants/changeLog.yml"
-      relativeToChangelogFile: true
+#  - include:
+#      file: "packages/changeLog.yml"
+#      relativeToChangelogFile: true

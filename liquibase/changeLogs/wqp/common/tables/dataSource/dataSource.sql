@@ -1,6 +1,7 @@
-create table data_source
-(data_source_id                 number              constraint nn_data_source_pk not null
-,text                           varchar2(8 char)
-,constraint data_source_pk
-  primary key (data_source_id)
-);
+create unlogged table if not exists ${schemaName}.data_source
+(data_source_id                 smallint
+,text                           character varying (8)
+,primary key (data_source_id)
+)
+with (fillfactor = 100)
+;

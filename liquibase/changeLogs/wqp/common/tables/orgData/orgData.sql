@@ -1,39 +1,39 @@
-create table org_data
-(data_source_id                 number
-,data_source                    varchar2(8 char)
-,organization_id                number
-,organization                   varchar2(4000 char)
-,organization_name              varchar2(4000 char)
-,organization_description       varchar2(4000 char)
-,tribal_code                    varchar2(4000 char)
-,electronic_address             varchar2(4000 char)
-,telephonic                     varchar2(4000 char)
-,address_type_1                 varchar2(4000 char)
-,address_text_1                 varchar2(4000 char)
-,supplemental_address_text_1    varchar2(4000 char)
-,locality_name_1                varchar2(4000 char)
-,postal_code_1                  varchar2(10 char)
-,country_code_1                 varchar2(2 char)
-,state_code_1                   varchar2(2 char)
-,county_code_1                  varchar2(3 char)
-,address_type_2                 varchar2(4000 char)
-,address_text_2                 varchar2(4000 char)
-,supplemental_address_text_2    varchar2(4000 char)
-,locality_name_2                varchar2(4000 char)
-,postal_code_2                  varchar2(10 char)
-,country_code_2                 varchar2(2 char)
-,state_code_2                   varchar2(2 char)
-,county_code_2                  varchar2(3 char)
-,address_type_3                 varchar2(4000 char)
-,address_text_3                 varchar2(4000 char)
-,supplemental_address_text_3    varchar2(4000 char)
-,locality_name_3                varchar2(4000 char)
-,postal_code_3                  varchar2(10 char)
-,country_code_3                 varchar2(2 char)
-,state_code_3                   varchar2(2 char)
-,county_code_3                  varchar2(3 char)
-,organization_type              varchar2(4000 char)
-) parallel 4 compress pctfree 0 nologging cache
-partition by range (data_source_id)
-(partition org_data_garbage values less than (maxvalue)
-);
+create unlogged table if not exists ${schemaName}.org_data
+(data_source_id                 smallint
+,data_source                    character varying (8)
+,organization_id                numeric
+,organization                   text
+,organization_name              text
+,organization_description       text
+,tribal_code                    text
+,electronic_address             text
+,telephonic                     text
+,address_type_1                 text
+,address_text_1                 text
+,supplemental_address_text_1    text
+,locality_name_1                text
+,postal_code_1                  character varying (10)
+,country_code_1                 character varying (2)
+,state_code_1                   character varying (2)
+,county_code_1                  character varying (3)
+,address_type_2                 text
+,address_text_2                 text
+,supplemental_address_text_2    text
+,locality_name_2                text
+,postal_code_2                  character varying (10)
+,country_code_2                 character varying (2)
+,state_code_2                   character varying (2)
+,county_code_2                  character varying (3)
+,address_type_3                 text
+,address_text_3                 text
+,supplemental_address_text_3    text
+,locality_name_3                text
+,postal_code_3                  character varying (10)
+,country_code_3                 character varying (2)
+,state_code_3                   character varying (2)
+,county_code_3                  character varying (3)
+,organization_type              text
+
+)
+partition by list (data_source_id)
+;

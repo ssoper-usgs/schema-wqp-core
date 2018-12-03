@@ -1,11 +1,11 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
-      id: "create.table.huc8_conus_hi_ak_pr_dis"
+      id: "create.table.${schemaName}.huc8_conus_hi_ak_pr_dis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,11 +16,11 @@ databaseChangeLog:
         - sqlFile:
             path: huc8ConusHiAkPrDis.sql
             relativeToChangelogFile: true
-        - rollback: drop table huc8_conus_hi_ak_pr_dis cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.huc8_conus_hi_ak_pr_dis cascade;
 
   - changeSet:
       author: skaymen
-      id: "create.table.huc12nometa"
+      id: "create.table.${schemaName}.huc12nometa"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -31,5 +31,5 @@ databaseChangeLog:
         - sqlFile:
             path: huc12nometa.sql
             relativeToChangelogFile: true
-        - rollback: drop table huc12nometa cascade constraints purge;
+        - rollback: drop table if exists ${schemaName}.huc12nometa cascade;
 
