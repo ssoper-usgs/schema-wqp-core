@@ -56,5 +56,5 @@ databaseChangeLog:
       author: drsteini
       id: "alter.database.${DATABASE_NAME}.search_path"
       changes:
-        - sql: alter database ${DATABASE_NAME} set search_path = "$user", ${dataOwner}, public, tiger;
+        - sql: alter database ${DATABASE_NAME} set search_path = "$user", ${schemaName}, public, tiger;
         - rollback: alter database ${DATABASE_NAME} reset search_path;

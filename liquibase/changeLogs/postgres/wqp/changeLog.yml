@@ -19,7 +19,6 @@ databaseChangeLog:
         - sql: grant select, insert, update, delete on public.databasechangeloglock to ${dataOwner}
         - rollback: revoke select, insert, update, delete on public.databasechangeloglock from ${dataOwner}
 
-
   - changeSet:
       author: drsteini
       id: "create.extension.postgis"
@@ -50,7 +49,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.project.schema_${schemaName}"
+      id: "create.project.schema.${schemaName}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
