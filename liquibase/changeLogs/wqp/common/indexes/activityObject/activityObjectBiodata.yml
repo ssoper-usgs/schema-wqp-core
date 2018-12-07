@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.activity_object_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: activity_object_biodata_pk
+      changes:
+        - sql: create unique index activity_object_biodata_pk on activity_object_biodata(data_source_id, object_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.activity_object_biodata_pk;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.activity_object_biodata_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: activity_object_biodata_organization
+      changes:
+        - sql: create index if not exists activity_object_biodata_organization on activity_object_biodata(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.activity_object_biodata_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.activity_object_biodata_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: activity_object_biodata_activity
+      changes:
+        - sql: create index if not exists activity_object_biodata_activity on activity_object_biodata(activity) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.activity_object_biodata_activity;

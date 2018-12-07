@@ -1,0 +1,200 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_country"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_country
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_country on ${schemaName}.bio_hab_metric_biodata(substring(governmental_unit_code, '[^:]+')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_country;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_county"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_county
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_county on ${schemaName}.bio_hab_metric_biodata(substring(governmental_unit_code, '[^:]+:[^:]+:[^:]+')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_county;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_geom
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_geom on ${schemaName}.bio_hab_metric_biodata using gist (geom) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_geom;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_huc10"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_huc10
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_huc10 on ${schemaName}.bio_hab_metric_biodata(substring(huc, '[0-9]{10}')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_huc10;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_huc12"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_huc12
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_huc12 on ${schemaName}.bio_hab_metric_biodata(substring(huc, '[0-9]{12}')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_huc12;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_huc2"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_huc2
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_huc2 on ${schemaName}.bio_hab_metric_biodata(substring(huc, '[0-9]{2}')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_huc2;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_huc4"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_huc4
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_huc4 on ${schemaName}.bio_hab_metric_biodata(substring(huc, '[0-9]{4}')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_huc4;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_huc6"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_huc6
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_huc6 on ${schemaName}.bio_hab_metric_biodata(substring(huc, '[0-9]{6}')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_huc6;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_huc8"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_huc8
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_huc8 on ${schemaName}.bio_hab_metric_biodata(substring(huc, '[0-9]{8}')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_huc8;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_organization
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_organization on bio_hab_metric_biodata(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_site"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_site
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_site on bio_hab_metric_biodata(site_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_site;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_site_type"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_site_type
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_site_type on bio_hab_metric_biodata(site_type) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_site_type;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_state"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_state
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_state on ${schemaName}.bio_hab_metric_biodata(substring(governmental_unit_code, '[^:]+:[^:]+')) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_state;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.bio_hab_metric_biodata_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: bio_hab_metric_biodata_station
+      changes:
+        - sql: create index if not exists bio_hab_metric_biodata_station on bio_hab_metric_biodata(station_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.bio_hab_metric_biodata_station;
