@@ -1,3 +1,12 @@
 /.project
 /.env
 /liquibase/logs
+/liquibase/changelogs/wqp/biodata
+/liquibase/changelogs/wqp/nwis
+/liquibase/changelogs/wqp/stewards
+/liquibase/changelogs/wqp/storet
+/liquibase/changelogs/wqp/common/databaseLinks
+/liquibase/changelogs/wqp/common/packages
+/liquibase/changelogs/wqp/common/ri
+/liquibase/changelogs/wqp/common/synonyms
+/liquibase/changelogs/wqp/common/types
