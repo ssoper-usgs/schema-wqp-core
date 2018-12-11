@@ -5,10 +5,10 @@ ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/postgres/postgres/changeLog.yml \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://WQP_${CONTEXT}_Database:5432/postgres \
+	--url=jdbc:postgresql://WQP_${AUDIENCE}_Database:5432/postgres \
 	--username=postgres \
 	--password=${POSTGRES_PASSWORD} \
-	--contexts=${CONTEXT} \
+	--contexts=${CONTEXTS} \
 	--logLevel=debug \
 	update \
 	-DPOSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
@@ -25,10 +25,10 @@ ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/postgres/wqp/changeLog.yml \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://WQP_${CONTEXT}_Database:5432/${DATABASE_NAME} \
+	--url=jdbc:postgresql://WQP_${AUDIENCE}_Database:5432/${DATABASE_NAME} \
 	--username=postgres \
 	--password=${POSTGRES_PASSWORD} \
-	--contexts=${CONTEXT} \
+	--contexts=${CONTEXTS} \
 	--logLevel=debug \
 	update \
 	-DPOSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
@@ -41,12 +41,12 @@ ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/wqp/changeLog.yml \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://WQP_${CONTEXT}_Database:5432/${DATABASE_NAME} \
+	--url=jdbc:postgresql://WQP_${AUDIENCE}_Database:5432/${DATABASE_NAME} \
 	--username=${DATA_OWNER} \
 	--password=${DATA_OWNER_PASSWORD} \
-	--contexts=${CONTEXT} \
+	--contexts=${CONTEXTS} \
 	--logLevel=debug \
-	updateTestingRollback \
+	update \
 	-DdataOwner=${DATA_OWNER} \
 	-DschemaName=${SCHEMA_NAME} \
 	-DreadOnlyUser=${READ_ONLY_USER} \

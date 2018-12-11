@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 5434:5432
-    container_name: WQP_${CONTEXT}_Database
+    container_name: WQP_${AUDIENCE}_Database
 
   liquibase:
     image: wqp_liquibase
@@ -22,7 +22,8 @@ services:
       - SCHEMA_NAME=${SCHEMA_NAME}
       - READ_ONLY_USER=${READ_ONLY_USER}
       - READ_ONLY_USER_PASSWORD=${READ_ONLY_USER_PASSWORD}
-      - CONTEXT=${CONTEXT}
+      - CONTEXTS=${CONTEXTS}
+      - AUDIENCE=${AUDIENCE}
     volumes:
       - ./liquibase/changeLogs:/opt/liquibase/workspace
       - ./liquibase/logs:/opt/liquibase/logs

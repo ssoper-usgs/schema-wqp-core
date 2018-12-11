@@ -11,4 +11,10 @@ databaseChangeLog:
             sql: alter default privileges in schema ${schemaName} grant select on tables to ${readOnlyUser};
         - rollback: alter default privileges in schema ${schemaName} revoke select on tables from ${readOnlyUser};
 
-#        grant usage on schema characteristic_data to nldi_user;
+  - changeSet:
+      author: drsteini
+      id: "grant.usage.${schemaName}.to.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant usage on schema ${schemaName} to ${readOnlyUser};
+        - rollback: revoke usage on schema ${schemaName} from ${readOnlyUser};
