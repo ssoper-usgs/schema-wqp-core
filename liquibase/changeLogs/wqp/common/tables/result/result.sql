@@ -14,6 +14,7 @@ create unlogged table if not exists ${schemaName}.result
 ,site_type                      text
 ,huc                            character varying (12)
 ,governmental_unit_code         character varying (9)
+,geom                           geometry(point,4269)
 ,organization_name              text
 ,activity_type_code             text
 ,activity_media_subdiv_name     text
@@ -182,7 +183,7 @@ create unlogged table if not exists ${schemaName}.result
 ,activity_id                    numeric
 ,deprecated_flag                character varying (3)
 ,web_code                       character varying (3)
-,project_name                   json
+,project_name                   text
 ,monitoring_location_name       text
 ,result_object_name             text
 ,result_object_type             text

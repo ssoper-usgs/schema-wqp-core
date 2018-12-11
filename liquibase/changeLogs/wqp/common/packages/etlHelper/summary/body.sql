@@ -16,7 +16,7 @@ create or replace package body etl_helper_summary as
 
     procedure create_table(p_table_prefix in user_tables.table_name%type,
                            p_table_suffix in user_tables.table_name%type,
-                           p_sql_suffix in varchar2,
+                           p_sql_suffix in character varying ,
                            p_parallel in boolean default true) is
         table_name user_tables.table_name%type;
         l_lock_value lock_table.lock_value%type;
@@ -43,7 +43,7 @@ create or replace package body etl_helper_summary as
     end create_table;
 
     procedure create_station_sum(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(30000 char);
+        sql_suffix character varying (30000 char);
     begin
 
         sql_suffix := q'!(data_source_id, data_source, station_id, site_id, organization, site_type, huc, governmental_unit_code, geom,
@@ -179,7 +179,7 @@ create or replace package body etl_helper_summary as
     end create_station_sum;
 
     procedure create_activity_sum(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
     begin
 
         sql_suffix := '(data_source_id, data_source, station_id, site_id, event_date, sample_media,
@@ -205,7 +205,7 @@ create or replace package body etl_helper_summary as
     end create_activity_sum;
 
     procedure create_result_sum(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
     begin
 
         sql_suffix := '(data_source_id, data_source, station_id, site_id, event_date, analytical_method, p_code,
@@ -224,7 +224,7 @@ create or replace package body etl_helper_summary as
     end create_result_sum;
 
     procedure create_org_grouping(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
     begin
 
         sql_suffix := q'!(data_source_id, data_source, organization, the_year, characteristic_type, characteristic_name,
@@ -252,7 +252,7 @@ create or replace package body etl_helper_summary as
     end create_org_grouping;
 
     procedure create_ml_grouping(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
     begin
 
         sql_suffix := q'!(data_source_id, data_source, station_id, the_year, years_window, characteristic_type, characteristic_name,
@@ -296,7 +296,7 @@ create or replace package body etl_helper_summary as
     end create_ml_grouping;
 
     procedure create_organization_sum(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(30000 char);
+        sql_suffix character varying (30000 char);
     begin
 
         sql_suffix := q'!(data_source_id, data_source, organization_id, organization, organization_name, organization_url,
@@ -407,7 +407,7 @@ create or replace package body etl_helper_summary as
     end create_organization_sum;
 
     procedure create_qwportal_summary(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
     begin
 
         if upper(p_table_suffix) = 'NWIS' or
@@ -436,7 +436,7 @@ create or replace package body etl_helper_summary as
      end create_qwportal_summary;
 
     procedure create_station_sum_indexes(p_table_suffix in user_tables.table_name%type) is
-        stmt       varchar2(32000);
+        stmt       character varying (32000);
         table_name user_tables.table_name%type;
     begin
 
@@ -505,7 +505,7 @@ create or replace package body etl_helper_summary as
     end create_station_sum_indexes;
 
     procedure create_activity_sum_indexes(p_table_suffix in user_tables.table_name%type) is
-        stmt       varchar2(32000);
+        stmt       character varying (32000);
         table_name user_tables.table_name%type;
     begin
 
@@ -579,7 +579,7 @@ create or replace package body etl_helper_summary as
     end create_activity_sum_indexes;
 
     procedure create_result_sum_indexes(p_table_suffix in user_tables.table_name%type) is
-        stmt       varchar2(32000);
+        stmt       character varying (32000);
         table_name user_tables.table_name%type;
     begin
 
@@ -677,7 +677,7 @@ create or replace package body etl_helper_summary as
     end create_result_sum_indexes;
 
     procedure create_organization_sum_idxs(p_table_suffix in user_tables.table_name%type) is
-        stmt       varchar2(32000);
+        stmt       character varying (32000);
         table_name user_tables.table_name%type;
     begin
 
@@ -691,7 +691,7 @@ create or replace package body etl_helper_summary as
     end create_organization_sum_idxs;
 
     procedure create_ml_grouping_idxs(p_table_suffix in user_tables.table_name%type) is
-        stmt       varchar2(32000);
+        stmt       character varying (32000);
         table_name user_tables.table_name%type;
     begin
 

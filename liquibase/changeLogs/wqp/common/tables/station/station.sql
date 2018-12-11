@@ -7,7 +7,7 @@ create unlogged table if not exists ${schemaName}.station
 ,site_type                      text
 ,huc                            character varying (12)
 ,governmental_unit_code         character varying (9)
-,geom                           geometry
+,geom                           geometry(point,4269)
 ,station_name                   text
 ,organization_name              text
 ,description_text               text

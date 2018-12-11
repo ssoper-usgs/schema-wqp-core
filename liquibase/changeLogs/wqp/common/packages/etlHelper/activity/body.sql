@@ -10,7 +10,7 @@ create or replace package body etl_helper_activity as
     end drop_indexes;
 
     procedure create_indexes(p_table_suffix in user_tables.table_name%type) is
-        stmt            varchar2(32000);
+        stmt            character varying (32000);
         table_name      user_tables.table_name%type;
     begin
 

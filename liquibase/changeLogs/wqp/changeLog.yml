@@ -27,7 +27,7 @@ databaseChangeLog:
 #      file: "biodata/changeLog.yml"
 #      relativeToChangelogFile: true
 #      context: external
-#
-#  - include:
-#      file: "zData/changeLog.yml"
-#      relativeToChangelogFile: true
+
+  - include:
+      file: "zData/changeLog.yml"
+      relativeToChangelogFile: true

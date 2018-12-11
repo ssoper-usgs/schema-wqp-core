@@ -10,6 +10,7 @@ create unlogged table if not exists ${schemaName}.act_metric
 ,site_type                      text
 ,huc                            text
 ,governmental_unit_code         text
+,geom                           geometry(point,4269)
 ,organization_name              text
 ,activity_id                    numeric
 ,type_identifier                text

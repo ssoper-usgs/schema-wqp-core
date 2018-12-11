@@ -5,20 +5,6 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.activity_object_storet_pk"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - indexExists:
-              schemaName: ${schemaName}
-              indexName: activity_object_storet_pk
-      changes:
-        - sql: create unique index activity_object_storet_pk on activity_object_storet(data_source_id, object_id) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.activity_object_storet_pk;
-
-  - changeSet:
-      author: drsteini
       id: "create.index.${schemaName}.activity_object_storet_organization"
       preConditions:
         - onFail: MARK_RAN

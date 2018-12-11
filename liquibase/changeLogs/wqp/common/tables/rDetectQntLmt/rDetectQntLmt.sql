@@ -14,6 +14,7 @@ create unlogged table if not exists ${schemaName}.r_detect_qnt_lmt
 ,site_type                      text
 ,huc                            character varying (12)
 ,governmental_unit_code         character varying (9)
+,geom                           geometry(point,4269)
 ,project_id                     text
 ,assemblage_sampled_name        text
 ,sample_tissue_taxonomic_name   text

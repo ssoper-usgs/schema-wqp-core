@@ -9,8 +9,8 @@ create or replace package body pkg_dynamic_list as
 		return;
 	end get_table;
 
-	function url_escape (url in varchar2, escape_reserved in varchar2)
-		return varchar2 is
+	function url_escape (url in character varying , escape_reserved in character varying )
+		return character varying  is
 	begin
 		return utl_url.escape(url, (upper(escape_reserved) = 'TRUE'));
 	end url_escape;

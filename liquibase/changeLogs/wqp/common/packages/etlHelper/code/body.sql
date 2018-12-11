@@ -33,7 +33,7 @@ create or replace package body etl_helper_code as
 
     function create_table(p_table_prefix in user_tables.table_name%type,
                           p_table_suffix in user_tables.table_name%type,
-                          p_sql_suffix in varchar2)
+                          p_sql_suffix in character varying )
         return user_tables.table_name%type is
         table_name user_tables.table_name%type;
     begin
@@ -55,7 +55,7 @@ create or replace package body etl_helper_code as
     end create_table;
 
     procedure create_assemblage(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -71,7 +71,7 @@ create or replace package body etl_helper_code as
     end create_assemblage;
 
     procedure create_char_name(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -87,7 +87,7 @@ create or replace package body etl_helper_code as
     end create_char_name;
 
     procedure create_char_type(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -103,7 +103,7 @@ create or replace package body etl_helper_code as
     end create_char_type;
 
     procedure create_country(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -120,7 +120,7 @@ create or replace package body etl_helper_code as
     end create_country;
 
     procedure create_county(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -138,7 +138,7 @@ create or replace package body etl_helper_code as
     end create_county;
 
     procedure create_monitoring_loc(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -160,7 +160,7 @@ create or replace package body etl_helper_code as
     end create_monitoring_loc;
 
     procedure create_organization(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -177,7 +177,7 @@ create or replace package body etl_helper_code as
     end create_organization;
 
     procedure create_project_dim(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -201,7 +201,7 @@ create or replace package body etl_helper_code as
     end create_project_dim;
 
     procedure create_project(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -217,7 +217,7 @@ create or replace package body etl_helper_code as
     end create_project;
 
     procedure create_sample_media(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -233,7 +233,7 @@ create or replace package body etl_helper_code as
     end create_sample_media;
 
     procedure create_site_type(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -249,7 +249,7 @@ create or replace package body etl_helper_code as
     end create_site_type;
 
     procedure create_state(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 
@@ -267,7 +267,7 @@ create or replace package body etl_helper_code as
     end create_state;
 
     procedure create_taxa_name(p_table_suffix in user_tables.table_name%type) is
-        sql_suffix varchar2(4000 char);
+        sql_suffix text;
         table_name user_tables.table_name%type;
     begin
 

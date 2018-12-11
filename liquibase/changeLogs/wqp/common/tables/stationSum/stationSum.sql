@@ -7,7 +7,7 @@ create unlogged table if not exists ${schemaName}.station_sum
 ,site_type                      text
 ,huc                            character varying (12)
 ,governmental_unit_code         character varying (9)
-,geom                           geometry
+,geom                           geometry(point,4269)
 ,result_count                   integer
 ,activity_count                 integer
 ,summary_past_12_months         json

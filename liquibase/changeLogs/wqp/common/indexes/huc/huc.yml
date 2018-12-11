@@ -14,7 +14,7 @@ databaseChangeLog:
               schemaName: ${schemaName}
               indexName: huc8_conus_hi_ak_pr_dis_geom
       changes:
-        - sql: create index huc8_conus_hi_ak_pr_dis_geom on ${schemaName}.huc8_conus_hi_ak_pr_dis(geom) using gist (geom) with (fillfactor = 100);
+        - sql: create index huc8_conus_hi_ak_pr_dis_geom on ${schemaName}.huc8_conus_hi_ak_pr_dis using gist (geom) with (fillfactor = 100);
         - rollback: drop index if exists ${schemaName}.huc8_conus_hi_ak_pr_dis_geom;
 
   - changeSet:
@@ -28,5 +28,5 @@ databaseChangeLog:
               schemaName: ${schemaName}
               indexName: huc12nometa_geom
       changes:
-        - sql: create index if not exists huc12nometa_geom on ${schemaName}.huc12nometa using gist (geom) with (fillfactor = 100);
+        - sql: create index if not exists huc12nometa_geom on ${schemaName}.huc12nometa using gist (geometry) with (fillfactor = 100);
         - rollback: drop index if exists ${schemaName}.huc12nometa_geom;

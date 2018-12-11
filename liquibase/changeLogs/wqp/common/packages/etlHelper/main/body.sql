@@ -33,7 +33,7 @@ create or replace package body etl_helper_main as
     end drop_indexes;
 
     procedure add_ri(p_table_suffix in user_tables.table_name%type) is
-        stmt            varchar2(32000);
+        stmt            character varying (32000);
         suffix          user_tables.table_name%type;
     begin
 
@@ -183,7 +183,7 @@ create or replace package body etl_helper_main as
         l_table_name    user_tables.table_name%type;
         old_rows        int;
         new_rows        int;
-        pass_fail       varchar2(15);
+        pass_fail       character varying (15);
         end_job         boolean := false;
     begin
 

@@ -7,6 +7,7 @@ create unlogged table if not exists ${schemaName}.bio_hab_metric
 ,site_type                      text
 ,huc                            text
 ,governmental_unit_code         text
+,geom                           geometry(point,4269)
 ,index_identifier               text
 ,index_type_identifier          text
 ,index_type_context             text

@@ -10,8 +10,9 @@ create unlogged table if not exists ${schemaName}.activity
 ,site_type                      text
 ,huc                            text
 ,governmental_unit_code         text
+,geom                           geometry(point,4269)
 ,organization_name              text
-,activity_id                    integer
+,activity_id                    numeric
 ,activity_type_code             text
 ,activity_media_subdiv_name     text
 ,activity_start_time            text

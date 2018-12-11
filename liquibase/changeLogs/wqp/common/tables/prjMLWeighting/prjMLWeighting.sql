@@ -9,6 +9,7 @@ create unlogged table if not exists ${schemaName}.prj_ml_weighting
 ,site_type                      text
 ,huc                            character varying (12)
 ,governmental_unit_code         character varying (9)
+,geom                           geometry(point,4269)
 ,project_identifier             text
 ,measure_value                  text
 ,unit_code                      text

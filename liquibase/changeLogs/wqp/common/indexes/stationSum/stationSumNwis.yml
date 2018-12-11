@@ -145,20 +145,6 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.station_sum_nwis_pk"
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - indexExists:
-              schemaName: ${schemaName}
-              indexName: station_sum_nwis_pk
-      changes:
-        - sql: create unique index station_sum_nwis_pk on ${schemaName}.station_sum_nwis(data_source_id, station_id) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.station_sum_nwis_pk;
-
-  - changeSet:
-      author: drsteini
       id: "create.index.${schemaName}.station_sum_nwis_site"
       preConditions:
         - onFail: MARK_RAN

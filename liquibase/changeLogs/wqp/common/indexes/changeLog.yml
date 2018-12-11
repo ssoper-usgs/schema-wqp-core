@@ -31,65 +31,65 @@ databaseChangeLog:
       file: "huc/changeLog.yml"
       relativeToChangelogFile: true
 
-#  - include:
-#      file: "mlGrouping/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "monitoringLoc/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "organizationSum/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "orgData/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "prjMLWeighting/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "projectData/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "projectDim/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "projectObject/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "result/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "resultObject/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "resultSum/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "rdetectQntLmt/changeLog.yml"
-#      relativeToChangelogFile: true
-#
-#  - include:
-#      file: "states/changeLog.yml"
-#      relativeToChangelogFile: true
+  - include:
+      file: "mlGrouping/changeLog.yml"
+      relativeToChangelogFile: true
 
-#  - include:
-#      file: "station/changeLog.yml"
-#      relativeToChangelogFile: true
+  - include:
+      file: "monitoringLoc/changeLog.yml"
+      relativeToChangelogFile: true
 
-#  - include:
-#      file: "stationObject/changeLog.yml"
-#      relativeToChangelogFile: true
+  - include:
+      file: "organizationSum/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "orgData/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "prjMLWeighting/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectData/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectDim/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "rdetectQntLmt/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "result/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "resultObject/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "resultSum/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "states/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "station/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "stationObject/changeLog.yml"
+      relativeToChangelogFile: true
 
   - include:
       file: "stationSum/changeLog.yml"

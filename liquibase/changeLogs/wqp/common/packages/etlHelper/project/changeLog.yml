@@ -1,7 +1,7 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       author: drsteini
