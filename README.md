@@ -5,15 +5,24 @@ Liquibase scripts for creating the WQ Owner database schema objects. They are us
 In order to use the docker compose scripts, you will need to create a .env file in the project directory containing
 the following (shown are example values):
 ```
+
 POSTGRES_PASSWORD=<changeMe>
 
-ARS_STEWARDS_OWNER=ars_stewards_owner
-ARS_STEWARDS_OWNER_PASSWORD=<changeMe>
-ARS_STEWARDS_DATABASE_NAME=ars_stewards_db
-ARS_STEWARDS_SCHEMA_NAME=ars_stewards
+AUDIENCE=(external|internal)
 
-WQP_CORE_OWNER=wqp_core
-WQP_CORE_OWNER_PASSWORD=<changeMe>
+CONTEXTS=(external|internal)[,ci]
+
+DATABASE\_NAME=<wqp_db>
+
+SCHEMA_NAME=<wqp>
+
+DATA\_OWNER=<wqp_core>
+
+DATA\_OWNER\_PASSWORD=<changeMe>
+
+READ\_ONLY\_USER=<wqp_user>
+
+READ\_ONLY\_USER_PASSWORD=<changeMe>
 
 ```
 
@@ -39,23 +48,26 @@ Other Helpful commands include:
 * __docker logs <containerID>__ to view the Docker Compose logs in a container
 
 
-Parameters used for configuration:
+Environment variables:
 
-* **readOnlyUser** - The limited privilege schema used by applications to access this schema.
+* **POSTGRES_PASSWORD** - Password for the postgres user.
 
-* **dataOwner** - The schema in which these scripts are run and objects created.
+* **AUDIENCE** - Which flavor of the database to create - **external** or **internal**.
 
-* **result1** - The name of the first tablespace in the partitioning round robin of very large tables.
+* **CONTEXTS** - Which Liquibase contexts to apply. See list below for valid values.
 
-* **result2** - The name of the second tablespace in the partitioning round robin of very large tables.
+* **DATABASE_NAME** - Name of the PostgreSQL database to create for containing the schema.
 
-* **result3** - The name of the third tablespace in the partitioning round robin of very large tables.
+* **SCHEMA_NAME** - Name of the schema to create for holding database objects.
 
-* **result4** - The name of the fourth tablespace in the partitioning round robin of very large tables.
+* **DATA_OWNER** - Role which will own the database objects.
 
-* **nemi\_data\_pwd** - The password used in creating database links to the nemi repository.
+* **DATA\_OWNER\_PASSWORD** - Password for the **DATA_OWNER** role.
 
-* **wqp_core_dbdw_pwd** - The password used in creating database links to the wqp safe repository.
+* **READ\_ONLY\_USER** - The limited privilege role used by applications to access this database.
+
+* **READ\_ONLY\_USER_PASSWORD** - Password for the **READ\_ONLY\_USER** role.
+
 
 
 Context values used for configuration:
