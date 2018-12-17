@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "projectDataBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "projectDataNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectDataStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "projectDataStoret.yml"
+      relativeToChangelogFile: true
+      context: external

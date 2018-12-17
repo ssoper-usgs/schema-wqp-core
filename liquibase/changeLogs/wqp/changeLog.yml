@@ -2,31 +2,26 @@ databaseChangeLog:
   - preConditions:
     - dbms:
         type: postgresql
-    - runningAs:
-        username: ${dataOwner}
 
   - include:
-      file: "common/changeLog.yml"
+      file: "grants/changeLog.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "tables/changeLog.yml"
       relativeToChangelogFile: true
 
 #  - include:
-#      file: "stewards/changeLog.yml"
-#      relativeToChangelogFile: true
-#      context: external
-#
-#  - include:
-#      file: "nwis/changeLog.yml"
+#      file: "indexes/changeLog.yml"
 #      relativeToChangelogFile: true
 #
 #  - include:
-#      file: "storet/changeLog.yml"
+#      file: "ri/changeLog.yml"
 #      relativeToChangelogFile: true
-#      context: external
-#
+
 #  - include:
-#      file: "biodata/changeLog.yml"
+#      file: "packages/changeLog.yml"
 #      relativeToChangelogFile: true
-#      context: external
 
   - include:
       file: "zData/changeLog.yml"

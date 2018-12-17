@@ -1,18 +1,18 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
-  - include:
-      file: "common/changeLog.yml"
-      relativeToChangelogFile: true
+#  - include:
+#      file: "common/changeLog.yml"
+#      relativeToChangelogFile: true
 
   - include:
       file: "external/changeLog.yml"
       relativeToChangelogFile: true
       context: external
 
-  - include:
-      file: "internal/changeLog.yml"
-      relativeToChangelogFile: true
-      context: internal
+#  - include:
+#      file: "internal/changeLog.yml"
+#      relativeToChangelogFile: true
+#      context: internal

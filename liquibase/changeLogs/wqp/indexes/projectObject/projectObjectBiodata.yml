@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.project_object_biodata_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: project_object_biodata_organization
+      changes:
+        - sql: create index if not exists project_object_biodata_organization on ${schemaName}.project_object_biodata(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.project_object_biodata_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.project_object_biodata_identifier"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: project_object_biodata_identifier
+      changes:
+        - sql: create index if not exists project_object_biodata_identifier on ${schemaName}.project_object_biodata(project_identifier) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.project_object_biodata_identifier;

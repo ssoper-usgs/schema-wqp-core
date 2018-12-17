@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_object_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - primaryKeyExists:
+              schemaName: ${schemaName}
+              tableName: activity_object_nwis
+      changes:
+        - sql: alter table ${schemaName}.activity_object_nwis add constraint activity_object_nwis_pk primary key (data_source_id, object_id) with (fillfactor = 100);
+        - rollback: alter table ${schemaName}.activity_object_nwis drop constraint if exists activity_object_nwis_pk;

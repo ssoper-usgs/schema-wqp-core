@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.project_data_stewards_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - primaryKeyExists:
+              schemaName: ${schemaName}
+              tableName: project_data_stewards
+      changes:
+        - sql: alter table ${schemaName}.project_data_stewards add constraint project_data_stewards_pk primary key (data_source_id, project_id) with (fillfactor = 100);
+        - rollback: alter table ${schemaName}.project_data_stewards drop constraint if exists project_data_stewards_pk;

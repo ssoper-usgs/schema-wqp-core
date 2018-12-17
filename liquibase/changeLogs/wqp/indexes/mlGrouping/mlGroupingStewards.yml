@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.ml_grouping_stewards_station"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: ml_grouping_stewards_station
+      changes:
+        - sql: create index if not exists ml_grouping_stewards_station on ${schemaName}.ml_grouping_stewards(station_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.ml_grouping_stewards_station;

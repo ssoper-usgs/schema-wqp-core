@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.activity_storet_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - primaryKeyExists:
+              schemaName: ${schemaName}
+              tableName: activity_storet
+      changes:
+        - sql: alter table ${schemaName}.activity_storet add constraint activity_storet_pk primary key (data_source_id, station_id, activity_id) with (fillfactor = 100);
+        - rollback: alter table ${schemaName}.activity_storet drop constraint if exists activity_storet_pk;

@@ -1,7 +1,7 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       id: load.data_source

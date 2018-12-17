@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.station_object_storet_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: station_object_storet_organization
+      changes:
+        - sql: create index if not exists station_object_storet_organization on ${schemaName}.station_object_storet(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.station_object_storet_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.station_object_storet_site_id"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: station_object_storet_site_id
+      changes:
+        - sql: create index if not exists station_object_storet_site_id on ${schemaName}.station_object_storet(site_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.station_object_storet_site_id;

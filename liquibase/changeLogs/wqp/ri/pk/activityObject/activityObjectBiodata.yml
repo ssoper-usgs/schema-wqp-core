@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.activity_object_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - primaryKeyExists:
+              schemaName: ${schemaName}
+              tableName: activity_object_biodata
+      changes:
+        - sql: alter table ${schemaName}.activity_object_biodata add constraint activity_object_biodata_pk primary key (data_source_id, object_id) with (fillfactor = 100);
+        - rollback: alter table ${schemaName}.activity_object_biodata drop constraint if exists activity_object_biodata_pk;

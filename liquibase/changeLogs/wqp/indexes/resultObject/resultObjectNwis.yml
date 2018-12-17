@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.result_object_nwis_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: result_object_nwis_organization
+      changes:
+        - sql: create index if not exists result_object_nwis_organization on ${schemaName}.result_object_nwis(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.result_object_nwis_organization;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.result_object_nwis_activity"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: result_object_nwis_activity
+      changes:
+        - sql: create index if not exists result_object_nwis_activity on ${schemaName}.result_object_nwis(activity) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.result_object_nwis_activity;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.result_object_nwis_source"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: result_object_nwis_source
+      changes:
+        - sql: create index if not exists result_object_nwis_source on ${schemaName}.result_object_nwis(data_source) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.result_object_nwis_source;
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.result_object_nwis_result"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: result_object_nwis_result
+      changes:
+        - sql: create index if not exists result_object_nwis_result on ${schemaName}.result_object_nwis(result_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.result_object_nwis_result;

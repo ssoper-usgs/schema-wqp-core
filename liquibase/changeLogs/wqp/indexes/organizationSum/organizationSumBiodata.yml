@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.organization_sum_biodata_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: organization_sum_biodata_organization
+      changes:
+        - sql: create index if not exists organization_sum_biodata_organization on ${schemaName}.organization_sum_biodata(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.organization_sum_biodata_organization;

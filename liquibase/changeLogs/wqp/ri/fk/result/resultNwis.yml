@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.result_nwis_station_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - foreignKeyConstraintExists:
+              schemaName: ${schemaName}
+              foreignKeyName: result_nwis_station_fk
+      changes:
+        - sql: alter table ${schemaName}.result_nwis add constraint result_nwis_station_fk foreign key (data_source_id, station_id) references ${schemaName}.station_nwis (data_source_id, station_id);
+        - rollback: alter table ${schemaName}.result_nwis drop constraint result_nwis_station_fk;

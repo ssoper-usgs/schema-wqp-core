@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "resultSumBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "resultSumNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "resultSumStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "resultSumStoret.yml"
+      relativeToChangelogFile: true
+      context: external

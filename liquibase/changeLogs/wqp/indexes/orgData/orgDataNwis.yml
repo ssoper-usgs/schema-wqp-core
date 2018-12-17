@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.org_data_nwis_organization"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: org_data_nwis_organization
+      changes:
+        - sql: create index if not exists org_data_nwis_organization on ${schemaName}.org_data_nwis(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.org_data_nwis_organization;

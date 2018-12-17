@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.org_data_biodata_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - primaryKeyExists:
+              schemaName: ${schemaName}
+              tableName: org_data_biodata
+      changes:
+        - sql: alter table ${schemaName}.org_data_biodata add constraint org_data_biodata_pk primary key (data_source_id, organization_id) with (fillfactor = 100);
+        - rollback: alter table ${schemaName}.org_data_biodata drop constraint if exists org_data_biodata_pk;

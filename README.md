@@ -43,35 +43,23 @@ Other Helpful commands include:
 Environment variables:
 
 * **POSTGRES_PASSWORD** - Password for the postgres user.
-
 * **AUDIENCE** - Which flavor of the database to create - **external** or **internal**.
-
 * **CONTEXTS** - Which Liquibase contexts to apply. See list below for valid values.
-
 * **DATABASE_NAME** - Name of the PostgreSQL database to create for containing the schema.
-
 * **SCHEMA_NAME** - Name of the schema to create for holding database objects.
-
 * **DATA_OWNER** - Role which will own the database objects.
-
 * **DATA_OWNER_PASSWORD** - Password for the **DATA_OWNER** role.
-
-* **READ_ONLY_USER** - The limited privilege role used by applications to access this database.
-
-* **READ\_ONLY\_USER_PASSWORD** - Password for the **READ\_ONLY\_USER** role.
+* **READ_ONLY_USER** - The limited privilege role used by applications to access this schema.
+* **READ_ONLY_USER_PASSWORD** - Password for the **READ_ONLY_USER** role.
 
 
 
 Context values used for configuration:
 
 * **external** - These changesets are unique to the external WQP.
-
 * **internal** - These changesets are unique to the internal WQP.
 
 * **ci** - These changesets are unique to the continuous integration database layer.
-
 * **dev** - These changesets are unique to the development database layer.
-
 * **qa** - These changesets are unique to the quality assurance database layer.
-
 * **prod** - These changesets are unique to the production database layer.

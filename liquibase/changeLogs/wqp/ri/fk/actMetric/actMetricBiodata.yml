@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.act_metric_biodata_activity_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - foreignKeyConstraintExists:
+              schemaName: ${schemaName}
+              foreignKeyName: act_metric_biodata_activity_fk
+      changes:
+        - sql: alter table ${schemaName}.act_metric_biodata add constraint act_metric_biodata_activity_fk foreign key (data_source_id, station_id, activity_id) references ${schemaName}.activity_biodata (data_source_id, station_id, activity_id);
+        - rollback: alter table ${schemaName}.act_metric_biodata drop constraint act_metric_biodata_activity_fk;

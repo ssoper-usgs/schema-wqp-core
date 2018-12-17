@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${schemaName}.states_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              schemaName: ${schemaName}
+              indexName: states_geom
+      changes:
+        - sql: create index if not exists states_geom on ${schemaName}.states using gist (geom) with (fillfactor = 100);
+        - rollback: drop index if exists ${schemaName}.states_geom;

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "actMetricBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "actMetricNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "actMetricStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "actMetricStoret.yml"
+      relativeToChangelogFile: true
+      context: external

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "stationBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "stationNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "stationStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "stationStoret.yml"
+      relativeToChangelogFile: true
+      context: external

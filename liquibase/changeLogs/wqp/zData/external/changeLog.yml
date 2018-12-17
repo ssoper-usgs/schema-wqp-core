@@ -1,7 +1,7 @@
 databaseChangeLog:
   - preConditions:
     - dbms:
-        type: oracle
+        type: postgresql
 
   - changeSet:
       id: load.data_source
@@ -18,82 +18,82 @@ databaseChangeLog:
             tableName: data_source
         - rollback: select 'no rollback - you must restore previous data_source.tsv and rerun manually' from dual
 
-  - changeSet:
-      id: load.wqx_hrdat_to_srid
-      author: drsteini
-      runOnChange: true
-      changes:
-        - delete:
-            tableName: wqx_hrdat_to_srid
-        - loadData:
-            encoding: UTF-8
-            file: wqx_hrdat_to_srid.tsv
-            relativeToChangelogFile: true
-            separator: \t
-            tableName: wqx_hrdat_to_srid
-        - rollback: select 'no rollback - you must restore previous wqx_hrdat_to_srid.tsv and rerun manually' from dual
+#  - changeSet:
+#      id: load.wqx_hrdat_to_srid
+#      author: drsteini
+#      runOnChange: true
+#      changes:
+#        - delete:
+#            tableName: wqx_hrdat_to_srid
+#        - loadData:
+#            encoding: UTF-8
+#            file: wqx_hrdat_to_srid.tsv
+#            relativeToChangelogFile: true
+#            separator: \t
+#            tableName: wqx_hrdat_to_srid
+#        - rollback: select 'no rollback - you must restore previous wqx_hrdat_to_srid.tsv and rerun manually' from dual
 
-  - changeSet:
-      id: load.wqx_site_type_conversion
-      author: drsteini
-      runOnChange: true
-      changes:
-        - delete:
-            tableName: wqx_site_type_conversion
-        - loadData:
-            encoding: UTF-8
-            file: wqx_site_type_conversion.tsv
-            relativeToChangelogFile: true
-            separator: \t
-            tableName: wqx_site_type_conversion
-        - rollback: select 'no rollback - you must restore previous wqx_site_type_conversion.tsv and rerun manually' from dual
+#  - changeSet:
+#      id: load.wqx_site_type_conversion
+#      author: drsteini
+#      runOnChange: true
+#      changes:
+#        - delete:
+#            tableName: wqx_site_type_conversion
+#        - loadData:
+#            encoding: UTF-8
+#            file: wqx_site_type_conversion.tsv
+#            relativeToChangelogFile: true
+#            separator: \t
+#            tableName: wqx_site_type_conversion
+#        - rollback: select 'no rollback - you must restore previous wqx_site_type_conversion.tsv and rerun manually' from dual
 
-  - changeSet:
-      id: load.etl_threshold
-      author: drsteini
-      runOnChange: true
-      changes:
-        - delete:
-            tableName: etl_threshold
-        - loadData:
-            encoding: UTF-8
-            file: etl_threshold.tsv
-            relativeToChangelogFile: true
-            separator: \t
-            tableName: etl_threshold
-        - rollback: select 'no rollback - you must restore previous etl_threshold.tsv and rerun manually' from dual
+#  - changeSet:
+#      id: load.etl_threshold
+#      author: drsteini
+#      runOnChange: true
+#      changes:
+#        - delete:
+#            tableName: etl_threshold
+#        - loadData:
+#            encoding: UTF-8
+#            file: etl_threshold.tsv
+#            relativeToChangelogFile: true
+#            separator: \t
+#            tableName: etl_threshold
+#        - rollback: select 'no rollback - you must restore previous etl_threshold.tsv and rerun manually' from dual
 
-  - changeSet:
-      id: load.wqx_dql_hierarchy
-      author: drsteini
-      runOnChange: true
-      changes:
-        - delete:
-            tableName: wqx_dql_hierarchy
-        - loadData:
-            encoding: UTF-8
-            file: wqx_dql_hierarchy.tsv
-            relativeToChangelogFile: true
-            separator: \t
-            tableName: wqx_dql_hierarchy
-        - rollback: select 'no rollback - you must restore previous wqx_dql_hierarchy.tsv and rerun manually' from dual
+#  - changeSet:
+#      id: load.wqx_dql_hierarchy
+#      author: drsteini
+#      runOnChange: true
+#      changes:
+#        - delete:
+#            tableName: wqx_dql_hierarchy
+#        - loadData:
+#            encoding: UTF-8
+#            file: wqx_dql_hierarchy.tsv
+#            relativeToChangelogFile: true
+#            separator: \t
+#            tableName: wqx_dql_hierarchy
+#        - rollback: select 'no rollback - you must restore previous wqx_dql_hierarchy.tsv and rerun manually' from dual
 
-  - changeSet:
-      author: drsteini
-      id: "load.county_geom_lookup"
-      context: dev,qa,prod
-      changes:
-        - delete:
-            tableName: county_geom_lookup
-        - sql: insert into county_geom_lookup select * from county_geom_lookup@wqp_core_dbdw.er.usgs.gov;
-        - rollback: truncate table county_geom_lookup;
+#  - changeSet:
+#      author: drsteini
+#      id: "load.county_geom_lookup"
+#      context: dev,qa,prod
+#      changes:
+#        - delete:
+#            tableName: county_geom_lookup
+#        - sql: insert into county_geom_lookup select * from county_geom_lookup@wqp_core_dbdw.er.usgs.gov;
+#        - rollback: truncate table county_geom_lookup;
 
-  - changeSet:
-      author: skaymen
-      id: "load.county_geom"
-      context: dev,qa,prod
-      changes:
-        - delete:
-            tableName: county_geom
-        - sql: insert into county_geom select * from county_geom@wqp_core_dbdw.er.usgs.gov;
-        - rollback: truncate table county_geom;
+#  - changeSet:
+#      author: skaymen
+#      id: "load.county_geom"
+#      context: dev,qa,prod
+#      changes:
+#        - delete:
+#            tableName: county_geom
+#        - sql: insert into county_geom select * from county_geom@wqp_core_dbdw.er.usgs.gov;
+#        - rollback: truncate table county_geom;

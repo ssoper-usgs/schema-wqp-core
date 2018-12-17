@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.station_nwis_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - primaryKeyExists:
+              schemaName: ${schemaName}
+              tableName: station_nwis
+      changes:
+        - sql: alter table ${schemaName}.station_nwis add constraint station_nwis_pk primary key (data_source_id, station_id) with (fillfactor = 100);
+        - rollback: alter table ${schemaName}.station_nwis drop constraint if exists station_nwis_pk;

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "monitoringLocBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "monitoringLocNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "monitoringLocStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "monitoringLocStoret.yml"
+      relativeToChangelogFile: true
+      context: external

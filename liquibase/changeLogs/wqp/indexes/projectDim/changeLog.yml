@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "projectDimBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "projectDimNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "projectDimStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "projectDimStoret.yml"
+      relativeToChangelogFile: true
+      context: external

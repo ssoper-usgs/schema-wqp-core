@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "rdetectQntLmtBiodata.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "rdetectQntLmtNwis.yml"
+      relativeToChangelogFile: true
+
+  - include:
+      file: "rdetectQntLmtStewards.yml"
+      relativeToChangelogFile: true
+      context: external
+
+  - include:
+      file: "rdetectQntLmtStoret.yml"
+      relativeToChangelogFile: true
+      context: external

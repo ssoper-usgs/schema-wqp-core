@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.${schemaName}.ml_grouping_stewards_station_sum_fk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - foreignKeyConstraintExists:
+              schemaName: ${schemaName}
+              foreignKeyName: ml_grouping_stewards_station_sum_fk
+      changes:
+        - sql: alter table ${schemaName}.ml_grouping_stewards add constraint ml_grouping_stewards_station_sum_fk foreign key (data_source_id, station_id) references ${schemaName}.station_sum_stewards (data_source_id, station_id);
+        - rollback: alter table ${schemaName}.ml_grouping_stewards drop constraint ml_grouping_stewards_station_sum_fk;
