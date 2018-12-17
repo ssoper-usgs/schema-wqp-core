@@ -7,22 +7,14 @@ the following (shown are example values):
 ```
 
 POSTGRES_PASSWORD=<changeMe>
-
 AUDIENCE=(external|internal)
-
 CONTEXTS=(external|internal)[,ci]
-
-DATABASE\_NAME=<wqp_db>
-
+DATABASE_NAME=<wqp_db>
 SCHEMA_NAME=<wqp>
-
-DATA\_OWNER=<wqp_core>
-
-DATA\_OWNER\_PASSWORD=<changeMe>
-
-READ\_ONLY\_USER=<wqp_user>
-
-READ\_ONLY\_USER_PASSWORD=<changeMe>
+DATA_OWNER=<wqp_core>
+DATA_OWNER_PASSWORD=<changeMe>
+READ_ONLY_USER=<wqp_user>
+READ_ONLY_USER_PASSWORD=<changeMe>
 
 ```
 
@@ -62,9 +54,9 @@ Environment variables:
 
 * **DATA_OWNER** - Role which will own the database objects.
 
-* **DATA\_OWNER\_PASSWORD** - Password for the **DATA_OWNER** role.
+* **DATA_OWNER_PASSWORD** - Password for the **DATA_OWNER** role.
 
-* **READ\_ONLY\_USER** - The limited privilege role used by applications to access this database.
+* **READ_ONLY_USER** - The limited privilege role used by applications to access this database.
 
 * **READ\_ONLY\_USER_PASSWORD** - Password for the **READ\_ONLY\_USER** role.
 
