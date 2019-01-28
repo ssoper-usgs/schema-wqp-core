@@ -7,9 +7,8 @@ create table if not exists ${schemaName}.web_service_log
 ,origin                         text                not null
 ,call_type                      text                not null
 ,endpoint                       text                not null
-,query_string                   text                not null
 ,total_rows_expected            integer
-,data_store_counts              text
+,data_store_counts              jsonb
 ,http_status_code               text
 ,post_data                      jsonb
 ,user_agent                     text

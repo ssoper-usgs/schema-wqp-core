@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "grant.insert.update.${schemaName}.web_service_log.${readOnlyUser}"
+      changes:
+        - sql:
+            sql: grant insert,update on ${schemaName}.web_service_log to ${readOnlyUser};
+        - rollback: revoke insert,update on ${schemaName}.web_service_log from ${readOnlyUser};
