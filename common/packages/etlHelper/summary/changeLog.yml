@@ -22,3 +22,15 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: false
         - rollback: drop package body etl_helper_summary;
+        
+  - changeSet:
+      author: ajmccart
+      id: "create.package.body.etl_helper_summary_WQP1360"
+      changes:
+        - sqlFile:
+            path: body-WQP-1360.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+        - rollback:
+            changeSetId: "create.package.body.etl_helper_summary"
+            changeSetAuthor: drsteini;
