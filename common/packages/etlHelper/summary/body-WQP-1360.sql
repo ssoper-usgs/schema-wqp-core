@@ -330,7 +330,7 @@ CREATE OR REPLACE package body WQP_CORE.etl_helper_summary as
       
 	  
 
-        sql_suffix := q'!((data_source_id, data_source, organization_id, organization, organization_name, organization_url,
+        sql_suffix := q'!(data_source_id, data_source, organization_id, organization, organization_name, organization_url,
                  all_time_last_result, all_time_site_count, all_time_activity_count,
                  five_year_last_result, five_year_site_count, five_year_activity_count,
                  current_year_last_result, current_year_site_count, current_year_activity_count,
