@@ -1,0 +1,11 @@
+FROM alpine
+
+MAINTAINER David Steinich <drsteini@contractor.usgs.gov>
+
+RUN set -x \
+    && apk update && apk upgrade \
+    && apk add --no-cache bash \
+    && apk add --no-cache curl\
+    && apk add --no-cache postgresql-client
+
+RUN pg_restore -h 127.0.0.1 -p 5432 -U wqp_core -w -c -d wqp -F t /export_data/wqp_core_all.tar
