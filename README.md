@@ -63,3 +63,5 @@ Context values used for configuration:
 * **dev** - These changesets are unique to the development database layer.
 * **qa** - These changesets are unique to the quality assurance database layer.
 * **prod** - These changesets are unique to the production database layer.
+
+docker network create --subnet=172.25.0.0/16 wqp

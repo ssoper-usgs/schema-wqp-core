@@ -4,6 +4,9 @@ services:
     image: wqp_db
     build:
       context: .
+    networks:
+      wqp:
+        ipv4_address: ${DB_IPV4}
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
@@ -14,6 +17,9 @@ services:
     image: wqp_liquibase
     build:
       context: ./liquibase
+    networks:
+      wqp:
+        ipv4_address: ${LIQUIBASE_IPV4}
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - DATA_OWNER=${DATA_OWNER}
@@ -28,3 +34,8 @@ services:
       - ./liquibase/changeLogs:/opt/liquibase/workspace
       - ./liquibase/logs:/opt/liquibase/logs
       - ./liquibase/dbInit:/docker-entrypoint-initdb.d
+
+networks:
+  wqp:
+    external:
+      name: wqp
