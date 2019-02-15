@@ -28,3 +28,26 @@ services:
       - ./liquibase/changeLogs:/opt/liquibase/workspace
       - ./liquibase/logs:/opt/liquibase/logs
       - ./liquibase/dbInit:/docker-entrypoint-initdb.d
+
+  liquibase_demo:
+    image: wqp_liquibase_demo
+    build:
+      context: ./liquibase
+      dockerfile: Dockerfile.demo
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DATA_OWNER=${DATA_OWNER}
+      - DATA_OWNER_PASSWORD=${DATA_OWNER_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - SCHEMA_NAME=${SCHEMA_NAME}
+      - READ_ONLY_USER=${READ_ONLY_USER}
+      - READ_ONLY_USER_PASSWORD=${READ_ONLY_USER_PASSWORD}
+      - CONTEXTS=external,dev
+      - AUDIENCE=external
+    volumes:
+      - ./liquibase/changeLogs:/opt/liquibase/workspace
+      - ./liquibase/logs:/opt/liquibase/logs
+      - ./liquibase/dbDemo:/docker-entrypoint-initdb.d
+
+
+

@@ -22,6 +22,10 @@ RUN tar -xzf $LIQUIBASE_HOME/liquibase-$LIQUIBASE_VERSION-bin.tar.gz -C $LIQUIBA
 
 RUN chmod -R 777 $LIQUIBASE_HOME
 
+RUN apt-get update && apt-get install -y postgresql-client
+
+RUN curl "https://cida.usgs.gov/artifactory/wqp/wqp_core_all.tar.gz" -o $LIQUIBASE_HOME/wqp_core_all.tar.gz
+
 COPY ./docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
