@@ -4,10 +4,6 @@ databaseChangeLog:
         type: postgresql
 
   - include:
-      file: "schemaGrants/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
       file: "tables/changeLog.yml"
       relativeToChangelogFile: true
 

@@ -26,6 +26,16 @@ To create a postgres database and then run the liquibase scripts:
 
 The PostGIS database will be available on port 5434
 
+You can also create a demo database containing a small subset of the WQP data. Data was extracted
+for huc = 04100003 and characteristic_type in ('Biological', 'Nutrient'). This data spans 344 sites in three 
+states (IN, MI, OH) and all four current datasources (BIODATA, ARS_STEWARDS, STORET, NWIS. To create the
+demo database, run the liquibase scripts, and restore a pg dump file:
+```
+% docker-compose up -d db
+% docker-compose up liquibase_demo
+```
+You will likely see errors in the log about tables not existing but this is expected. 
+
 Other Helpful commands include:
 * __docker-compose up__ to create and start the containers
 * __docker-compose ps__ to list the containers
