@@ -7,7 +7,7 @@ the following (shown are example values):
 ```
 
 POSTGRES_PASSWORD=<changeMe>
-AUDIENCE=(external|internal)
+DATABASE_ADDRESS=(WQP_External_Database|WQP_Internal_Database)
 CONTEXTS=(external|internal)[,ci]
 DATABASE_NAME=<wqp_db>
 SCHEMA_NAME=<wqp>
@@ -53,7 +53,7 @@ Other Helpful commands include:
 Environment variables:
 
 * **POSTGRES_PASSWORD** - Password for the postgres user.
-* **AUDIENCE** - Which flavor of the database to create - **external** or **internal**.
+* **DATABASE_ADDRESS** - Which flavor of the database to create - **WQP_External_Database** or **WQP_Internal_Database**.
 * **CONTEXTS** - Which Liquibase contexts to apply. See list below for valid values.
 * **DATABASE_NAME** - Name of the PostgreSQL database to create for containing the schema.
 * **SCHEMA_NAME** - Name of the schema to create for holding database objects.

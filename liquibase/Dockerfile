@@ -1,4 +1,4 @@
-FROM openjdk:11.0.1
+FROM usgswma/openjdk:debian-stretch-openjdk-11
 
 LABEL maintainer="[gs-w_eto_eb_federal_employees@usgs.gov](mailto:gs-w_eto_eb_federal_employees@usgs.gov)"
 
