@@ -30,10 +30,8 @@ services:
       - READ_ONLY_USER_PASSWORD=${READ_ONLY_USER_PASSWORD}
       - CONTEXTS=${CONTEXTS}
       - DATABASE_ADDRESS=${DATABASE_ADDRESS}
-    volumes:
-      - ./liquibase/changeLogs:/opt/liquibase/workspace
-      - ./liquibase/logs:/opt/liquibase/logs
-      - ./liquibase/dbInit:/docker-entrypoint-initdb.d
+      - LIQUIBASE_VERSION=${LIQUIBASE_VERSION}
+      - JDBC_JAR=${JDBC_JAR}
 
   liquibase_demo:
     image: wqp_liquibase_demo
