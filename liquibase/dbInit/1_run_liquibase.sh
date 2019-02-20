@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo LIQUIBASE_HOME=$LIQUIBASE_HOME
+echo JDBC_JAR=$JDBC_JAR
+echo LIQUIBASE_WORKSPACE=$LIQUIBASE_WORKSPACE
+echo DATABASE_ADDRESS=$DATABASE_ADDRESS
+
 # postgres to postgres db scripts
 $LIQUIBASE_HOME/liquibase \
 	--classpath=$LIQUIBASE_HOME/lib/$JDBC_JAR \
