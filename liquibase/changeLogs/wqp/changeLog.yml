@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - include:
+      file: "schemaGrants/changeLog.yml"
+      relativeToChangelogFile: true
+  - include:
+      file: "schemaLoad/changeLog.yml"
+      relativeToChangelogFile: true

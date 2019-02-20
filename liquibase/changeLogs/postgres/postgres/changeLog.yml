@@ -49,12 +49,12 @@ databaseChangeLog:
             sql: select count(*) from pg_database where datname = '${DATABASE_NAME}';
       runInTransaction: false
       changes:
-        - sql: create database ${DATABASE_NAME} with owner = ${dataOwner};
-        - rollback: drop database if exists ${DATABASE_NAME};
+        - sql: create database "${DATABASE_NAME}" with owner = ${dataOwner};
+        - rollback: drop database if exists "${DATABASE_NAME}";
 
   - changeSet:
       author: drsteini
       id: "alter.database.${DATABASE_NAME}.search_path"
       changes:
-        - sql: alter database ${DATABASE_NAME} set search_path = "$user", ${schemaName}, public, tiger;
-        - rollback: alter database ${DATABASE_NAME} reset search_path;
+        - sql: alter database "${DATABASE_NAME}" set search_path = "$user", ${schemaName}, public, tiger;
+        - rollback: alter database "${DATABASE_NAME}" reset search_path;
