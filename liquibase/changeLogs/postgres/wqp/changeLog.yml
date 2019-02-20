@@ -9,15 +9,15 @@ databaseChangeLog:
       author: drsteini
       id: "grants.${dataOwner}.to.databasechangelog"
       changes:
-        - sql: grant select, insert, update, delete on public.databasechangelog to ${dataOwner}
-        - rollback: revoke select, insert, update, delete on public.databasechangelog from ${dataOwner}
+        - sql: grant select, insert, update, delete on databasechangelog to ${dataOwner}
+        - rollback: revoke select, insert, update, delete on databasechangelog from ${dataOwner}
 
   - changeSet:
       author: drsteini
       id: "grants.${dataOwner}.to.databasechangeloglock"
       changes:
-        - sql: grant select, insert, update, delete on public.databasechangeloglock to ${dataOwner}
-        - rollback: revoke select, insert, update, delete on public.databasechangeloglock from ${dataOwner}
+        - sql: grant select, insert, update, delete on databasechangeloglock to ${dataOwner}
+        - rollback: revoke select, insert, update, delete on databasechangeloglock from ${dataOwner}
 
   - changeSet:
       author: drsteini
