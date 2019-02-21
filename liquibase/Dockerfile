@@ -6,6 +6,9 @@ LABEL maintainer="[gs-w_eto_eb_federal_employees@usgs.gov](mailto:gs-w_eto_eb_fe
 # Install Liquibase
 ############################################
 
+ARG LIQUIBASE_VERSION
+ARG A_JDBC_JAR
+ENV JDBC_JAR=$A_JDBC_JAR
 ENV LIQUIBASE_HOME $HOME
 ENV LIQUIBASE_WORKSPACE $LIQUIBASE_HOME/workspace
 ENV LOCALONLY "-c listen_addresses='127.0.0.1, ::1'"

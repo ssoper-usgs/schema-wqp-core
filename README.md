@@ -8,7 +8,7 @@ the following (shown are example values):
 
 POSTGRES_PASSWORD=<changeMe>
 DATABASE_ADDRESS=(WQP_External_Database|WQP_Internal_Database)
-CONTEXTS=(external|internal)[,ci]
+CONTEXTS=(external|internal)[,ci|dev|qa|prod][,noindexes][,schemaload]
 DATABASE_NAME=<wqp_db>
 SCHEMA_NAME=<wqp>
 DATA_OWNER=<wqp_core>
@@ -73,5 +73,9 @@ Context values used for configuration:
 * **dev** - These changesets are unique to the development database layer.
 * **qa** - These changesets are unique to the quality assurance database layer.
 * **prod** - These changesets are unique to the production database layer.
+
+* **schemaload** - Build the entire schema (add **noindexes** to prevent the building of the indexes).
+
+* **noindexes** - Do not build the indexes.
 
 docker network create --subnet=172.25.0.0/16 wqp

@@ -7,5 +7,6 @@ databaseChangeLog:
       file: "schemaGrants/changeLog.yml"
       relativeToChangelogFile: true
   - include:
+      context: schemaLoad
       file: "schemaLoad/changeLog.yml"
       relativeToChangelogFile: true

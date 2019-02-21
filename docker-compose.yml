@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   db:
     image: wqp_db
@@ -9,6 +9,7 @@ services:
         ipv4_address: ${DB_IPV4}
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
     ports:
       - 5434:5432
     container_name: ${DATABASE_ADDRESS}
@@ -17,6 +18,9 @@ services:
     image: wqp_liquibase
     build:
       context: ./liquibase
+      args:
+        - LIQUIBASE_VERSION=${LIQUIBASE_VERSION}
+        - A_JDBC_JAR=${JDBC_JAR}
     networks:
       wqp:
         ipv4_address: ${LIQUIBASE_IPV4}
@@ -30,8 +34,6 @@ services:
       - READ_ONLY_USER_PASSWORD=${READ_ONLY_USER_PASSWORD}
       - CONTEXTS=${CONTEXTS}
       - DATABASE_ADDRESS=${DATABASE_ADDRESS}
-      - LIQUIBASE_VERSION=${LIQUIBASE_VERSION}
-      - JDBC_JAR=${JDBC_JAR}
 
   liquibase_demo:
     image: wqp_liquibase_demo
