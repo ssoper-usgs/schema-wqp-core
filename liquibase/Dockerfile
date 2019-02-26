@@ -21,11 +21,6 @@ RUN tar -xzf $LIQUIBASE_HOME/liquibase-$LIQUIBASE_VERSION-bin.tar.gz -C $LIQUIBA
 
 RUN chmod -R 777 $LIQUIBASE_HOME
 
-COPY ./changeLogs $LIQUIBASE_WORKSPACE
-COPY ./scripts/postgress .
-COPY ./scripts/ciDB .
-
-COPY ./docker-entrypoint.sh docker-entrypoint.sh
-RUN chmod +x docker-entrypoint.sh
-
-ENTRYPOINT ["./docker-entrypoint.sh"]
+COPY ./docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]

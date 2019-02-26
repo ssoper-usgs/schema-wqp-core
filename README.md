@@ -79,3 +79,5 @@ Context values used for configuration:
 * **noindexes** - Do not build the indexes.
 
 docker network create --subnet=172.25.0.0/16 wqp
+
+docker build . --file ./database/Dockerfile --tag wqp_db_base --build-arg LIQUIBASE_VERSION=3.6.3 --build-arg A_JDBC_JAR=postgresql-42.2.5.jar
