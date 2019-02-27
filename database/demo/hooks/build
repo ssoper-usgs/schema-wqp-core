@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo Building base container...
-docker build -f database/Dockerfile -t wqp_db_base --build-arg LIQUIBASE_VERSION=$LIQUIBASE_VERSION --build-arg A_JDBC_JAR=$JDBC_JAR .
-
-echo Building target container...
-docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME-$SOURCE_COMMIT .
