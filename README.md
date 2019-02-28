@@ -95,7 +95,7 @@ It will be available on you localhost's port $DB_CI_PORT
 You can also pull the image from Docker Hub and run it with
 
 ```
-docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp-db-testing:ci
+docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:ci
 ```
 where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.
 
@@ -110,7 +110,7 @@ It will be available on your localhost's port $DB_DEMO_PORT
 You can also pull the image from Docker Hub and run it with
 
 ```
-docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp-db-testing:demo
+docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:demo
 ```
 where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.
 
