@@ -37,6 +37,8 @@ DB_CI_PORT=<5435>
 DB_CI_IPV4=<172.25.0.4>
 DB_DEMO_PORT=<5436>
 DB_DEMO_IPV4=<172.25.0.5>
+LIQUIBASE_VERSION=<3.6.3>
+JDBC_JAR=<postgresql-42.2.5.jar>
 ```
 #### Environment variable definitions
 
@@ -57,6 +59,8 @@ DB_DEMO_IPV4=<172.25.0.5>
 * **DB_CI_IPV4** - The IP address for the CI database container.
 * **DB_DEMO_PORT** - The localhost port on which to expose the Demo database.
 * **DB_DEMO_IPV4** - The IP address for the Demo database container.
+* **LIQUIBASE_VERSION** - The version of Liquibase to install.
+* **JDBC_JAR** - The jdbc driver to install.
 
 ##### Context values used for configuration
 
@@ -68,7 +72,7 @@ DB_DEMO_IPV4=<172.25.0.5>
 * **qa** - These changesets are unique to the quality assurance database layer.
 * **prod** - These changesets are unique to the production database layer.
 
-* **schemaload** - Build the entire schema (add **noindexes** to prevent the building of the indexes).
+* **schemaLoad** - Build the entire schema (add **noindexes** to prevent the building of the indexes).
 
 * **noindexes** - Do not build the indexes.
 

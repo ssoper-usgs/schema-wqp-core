@@ -7,10 +7,10 @@ databaseChangeLog:
       file: "tables/changeLog.yml"
       relativeToChangelogFile: true
 
-#  - include:
-#      context: "!noindexes"
-#      file: "indexes/changeLog.yml"
-#      relativeToChangelogFile: true
+  - include:
+      context: "!noindexes"
+      file: "indexes/changeLog.yml"
+      relativeToChangelogFile: true
 
   - include:
       file: "ri/changeLog.yml"
