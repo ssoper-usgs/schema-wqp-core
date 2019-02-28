@@ -1,6 +1,6 @@
 # NWQMC PostgreSQL Database for the Water Quality Portal
 
-The repository contains Liquibase scripts for creating the Water Quality Portal (WQP) database. They are used for both the WQP and the Internal Water Quality Data Delivery systems.
+This repository contains Liquibase scripts for creating the Water Quality Portal (WQP) database. They are used for both the WQP and the Internal Water Quality Data Delivery systems.
 
 ## Docker
 Also included are Docker Compose scripts to:
@@ -49,14 +49,14 @@ DB_DEMO_IPV4=<172.25.0.5>
 * **WQP_DB_DATA_OWNER_PASSWORD** - Password for the **DATA_OWNER** role.
 * **WQP_DB_READ_ONLY_USERNAME** - The limited privilege role used by applications to access this schema.
 * **WQP_DB_READ_ONLY_PASSWORD** - Password for the **READ_ONLY_USER** role.
-* **LOCAL_NETWORK_NAME** - 
-* **DB_IPV4** - 
-* **DB_PORT** - 
-* **LIQUIBASE_IPV4** - 
-* **DB_CI_PORT** - 
-* **DB_CI_IPV4** - 
-* **DB_DEMO_PORT** - 
-* **DB_DEMO_IPV4** - 
+* **LOCAL_NETWORK_NAME** - The name of the local Docker Network you have created for using these images/containers.
+* **DB_IPV4** - The IP address in your Docker Network you would like assigned to the database container used for testing the Liquibase scripts.
+* **DB_PORT** - The localhost port on which to expose the script testing database container.
+* **LIQUIBASE_IPV4** - The IP address you would like assigned to the Liquibase runner container.
+* **DB_CI_PORT** - The localhost port on which to expose the CI database.
+* **DB_CI_IPV4** - The IP address for the CI database container.
+* **DB_DEMO_PORT** - The localhost port on which to expose the Demo database.
+* **DB_DEMO_IPV4** - The IP address for the Demo database container.
 
 ##### Context values used for configuration
 
