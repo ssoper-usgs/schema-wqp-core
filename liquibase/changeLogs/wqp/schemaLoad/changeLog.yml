@@ -8,16 +8,13 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      context: "!noindexes"
       file: "indexes/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
       file: "ri/changeLog.yml"
       relativeToChangelogFile: true
-
-#  - include:
-#      file: "packages/changeLog.yml"
-#      relativeToChangelogFile: true
 
   - include:
       file: "objectGrants/changeLog.yml"
