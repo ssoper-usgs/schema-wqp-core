@@ -297,6 +297,8 @@ create or replace package body etl_helper_summary as
 
     procedure create_organization_sum(p_table_suffix in user_tables.table_name%type) is
         sql_suffix varchar2(30000 char);
+        table_not_found EXCEPTION;
+        PRAGMA EXCEPTION_INIT(table_not_found, -942);
     begin
 
         begin
