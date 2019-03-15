@@ -45,4 +45,4 @@ databaseChangeLog:
             splitStatements: false
         - rollback:
             changeSetId: "create.package.body.etl_helper_summary_WQP1360"
-            changeSetAuthor: ajmccart
+            changeSetAuthor: ajmccart;
