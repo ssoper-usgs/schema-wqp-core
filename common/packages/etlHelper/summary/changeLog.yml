@@ -33,9 +33,9 @@ databaseChangeLog:
             splitStatements: false
         - rollback:
             changeSetId: "create.package.body.etl_helper_summary"
-            changeSetAuthor: drsteini
+            changeSetAuthor: drsteini;
             
-    - changeSet:
+  - changeSet:
       author: ajmccart
       id: "create.package.body.etl_helper_summary_WQP1365"
       changes:
