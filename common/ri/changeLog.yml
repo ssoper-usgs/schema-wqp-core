@@ -171,3 +171,17 @@ databaseChangeLog:
       changes:
         - sql: alter table ml_grouping add constraint ml_grouping_station_sum_fk foreign key (data_source_id, station_id) references station_sum (data_source_id, station_id) rely enable novalidate;
         - rollback: alter table ml_grouping drop constraint ml_grouping_station_sum_fk;
+
+  - changeSet:
+      author: ajmccart
+      id: "create.web_service_log.web_service_log_pk"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user_constraints where constraint_name = 'WEB_SERVICE_LOG_PK' and table_name = 'WEB_SERVICE_LOG' and constraint_type = 'P';
+      changes:
+        - sql: alter table web_service_log add constraint web_service_log_pk primary key (web_service_log_id) rely enable novalidate;
+        - rollback: alter table web_service_log drop constraint web_service_log_pk;
+        
