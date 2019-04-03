@@ -5,7 +5,7 @@ databaseChangeLog:
       
   - changeSet:
       author: ayan
-      id: "create.table.${schemaName}.project_data"
+      id: "create.table.${WQP_SCHEMA_NAME}.project_data"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,11 +16,11 @@ databaseChangeLog:
         - sqlFile:
             path: projectData.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.project_data cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.project_data cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.project_data.partition.biodata"
+      id: "create.table.${WQP_SCHEMA_NAME}.project_data.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
@@ -32,11 +32,11 @@ databaseChangeLog:
         - sqlFile:
             path: projectDataBiodata.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.project_data_biodata cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.project_data_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.project_data.partition.nwis"
+      id: "create.table.${WQP_SCHEMA_NAME}.project_data.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -47,11 +47,11 @@ databaseChangeLog:
         - sqlFile:
             path: projectDataNwis.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.project_data_nwis cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.project_data_nwis cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.project_data.partition.stewards"
+      id: "create.table.${WQP_SCHEMA_NAME}.project_data.partition.stewards"
       context: external
       preConditions:
         - onFail: MARK_RAN
@@ -63,11 +63,11 @@ databaseChangeLog:
         - sqlFile:
             path: projectDataStewards.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.project_data_stewards cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.project_data_stewards cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.project_data.partition.storet"
+      id: "create.table.${WQP_SCHEMA_NAME}.project_data.partition.storet"
       context: external
       preConditions:
         - onFail: MARK_RAN
@@ -79,4 +79,4 @@ databaseChangeLog:
         - sqlFile:
             path: projectDataStoret.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.project_data_storet cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.project_data_storet cascade;

@@ -1,5 +1,5 @@
-create unlogged table if not exists ${schemaName}.qwportal_summary_nwis
-partition of ${schemaName}.qwportal_summary
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.qwportal_summary_nwis
+partition of ${WQP_SCHEMA_NAME}.qwportal_summary
 for values in (2)
 with (fillfactor = 100)
 ;

@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.${schemaName}.ml_grouping_nwis_station_sum_fk"
+      id: "create.${WQP_SCHEMA_NAME}.ml_grouping_nwis_station_sum_fk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - foreignKeyConstraintExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               foreignKeyName: ml_grouping_nwis_station_sum_fk
       changes:
-        - sql: alter table ${schemaName}.ml_grouping_nwis add constraint ml_grouping_nwis_station_sum_fk foreign key (data_source_id, station_id) references ${schemaName}.station_sum_nwis (data_source_id, station_id);
-        - rollback: alter table ${schemaName}.ml_grouping_nwis drop constraint ml_grouping_nwis_station_sum_fk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.ml_grouping_nwis add constraint ml_grouping_nwis_station_sum_fk foreign key (data_source_id, station_id) references ${WQP_SCHEMA_NAME}.station_sum_nwis (data_source_id, station_id);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.ml_grouping_nwis drop constraint ml_grouping_nwis_station_sum_fk;

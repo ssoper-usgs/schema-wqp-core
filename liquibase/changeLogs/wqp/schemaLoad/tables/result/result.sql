@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.result
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.result
 (data_source_id                 smallint
 ,data_source                    character varying (8)
 ,station_id                     numeric

@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.states_geom"
+      id: "create.index.${WQP_SCHEMA_NAME}.states_geom"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: states_geom
       changes:
-        - sql: create index if not exists states_geom on ${schemaName}.states using gist (geom) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.states_geom;
+        - sql: create index if not exists states_geom on ${WQP_SCHEMA_NAME}.states using gist (geom) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.states_geom;

@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.ml_grouping_biodata_station"
+      id: "create.index.${WQP_SCHEMA_NAME}.ml_grouping_biodata_station"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: ml_grouping_biodata_station
       changes:
-        - sql: create index if not exists ml_grouping_biodata_station on ${schemaName}.ml_grouping_biodata(station_id) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.ml_grouping_biodata_station;
+        - sql: create index if not exists ml_grouping_biodata_station on ${WQP_SCHEMA_NAME}.ml_grouping_biodata(station_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.ml_grouping_biodata_station;

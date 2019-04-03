@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.organization_sum
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.organization_sum
 (data_source_id                 smallint
 ,data_source                    character varying (8)
 ,organization_id                numeric

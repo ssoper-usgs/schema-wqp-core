@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.ml_grouping
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.ml_grouping
 (data_source_id                 smallint
 ,data_source                    character varying (8)
 ,station_id                     numeric

@@ -5,7 +5,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.public_srsnames"
+      id: "create.table.${WQP_SCHEMA_NAME}.public_srsnames"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,11 +16,11 @@ databaseChangeLog:
         - sqlFile:
             path: publicSrsnames.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.public_srsnames cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.public_srsnames cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.public_srsnames_current"
+      id: "create.table.${WQP_SCHEMA_NAME}.public_srsnames_current"
       context: ci
       preConditions:
         - onFail: MARK_RAN
@@ -32,4 +32,4 @@ databaseChangeLog:
         - sqlFile:
             path: publicSrsnamesCurrent.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.public_srsnames_current cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.public_srsnames_current cascade;

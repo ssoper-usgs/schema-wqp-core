@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.state
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.state
 (data_source_id                 smallint
 ,code_value                     text
 ,description_with_country       character varying (57)

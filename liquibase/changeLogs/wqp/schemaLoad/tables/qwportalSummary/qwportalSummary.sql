@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.qwportal_summary
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.qwportal_summary
 (data_source_id                 smallint
 ,fips_state_code                character varying (2)
 ,fips_county_code               character varying (3)

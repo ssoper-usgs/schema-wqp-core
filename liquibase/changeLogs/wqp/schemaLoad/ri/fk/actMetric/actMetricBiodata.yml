@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.${schemaName}.act_metric_biodata_activity_fk"
+      id: "create.${WQP_SCHEMA_NAME}.act_metric_biodata_activity_fk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - foreignKeyConstraintExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               foreignKeyName: act_metric_biodata_activity_fk
       changes:
-        - sql: alter table ${schemaName}.act_metric_biodata add constraint act_metric_biodata_activity_fk foreign key (data_source_id, station_id, activity_id) references ${schemaName}.activity_biodata (data_source_id, station_id, activity_id);
-        - rollback: alter table ${schemaName}.act_metric_biodata drop constraint act_metric_biodata_activity_fk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.act_metric_biodata add constraint act_metric_biodata_activity_fk foreign key (data_source_id, station_id, activity_id) references ${WQP_SCHEMA_NAME}.activity_biodata (data_source_id, station_id, activity_id);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.act_metric_biodata drop constraint act_metric_biodata_activity_fk;

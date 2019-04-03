@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.prj_ml_weighting
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.prj_ml_weighting
 (data_source_id                 smallint
 ,project_id                     numeric
 ,station_id                     numeric

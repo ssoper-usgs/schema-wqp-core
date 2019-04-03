@@ -1,5 +1,5 @@
-create unlogged table if not exists ${schemaName}.site_type_storet
-partition of ${schemaName}.site_type
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.site_type_storet
+partition of ${WQP_SCHEMA_NAME}.site_type
 for values in (3)
 with (fillfactor = 100)
 ;

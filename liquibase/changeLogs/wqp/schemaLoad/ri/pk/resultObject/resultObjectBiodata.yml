@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.${schemaName}.result_object_biodata_pk"
+      id: "create.${WQP_SCHEMA_NAME}.result_object_biodata_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - primaryKeyExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               tableName: result_object_biodata
       changes:
-        - sql: alter table ${schemaName}.result_object_biodata add constraint result_object_biodata_pk primary key (data_source_id, object_id) with (fillfactor = 100);
-        - rollback: alter table ${schemaName}.result_object_biodata drop constraint if exists result_object_biodata_pk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.result_object_biodata add constraint result_object_biodata_pk primary key (data_source_id, object_id) with (fillfactor = 100);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.result_object_biodata drop constraint if exists result_object_biodata_pk;

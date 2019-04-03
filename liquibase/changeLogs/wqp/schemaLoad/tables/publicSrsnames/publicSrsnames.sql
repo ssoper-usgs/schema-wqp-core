@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.public_srsnames
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.public_srsnames
 (version_id                     smallint
 ,parm_cd                        character varying (5)
 ,description                    character varying (170)

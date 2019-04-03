@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.${schemaName}.result_storet_station_fk"
+      id: "create.${WQP_SCHEMA_NAME}.result_storet_station_fk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - foreignKeyConstraintExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               foreignKeyName: result_storet_station_fk
       changes:
-        - sql: alter table ${schemaName}.result_storet add constraint result_storet_station_fk foreign key (data_source_id, station_id) references ${schemaName}.station_storet (data_source_id, station_id);
-        - rollback: alter table ${schemaName}.result_storet drop constraint result_storet_station_fk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.result_storet add constraint result_storet_station_fk foreign key (data_source_id, station_id) references ${WQP_SCHEMA_NAME}.station_storet (data_source_id, station_id);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.result_storet drop constraint result_storet_station_fk;

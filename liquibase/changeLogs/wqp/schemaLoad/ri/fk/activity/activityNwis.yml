@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.${schemaName}.activity_nwis_station_fk"
+      id: "create.${WQP_SCHEMA_NAME}.activity_nwis_station_fk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - foreignKeyConstraintExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               foreignKeyName: activity_nwis_station_fk
       changes:
-        - sql: alter table ${schemaName}.activity_nwis add constraint activity_nwis_station_fk foreign key (data_source_id, station_id) references ${schemaName}.station_nwis (data_source_id, station_id);
-        - rollback: alter table ${schemaName}.activity_nwis drop constraint if exists activity_nwis_station_fk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.activity_nwis add constraint activity_nwis_station_fk foreign key (data_source_id, station_id) references ${WQP_SCHEMA_NAME}.station_nwis (data_source_id, station_id);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.activity_nwis drop constraint if exists activity_nwis_station_fk;

@@ -5,28 +5,28 @@ databaseChangeLog:
 
   - changeSet:
       author: zmoore
-      id: "create.${schemaName}.prj_ml_weighting_biodata_ml_fk"
+      id: "create.${WQP_SCHEMA_NAME}.prj_ml_weighting_biodata_ml_fk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - foreignKeyConstraintExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               foreignKeyName: prj_ml_weighting_biodata_ml_fk
       changes:
-        - sql: alter table ${schemaName}.prj_ml_weighting_biodata add constraint prj_ml_weighting_biodata_ml_fk foreign key (data_source_id, station_id) references ${schemaName}.station_biodata (data_source_id, station_id);
-        - rollback: alter table ${schemaName}.prj_ml_weighting_biodata drop constraint prj_ml_weighting_biodata_ml_fk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.prj_ml_weighting_biodata add constraint prj_ml_weighting_biodata_ml_fk foreign key (data_source_id, station_id) references ${WQP_SCHEMA_NAME}.station_biodata (data_source_id, station_id);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.prj_ml_weighting_biodata drop constraint prj_ml_weighting_biodata_ml_fk;
 
   - changeSet:
       author: zmoore
-      id: "create.${schemaName}.prj_ml_weighting_biodata_prj_fk"
+      id: "create.${WQP_SCHEMA_NAME}.prj_ml_weighting_biodata_prj_fk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - foreignKeyConstraintExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               foreignKeyName: prj_ml_weighting_biodata_prj_fk
       changes:
-        - sql: alter table ${schemaName}.prj_ml_weighting_biodata add constraint prj_ml_weighting_biodata_prj_fk foreign key (data_source_id, project_id) references ${schemaName}.project_data_biodata (data_source_id, project_id);
-        - rollback: alter table ${schemaName}.prj_ml_weighting_biodata drop constraint prj_ml_weighting_biodata_prj_fk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.prj_ml_weighting_biodata add constraint prj_ml_weighting_biodata_prj_fk foreign key (data_source_id, project_id) references ${WQP_SCHEMA_NAME}.project_data_biodata (data_source_id, project_id);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.prj_ml_weighting_biodata drop constraint prj_ml_weighting_biodata_prj_fk;

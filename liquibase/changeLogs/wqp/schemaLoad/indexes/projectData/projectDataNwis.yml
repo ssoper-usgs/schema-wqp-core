@@ -5,28 +5,28 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.project_data_nwis_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.project_data_nwis_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: project_data_nwis_organization
       changes:
-        - sql: create index if not exists project_data_nwis_organization on ${schemaName}.project_data_nwis(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.project_data_nwis_organization;
+        - sql: create index if not exists project_data_nwis_organization on ${WQP_SCHEMA_NAME}.project_data_nwis(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.project_data_nwis_organization;
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.project_data_nwis_identifier"
+      id: "create.index.${WQP_SCHEMA_NAME}.project_data_nwis_identifier"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: project_data_nwis_identifier
       changes:
-        - sql: create index if not exists project_data_nwis_identifier on ${schemaName}.project_data_nwis(project_identifier) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.project_data_nwis_identifier;
+        - sql: create index if not exists project_data_nwis_identifier on ${WQP_SCHEMA_NAME}.project_data_nwis(project_identifier) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.project_data_nwis_identifier;

@@ -5,7 +5,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.data_source"
+      id: "create.table.${WQP_SCHEMA_NAME}.data_source"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,4 +16,4 @@ databaseChangeLog:
         - sqlFile:
             path: dataSource.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.data_source cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.data_source cascade;

@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.etl_threshold
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.etl_threshold
 (data_source_id                 smallint
 ,table_name                     character varying (30)
 ,min_rows                       integer
