@@ -62,7 +62,7 @@ JDBC_JAR=<postgresql-42.2.5.jar>
 * **WQP_DATABASE_ADDRESS** - Host name or IP address of the PostgreSQL database.
 * **WQP_DATABASE_NAME** - Name of the PostgreSQL database to create for containing the schema.
 * **WQP_DB_OWNER_USERNAME** - Role which will own the database.
-* **WQP_DB_OWNER_PASSWORD** - Password for the **WQP_SCHEMA_OWNER_USERNAME** role.
+* **WQP_DB_OWNER_PASSWORD** - Password for the **WQP_DB_OWNER_USERNAME** role.
 
 * **WQP_SCHEMA_NAME** - Name of the schema to create for holding database objects.
 * **WQP_SCHEMA_OWNER_USERNAME** - Role which will own the database objects.
