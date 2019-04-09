@@ -5,7 +5,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.act_metric"
+      id: "create.table.${WQP_SCHEMA_NAME}.act_metric"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,11 +16,11 @@ databaseChangeLog:
         - sqlFile:
             path: actMetric.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.act_metric cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.act_metric cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.act_metric.partition.biodata"
+      id: "create.table.${WQP_SCHEMA_NAME}.act_metric.partition.biodata"
       context: external
       preConditions:
         - onFail: MARK_RAN
@@ -32,11 +32,11 @@ databaseChangeLog:
         - sqlFile:
             path: actMetricBiodata.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.act_metric_biodata cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.act_metric_biodata cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.act_metric.partition.nwis"
+      id: "create.table.${WQP_SCHEMA_NAME}.act_metric.partition.nwis"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -47,11 +47,11 @@ databaseChangeLog:
         - sqlFile:
             path: actMetricNwis.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.act_metric_nwis cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.act_metric_nwis cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.act_metric.partition.stewards"
+      id: "create.table.${WQP_SCHEMA_NAME}.act_metric.partition.stewards"
       context: external
       preConditions:
         - onFail: MARK_RAN
@@ -63,11 +63,11 @@ databaseChangeLog:
         - sqlFile:
             path: actMetricStewards.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.act_metric_stewards cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.act_metric_stewards cascade;
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.act_metric.partition.storet"
+      id: "create.table.${WQP_SCHEMA_NAME}.act_metric.partition.storet"
       context: external
       preConditions:
         - onFail: MARK_RAN
@@ -79,4 +79,4 @@ databaseChangeLog:
         - sqlFile:
             path: actMetricStoret.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.act_metric_storet cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.act_metric_storet cascade;

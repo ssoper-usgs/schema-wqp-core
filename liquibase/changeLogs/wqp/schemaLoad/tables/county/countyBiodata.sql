@@ -1,5 +1,5 @@
-create unlogged table if not exists ${schemaName}.county_biodata
-partition of ${schemaName}.county
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.county_biodata
+partition of ${WQP_SCHEMA_NAME}.county
 for values in (4)
 with (fillfactor = 100)
 ;

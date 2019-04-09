@@ -5,7 +5,7 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.table.${schemaName}.lock_table"
+      id: "create.table.${WQP_SCHEMA_NAME}.lock_table"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
@@ -16,12 +16,12 @@ databaseChangeLog:
         - sqlFile:
             path: lockTable.sql
             relativeToChangelogFile: true
-        - rollback: drop table if exists ${schemaName}.lock_table cascade;
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.lock_table cascade;
 
   - changeSet:
       author: drsteini
       id: "populate.table.lock_table"
       changes:
         - sql:
-            sql: insert into ${schemaName}.lock_table (lock_value) values (1);
-        - rollback: delete from ${schemaName}.lock_table where lock_value = 1;
+            sql: insert into ${WQP_SCHEMA_NAME}.lock_table (lock_value) values (1);
+        - rollback: delete from ${WQP_SCHEMA_NAME}.lock_table where lock_value = 1;

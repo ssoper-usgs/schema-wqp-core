@@ -7,54 +7,74 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.project.owner.role.${dataOwner}"
+      id: "create.project.db.owner.role.${WQP_DB_OWNER_USERNAME}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_roles where rolname = '${dataOwner}';
+            sql: select count(*) from pg_roles where rolname = '${WQP_DB_OWNER_USERNAME}';
       changes:
-        - sql: create role ${dataOwner} with login password '${DATA_OWNER_PASSWORD}';
-        - rollback: drop role if exists ${dataOwner};
+        - sql: create role ${WQP_DB_OWNER_USERNAME} with login password '${WQP_DB_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${WQP_DB_OWNER_USERNAME};
+
+  - changeSet:
+      author: drsteini
+      id: "grant.${WQP_DB_OWNER_USERNAME}.to.postgres"
+      changes:
+        - sql: grant ${WQP_DB_OWNER_USERNAME} to postgres;
+        - rollback: revoke ${WQP_DB_OWNER_USERNAME} from postgres;
+
+  - changeSet:
+      author: drsteini
+      id: "create.project.owner.role.${WQP_SCHEMA_OWNER_USERNAME}"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from pg_roles where rolname = '${WQP_SCHEMA_OWNER_USERNAME}';
+      changes:
+        - sql: create role ${WQP_SCHEMA_OWNER_USERNAME} with login password '${WQP_SCHEMA_OWNER_PASSWORD}';
+        - rollback: drop role if exists ${WQP_SCHEMA_OWNER_USERNAME};
 
   - changeSet:
       author: mbucknel
-      id: "grant.${dataOwner}.to.postgres"
+      id: "grant.${WQP_SCHEMA_OWNER_USERNAME}.to.postgres"
       changes:
-        - sql: grant ${dataOwner} to postgres;
-        - rollback: revoke ${dataOwner} from postgres;
+        - sql: grant ${WQP_SCHEMA_OWNER_USERNAME} to postgres;
+        - rollback: revoke ${WQP_SCHEMA_OWNER_USERNAME} from postgres;
 
   - changeSet:
       author: drsteini
-      id: "create.project.user.role.${readOnlyUser}"
+      id: "create.project.user.role.${WQP_READ_ONLY_USERNAME}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_roles where rolname = '${readOnlyUser}';
+            sql: select count(*) from pg_roles where rolname = '${WQP_READ_ONLY_USERNAME}';
       changes:
-        - sql: create role ${readOnlyUser} with login password '${READ_ONLY_USER_PASSWORD}';
-        - rollback: drop role if exists ${readOnlyUser};
+        - sql: create role ${WQP_READ_ONLY_USERNAME} with login password '${WQP_READ_ONLY_PASSWORD}';
+        - rollback: drop role if exists ${WQP_READ_ONLY_USERNAME};
 
   - changeSet:
       author: drsteini
-      id: "create.project.database.${DATABASE_NAME}"
+      id: "create.project.database.${WQP_DATABASE_NAME}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_database where datname = '${DATABASE_NAME}';
+            sql: select count(*) from pg_database where datname = '${WQP_DATABASE_NAME}';
       runInTransaction: false
       changes:
-        - sql: create database "${DATABASE_NAME}" with owner = ${dataOwner};
-        - rollback: drop database if exists "${DATABASE_NAME}";
+        - sql: create database "${WQP_DATABASE_NAME}" with owner = ${WQP_DB_OWNER_USERNAME};
+        - rollback: drop database if exists "${WQP_DATABASE_NAME}";
 
   - changeSet:
       author: drsteini
-      id: "alter.database.${DATABASE_NAME}.search_path"
+      id: "alter.database.${WQP_DATABASE_NAME}.search_path"
       changes:
-        - sql: alter database "${DATABASE_NAME}" set search_path = "$user", ${schemaName}, public, tiger;
-        - rollback: alter database "${DATABASE_NAME}" reset search_path;
+        - sql: alter database "${WQP_DATABASE_NAME}" set search_path = "$user", ${WQP_SCHEMA_NAME}, public, tiger;
+        - rollback: alter database "${WQP_DATABASE_NAME}" reset search_path;

@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.project_dim_storet_code"
+      id: "create.index.${WQP_SCHEMA_NAME}.project_dim_storet_code"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: project_dim_storet_code
       changes:
-        - sql: create index if not exists project_dim_storet_code on ${schemaName}.project_dim_storet(code_value) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.project_dim_storet_code;
+        - sql: create index if not exists project_dim_storet_code on ${WQP_SCHEMA_NAME}.project_dim_storet(code_value) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.project_dim_storet_code;

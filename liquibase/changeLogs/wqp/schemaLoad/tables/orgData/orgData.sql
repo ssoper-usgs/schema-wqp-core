@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.org_data
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.org_data
 (data_source_id                 smallint
 ,data_source                    character varying (8)
 ,organization_id                numeric

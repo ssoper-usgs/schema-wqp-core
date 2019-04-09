@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.monitoring_loc_stewards_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.monitoring_loc_stewards_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: monitoring_loc_stewards_organization
       changes:
-        - sql: create index if not exists monitoring_loc_stewards_organization on ${schemaName}.monitoring_loc_stewards(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.monitoring_loc_stewards_organization;
+        - sql: create index if not exists monitoring_loc_stewards_organization on ${WQP_SCHEMA_NAME}.monitoring_loc_stewards(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.monitoring_loc_stewards_organization;

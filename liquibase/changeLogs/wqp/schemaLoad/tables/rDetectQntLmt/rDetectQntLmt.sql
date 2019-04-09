@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.r_detect_qnt_lmt
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.r_detect_qnt_lmt
 (data_source_id                 smallint
 ,data_source                    character varying (8)
 ,station_id                     numeric

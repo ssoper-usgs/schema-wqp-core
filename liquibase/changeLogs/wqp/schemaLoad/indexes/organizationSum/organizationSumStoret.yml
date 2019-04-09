@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.organization_sum_storet_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.organization_sum_storet_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: organization_sum_storet_organization
       changes:
-        - sql: create index if not exists organization_sum_storet_organization on ${schemaName}.organization_sum_storet(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.organization_sum_storet_organization;
+        - sql: create index if not exists organization_sum_storet_organization on ${WQP_SCHEMA_NAME}.organization_sum_storet(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.organization_sum_storet_organization;

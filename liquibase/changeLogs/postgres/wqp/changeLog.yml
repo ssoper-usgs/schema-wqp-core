@@ -7,20 +7,6 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "grants.${dataOwner}.to.databasechangelog"
-      changes:
-        - sql: grant select, insert, update, delete on databasechangelog to ${dataOwner}
-        - rollback: revoke select, insert, update, delete on databasechangelog from ${dataOwner}
-
-  - changeSet:
-      author: drsteini
-      id: "grants.${dataOwner}.to.databasechangeloglock"
-      changes:
-        - sql: grant select, insert, update, delete on databasechangeloglock to ${dataOwner}
-        - rollback: revoke select, insert, update, delete on databasechangeloglock from ${dataOwner}
-
-  - changeSet:
-      author: drsteini
       id: "create.extension.postgis"
       changes:
         - sql: create extension if not exists postgis;
@@ -49,13 +35,13 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.project.schema.${schemaName}"
+      id: "create.project.schema.${WQP_SCHEMA_NAME}"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - sqlCheck:
             expectedResult: 0
-            sql: select count(*) from pg_namespace where nspname = '${schemaName}';
+            sql: select count(*) from pg_namespace where nspname = '${WQP_SCHEMA_NAME}';
       changes:
-        - sql: create schema ${schemaName} authorization ${dataOwner};
-        - rollback: drop schema if exists ${schemaName} cascade;
+        - sql: create schema ${WQP_SCHEMA_NAME} authorization ${WQP_SCHEMA_OWNER_USERNAME};
+        - rollback: drop schema if exists ${WQP_SCHEMA_NAME} cascade;

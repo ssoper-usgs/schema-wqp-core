@@ -1,5 +1,5 @@
-create unlogged table if not exists ${schemaName}.result_object_storet
-partition of ${schemaName}.result_object
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.result_object_storet
+partition of ${WQP_SCHEMA_NAME}.result_object
 for values in (3)
 with (fillfactor = 100)
 ;

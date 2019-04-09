@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.${schemaName}.station_stewards_pk"
+      id: "create.${WQP_SCHEMA_NAME}.station_stewards_pk"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - primaryKeyExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               tableName: station_stewards
       changes:
-        - sql: alter table ${schemaName}.station_stewards add constraint station_stewards_pk primary key (data_source_id, station_id) with (fillfactor = 100);
-        - rollback: alter table ${schemaName}.station_stewards drop constraint if exists station_stewards_pk;
+        - sql: alter table ${WQP_SCHEMA_NAME}.station_stewards add constraint station_stewards_pk primary key (data_source_id, station_id) with (fillfactor = 100);
+        - rollback: alter table ${WQP_SCHEMA_NAME}.station_stewards drop constraint if exists station_stewards_pk;

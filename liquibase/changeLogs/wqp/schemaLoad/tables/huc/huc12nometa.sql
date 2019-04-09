@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.huc12nometa
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.huc12nometa
 (objectid                       numeric
 ,huc12                          character varying (12)
 ,geometry                       geometry

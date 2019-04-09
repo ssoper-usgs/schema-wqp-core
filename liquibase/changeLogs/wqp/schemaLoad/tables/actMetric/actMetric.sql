@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.act_metric
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.act_metric
 (data_source_id                 smallint
 ,data_source                    character varying (8)
 ,station_id                     numeric

@@ -5,8 +5,8 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "grant.insert.update.${schemaName}.web_service_log.${readOnlyUser}"
+      id: "grant.insert.update.${WQP_SCHEMA_NAME}.web_service_log.${WQP_READ_ONLY_USERNAME}"
       changes:
         - sql:
-            sql: grant insert,update on ${schemaName}.web_service_log to ${readOnlyUser};
-        - rollback: revoke insert,update on ${schemaName}.web_service_log from ${readOnlyUser};
+            sql: grant insert,update on ${WQP_SCHEMA_NAME}.web_service_log to ${WQP_READ_ONLY_USERNAME};
+        - rollback: revoke insert,update on ${WQP_SCHEMA_NAME}.web_service_log from ${WQP_READ_ONLY_USERNAME};

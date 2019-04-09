@@ -5,28 +5,28 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.activity_object_biodata_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.activity_object_biodata_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: activity_object_biodata_organization
       changes:
         - sql: create index if not exists activity_object_biodata_organization on activity_object_biodata(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.activity_object_biodata_organization;
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.activity_object_biodata_organization;
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.activity_object_biodata_activity"
+      id: "create.index.${WQP_SCHEMA_NAME}.activity_object_biodata_activity"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: activity_object_biodata_activity
       changes:
         - sql: create index if not exists activity_object_biodata_activity on activity_object_biodata(activity) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.activity_object_biodata_activity;
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.activity_object_biodata_activity;

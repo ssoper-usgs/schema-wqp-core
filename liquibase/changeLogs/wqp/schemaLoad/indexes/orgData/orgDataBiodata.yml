@@ -5,14 +5,14 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.org_data_biodata_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.org_data_biodata_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: org_data_biodata_organization
       changes:
-        - sql: create index if not exists org_data_biodata_organization on ${schemaName}.org_data_biodata(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.org_data_biodata_organization;
+        - sql: create index if not exists org_data_biodata_organization on ${WQP_SCHEMA_NAME}.org_data_biodata(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.org_data_biodata_organization;

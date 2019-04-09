@@ -1,4 +1,4 @@
-create unlogged table if not exists ${schemaName}.project_object
+create unlogged table if not exists ${WQP_SCHEMA_NAME}.project_object
 (data_source_id                 smallint
 ,object_id                      numeric
 ,data_source                    character varying (8)

@@ -5,56 +5,56 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.result_object_storet_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.result_object_storet_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: result_object_storet_organization
       changes:
-        - sql: create index if not exists result_object_storet_organization on ${schemaName}.result_object_storet(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.result_object_storet_organization;
+        - sql: create index if not exists result_object_storet_organization on ${WQP_SCHEMA_NAME}.result_object_storet(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.result_object_storet_organization;
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.result_object_storet_activity"
+      id: "create.index.${WQP_SCHEMA_NAME}.result_object_storet_activity"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: result_object_storet_activity
       changes:
-        - sql: create index if not exists result_object_storet_activity on ${schemaName}.result_object_storet(activity) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.result_object_storet_activity;
+        - sql: create index if not exists result_object_storet_activity on ${WQP_SCHEMA_NAME}.result_object_storet(activity) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.result_object_storet_activity;
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.result_object_storet_source"
+      id: "create.index.${WQP_SCHEMA_NAME}.result_object_storet_source"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: result_object_storet_source
       changes:
-        - sql: create index if not exists result_object_storet_source on ${schemaName}.result_object_storet(data_source) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.result_object_storet_source;
+        - sql: create index if not exists result_object_storet_source on ${WQP_SCHEMA_NAME}.result_object_storet(data_source) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.result_object_storet_source;
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.result_object_storet_result"
+      id: "create.index.${WQP_SCHEMA_NAME}.result_object_storet_result"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: result_object_storet_result
       changes:
-        - sql: create index if not exists result_object_storet_result on ${schemaName}.result_object_storet(result_id) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.result_object_storet_result;
+        - sql: create index if not exists result_object_storet_result on ${WQP_SCHEMA_NAME}.result_object_storet(result_id) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.result_object_storet_result;

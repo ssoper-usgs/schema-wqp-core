@@ -5,28 +5,28 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.project_data_biodata_organization"
+      id: "create.index.${WQP_SCHEMA_NAME}.project_data_biodata_organization"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: project_data_biodata_organization
       changes:
-        - sql: create index if not exists project_data_biodata_organization on ${schemaName}.project_data_biodata(organization) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.project_data_biodata_organization;
+        - sql: create index if not exists project_data_biodata_organization on ${WQP_SCHEMA_NAME}.project_data_biodata(organization) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.project_data_biodata_organization;
 
   - changeSet:
       author: drsteini
-      id: "create.index.${schemaName}.project_data_biodata_identifier"
+      id: "create.index.${WQP_SCHEMA_NAME}.project_data_biodata_identifier"
       preConditions:
         - onFail: MARK_RAN
         - onError: HALT
         - not:
           - indexExists:
-              schemaName: ${schemaName}
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
               indexName: project_data_biodata_identifier
       changes:
-        - sql: create index if not exists project_data_biodata_identifier on ${schemaName}.project_data_biodata(project_identifier) with (fillfactor = 100);
-        - rollback: drop index if exists ${schemaName}.project_data_biodata_identifier;
+        - sql: create index if not exists project_data_biodata_identifier on ${WQP_SCHEMA_NAME}.project_data_biodata(project_identifier) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.project_data_biodata_identifier;
