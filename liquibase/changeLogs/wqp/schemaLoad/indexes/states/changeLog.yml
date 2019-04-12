@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - preConditions:
-    - dbms:
-        type: postgresql
-
-  - include:
-      file: "states.yml"
-      relativeToChangelogFile: true

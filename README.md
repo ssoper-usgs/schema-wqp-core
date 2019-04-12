@@ -21,7 +21,7 @@ In order to use the docker compose scripts, you will need to create a .env file 
 the following (shown are example values):
 
 ```
-CONTEXTS=(external|internal)[,ci|dev|qa|prod][,noindexes][,schemaload]
+CONTEXTS=(external|internal)[,ci|dev|qa|prod][,schemaload]
 
 POSTGRES_PASSWORD=<changeMe>
 
@@ -96,8 +96,6 @@ JDBC_JAR=<postgresql-42.2.5.jar>
 * **prod** - These changesets are unique to the production database layer.
 
 * **schemaLoad** - Build the entire schema (add **noindexes** to prevent the building of the indexes).
-
-* **noindexes** - Do not build the indexes.
 
 ### Testing Liquibase scripts
 The Liquibase scripts can be tested locally by spinning up the generic database (db) and the liquibase container.

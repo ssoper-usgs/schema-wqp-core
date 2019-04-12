@@ -60,10 +60,6 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: "lockTable/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
       file: "mlGrouping/changeLog.yml"
       relativeToChangelogFile: true
 
