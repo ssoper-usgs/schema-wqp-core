@@ -1,4 +1,4 @@
-FROM usgswma/wqp_db_base:postgis10-11.0.2
+FROM usgswma/wqp_db_base:postgis10-11.0.3
 
 LABEL maintainer=gs-w_eto_eb_federal_employees@usgs.gov
 

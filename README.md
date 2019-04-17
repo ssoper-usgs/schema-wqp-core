@@ -21,8 +21,6 @@ In order to use the docker compose scripts, you will need to create a .env file 
 the following (shown are example values):
 
 ```
-CONTEXTS=(external|internal)[,ci|dev|qa|prod][,noindexes][,schemaload]
-
 POSTGRES_PASSWORD=<changeMe>
 
 WQP_DATABASE_ADDRESS=(wqp_external_database|wqp_internal_database)
@@ -43,19 +41,38 @@ DB_IPV4=<172.25.0.2>
 DB_PORT=<5434>
 LIQUIBASE_IPV4=<172.25.0.3>
 
+LIQUIBASE_VERSION=<3.6.3>
+JDBC_JAR=<postgresql-42.2.5.jar>
+
 DB_CI_PORT=<5435>
 DB_CI_IPV4=<172.25.0.4>
 
 DB_DEMO_PORT=<5436>
 DB_DEMO_IPV4=<172.25.0.5>
 
-LIQUIBASE_VERSION=<3.6.3>
-JDBC_JAR=<postgresql-42.2.5.jar>
+CONTEXTS=(external|internal)[,ci|dev|qa|prod][,schemaload]
+
+DB_ETL_PORT=<5437>
+DB_ETL_IPV4=<172.25.0.7>
+
+ARS_REPO_ZIP_URL=<https://github.com/NWQMC/schema-ars-stewards/archive/master.zip>
+ARS_SCHEMA_NAME=<ars>
+ARS_SCHEMA_OWNER_USERNAME=<ars_owner>
+ARS_SCHEMA_OWNER_PASSWORD=<changeMe>
+
+BIODATA_REPO_ZIP_URL=<https://github.com/NWQMC/schema-biodata/archive/master.zip>
+BIODATA_SCHEMA_NAME=<biodata>
+BIODATA_SCHEMA_OWNER_USERNAME=<biodata_owner>
+BIODATA_SCHEMA_OWNER_PASSWORD=<changeMe>
+
+NWIS_REPO_ZIP_URL=<https://github.com/NWQMC/schema-nwis-ws-star/archive/master.zip>
+NWIS_SCHEMA_NAME=<nwis>
+NWIS_SCHEMA_OWNER_USERNAME=<nwis_ws_star>
+NWIS_SCHEMA_OWNER_PASSWORD=<changeMe>
+
 ```
 
 #### Environment variable definitions
-
-* **CONTEXTS** - Which Liquibase contexts to apply. See list below for valid values.
 
 * **POSTGRES_PASSWORD** - Password for the postgres user.
 
@@ -76,14 +93,34 @@ JDBC_JAR=<postgresql-42.2.5.jar>
 * **DB_PORT** - The localhost port on which to expose the script testing database container.
 * **LIQUIBASE_IPV4** - The IP address you would like assigned to the Liquibase runner container.
 
+* **LIQUIBASE_VERSION** - The version of Liquibase to install.
+* **JDBC_JAR** - The jdbc driver to install.
+
 * **DB_CI_PORT** - The localhost port on which to expose the CI database.
 * **DB_CI_IPV4** - The IP address for the CI database container.
 
 * **DB_DEMO_PORT** - The localhost port on which to expose the Demo database.
 * **DB_DEMO_IPV4** - The IP address for the Demo database container.
 
-* **LIQUIBASE_VERSION** - The version of Liquibase to install.
-* **JDBC_JAR** - The jdbc driver to install.
+* **CONTEXTS** - Which Liquibase contexts to apply. See list below for valid values.
+
+* **DB_ETL_PORT** - The localhost port on which to expose the CI database.
+* **DB_ETL_IPV4** - The IP address for the CI database container.
+
+* **ARS_REPO_ZIP_URL** - The URL for the Download ZIP file of the https://github.com/NWQMC/schema-ars-stewards project.
+* **ARS_SCHEMA_NAME** - Name of the schema to create for holding STEWARDS database objects.
+* **ARS_SCHEMA_OWNER_USERNAME** - Role which will own the **ARS_SCHEMA_NAME** database objects.
+* **ARS_SCHEMA_OWNER_PASSWORD** - Password for the **ARS_SCHEMA_OWNER_PASSWORD** role.
+
+* **BIODATA_REPO_ZIP_URL** - The URL for the Download ZIP file of the https://github.com/NWQMC/schema-biodata project.
+* **BIODATA_SCHEMA_NAME** - Name of the schema to create for holding BIODATA database objects.
+* **BIODATA_SCHEMA_OWNER_USERNAME** - Role which will own the **BIODATA_SCHEMA_NAME** database objects.
+* **BIODATA_SCHEMA_OWNER_PASSWORD** - Password for the **BIODATA_SCHEMA_OWNER_USERNAME** role.
+
+* **NWIS_REPO_ZIP_URL** - The URL for the Download ZIP file of the https://github.com/NWQMC/schema-nwis-ws-star project.
+* **NWIS_SCHEMA_NAME** - Name of the schema to create for holding NWIS database objects.
+* **NWIS_SCHEMA_OWNER_USERNAME** - Role which will own the **NWIS_SCHEMA_NAME** database objects.
+* **NWIS_SCHEMA_OWNER_PASSWORD** - Password for the **NWIS_SCHEMA_OWNER_USERNAME** role.
 
 ##### Context values used for configuration
 
@@ -95,9 +132,7 @@ JDBC_JAR=<postgresql-42.2.5.jar>
 * **qa** - These changesets are unique to the quality assurance database layer.
 * **prod** - These changesets are unique to the production database layer.
 
-* **schemaLoad** - Build the entire schema (add **noindexes** to prevent the building of the indexes).
-
-* **noindexes** - Do not build the indexes.
+* **schemaLoad** - Build the entire schema.
 
 ### Testing Liquibase scripts
 The Liquibase scripts can be tested locally by spinning up the generic database (db) and the liquibase container.
@@ -123,7 +158,7 @@ docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:ci
 ```
 where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.
 
-### Demo Databse
+### Demo Database
 
 ```
 docker-compose up demoDB
@@ -136,6 +171,23 @@ You can also pull the image from Docker Hub and run it with
 
 ```
 docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:demo
+```
+
+where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.
+
+### Etl Database
+
+```
+docker-compose up etlDB
+```
+
+It will be available on your localhost's port $DB_ETL_PORT
+
+
+You can also pull the image from Docker Hub and run it with
+
+```
+docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:etl
 ```
 
 where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.

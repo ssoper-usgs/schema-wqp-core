@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - preConditions:
-    - dbms:
-        type: postgresql
-
-  - include:
-      file: "county.yml"
-      relativeToChangelogFile: true

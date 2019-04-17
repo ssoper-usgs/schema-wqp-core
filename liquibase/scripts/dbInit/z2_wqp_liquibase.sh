@@ -2,7 +2,7 @@
 
 ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
-	--changeLogFile=${LIQUIBASE_WORKSPACE}/wqp/changeLog.yml \
+	--changeLogFile=${LIQUIBASE_WORKSPACE_WQP}/wqp/changeLog.yml \
 	--driver=org.postgresql.Driver \
 	--url=jdbc:postgresql://${WQP_DATABASE_ADDRESS}:5432/${WQP_DATABASE_NAME} \
 	--username=${WQP_SCHEMA_OWNER_USERNAME} \
