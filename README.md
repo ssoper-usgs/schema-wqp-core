@@ -60,7 +60,7 @@ ARS_SCHEMA_NAME=<ars>
 ARS_SCHEMA_OWNER_USERNAME=<ars_owner>
 ARS_SCHEMA_OWNER_PASSWORD=<changeMe>
 
-BIODATA_REPO_ZIP_URL=<https://github.com/NWQMC/schema-biodata/archive/postgres.zip>
+BIODATA_REPO_ZIP_URL=<https://github.com/NWQMC/schema-biodata/archive/master.zip>
 BIODATA_SCHEMA_NAME=<biodata>
 BIODATA_SCHEMA_OWNER_USERNAME=<biodata_owner>
 BIODATA_SCHEMA_OWNER_PASSWORD=<changeMe>
@@ -132,7 +132,7 @@ NWIS_SCHEMA_OWNER_PASSWORD=<changeMe>
 * **qa** - These changesets are unique to the quality assurance database layer.
 * **prod** - These changesets are unique to the production database layer.
 
-* **schemaLoad** - Build the entire schema (add **noindexes** to prevent the building of the indexes).
+* **schemaLoad** - Build the entire schema.
 
 ### Testing Liquibase scripts
 The Liquibase scripts can be tested locally by spinning up the generic database (db) and the liquibase container.
@@ -158,7 +158,7 @@ docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:ci
 ```
 where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.
 
-### Demo Databse
+### Demo Database
 
 ```
 docker-compose up demoDB
@@ -175,7 +175,7 @@ docker run -it --env-file ./.env -p 127.0.0.1:5434:5432 usgswma/wqp_db:demo
 
 where __./.env__ is the environment variable file you have locally and __5434__ can be changed to the port you wish to access it via.
 
-### Etl Databse
+### Etl Database
 
 ```
 docker-compose up etlDB
