@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker build --build-arg ARS_REPO_ZIP_URL=$ARS_REPO_ZIP_URL --build-arg BIODATA_REPO_ZIP_URL=$BIODATA_REPO_ZIP_URL --build-arg NWIS_REPO_ZIP_URL=$NWIS_REPO_ZIP_URL -f Dockerfile -t $IMAGE_NAME .
