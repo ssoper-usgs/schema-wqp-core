@@ -2,9 +2,9 @@ FROM usgswma/wqp_db_base:postgis10-11.0.3
 
 LABEL maintainer=gs-w_eto_eb_federal_employees@usgs.gov
 
-ARG ARS_REPO_ZIP_URL
-ARG BIODATA_REPO_ZIP_URL
-ARG NWIS_REPO_ZIP_URL
+ARG ARS_REPO_ZIP_URL=https://github.com/NWQMC/schema-ars-stewards/archive/master.zip
+ARG BIODATA_REPO_ZIP_URL=https://github.com/NWQMC/schema-biodata/archive/master.zip
+ARG NWIS_REPO_ZIP_URL=https://github.com/NWQMC/schema-nwis-ws-star/archive/master.zip
 
 RUN apt-get update && \
   apt-get install --no-install-recommends --no-upgrade curl -y && \
