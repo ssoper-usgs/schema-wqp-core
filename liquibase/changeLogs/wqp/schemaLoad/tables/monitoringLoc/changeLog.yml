@@ -17,3 +17,67 @@ databaseChangeLog:
             path: monitoringLoc.sql
             relativeToChangelogFile: true
         - rollback: drop table if exists ${WQP_SCHEMA_NAME}.monitoring_loc cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.monitoring_loc.partition.biodata"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_biodata
+      changes:
+        - sqlFile:
+            path: monitoringLocBiodata.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.monitoring_loc_biodata cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.monitoring_loc.partition.nwis"
+      context: (external or internal) and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_nwis
+      changes:
+        - sqlFile:
+            path: monitoringLocNwis.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.monitoring_loc_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.monitoring_loc.partition.stewards"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_stewards
+      changes:
+        - sqlFile:
+            path: monitoringLocStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.monitoring_loc_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.monitoring_loc.partition.storet"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: monitoring_loc_storet
+      changes:
+        - sqlFile:
+            path: monitoringLocStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.monitoring_loc_storet cascade;

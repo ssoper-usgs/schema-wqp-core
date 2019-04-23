@@ -17,3 +17,67 @@ databaseChangeLog:
             path: activityObject.sql
             relativeToChangelogFile: true
         - rollback: drop table if exists ${WQP_SCHEMA_NAME}.activity_object cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.activity_object.partition.biodata"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_object_biodata
+      changes:
+        - sqlFile:
+            path: activityObjectBiodata.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.activity_object_biodata cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.activity_object.partition.nwis"
+      context: (external or internal) and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_object_nwis
+      changes:
+        - sqlFile:
+            path: activityObjectNwis.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.activity_object_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.activity_object.partition.stewards"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_object_stewards
+      changes:
+        - sqlFile:
+            path: activityObjectStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.activity_object_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.activity_object.partition.storet"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: activity_object_storet
+      changes:
+        - sqlFile:
+            path: activityObjectStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.activity_object_storet cascade;

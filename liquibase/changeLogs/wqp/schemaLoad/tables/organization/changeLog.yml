@@ -17,3 +17,67 @@ databaseChangeLog:
             path: organization.sql
             relativeToChangelogFile: true
         - rollback: drop table if exists ${WQP_SCHEMA_NAME}.organization cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.organization.partition.biodata"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_biodata
+      changes:
+        - sqlFile:
+            path: organizationBiodata.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.organization_biodata cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.organization.partition.nwis"
+      context: (external or internal) and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_nwis
+      changes:
+        - sqlFile:
+            path: organizationNwis.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.organization_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.organization.partition.stewards"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_stewards
+      changes:
+        - sqlFile:
+            path: organizationStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.organization_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.organization.partition.storet"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: organization_storet
+      changes:
+        - sqlFile:
+            path: organizationStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.organization_storet cascade;

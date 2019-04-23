@@ -17,3 +17,67 @@ databaseChangeLog:
             path: mlGrouping.sql
             relativeToChangelogFile: true
         - rollback: drop table if exists ${WQP_SCHEMA_NAME}.ml_grouping cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.ml_grouping.partition.biodata"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: ml_grouping_biodata
+      changes:
+        - sqlFile:
+            path: mlGroupingBiodata.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.ml_grouping_biodata cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.ml_grouping.partition.nwis"
+      context: (external or internal) and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: ml_grouping_nwis
+      changes:
+        - sqlFile:
+            path: mlGroupingNwis.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.ml_grouping_nwis cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.ml_grouping.partition.stewards"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: ml_grouping_stewards
+      changes:
+        - sqlFile:
+            path: mlGroupingStewards.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.ml_grouping_stewards cascade;
+
+  - changeSet:
+      author: drsteini
+      id: "create.table.${WQP_SCHEMA_NAME}.ml_grouping.partition.storet"
+      context: external and ci
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: ml_grouping_storet
+      changes:
+        - sqlFile:
+            path: mlGroupingStoret.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.ml_grouping_storet cascade;
