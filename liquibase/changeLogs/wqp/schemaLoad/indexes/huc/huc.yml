@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${WQP_SCHEMA_NAME}.huc8_conus_hi_ak_pr_dis_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
+              indexName: huc8_conus_hi_ak_pr_dis_geom
+      changes:
+        - sql: create index huc8_conus_hi_ak_pr_dis_geom on ${WQP_SCHEMA_NAME}.huc8_conus_hi_ak_pr_dis using gist (geom) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.huc8_conus_hi_ak_pr_dis_geom;
+
+  - changeSet:
+      author: skaymen
+      id: "create.index.${WQP_SCHEMA_NAME}.huc12nometa_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
+              indexName: huc12nometa_geom
+      changes:
+        - sql: create index if not exists huc12nometa_geom on ${WQP_SCHEMA_NAME}.huc12nometa using gist (geometry) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.huc12nometa_geom;
