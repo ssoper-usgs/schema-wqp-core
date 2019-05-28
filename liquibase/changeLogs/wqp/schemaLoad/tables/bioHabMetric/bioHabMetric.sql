@@ -5,8 +5,8 @@ create unlogged table if not exists ${WQP_SCHEMA_NAME}.bio_hab_metric
 ,site_id                        text
 ,organization                   text
 ,site_type                      text
-,huc                            text
-,governmental_unit_code         text
+,huc                            character varying (12)
+,governmental_unit_code         character varying (9)
 ,geom                           geometry(point,4269)
 ,index_identifier               text
 ,index_type_identifier          text

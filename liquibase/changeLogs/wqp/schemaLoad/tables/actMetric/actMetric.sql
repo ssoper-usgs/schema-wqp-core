@@ -8,8 +8,8 @@ create unlogged table if not exists ${WQP_SCHEMA_NAME}.act_metric
 ,sample_media                   text
 ,organization                   text
 ,site_type                      text
-,huc                            text
-,governmental_unit_code         text
+,huc                            character varying (12)
+,governmental_unit_code         character varying (9)
 ,geom                           geometry(point,4269)
 ,organization_name              text
 ,activity_id                    numeric
