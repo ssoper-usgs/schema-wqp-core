@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - preConditions:
+    - dbms:
+        type: postgresql
+
+  - changeSet:
+      author: drsteini
+      id: "create.index.${WQP_SCHEMA_NAME}.us_counties_dis_20121015_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - indexExists:
+              WQP_SCHEMA_NAME: ${WQP_SCHEMA_NAME}
+              indexName: us_counties_dis_20121015_geom
+      changes:
+        - sql: create index if not exists us_counties_dis_20121015_geom on ${WQP_SCHEMA_NAME}.us_counties_dis_20121015 using gist (geom) with (fillfactor = 100);
+        - rollback: drop index if exists ${WQP_SCHEMA_NAME}.us_counties_dis_20121015_geom;

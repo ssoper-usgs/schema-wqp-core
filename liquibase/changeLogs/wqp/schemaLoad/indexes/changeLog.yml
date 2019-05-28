@@ -4,17 +4,13 @@ databaseChangeLog:
         type: postgresql
 
   - include:
-      file: "tables/changeLog.yml"
+      file: "county/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
-      file: "indexes/changeLog.yml"
+      file: "huc/changeLog.yml"
       relativeToChangelogFile: true
 
   - include:
-      file: "objectGrants/changeLog.yml"
-      relativeToChangelogFile: true
-
-  - include:
-      file: "zData/changeLog.yml"
+      file: "states/changeLog.yml"
       relativeToChangelogFile: true
