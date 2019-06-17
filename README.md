@@ -70,6 +70,12 @@ NWIS_SCHEMA_NAME=<nwis>
 NWIS_SCHEMA_OWNER_USERNAME=<nwis_ws_star>
 NWIS_SCHEMA_OWNER_PASSWORD=<changeMe>
 
+EPA_REPO_ZIP_URL=<https://github.com/NWQMC/schema-epa/archive/master.zip>
+EPA_SCHEMA_OWNER_USERNAME=<epa_owner>
+EPA_SCHEMA_OWNER_PASSWORD=<changeMe>
+WQX_SCHEMA_NAME=<wqx>
+STORETW_SCHEMA_NAME=<storetw>
+
 ```
 
 #### Environment variable definitions
