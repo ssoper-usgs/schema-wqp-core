@@ -5,6 +5,7 @@ LABEL maintainer=gs-w_eto_eb_federal_employees@usgs.gov
 ARG ARS_REPO_ZIP_URL=https://github.com/NWQMC/schema-ars-stewards/archive/master.zip
 ARG BIODATA_REPO_ZIP_URL=https://github.com/NWQMC/schema-biodata/archive/master.zip
 ARG NWIS_REPO_ZIP_URL=https://github.com/NWQMC/schema-nwis-ws-star/archive/master.zip
+ARG EPA_REPO_ZIP_URL=https://github.com/NWQMC/schema-epa/archive/master.zip
 
 RUN apt-get update && \
   apt-get install --no-install-recommends --no-upgrade curl -y && \
@@ -44,4 +45,13 @@ RUN unzip master.zip \
     && cp schema-nwis-ws-star-master/liquibase/scripts/z1_postgres_liquibase.sh /docker-entrypoint-initdb.d/z6_1_postgres_liquibase.sh \
     && cp schema-nwis-ws-star-master/liquibase/scripts/z2_nwis_liquibase.sh /docker-entrypoint-initdb.d/z6_2_nwis_liquibase.sh \
     && mv schema-nwis-ws-star-master/liquibase/changeLogs/* . \
+    && rm master.zip
+
+ENV LIQUIBASE_WORKSPACE_EPA $LIQUIBASE_WORKSPACE/epa
+WORKDIR $LIQUIBASE_WORKSPACE_EPA
+RUN curl $EPA_REPO_ZIP_URL -Lo master.zip
+RUN unzip master.zip \
+    && cp schema-epa-master/liquibase/scripts/z1_postgres_liquibase.sh /docker-entrypoint-initdb.d/z7_1_postgres_liquibase.sh \
+    && cp schema-epa-master/liquibase/scripts/z2_epa_liquibase.sh /docker-entrypoint-initdb.d/z7_2_epa_liquibase.sh \
+    && mv schema-epa-master/liquibase/changeLogs/* . \
     && rm master.zip
