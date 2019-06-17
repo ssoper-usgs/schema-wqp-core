@@ -35,13 +35,6 @@ databaseChangeLog:
 
   - changeSet:
       author: drsteini
-      id: "create.extension.tablefunc"
-      changes:
-        - sql: create extension if not exists tablefunc;
-        - rollback: drop extension if exists tablefunc;
-
-  - changeSet:
-      author: drsteini
       id: "create.project.schema.${WQP_SCHEMA_NAME}"
       preConditions:
         - onFail: MARK_RAN
