@@ -105,8 +105,8 @@ databaseChangeLog:
         - onError: HALT
         - not:
           - tableExists:
-              tableName: county_geom
               schemaName: ${WQP_SCHEMA_NAME}
+              tableName: county_geom
       changes:
         - sqlFile:
             path: countyGeom.sql
