@@ -106,6 +106,7 @@ databaseChangeLog:
         - not:
           - tableExists:
               tableName: county_geom
+              schemaName: ${WQP_SCHEMA_NAME}
       changes:
         - sqlFile:
             path: countyGeom.sql
