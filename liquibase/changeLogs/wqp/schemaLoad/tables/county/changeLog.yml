@@ -96,3 +96,18 @@ databaseChangeLog:
             path: usCountiesDis20121015.sql
             relativeToChangelogFile: true
         - rollback: drop table if exists ${WQP_SCHEMA_NAME}.us_counties_dis_20121015 cascade;
+
+  - changeSet:
+      author: ssoper
+      id: "create.table.${WQP_SCHEMA_NAME}.county_geom"
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+        - not:
+          - tableExists:
+              tableName: county_geom
+      changes:
+        - sqlFile:
+            path: countyGeom.sql
+            relativeToChangelogFile: true
+        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.county_geom cascade;
