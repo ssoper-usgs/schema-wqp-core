@@ -17,19 +17,3 @@ databaseChangeLog:
             path: publicSrsnames.sql
             relativeToChangelogFile: true
         - rollback: drop table if exists ${WQP_SCHEMA_NAME}.public_srsnames cascade;
-
-  - changeSet:
-      author: drsteini
-      id: "create.table.${WQP_SCHEMA_NAME}.public_srsnames_current"
-      context: ci
-      preConditions:
-        - onFail: MARK_RAN
-        - onError: HALT
-        - not:
-          - tableExists:
-              tableName: public_srsnames_current
-      changes:
-        - sqlFile:
-            path: publicSrsnamesCurrent.sql
-            relativeToChangelogFile: true
-        - rollback: drop table if exists ${WQP_SCHEMA_NAME}.public_srsnames_current cascade;
