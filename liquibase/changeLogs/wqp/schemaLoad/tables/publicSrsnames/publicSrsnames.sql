@@ -1,5 +1,5 @@
 create unlogged table if not exists ${WQP_SCHEMA_NAME}.public_srsnames
-(version_id                     smallint
+(data_source_id                 smallint
 ,parm_cd                        character varying (5)
 ,description                    character varying (170)
 ,characteristicname             character varying (1200)
@@ -13,5 +13,5 @@ create unlogged table if not exists ${WQP_SCHEMA_NAME}.public_srsnames
 ,last_rev_dt                    date
 ,max_last_rev_dt                date
 )
-partition by list (version_id)
+with (fillfactor = 100)
 ;
